@@ -2,7 +2,7 @@
   "name": "git-essentials",
   "version": "0.1.0",
   "description": "The essential GIT commands",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/NotesHubApp/git-essentials/issues"
   },
-  "homepage": "https://github.com/NotesHubApp/git-essentials#readme"
+  "homepage": "https://github.com/NotesHubApp/git-essentials#readme",
+  "devDependencies": {
+    "typescript": "^4.8.2"
+  }
 }
