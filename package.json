@@ -20,6 +20,9 @@
     "url": "https://github.com/NotesHubApp/git-essentials/issues"
   },
   "homepage": "https://github.com/NotesHubApp/git-essentials#readme",
+  "dependencies": {
+    "buffer": "^6.0.3"
+  },
   "devDependencies": {
     "typescript": "^4.8.2"
   }
