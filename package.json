@@ -1,0 +1,23 @@
+{
+  "name": "git-essentials",
+  "version": "0.1.0",
+  "description": "The essential GIT commands",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotesHubApp/git-essentials.git"
+  },
+  "keywords": [
+    "git",
+    "js"
+  ],
+  "author": "Alex Titarenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NotesHubApp/git-essentials/issues"
+  },
+  "homepage": "https://github.com/NotesHubApp/git-essentials#readme"
+}
