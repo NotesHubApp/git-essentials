@@ -26,7 +26,7 @@ async function updateCachedIndexFile(fs: FileSystem, filepath: string, cache: In
   // cache the GitIndex object so we don't need to re-read it every time.
   cache.map.set(filepath, index)
   // Save the stat data for the index so we know whether the cached file is stale (modified by an outside process).
-  cache.stats.set(filepath, stat)
+  cache.stats.set(filepath, stat!)
 }
 
 // Determine whether our copy of the index file is stale
@@ -73,7 +73,7 @@ export class GitIndexManager {
         const buffer = await index.toObject()
         await fs.write(filepath, buffer)
         // Update cached stat value
-        indexCache.stats.set(filepath, await fs.lstat(filepath))
+        indexCache.stats.set(filepath, (await fs.lstat(filepath))!)
         index._dirty = false
       }
     })

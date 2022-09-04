@@ -1,3 +1,5 @@
+import { NormalizedStat } from './NormalizedStat'
+
 export type CacheEntryFlags = {
   assumeValid: boolean
   extended: boolean
@@ -5,19 +7,8 @@ export type CacheEntryFlags = {
   nameLength: number
 }
 
-export type CacheEntry = {
-  ctimeSeconds: number
-  ctimeNanoseconds: number
-  mtimeSeconds: number
-  mtimeNanoseconds: number
-  dev: number
-  ino: number
-  mode: number
-  uid: number
-  gid: number
-  size: number
+export type CacheEntry = NormalizedStat & {
   oid: string
-
   path: string
   flags: CacheEntryFlags
 }
