@@ -11,8 +11,6 @@ type WriteObjectParams = {
   gitdir: string
   type: 'blob' | 'commit' | 'tag' | 'tree'
   object: Buffer
-  format?: 'content' | 'deflated' | 'wrapped'
-  oid?: string
   dryRun?: boolean
 }
 
@@ -21,20 +19,15 @@ export async function _writeObject({
   gitdir,
   type,
   object,
-  format = 'content',
-  oid = undefined,
-  dryRun = false,
+  dryRun = false
 }: WriteObjectParams) {
-  if (format !== 'deflated') {
-    if (format !== 'wrapped') {
-      object = GitObject.wrap({ type, object })
-    }
-    oid = await shasum(object)
-    object = Buffer.from(await deflate(object))
-  }
+
+  object = GitObject.wrap({ type, object })
+  const oid = await shasum(object)
+  object = Buffer.from(await deflate(object))
 
   if (!dryRun) {
-    await writeObjectLoose({ fs, gitdir, object, format: 'deflated', oid: oid! })
+    await writeObjectLoose({ fs, gitdir, object, format: 'deflated', oid: oid })
   }
 
   return oid
