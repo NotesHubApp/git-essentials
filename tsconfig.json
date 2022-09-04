@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "sourceMap": true
   }
 }
