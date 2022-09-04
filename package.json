@@ -22,6 +22,7 @@
   "homepage": "https://github.com/NotesHubApp/git-essentials#readme",
   "dependencies": {
     "buffer": "^6.0.3",
+    "ignore": "^5.2.0",
     "pako": "^2.0.4"
   },
   "devDependencies": {
