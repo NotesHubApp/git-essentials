@@ -5,11 +5,11 @@ import { BufferCursor } from '../utils/BufferCursor'
 import { comparePath } from '../utils/comparePath'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
-import { CacheEntry, CacheEntryFlags } from './CacheEntry'
+import { IndexEntry, IndexEntryFlags } from './IndexEntry'
 import { StatLike } from './IBackend'
 
 // Extract 1-bit assume-valid, 1-bit extended flag, 2-bit merge state flag, 12-bit path length flag
-function parseCacheEntryFlags(bits: number): CacheEntryFlags {
+function parseCacheEntryFlags(bits: number): IndexEntryFlags {
   return {
     assumeValid: Boolean(bits & 0b1000000000000000),
     extended: Boolean(bits & 0b0100000000000000),
@@ -18,7 +18,7 @@ function parseCacheEntryFlags(bits: number): CacheEntryFlags {
   }
 }
 
-function renderCacheEntryFlags(entry: CacheEntry) {
+function renderCacheEntryFlags(entry: IndexEntry) {
   const flags = entry.flags
   // 1-bit extended flag (must be zero in version 2)
   flags.extended = false
@@ -35,15 +35,15 @@ function renderCacheEntryFlags(entry: CacheEntry) {
 
 export class GitIndex {
   public _dirty: boolean
-  private readonly _entries: Map<string, CacheEntry>
+  private readonly _entries: Map<string, IndexEntry>
 
   /*::
    _entries: Map<string, CacheEntry>
    _dirty: boolean // Used to determine if index needs to be saved to filesystem
    */
-  constructor(entries: Map<string, CacheEntry> | null) {
+  constructor(entries: Map<string, IndexEntry> | null) {
     this._dirty = false
-    this._entries = entries || new Map<string, CacheEntry>()
+    this._entries = entries || new Map<string, IndexEntry>()
   }
 
   static async from(buffer: any) {
@@ -66,7 +66,7 @@ export class GitIndex {
       )
     }
     const reader = new BufferCursor(buffer)
-    const _entries = new Map<string, CacheEntry>()
+    const _entries = new Map<string, IndexEntry>()
     const magic = reader.toString('utf8', 4)
     if (magic !== 'DIRC') {
       throw new InternalError(`Inavlid dircache magic file number: ${magic}`)
@@ -98,7 +98,7 @@ export class GitIndex {
       }
       // TODO: handle pathnames larger than 12 bits
       const path = reader.toString('utf8', pathlength)
-      const entry: CacheEntry = {
+      const entry: IndexEntry = {
         ctimeSeconds, ctimeNanoseconds, mtimeSeconds, mtimeNanoseconds, dev, ino, mode, uid, gid, size, oid, flags, path
       }
 
@@ -144,7 +144,7 @@ export class GitIndex {
     { filepath: string, stats: StatLike, oid: string }) {
     const normalizedStats = normalizeStats(stats)
     const bfilepath = Buffer.from(filepath)
-    const entry: CacheEntry = {
+    const entry: IndexEntry = {
       ctimeSeconds: normalizedStats.ctimeSeconds,
       ctimeNanoseconds: normalizedStats.ctimeNanoseconds,
       mtimeSeconds: normalizedStats.mtimeSeconds,

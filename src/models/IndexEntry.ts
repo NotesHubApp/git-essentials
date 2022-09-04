@@ -1,14 +1,14 @@
 import { NormalizedStat } from './NormalizedStat'
 
-export type CacheEntryFlags = {
+export type IndexEntryFlags = {
   assumeValid: boolean
   extended: boolean
   stage: number
   nameLength: number
 }
 
-export type CacheEntry = NormalizedStat & {
+export type IndexEntry = NormalizedStat & {
   oid: string
   path: string
-  flags: CacheEntryFlags
+  flags: IndexEntryFlags
 }

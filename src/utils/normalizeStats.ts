@@ -7,7 +7,7 @@ type Stat = {
   mode: number;
   size: number;
   ino: number | BigInt;
-  mtimeMs: number;
+  mtimeMs?: number;
   ctimeMs?: number;
 
   // Non-standard
