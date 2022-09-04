@@ -140,16 +140,13 @@ export class FileSystem {
    */
   async readdirDeep(dir: string): Promise<string[]> {
     const subdirs = await this.fs.readdir(dir)
-    const files = await Promise.all(
-      subdirs.map(async subdir => {
+    const files = await Promise.all(subdirs.map(async subdir => {
         const res = dir + '/' + subdir
-        return (await this.fs.stat(res)).isDirectory()
-          ? this.readdirDeep(res)
-          : res
+        return (await this.fs.stat(res)).isDirectory() ? this.readdirDeep(res) : res
       })
     )
 
-    return files.reduce((a, f) => a.concat(f), [])
+    return Array.prototype.concat(...files)
   }
 
   /**
