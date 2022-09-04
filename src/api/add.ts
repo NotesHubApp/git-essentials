@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer'
+
 import { NotFoundError } from '../errors/NotFoundError'
 import { GitIgnoreManager } from '../managers/GitIgnoreManager'
 import { GitIndexManager } from '../managers/GitIndexManager'
@@ -85,7 +87,7 @@ async function addToIndex(
   } else {
     const object = stats.isSymbolicLink()
       ? await fs.readlink(join(dir, filepath))
-      : await fs.read(join(dir, filepath))
+      : (await fs.read(join(dir, filepath))) as Buffer
 
     if (object === null) throw new NotFoundError(filepath)
 

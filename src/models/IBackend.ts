@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer'
+
 export type EncodingOpts = {
   encoding?: 'utf8';
 }
@@ -56,6 +58,6 @@ export interface IBackend {
 
   // suggested - used occasionally by apps
   rename(oldFilepath: string, newFilepath: string): Promise<void>; // throws ENOENT
-  readlink(filepath: string, opts: ReadLinkOptions): Promise<string>; // throws ENOENT
+  readlink(filepath: string, opts: ReadLinkOptions): Promise<Buffer | string>; // throws ENOENT
   symlink(target: string, filepath: string): Promise<void>; // throws ENOENT
 }
