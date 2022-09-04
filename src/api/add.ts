@@ -42,7 +42,7 @@ export async function add({
   dir,
   gitdir = join(dir, '.git'),
   filepath,
-  cache = {},
+  cache = {}
 }: AddParams): Promise<void> {
   try {
     assertParameter('fs', _fs)
