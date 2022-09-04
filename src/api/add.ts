@@ -14,7 +14,7 @@ import { join } from '../utils/join'
 type AddParams = {
   fs: IBackend
   dir: string
-  gitdir: string
+  gitdir?: string
   filepath: string
   cache?: Cache
 }
