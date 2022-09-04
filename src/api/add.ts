@@ -68,20 +68,27 @@ async function addToIndex(
     gitdir,
     filepath,
   })
+
   if (ignored) return
+
   const stats = await fs.lstat(join(dir, filepath))
+
   if (!stats) throw new NotFoundError(filepath)
+
   if (stats.isDirectory()) {
     const children = await fs.readdir(join(dir, filepath))
     const promises = (children || []).map(child =>
       addToIndex({ dir, gitdir, fs, filepath: join(filepath, child), index })
     )
+
     await Promise.all(promises)
   } else {
     const object = stats.isSymbolicLink()
       ? await fs.readlink(join(dir, filepath))
       : await fs.read(join(dir, filepath))
+
     if (object === null) throw new NotFoundError(filepath)
+
     const oid = await _writeObject({ fs, gitdir, type: 'blob', object })
     index.insert({ filepath, stats, oid })
   }

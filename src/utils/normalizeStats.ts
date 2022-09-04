@@ -1,3 +1,4 @@
+import { NormalizedStat } from '../models/NormalizedStat';
 import { normalizeMode } from './normalizeMode'
 
 const MAX_UINT32 = 2 ** 32
@@ -42,7 +43,7 @@ function SecondsNanoseconds(
   return [seconds, nanoseconds]
 }
 
-export function normalizeStats(e: Stat) {
+export function normalizeStats(e: Stat): NormalizedStat {
   const [ctimeSeconds, ctimeNanoseconds] = SecondsNanoseconds(
     e.ctimeSeconds,
     e.ctimeNanoseconds,

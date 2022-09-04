@@ -5,10 +5,10 @@
       "ES2020",
       "dom"
     ],
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
-    "moduleResolution": "node"
+    "strictNullChecks": true
   }
 }
