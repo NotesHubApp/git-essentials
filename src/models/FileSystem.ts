@@ -18,7 +18,7 @@ export class FileSystem {
     try {
       await this.fs.stat(filepath)
       return true
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
         return false
       } else {
@@ -75,7 +75,7 @@ export class FileSystem {
     try {
       await this.fs.mkdir(filepath)
       return
-    } catch (err) {
+    } catch (err: any) {
       // If err is null then operation succeeded!
       if (err === null) return
       // If the directory already exists, that's OK!
@@ -100,7 +100,7 @@ export class FileSystem {
   async rm(filepath: string) {
     try {
       await this.fs.unlink(filepath)
-    } catch (err) {
+    } catch (err: any) {
       if (err.code !== 'ENOENT') throw err
     }
   }
@@ -111,7 +111,7 @@ export class FileSystem {
   async rmdir(filepath: string) {
     try {
       await this.fs.rmdir(filepath)
-    } catch (err) {
+    } catch (err: any) {
       if (err.code !== 'ENOENT') throw err
     }
   }
@@ -126,7 +126,7 @@ export class FileSystem {
       // so we must sort them ourselves.
       names.sort(compareStrings)
       return names
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOTDIR') return null
       return []
     }
@@ -160,7 +160,7 @@ export class FileSystem {
     try {
       const stats = await this.fs.lstat(filename)
       return stats
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOENT') {
         return null
       }
@@ -177,7 +177,7 @@ export class FileSystem {
     // so we can dump it into GitObject.write just like any other file.
     try {
       return this.fs.readlink(filename, opts)
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ENOENT') {
         return null
       }
