@@ -9,11 +9,11 @@ import { shasum } from '../utils/shasum'
 type WriteObjectParams = {
   fs: FileSystem
   gitdir: string
-  type: 'blob'
+  type: 'blob' | 'commit' | 'tag' | 'tree'
   object: Buffer
   format?: 'content' | 'deflated' | 'wrapped'
   oid?: string
-  dryRun: boolean
+  dryRun?: boolean
 }
 
 export async function _writeObject({

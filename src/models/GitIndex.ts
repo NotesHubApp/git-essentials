@@ -6,6 +6,7 @@ import { comparePath } from '../utils/comparePath'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
 import { CacheEntry, CacheEntryFlags } from './CacheEntry'
+import { StatLike } from './IBackend'
 
 // Extract 1-bit assume-valid, 1-bit extended flag, 2-bit merge state flag, 12-bit path length flag
 function parseCacheEntryFlags(bits: number): CacheEntryFlags {
@@ -138,10 +139,12 @@ export class GitIndex {
     }
   }
 
-  insert({ filepath, stats, oid }) {
+  insert(
+    { filepath, stats, oid }:
+    { filepath: string, stats: StatLike, oid: string }) {
     stats = normalizeStats(stats)
     const bfilepath = Buffer.from(filepath)
-    const entry = {
+    const entry: CacheEntry = {
       ctimeSeconds: stats.ctimeSeconds,
       ctimeNanoseconds: stats.ctimeNanoseconds,
       mtimeSeconds: stats.mtimeSeconds,
@@ -168,7 +171,7 @@ export class GitIndex {
     this._dirty = true
   }
 
-  delete({ filepath }) {
+  delete({ filepath }: { filepath: string }) {
     if (this._entries.has(filepath)) {
       this._entries.delete(filepath)
     } else {
