@@ -1,7 +1,27 @@
-import { StatLike } from '../models/IBackend'
 import { normalizeMode } from './normalizeMode'
 
 const MAX_UINT32 = 2 ** 32
+
+type Stat = {
+  mode: number;
+  size: number;
+  ino: number | BigInt;
+  mtimeMs: number;
+  ctimeMs?: number;
+
+  // Non-standard
+  uid: number;
+  gid: number;
+  dev: number;
+
+  ctime?: Date;
+  ctimeSeconds?: number;
+  ctimeNanoseconds?: number;
+
+  mtime?: Date;
+  mtimeSeconds?: number;
+  mtimeNanoseconds?: number;
+}
 
 function SecondsNanoseconds(
   givenSeconds?: number,
@@ -22,7 +42,7 @@ function SecondsNanoseconds(
   return [seconds, nanoseconds]
 }
 
-export function normalizeStats(e: StatLike) {
+export function normalizeStats(e: Stat) {
   const [ctimeSeconds, ctimeNanoseconds] = SecondsNanoseconds(
     e.ctimeSeconds,
     e.ctimeNanoseconds,
@@ -42,7 +62,7 @@ export function normalizeStats(e: StatLike) {
     mtimeSeconds: mtimeSeconds % MAX_UINT32,
     mtimeNanoseconds: mtimeNanoseconds % MAX_UINT32,
     dev: e.dev % MAX_UINT32,
-    ino: (typeof e.ino === 'number') ? (e.ino % MAX_UINT32) : e.ino,
+    ino: Number(e.ino) % MAX_UINT32,
     mode: normalizeMode(e.mode % MAX_UINT32),
     uid: e.uid % MAX_UINT32,
     gid: e.gid % MAX_UINT32,

@@ -1,7 +1,10 @@
 // import LockManager from 'travix-lock-manager'
 import AsyncLock from 'async-lock'
+import { Cache, IndexCacheObject, IndexCache } from '../models/Cache'
 
+import { FileSystem } from '../models/FileSystem'
 import { GitIndex } from '../models/GitIndex'
+import { StatLike } from '../models/IBackend'
 import { compareStats } from '../utils/compareStats'
 
 // import Lock from '../utils.js'
@@ -9,16 +12,14 @@ import { compareStats } from '../utils/compareStats'
 // const lm = new LockManager()
 let lock: AsyncLock | null = null
 
-const IndexCache = Symbol('IndexCache')
-
 function createCache() {
   return {
-    map: new Map(),
-    stats: new Map(),
+    map: new Map<string, GitIndex>(),
+    stats: new Map<string, StatLike>(),
   }
 }
 
-async function updateCachedIndexFile(fs, filepath, cache) {
+async function updateCachedIndexFile(fs: FileSystem, filepath: string, cache: IndexCacheObject) {
   const stat = await fs.lstat(filepath)
   const rawIndexFile = await fs.read(filepath)
   const index = await GitIndex.from(rawIndexFile)
@@ -29,7 +30,7 @@ async function updateCachedIndexFile(fs, filepath, cache) {
 }
 
 // Determine whether our copy of the index file is stale
-async function isIndexStale(fs, filepath, cache) {
+async function isIndexStale(fs: FileSystem, filepath: string, cache: IndexCacheObject) {
   const savedStats = cache.stats.get(filepath)
   if (savedStats === undefined) return true
   const currStats = await fs.lstat(filepath)
@@ -42,13 +43,16 @@ export class GitIndexManager {
   /**
    *
    * @param {object} opts
-   * @param {import('../models/FileSystem.js').FileSystem} opts.fs
+   * @param {import('../models/FileSystem').FileSystem} opts.fs
    * @param {string} opts.gitdir
    * @param {object} opts.cache
    * @param {function(GitIndex): any} closure
    */
-  static async acquire({ fs, gitdir, cache }, closure) {
+  static async acquire(
+    { fs, gitdir, cache }: { fs: FileSystem, gitdir: string, cache: Cache },
+    closure: (index: GitIndex) => any) {
     if (!cache[IndexCache]) cache[IndexCache] = createCache()
+    const indexCache = cache[IndexCache]
 
     const filepath = `${gitdir}/index`
     if (lock === null) lock = new AsyncLock({ maxPending: Infinity })
@@ -58,10 +62,10 @@ export class GitIndexManager {
       // to make sure other processes aren't writing to it
       // simultaneously, which could result in a corrupted index.
       // const fileLock = await Lock(filepath)
-      if (await isIndexStale(fs, filepath, cache[IndexCache])) {
-        await updateCachedIndexFile(fs, filepath, cache[IndexCache])
+      if (await isIndexStale(fs, filepath, indexCache)) {
+        await updateCachedIndexFile(fs, filepath, indexCache)
       }
-      const index = cache[IndexCache].map.get(filepath)
+      const index = indexCache.map.get(filepath)!
       result = await closure(index)
       if (index._dirty) {
         // Acquire a file lock while we're writing the index file
@@ -69,7 +73,7 @@ export class GitIndexManager {
         const buffer = await index.toObject()
         await fs.write(filepath, buffer)
         // Update cached stat value
-        cache[IndexCache].stats.set(filepath, await fs.lstat(filepath))
+        indexCache.stats.set(filepath, await fs.lstat(filepath))
         index._dirty = false
       }
     })

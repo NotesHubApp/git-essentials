@@ -4,16 +4,17 @@ import { GitIndexManager } from '../managers/GitIndexManager'
 import { FileSystem } from '../models/FileSystem'
 import { GitIndex } from '../models/GitIndex'
 import { IBackend } from '../models/IBackend'
+import { Cache } from '../models/Cache'
 import { _writeObject } from '../storage/writeObject'
 import { assertParameter } from '../utils/assertParameter'
-import { join } from '../utils/join.js'
+import { join } from '../utils/join'
 
 type AddParams = {
   fs: IBackend
   dir: string
   gitdir: string
   filepath: string
-  cache?: object
+  cache?: Cache
 }
 
 /**
@@ -40,7 +41,7 @@ export async function add({
   gitdir = join(dir, '.git'),
   filepath,
   cache = {},
-}: AddParams) {
+}: AddParams): Promise<void> {
   try {
     assertParameter('fs', _fs)
     assertParameter('dir', dir)

@@ -34,7 +34,7 @@ function renderCacheEntryFlags(entry: CacheEntry) {
 }
 
 export class GitIndex {
-  private _dirty: boolean
+  public _dirty: boolean
   private readonly _entries: Map<string, CacheEntry>
 
   /*::
@@ -46,7 +46,7 @@ export class GitIndex {
     this._entries = entries || new Map<string, CacheEntry>()
   }
 
-  static async from(buffer: object) {
+  static async from(buffer: any | null) {
     if (Buffer.isBuffer(buffer)) {
       return GitIndex.fromBuffer(buffer)
     } else if (buffer === null) {
@@ -142,22 +142,22 @@ export class GitIndex {
   insert(
     { filepath, stats, oid }:
     { filepath: string, stats: StatLike, oid: string }) {
-    stats = normalizeStats(stats)
+    const normalizedStats = normalizeStats(stats)
     const bfilepath = Buffer.from(filepath)
     const entry: CacheEntry = {
-      ctimeSeconds: stats.ctimeSeconds,
-      ctimeNanoseconds: stats.ctimeNanoseconds,
-      mtimeSeconds: stats.mtimeSeconds,
-      mtimeNanoseconds: stats.mtimeNanoseconds,
-      dev: stats.dev,
-      ino: stats.ino,
+      ctimeSeconds: normalizedStats.ctimeSeconds,
+      ctimeNanoseconds: normalizedStats.ctimeNanoseconds,
+      mtimeSeconds: normalizedStats.mtimeSeconds,
+      mtimeNanoseconds: normalizedStats.mtimeNanoseconds,
+      dev: normalizedStats.dev,
+      ino: normalizedStats.ino,
       // We provide a fallback value for `mode` here because not all fs
       // implementations assign it, but we use it in GitTree.
       // '100644' is for a "regular non-executable file"
-      mode: stats.mode || 0o100644,
-      uid: stats.uid,
-      gid: stats.gid,
-      size: stats.size,
+      mode: normalizedStats.mode || 0o100644,
+      uid: normalizedStats.uid,
+      gid: normalizedStats.gid,
+      size: normalizedStats.size,
       path: filepath,
       oid: oid,
       flags: {
@@ -208,17 +208,17 @@ export class GitIndex {
         const length = Math.ceil((62 + bpath.length + 1) / 8) * 8
         const written = Buffer.alloc(length)
         const writer = new BufferCursor(written)
-        const stat = normalizeStats(entry)
-        writer.writeUInt32BE(stat.ctimeSeconds)
-        writer.writeUInt32BE(stat.ctimeNanoseconds)
-        writer.writeUInt32BE(stat.mtimeSeconds)
-        writer.writeUInt32BE(stat.mtimeNanoseconds)
-        writer.writeUInt32BE(stat.dev)
-        writer.writeUInt32BE(stat.ino)
-        writer.writeUInt32BE(stat.mode)
-        writer.writeUInt32BE(stat.uid)
-        writer.writeUInt32BE(stat.gid)
-        writer.writeUInt32BE(stat.size)
+        const normalizedStat = normalizeStats(entry)
+        writer.writeUInt32BE(normalizedStat.ctimeSeconds)
+        writer.writeUInt32BE(normalizedStat.ctimeNanoseconds)
+        writer.writeUInt32BE(normalizedStat.mtimeSeconds)
+        writer.writeUInt32BE(normalizedStat.mtimeNanoseconds)
+        writer.writeUInt32BE(normalizedStat.dev)
+        writer.writeUInt32BE(normalizedStat.ino)
+        writer.writeUInt32BE(normalizedStat.mode)
+        writer.writeUInt32BE(normalizedStat.uid)
+        writer.writeUInt32BE(normalizedStat.gid)
+        writer.writeUInt32BE(normalizedStat.size)
         writer.write(entry.oid, 20, 'hex')
         writer.writeUInt16BE(renderCacheEntryFlags(entry))
         writer.write(entry.path, bpath.length, 'utf8')

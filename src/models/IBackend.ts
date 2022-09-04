@@ -10,6 +10,11 @@ export interface ReadLinkOptions {
   encoding?: 'buffer'
 }
 
+/**
+ * Access timestamp (atime): which indicates the last time a file was accessed.
+ * Modified timestamp (mtime): which is the last time a file's contents were modified.
+ * Change timestamp (ctime): which refers to the last time some metadata related to the file was changed.
+ */
 export type StatLike = {
   type: 'file' | 'dir' | 'symlink';
   mode: number;
