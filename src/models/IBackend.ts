@@ -10,13 +10,26 @@ export interface ReadLinkOptions {
   encoding?: 'buffer'
 }
 
-type StatLike = {
+export type StatLike = {
   type: 'file' | 'dir' | 'symlink';
   mode: number;
   size: number;
-  ino: number | string | BigInt;
+  ino: number | BigInt;
   mtimeMs: number;
   ctimeMs?: number;
+
+  // Non-standard
+  uid: number;
+  gid: number;
+  dev: number;
+
+  ctime?: Date;
+  ctimeSeconds?: number;
+  ctimeNanoseconds?: number;
+
+  mtime?: Date;
+  mtimeSeconds?: number;
+  mtimeNanoseconds?: number;
 
   isFile(): boolean;
   isDirectory(): boolean;

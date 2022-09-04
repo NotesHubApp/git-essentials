@@ -7,9 +7,7 @@ export class NotFoundError extends BaseError {
    * @param {string} what
    */
   constructor(what: string) {
-    super(`Could not find ${what}.`)
-    this.code = this.name = NotFoundError.code
-    this.data = { what }
+    super(`Could not find ${what}.`, NotFoundError.code, { what })
   }
 }
 

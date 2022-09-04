@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "ES2020",
+      "dom"
+    ],
     "esModuleInterop": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "lib": [
-      "ES2020",
-      "dom"
-    ]
+    "moduleResolution": "node"
   }
 }

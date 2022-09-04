@@ -7,14 +7,13 @@ type ErrorJsonObj = {
 }
 
 export class BaseError extends Error {
-  code: string
-  data: {}
   caller: string
 
-  constructor(message: string) {
+  constructor(message: string, public readonly code: string, public readonly data: {}) {
     super(message)
     // Setting this here allows TS to infer that all git errors have a `caller` property and
     // that its type is string.
+    this.name = code
     this.caller = ''
   }
 
@@ -30,15 +29,13 @@ export class BaseError extends Error {
   }
 
   fromJSON(json: ErrorJsonObj) {
-    const e = new BaseError(json.message)
-    e.code = json.code
-    e.data = json.data
+    const e = new BaseError(json.message, json.code, json.data)
     e.caller = json.caller
     e.stack = json.stack
     return e
   }
 
-  get isIsomorphicGitError() { // TODO: rename this method
+  get isIsomorphicGitError() { // TODO: TAlex rename this method
     return true
   }
 }
