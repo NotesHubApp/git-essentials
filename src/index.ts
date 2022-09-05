@@ -3,6 +3,8 @@ import { addRemote } from './api/addRemote'
 // import { clone } from './api/clone'
 // import { commit } from './api/commit'
 // import { currentBranch } from './api/currentBranch.js'
+import { getConfig } from './api/getConfig'
+import { getConfigAll } from './api/getConfigAll'
 import { init } from './api/init'
 // import { log } from './api/log'
 // import { pull } from './api/pull'
@@ -17,6 +19,8 @@ export {
   // clone,
   // commit,
   // currentBranch,
+  getConfig,
+  getConfigAll,
   init,
   // log,
   // pull,
@@ -32,6 +36,8 @@ export default {
   // clone,
   // commit,
   // currentBranch,
+  getConfig,
+  getConfigAll,
   init,
   // log,
   // pull,
