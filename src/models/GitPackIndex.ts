@@ -43,7 +43,9 @@ function otherVarIntDecode(reader: BufferCursor, startWith: number) {
   return result
 }
 
-type ExternalRefDeltaFn = (oid: string) => { object: Buffer, type: number }
+type GetExternalRefDelta = (oid: string) => { object: Buffer, type: number }
+
+type OnProgress = ({ phase, loaded, total }: { phase: string, loaded: number, total: number }) => Promise<void>
 
 type GitPackIndexParams = {
   pack: Promise<Buffer> | null
@@ -51,7 +53,7 @@ type GitPackIndexParams = {
   crcs: {[key: string]: number}
   offsets: Map<string, number>
   packfileSha: string
-  getExternalRefDelta?: ExternalRefDeltaFn
+  getExternalRefDelta?: GetExternalRefDelta
 }
 
 export class GitPackIndex {
@@ -59,7 +61,7 @@ export class GitPackIndex {
   private hashes: string[]
   private offsets: Map<string, number>
   private packfileSha: string
-  private getExternalRefDelta?: ExternalRefDeltaFn
+  private getExternalRefDelta?: GetExternalRefDelta
 
   private crcs: {[key: string]: number}
   private readDepth: number = 0
@@ -77,7 +79,7 @@ export class GitPackIndex {
     this.offsetCache = {}
   }
 
-  static async fromIdx({ idx, getExternalRefDelta }: { idx: Buffer, getExternalRefDelta: ExternalRefDeltaFn }) {
+  static async fromIdx({ idx, getExternalRefDelta }: { idx: Buffer, getExternalRefDelta: GetExternalRefDelta }) {
     const reader = new BufferCursor(idx)
     const magic = reader.slice(4).toString('hex')
     // Check for IDX v2 magic number
@@ -124,7 +126,7 @@ export class GitPackIndex {
 
   static async fromPack(
     { pack, getExternalRefDelta, onProgress }:
-    { pack: Buffer, getExternalRefDelta: ExternalRefDeltaFn }) {
+    { pack: Buffer, getExternalRefDelta: GetExternalRefDelta, onProgress?: OnProgress }) {
     const listpackTypes: {[key: number]: string} = {
       1: 'commit',
       2: 'tree',
@@ -216,7 +218,7 @@ export class GitPackIndex {
           await onProgress({
             phase: 'Resolving deltas',
             loaded: count,
-            total: totalObjectCount,
+            total: totalObjectCount!,
           })
         }
       }
@@ -309,7 +311,7 @@ export class GitPackIndex {
     return this.readSlice({ start })
   }
 
-  async readSlice({ start }: { start: number }) {
+  async readSlice({ start }: { start: number }): Promise<{ object: Buffer, type: number }> {
     if (this.offsetCache[start]) {
       return Object.assign({}, this.offsetCache[start])
     }
