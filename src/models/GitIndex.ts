@@ -46,7 +46,7 @@ export class GitIndex {
     this._entries = entries || new Map<string, IndexEntry>()
   }
 
-  static async from(buffer: any) {
+  static async from(buffer: Buffer | null) {
     if (Buffer.isBuffer(buffer)) {
       return GitIndex.fromBuffer(buffer)
     } else if (buffer === null) {

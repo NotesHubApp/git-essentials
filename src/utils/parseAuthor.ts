@@ -1,4 +1,6 @@
-export function parseAuthor(author: string) {
+import { Author } from '../models/Author'
+
+export function parseAuthor(author: string): Author {
   const [, name, email, timestamp, offset] = author.match(/^(.*) <(.*)> (.*) (.*)$/) as string[]
   return {
     name: name as string,

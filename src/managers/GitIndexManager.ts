@@ -21,7 +21,7 @@ function createCache() {
 
 async function updateCachedIndexFile(fs: FileSystem, filepath: string, cache: IndexCacheObject) {
   const stat = await fs.lstat(filepath)
-  const rawIndexFile = await fs.read(filepath)
+  const rawIndexFile = (await fs.read(filepath)) as Buffer
   const index = await GitIndex.from(rawIndexFile)
   // cache the GitIndex object so we don't need to re-read it every time.
   cache.map.set(filepath, index)
