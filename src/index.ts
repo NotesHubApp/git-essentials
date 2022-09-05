@@ -2,6 +2,7 @@ import { add } from './api/add'
 // import { clone } from './api/clone'
 // import { commit } from './api/commit'
 // import { currentBranch } from './api/currentBranch.js'
+import { init } from './api/init'
 // import { log } from './api/log'
 // import { pull } from './api/pull'
 // import { push } from './api/push'
@@ -13,6 +14,7 @@ export {
   // clone,
   // commit,
   // currentBranch,
+  init,
   // log,
   // pull,
   // push,
@@ -25,6 +27,7 @@ export default {
   // clone,
   // commit,
   // currentBranch,
+  init,
   // log,
   // pull,
   // push,
