@@ -39,7 +39,7 @@ export class BufferCursor {
     return r
   }
 
-  copy(source: Buffer, start: number, end: number) {
+  copy(source: Buffer, start?: number, end?: number) {
     const r = source.copy(this.buffer, this._start, start, end)
     this._start += r
     return r
