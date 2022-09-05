@@ -261,7 +261,7 @@ export class GitRefManager {
     throw new NotFoundError(ref)
   }
 
-  static async expandAgainstMap({ ref, map }: { ref: string, map: Map }) {
+  static async expandAgainstMap({ ref, map }: { ref: string, map: Map<string, string> }) { // TODO: TAlex review the Map type
     // Look in all the proper paths, in this order
     const allpaths = refpaths(ref)
     for (const ref of allpaths) {
