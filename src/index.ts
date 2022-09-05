@@ -5,7 +5,7 @@ import { add } from './api/add'
 // import { log } from './api/log'
 // import { pull } from './api/pull'
 // import { push } from './api/push'
-// import { remove } from './api/remove'
+import { remove } from './api/remove'
 
 // named exports
 export {
@@ -16,7 +16,7 @@ export {
   // log,
   // pull,
   // push,
-  // remove
+  remove
 }
 
 // default export
@@ -28,5 +28,5 @@ export default {
   // log,
   // pull,
   // push,
-  // remove
+  remove
 }
