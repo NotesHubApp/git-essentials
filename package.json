@@ -4,7 +4,8 @@
   "description": "The essential GIT commands",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "check": "tsc --noEmit",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

@@ -11,6 +11,8 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "sourceMap": true
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": true
   }
 }
