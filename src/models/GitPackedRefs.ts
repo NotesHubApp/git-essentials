@@ -7,7 +7,7 @@ type GitPackedConfigEntry = {
 }
 
 export class GitPackedRefs {
-  private refs: Map<string, string>
+  public readonly refs: Map<string, string>
   private parsedConfig: GitPackedConfigEntry[]
 
   constructor(text: string) {
