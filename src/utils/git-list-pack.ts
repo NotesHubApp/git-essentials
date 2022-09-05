@@ -9,7 +9,13 @@ import { InternalError } from '../errors/InternalError'
 import { StreamReader } from '../utils/StreamReader'
 
 type Data = {
-
+  data: string
+  type: number
+  num: number
+  offset: number
+  end: number
+  reference: Buffer | undefined
+  ofs: number | undefined
 }
 
 export async function listpack(stream: Buffer[], onData: (data: Data) => Promise<void>) {

@@ -5,7 +5,7 @@ import { Buffer } from 'buffer'
 export class BufferCursor {
   private _start: number;
 
-  constructor(private buffer: Buffer) {
+  constructor(public readonly buffer: Buffer) {
     this._start = 0
   }
 
