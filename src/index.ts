@@ -7,6 +7,7 @@ import { init } from './api/init'
 // import { pull } from './api/pull'
 // import { push } from './api/push'
 import { remove } from './api/remove'
+import { setConfig } from './api/setConfig'
 
 // named exports
 export {
@@ -18,7 +19,8 @@ export {
   // log,
   // pull,
   // push,
-  remove
+  remove,
+  setConfig
 }
 
 // default export
@@ -31,5 +33,6 @@ export default {
   // log,
   // pull,
   // push,
-  remove
+  remove,
+  setConfig
 }
