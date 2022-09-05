@@ -1,4 +1,5 @@
 import { add } from './api/add'
+import { addRemote } from './api/addRemote'
 // import { clone } from './api/clone'
 // import { commit } from './api/commit'
 // import { currentBranch } from './api/currentBranch.js'
@@ -12,6 +13,7 @@ import { setConfig } from './api/setConfig'
 // named exports
 export {
   add,
+  addRemote,
   // clone,
   // commit,
   // currentBranch,
@@ -26,6 +28,7 @@ export {
 // default export
 export default {
   add,
+  addRemote,
   // clone,
   // commit,
   // currentBranch,
