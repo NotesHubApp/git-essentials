@@ -4,7 +4,7 @@ import { getIterator } from './getIterator'
 
 // inspired by 'gartal' but lighter-weight and more battle-tested.
 export class StreamReader {
-  private stream: AsyncIterator<Buffer[]>
+  private stream: AsyncIterator<Buffer, undefined>
   private buffer: Buffer | null
   private cursor: number
   private undoCursor: number
@@ -13,7 +13,7 @@ export class StreamReader {
   private _discardedBytes: number
 
   constructor(stream: Buffer[]) {
-    this.stream = getIterator<Buffer[]>(stream)
+    this.stream = getIterator(stream)
     this.buffer = null
     this.cursor = 0
     this.undoCursor = 0
@@ -86,7 +86,7 @@ export class StreamReader {
     if (value) {
       value = Buffer.from(value)
     }
-    return value
+    return value ?? null
   }
 
   _trim() {
@@ -114,7 +114,7 @@ export class StreamReader {
     while (this.cursor + n > lengthBuffers(buffers)) {
       const nextbuffer = await this._next()
       if (this._ended) break
-      buffers.push(nextbuffer)
+      buffers.push(nextbuffer!)
     }
     this.buffer = Buffer.concat(buffers)
   }
