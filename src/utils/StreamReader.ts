@@ -12,6 +12,8 @@ export class StreamReader {
   private _ended: boolean
   private _discardedBytes: number
 
+  public get ended() { return this._ended }
+
   constructor(stream: Buffer[]) {
     this.stream = getIterator(stream)
     this.buffer = null
