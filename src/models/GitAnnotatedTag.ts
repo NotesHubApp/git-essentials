@@ -15,6 +15,8 @@ type Tag = {
   gpgsig: string
 }
 
+type Sign = (args: { payload: string, secretKey: string }) => Promise<{ signature: string }>
+
 export class GitAnnotatedTag {
   private _tag: string
 
@@ -120,10 +122,7 @@ ${obj.gpgsig ? obj.gpgsig : ''}`
     return Buffer.from(this._tag, 'utf8')
   }
 
-  static async sign(
-    tag: { payload: () => string },
-    sign: ({ payload, secretKey }: { payload: string, secretKey: string }) => Promise<{ signature: string }>,
-    secretKey: string) {
+  static async sign(tag: GitAnnotatedTag, sign: Sign, secretKey: string) {
     const payload = tag.payload()
     let { signature } = await sign({ payload, secretKey })
     // renormalize the line endings to the one true line-ending
