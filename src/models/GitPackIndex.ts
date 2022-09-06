@@ -43,7 +43,7 @@ function otherVarIntDecode(reader: BufferCursor, startWith: number) {
   return result
 }
 
-type GetExternalRefDelta = (oid: string) => { object: Buffer, type: number }
+type GetExternalRefDelta = (oid: string) => { type: string, object: Buffer }
 
 type OnProgress = ({ phase, loaded, total }: { phase: string, loaded: number, total: number }) => Promise<void>
 
@@ -66,7 +66,7 @@ export class GitPackIndex {
   private crcs: {[key: string]: number}
   private readDepth: number = 0
   private externalReadDepth: number = 0
-  private offsetCache: {[key: number]: { type: number, object: Buffer }}
+  private offsetCache: {[key: number]: { type: string, object: Buffer }}
 
   constructor(stuff: GitPackIndexParams) {
     this.pack = stuff.pack
@@ -247,7 +247,7 @@ export class GitPackIndex {
 
   async toBuffer() {
     const buffers: Buffer[] = []
-    const write = (str: string, encoding: string) => {
+    const write = (str: string, encoding: BufferEncoding) => {
       buffers.push(Buffer.from(str, encoding))
     }
     // Write out IDX v2 magic number
@@ -298,7 +298,7 @@ export class GitPackIndex {
     this.pack = null
   }
 
-  async read({ oid }: { oid: string }): Promise<{ object: Buffer, type: number }> {
+  async read({ oid }: { oid: string }): Promise<{ type: string, object: Buffer }> {
     if (!this.offsets.get(oid)) {
       if (this.getExternalRefDelta) {
         this.externalReadDepth++
@@ -311,7 +311,7 @@ export class GitPackIndex {
     return this.readSlice({ start })
   }
 
-  async readSlice({ start }: { start: number }): Promise<{ object: Buffer, type: number }> {
+  async readSlice({ start }: { start: number }): Promise<{ type: string, object: Buffer }> {
     if (this.offsetCache[start]) {
       return Object.assign({}, this.offsetCache[start])
     }
@@ -377,6 +377,6 @@ export class GitPackIndex {
       // hand tuned for speed / memory usage tradeoff
       this.offsetCache[start] = { type, object }
     }
-    return { type, format: 'content', object }
+    return { type, object }
   }
 }
