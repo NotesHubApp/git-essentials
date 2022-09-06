@@ -10,13 +10,13 @@ import { Author } from './Author'
 
 type CommitHeaders = {
   author: Author
-  committer?: Author
+  committer: Author
   tree?: string
   parent?: string[]
   gpgsig?: string
 }
 
-type Commit = CommitHeaders & {
+export type Commit = CommitHeaders & {
   message: string
 }
 

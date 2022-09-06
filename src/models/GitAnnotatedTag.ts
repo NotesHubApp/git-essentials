@@ -8,7 +8,7 @@ import { Author } from './Author'
 
 type TagHeaders = {
   tagger: Author
-  committer?: Author
+  committer: Author
   object: string
   type: string
   tag: string
