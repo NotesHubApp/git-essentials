@@ -43,7 +43,7 @@ function otherVarIntDecode(reader: BufferCursor, startWith: number) {
   return result
 }
 
-type GetExternalRefDelta = (oid: string) => { type: string, object: Buffer }
+type GetExternalRefDelta = (oid: string) => Promise<{ type: string, object: Buffer }>
 
 type OnProgress = ({ phase, loaded, total }: { phase: string, loaded: number, total: number }) => Promise<void>
 
@@ -57,9 +57,9 @@ type GitPackIndexParams = {
 }
 
 export class GitPackIndex {
-  private pack: Promise<Buffer> | null
+  public pack: Promise<Buffer> | null
   private hashes: string[]
-  private offsets: Map<string, number>
+  public offsets: Map<string, number>
   private packfileSha: string
   private getExternalRefDelta?: GetExternalRefDelta
 
