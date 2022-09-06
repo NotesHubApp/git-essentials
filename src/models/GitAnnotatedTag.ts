@@ -5,6 +5,7 @@ import { formatAuthor } from '../utils/formatAuthor'
 import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { parseAuthor } from '../utils/parseAuthor'
 import { Author } from './Author'
+import { SignCallback } from './Signing'
 
 type TagHeaders = {
   tagger: Author
@@ -18,8 +19,6 @@ type TagHeaders = {
 type Tag = TagHeaders & {
   message: string
 }
-
-type Sign = (args: { payload: string, secretKey: string }) => Promise<{ signature: string }>
 
 export class GitAnnotatedTag {
   private _tag: string
@@ -129,7 +128,7 @@ ${obj.gpgsig ? obj.gpgsig : ''}`
     return Buffer.from(this._tag, 'utf8')
   }
 
-  static async sign(tag: GitAnnotatedTag, sign: Sign, secretKey: string) {
+  static async sign(tag: GitAnnotatedTag, sign: SignCallback, secretKey: string) {
     const payload = tag.payload()
     let { signature } = await sign({ payload, secretKey })
     // renormalize the line endings to the one true line-ending

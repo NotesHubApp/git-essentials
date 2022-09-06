@@ -48,15 +48,15 @@ export class GitIndexManager {
    * @param {object} opts.cache
    * @param {function(GitIndex): any} closure
    */
-  static async acquire(
+  static async acquire<T>(
     { fs, gitdir, cache }: { fs: FileSystem, gitdir: string, cache: Cache },
-    closure: (index: GitIndex) => any) {
+    closure: (index: GitIndex) => Promise<T>) {
     if (!cache[IndexCache]) cache[IndexCache] = createCache()
     const indexCache = cache[IndexCache]
 
     const filepath = `${gitdir}/index`
     if (lock === null) lock = new AsyncLock({ maxPending: Infinity })
-    let result
+    let result: T
     await lock.acquire(filepath, async function() {
       // Acquire a file lock while we're reading the index
       // to make sure other processes aren't writing to it
@@ -77,6 +77,6 @@ export class GitIndexManager {
         index._dirty = false
       }
     })
-    return result
+    return result!
   }
 }

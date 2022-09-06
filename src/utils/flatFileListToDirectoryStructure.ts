@@ -1,16 +1,22 @@
+import { IndexEntry } from '../models/IndexEntry'
 import { basename } from '../utils/basename'
 import { dirname } from '../utils/dirname'
 
-type Node = {
-  type: string,
+type Metadata = {
+  oid?: string
+  mode?: string | number
+}
+
+export type Node = {
+  type: 'blob' | 'tree',
   fullpath: string,
   basename: string,
-  metadata: Object, // mode, oid
+  metadata: Metadata,
   parent?: Node,
   children: Array<Node>
 }
 
-export function flatFileListToDirectoryStructure(files: { path: string }[]) {
+export function flatFileListToDirectoryStructure(files: IndexEntry[]) {
   const inodes = new Map<string, Node>()
 
   const mkdir = function(name: string) {
@@ -34,7 +40,7 @@ export function flatFileListToDirectoryStructure(files: { path: string }[]) {
     return inodes.get(name)
   }
 
-  const mkfile = function(name: string, metadata: object) {
+  const mkfile = function(name: string, metadata: Metadata) {
     if (!inodes.has(name)) {
       const file: Node = {
         type: 'blob',

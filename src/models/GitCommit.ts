@@ -7,6 +7,7 @@ import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { outdent } from '../utils/outdent'
 import { parseAuthor } from '../utils/parseAuthor'
 import { Author } from './Author'
+import { SignCallback } from './Signing'
 
 type CommitHeaders = {
   author: Author
@@ -19,8 +20,6 @@ type CommitHeaders = {
 export type Commit = CommitHeaders & {
   message: string
 }
-
-type Sign = (args: { payload: string, secretKey: string }) => Promise<{ signature: string }>
 
 export class GitCommit {
   private readonly _commit: string
@@ -167,7 +166,7 @@ export class GitCommit {
     return outdent(signature)
   }
 
-  static async sign(commit: GitCommit, sign: Sign, secretKey: string) {
+  static async sign(commit: GitCommit, sign: SignCallback, secretKey: string) {
     const payload = commit.withoutSignature()
     const message = GitCommit.justMessage(commit._commit)
     let { signature } = await sign({ payload, secretKey })

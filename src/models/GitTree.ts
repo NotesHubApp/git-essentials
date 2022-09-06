@@ -5,10 +5,10 @@ import { comparePath } from '../utils/comparePath.js'
 import { compareTreeEntryPath } from '../utils/compareTreeEntryPath.js'
 
 export type TreeEntry = {
-  mode: string // the 6 digit hexadecimal mode
+  mode: string | number // the 6 digit hexadecimal mode
   path: string // the name of the file or directory
   oid: string // the SHA-1 object id of the blob or tree
-  sha?: string // GitHub
+  sha?: string // GitHub specific
   type: 'commit' | 'blob' | 'tree' // the type of object
 }
 
@@ -108,7 +108,8 @@ export class GitTree {
 
     return Buffer.concat(
       entries.map(entry => {
-        const mode = Buffer.from(entry.mode.replace(/^0/, ''))
+        const modeStr = typeof entry.mode === 'number' ? entry.mode.toString(8) : entry.mode
+        const mode = Buffer.from(modeStr.replace(/^0/, ''))
         const space = Buffer.from(' ')
         const path = Buffer.from(entry.path, 'utf8')
         const nullchar = Buffer.from([0])
