@@ -64,7 +64,7 @@ export class GitCommit {
     return GitCommit.justMessage(this._commit)
   }
 
-  parse() {
+  parse(): Commit {
     return Object.assign({ message: this.message() }, this.headers())
   }
 
@@ -76,7 +76,7 @@ export class GitCommit {
     return commit.slice(0, commit.indexOf('\n\n'))
   }
 
-  parseHeaders() {
+  parseHeaders(): CommitHeaders {
     const headers = GitCommit.justHeaders(this._commit).split('\n')
     const hs = []
 

@@ -17,6 +17,13 @@ type ReadObjectParams = {
   oid: string
 }
 
+type ReadObjectResult = {
+  type: string,
+  object: Buffer,
+  format: string,
+  source?: string
+}
+
 /**
  * @param {object} args
  * @param {import('../models/FileSystem.js').FileSystem} args.fs
@@ -25,7 +32,7 @@ type ReadObjectParams = {
  * @param {string} args.oid
  * @param {string} [args.format]
  */
-export async function _readObject({ fs, cache, gitdir, oid }: ReadObjectParams) {
+export async function _readObject({ fs, cache, gitdir, oid }: ReadObjectParams): Promise<ReadObjectResult> {
   // Curry the current read method so that the packfile un-deltification
   // process can acquire external ref-deltas.
   const getExternalRefDelta = (oid: string) => _readObject({ fs, cache, gitdir, oid })

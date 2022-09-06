@@ -6,13 +6,17 @@ import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { parseAuthor } from '../utils/parseAuthor'
 import { Author } from './Author'
 
-type Tag = {
+type TagHeaders = {
+  tagger: Author
+  committer?: Author
   object: string
   type: string
   tag: string
-  tagger: Author
-  message: string
   gpgsig: string
+}
+
+type Tag = TagHeaders & {
+  message: string
 }
 
 type Sign = (args: { payload: string, secretKey: string }) => Promise<{ signature: string }>
@@ -57,7 +61,7 @@ ${obj.gpgsig ? obj.gpgsig : ''}`
     return tag.slice(tag.indexOf('\n\n') + 2)
   }
 
-  parse() {
+  parse(): Tag {
     return Object.assign(this.headers(), {
       message: this.message(),
       gpgsig: this.gpgsig(),
@@ -68,7 +72,7 @@ ${obj.gpgsig ? obj.gpgsig : ''}`
     return this._tag
   }
 
-  headers() {
+  headers(): TagHeaders {
     const headers = this.justHeaders().split('\n')
     const hs: string[] = []
     for (const h of headers) {
@@ -89,12 +93,15 @@ ${obj.gpgsig ? obj.gpgsig : ''}`
         obj[key] = value
       }
     }
+
     if (obj.tagger) {
       obj.tagger = parseAuthor(obj.tagger)
     }
+
     if (obj.committer) {
       obj.committer = parseAuthor(obj.committer)
     }
+
     return obj
   }
 
