@@ -1,3 +1,6 @@
+import * as Models from './models/index'
+import * as Errors from './errors/index'
+
 import { add } from './api/add'
 import { addRemote } from './api/addRemote'
 // import { clone } from './api/clone'
@@ -14,6 +17,8 @@ import { setConfig } from './api/setConfig'
 
 // named exports
 export {
+  Models,
+  Errors,
   add,
   addRemote,
   // clone,
@@ -31,6 +36,8 @@ export {
 
 // default export
 export default {
+  Models,
+  Errors,
   add,
   addRemote,
   // clone,
