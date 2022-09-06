@@ -14,13 +14,7 @@ type WriteObjectParams = {
   dryRun?: boolean
 }
 
-export async function _writeObject({
-  fs,
-  gitdir,
-  type,
-  object,
-  dryRun = false
-}: WriteObjectParams) {
+export async function _writeObject({ fs, gitdir, type, object, dryRun = false }: WriteObjectParams) {
 
   object = GitObject.wrap({ type, object })
   const oid = await shasum(object)
