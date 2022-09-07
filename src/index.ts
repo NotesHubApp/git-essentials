@@ -1,54 +1,16 @@
-import * as Models from './models/index'
-import * as Errors from './errors/index'
+export * as Models from './models/index'
+export * as Errors from './errors/index'
 
-import { add } from './api/add'
-import { addRemote } from './api/addRemote'
-// import { clone } from './api/clone'
-import { commit } from './api/commit'
-import { currentBranch } from './api/currentBranch'
-import { getConfig } from './api/getConfig'
-import { getConfigAll } from './api/getConfigAll'
-import { init } from './api/init'
-import { log } from './api/log'
-// import { pull } from './api/pull'
-// import { push } from './api/push'
-import { remove } from './api/remove'
-import { setConfig } from './api/setConfig'
-
-// named exports
-export {
-  Models,
-  Errors,
-  add,
-  addRemote,
-  // clone,
-  commit,
-  currentBranch,
-  getConfig,
-  getConfigAll,
-  init,
-  log,
-  // pull,
-  // push,
-  remove,
-  setConfig
-}
-
-// default export
-export default {
-  Models,
-  Errors,
-  add,
-  addRemote,
-  // clone,
-  commit,
-  currentBranch,
-  getConfig,
-  getConfigAll,
-  init,
-  log,
-  // pull,
-  // push,
-  remove,
-  setConfig
-}
+export { add } from './api/add'
+export { addRemote } from './api/addRemote'
+// export { clone } from './api/clone'
+export { commit } from './api/commit'
+export { currentBranch } from './api/currentBranch'
+export { getConfig } from './api/getConfig'
+export { getConfigAll } from './api/getConfigAll'
+export { init } from './api/init'
+export { log } from './api/log'
+// export { pull } from './api/pull'
+// export { push } from './api/push'
+export { remove } from './api/remove'
+export { setConfig } from './api/setConfig'
