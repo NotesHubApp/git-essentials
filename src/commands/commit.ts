@@ -14,7 +14,7 @@ import { GitIndex } from '../models/GitIndex'
 type CommitParams = {
   fs: FileSystem
   cache: Cache
-  onSign: SignCallback
+  onSign?: SignCallback
   gitdir: string
   message: string
   author: Author
@@ -23,7 +23,7 @@ type CommitParams = {
   dryRun?: boolean
   noUpdateBranch?: boolean
   ref: string
-  parent: string[]
+  parent?: string[]
   tree?: string
 }
 
@@ -96,7 +96,7 @@ export async function _commit({
 
     let comm = GitCommit.from({ tree, parent, author, committer, message })
 
-    if (signingKey) {
+    if (signingKey && onSign) {
       comm = await GitCommit.sign(comm, onSign, signingKey)
     }
 

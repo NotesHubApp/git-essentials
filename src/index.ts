@@ -4,7 +4,7 @@ import * as Errors from './errors/index'
 import { add } from './api/add'
 import { addRemote } from './api/addRemote'
 // import { clone } from './api/clone'
-// import { commit } from './api/commit'
+import { commit } from './api/commit'
 import { currentBranch } from './api/currentBranch'
 import { getConfig } from './api/getConfig'
 import { getConfigAll } from './api/getConfigAll'
@@ -22,7 +22,7 @@ export {
   add,
   addRemote,
   // clone,
-  // commit,
+  commit,
   currentBranch,
   getConfig,
   getConfigAll,
@@ -41,7 +41,7 @@ export default {
   add,
   addRemote,
   // clone,
-  // commit,
+  commit,
   currentBranch,
   getConfig,
   getConfigAll,
