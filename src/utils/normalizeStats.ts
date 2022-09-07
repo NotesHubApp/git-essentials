@@ -3,7 +3,7 @@ import { normalizeMode } from './normalizeMode'
 
 const MAX_UINT32 = 2 ** 32
 
-type Stat = {
+export type Stat = {
   mode: number;
   size: number;
   ino: number | BigInt;
