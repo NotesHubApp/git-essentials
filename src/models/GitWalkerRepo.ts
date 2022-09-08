@@ -120,7 +120,7 @@ export class GitWalkerRepo implements GitWalkder {
   async type(entry: WalkerEntry) {
     if (entry._type === false) {
       const map = await this.mapPromise
-      const { type } = (map.get(entry._fullpath) as TreeNode)
+      const { type } = (map.get(entry._fullpath)!)
       entry._type = type
     }
     return entry._type as WalkerEntryType
@@ -129,7 +129,7 @@ export class GitWalkerRepo implements GitWalkder {
   async mode(entry: WalkerEntry) {
     if (entry._mode === false) {
       const map = await this.mapPromise
-      const { mode } = (map.get(entry._fullpath) as TreeNode)
+      const { mode } = (map.get(entry._fullpath)!)
       entry._mode = normalizeMode(parseInt(mode as string, 8))
     }
     return entry._mode as number

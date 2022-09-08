@@ -3,8 +3,8 @@ import { Author } from '../models/common'
 export function parseAuthor(author: string): Author {
   const [, name, email, timestamp, offset] = author.match(/^(.*) <(.*)> (.*) (.*)$/) as string[]
   return {
-    name: name as string,
-    email: email as string,
+    name: name,
+    email: email,
     timestamp: Number(timestamp),
     timezoneOffset: parseTimezoneOffset(offset),
   }

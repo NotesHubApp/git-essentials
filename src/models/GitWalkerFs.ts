@@ -147,7 +147,7 @@ export class GitWalkerFs implements GitWalkder {
       // See if we can use the SHA1 hash in the index.
       await GitIndexManager.acquire({ fs, gitdir, cache }, async function(index) {
         const stage = index.entriesMap.get(entry._fullpath)
-        const stats = (await entry.stat()) as Stat
+        const stats = (await entry.stat())!
 
         if (!stage || compareStats(stats, stage)) {
           const content = await entry.content()
@@ -156,7 +156,7 @@ export class GitWalkerFs implements GitWalkder {
             oid = undefined
           } else {
             oid = await shasum(
-              GitObject.wrap({ type: 'blob', object: (await entry.content()) as Buffer })
+              GitObject.wrap({ type: 'blob', object: (await entry.content()) as Buffer }) // TODO: TAlex check for casting
             )
             if (stage && oid === stage.oid) {
               index.insert({ filepath: entry._fullpath, stats, oid: oid })
@@ -168,7 +168,7 @@ export class GitWalkerFs implements GitWalkder {
         }
       })
 
-      entry._oid = oid as string
+      entry._oid = oid!
     }
 
     return entry._oid as string

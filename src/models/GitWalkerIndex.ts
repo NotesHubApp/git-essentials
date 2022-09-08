@@ -99,7 +99,7 @@ export class GitWalkerIndex implements GitWalkder {
         )
       }
 
-      const stats = inode.type === 'tree' ? {} as Stat : normalizeStats(inode.metadata as Stat)
+      const stats = inode.type === 'tree' ? {} as Stat : normalizeStats(inode.metadata as Stat) // TODO: TAlex check for casting
       entry._type = inode.type === 'tree' ? 'tree' : mode2type(stats.mode)
       entry._mode = stats.mode
       if (inode.type === 'tree') {
