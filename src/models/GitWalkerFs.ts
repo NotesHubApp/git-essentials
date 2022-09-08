@@ -6,17 +6,17 @@ import { join } from '../utils/join'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
 import { GitObject } from './GitObject.js'
-import { WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 import { NormalizedStat } from './NormalizedStat'
 import { Stat } from './IBackend'
 
 
-export class GitWalkerFs {
+export class GitWalkerFs implements GitWalkder {
   private readonly fs: FileSystem
   private readonly cache: Cache
   private readonly dir: string
   private readonly gitdir: string
-  private readonly ConstructEntry: WalkerEntryConstructor
+  public readonly ConstructEntry: WalkerEntryConstructor
 
   constructor(
     { fs, dir, gitdir, cache }:

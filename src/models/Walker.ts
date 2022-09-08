@@ -1,4 +1,6 @@
-import { Stat } from "./IBackend"
+import { FileSystem } from './FileSystem'
+import { Cache } from './Cache'
+import { Stat } from './IBackend'
 
 // This is part of an elaborate system to facilitate code-splitting / tree-shaking.
 // commands/walk.js can depend on only this, and the actual Walker classes exported
@@ -7,8 +9,13 @@ import { Stat } from "./IBackend"
 // outside of it.
 export const GitWalkSymbol = Symbol('GitWalkSymbol')
 
+export interface GitWalkder {
+  readonly ConstructEntry: WalkerEntryConstructor
+  readdir(entry: WalkerEntry): Promise<string[] | null>
+}
 
-export type Walker = { [GitWalkSymbol]: Symbol }
+type WalkerParams = { fs: FileSystem, dir: string, gitdir: string, cache: Cache }
+export type Walker = { [GitWalkSymbol]: (args: WalkerParams) => GitWalkder }
 
 export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
 export type WalkerEntryConstructor = new(fullpath: string) => WalkerEntry
@@ -28,3 +35,4 @@ export interface WalkerEntry {
   content(): Promise<void | Uint8Array | undefined>
   oid(): Promise<string>
 }
+

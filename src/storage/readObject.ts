@@ -65,13 +65,13 @@ export async function _readObject({ fs, cache, gitdir, oid }: ReadObjectParams):
   }
 
   // BEHOLD! THE ONLY TIME I'VE EVER WANTED TO USE A CASE STATEMENT WITH FOLLOWTHROUGH!
-  // eslint-ignore
-  /* eslint-disable no-fallthrough */
   switch (result.format) {
+    // @ts-ignore
     case 'deflated': {
       result.object = Buffer.from(await inflate(result.object))
       result.format = 'wrapped'
     }
+    // @ts-ignore
     case 'wrapped': {
       const sha = await shasum(result.object)
       if (sha !== oid) {
@@ -96,5 +96,4 @@ export async function _readObject({ fs, cache, gitdir, oid }: ReadObjectParams):
       throw new InternalError(`invalid format "${result.format}"`)
     }
   }
-  /* eslint-enable no-fallthrough */
 }

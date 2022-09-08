@@ -5,11 +5,11 @@ import { compareStrings } from '../utils/compareStrings'
 import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToDirectoryStructure'
 import { mode2type } from '../utils/mode2type'
 import { normalizeStats } from '../utils/normalizeStats'
-import { WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 import { Stat } from './IBackend'
 
 
-export class GitWalkerIndex {
+export class GitWalkerIndex implements GitWalkder {
   private readonly treePromise: Promise<Map<string, Node>>
   public readonly ConstructEntry: WalkerEntryConstructor
 

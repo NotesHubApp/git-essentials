@@ -8,7 +8,7 @@ import { _readObject as readObject } from '../storage/readObject'
 import { join } from '../utils/join'
 import { normalizeMode } from '../utils/normalizeMode'
 import { resolveTree } from '../utils/resolveTree'
-import { WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 
 type TreeNode = {
   tree?: GitTree
@@ -17,7 +17,7 @@ type TreeNode = {
   mode: string | number
 }
 
-export class GitWalkerRepo {
+export class GitWalkerRepo implements GitWalkder {
   private readonly fs: FileSystem
   private readonly gitdir: string
   private readonly cache: Cache
