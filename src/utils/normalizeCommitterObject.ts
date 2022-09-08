@@ -1,4 +1,4 @@
-import { Author } from '../models/Author'
+import { Author } from '../models/common'
 import { FileSystem } from '../models/FileSystem'
 import { normalizeAuthorObject } from '../utils/normalizeAuthorObject'
 

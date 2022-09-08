@@ -13,7 +13,7 @@ import { GitIndexManager } from '../managers/GitIndexManager'
 import { GitRefManager } from '../managers/GitRefManager'
 import { _readObject as readObject } from '../storage/readObject'
 import { worthWalking } from '../utils/worthWalking'
-import { ProgressCallback } from '../models/Common'
+import { ProgressCallback } from '../models/common'
 
 
 type CheckoutParams = {

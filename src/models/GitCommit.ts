@@ -6,8 +6,7 @@ import { indent } from '../utils/indent'
 import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { outdent } from '../utils/outdent'
 import { parseAuthor } from '../utils/parseAuthor'
-import { Author } from './Author'
-import { SignCallback } from './Common'
+import { Author, SignCallback } from './common'
 
 type CommitHeaders = {
   author: Author

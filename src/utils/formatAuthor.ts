@@ -1,4 +1,5 @@
-import { Author } from '../models/Author'
+import { Author } from '../models/common'
+
 
 export function formatAuthor({ name, email, timestamp, timezoneOffset }: Author) {
   const timezoneOffsetStr = formatTimezoneOffset(timezoneOffset)
