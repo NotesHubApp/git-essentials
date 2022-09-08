@@ -1,15 +1,15 @@
-type ErrorJsonObj = {
+type ErrorDto<T> = {
   message: string
   code: string
-  data: {}
+  data: T
   caller: string
   stack?: string
 }
 
-export class BaseError extends Error {
+export class BaseError<T> extends Error {
   caller: string
 
-  constructor(message: string, public readonly code: string, public readonly data: {}) {
+  constructor(message: string, public readonly code: string, public readonly data: T) {
     super(message)
     // Setting this here allows TS to infer that all git errors have a `caller` property and
     // that its type is string.
@@ -17,7 +17,7 @@ export class BaseError extends Error {
     this.caller = ''
   }
 
-  toJSON(): ErrorJsonObj {
+  toJSON(): ErrorDto<T> {
     // Error objects aren't normally serializable. So we do something about that.
     return {
       code: this.code,
@@ -28,7 +28,7 @@ export class BaseError extends Error {
     }
   }
 
-  fromJSON(json: ErrorJsonObj) {
+  fromJSON(json: ErrorDto<T>) {
     const e = new BaseError(json.message, json.code, json.data)
     e.caller = json.caller
     e.stack = json.stack

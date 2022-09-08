@@ -1,6 +1,10 @@
 import { BaseError } from './BaseError'
 
-export class NoRefspecError extends BaseError {
+type NoRefspecErrorData = {
+  remote: string
+}
+
+export class NoRefspecError extends BaseError<NoRefspecErrorData> {
   public static readonly code = 'NoRefspecError'
 
   /**

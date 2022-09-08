@@ -2,7 +2,14 @@ import { BaseError } from './BaseError'
 
 type ObjectType = 'blob' | 'commit' | 'tag' | 'tree'
 
-export class ObjectTypeError extends BaseError {
+type ObjectTypeErrorData = {
+  oid: string
+  actual: string
+  expected: ObjectType
+  filepath?: string
+}
+
+export class ObjectTypeError extends BaseError<ObjectTypeErrorData> {
   public static readonly code = 'ObjectTypeError'
 
   /**

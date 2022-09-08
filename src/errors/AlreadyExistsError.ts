@@ -1,6 +1,14 @@
 import { BaseError } from './BaseError'
 
-export class AlreadyExistsError extends BaseError {
+type Noun = 'note' | 'remote' | 'tag' | 'branch'
+
+type AlreadyExistsErrorData = {
+  noun: Noun
+  where: string
+  canForce: boolean
+}
+
+export class AlreadyExistsError extends BaseError<AlreadyExistsErrorData> {
   public static readonly code = 'AlreadyExistsError'
 
   /**
@@ -8,7 +16,7 @@ export class AlreadyExistsError extends BaseError {
    * @param {string} where
    * @param {boolean} canForce
    */
-  constructor(noun: string, where: string, canForce: boolean = true) {
+  constructor(noun: Noun, where: string, canForce: boolean = true) {
     super(
       `Failed to create ${noun} at ${where} because it already exists.${
         canForce

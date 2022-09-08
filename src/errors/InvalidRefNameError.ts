@@ -1,6 +1,11 @@
 import { BaseError } from './BaseError'
 
-export class InvalidRefNameError extends BaseError {
+type InvalidRefNameErrorData = {
+  ref: string
+  suggestion: string
+}
+
+export class InvalidRefNameError extends BaseError<InvalidRefNameErrorData> {
   public static readonly code = 'InvalidRefNameError'
 
   /**

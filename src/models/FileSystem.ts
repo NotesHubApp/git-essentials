@@ -2,7 +2,7 @@ import { Buffer } from 'buffer'
 
 import { compareStrings } from '../utils/compareStrings'
 import { dirname } from '../utils/dirname'
-import { EncodingOpts, IBackend, ReadLinkOptions } from './IBackend'
+import { EncodingOpts, IBackend, WriteOpts } from './IBackend'
 
 /**
  * This is just a collection of helper functions really. At least that's how it started.
@@ -57,7 +57,7 @@ export class FileSystem {
    * @param {Buffer|Uint8Array|string} contents
    * @param {object|string} [options]
    */
-  async write(filepath: string, contents: string | Uint8Array, options: EncodingOpts = {}) {
+  async write(filepath: string, contents: string | Uint8Array, options: WriteOpts = {}) {
     try {
       await this.fs.writeFile(filepath, contents, options)
       return

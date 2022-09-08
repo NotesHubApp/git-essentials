@@ -1,6 +1,10 @@
 import { BaseError } from './BaseError'
 
-export class NotFoundError extends BaseError {
+type NotFoundErrorData = {
+  what: string
+}
+
+export class NotFoundError extends BaseError<NotFoundErrorData> {
   static readonly code = 'NotFoundError'
 
   /**

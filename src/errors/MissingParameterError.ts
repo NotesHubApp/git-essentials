@@ -1,6 +1,10 @@
 import { BaseError } from './BaseError'
 
-export class MissingParameterError extends BaseError {
+type MissingParameterErrorData = {
+  parameter: string
+}
+
+export class MissingParameterError extends BaseError<MissingParameterErrorData> {
   static readonly code = 'MissingParameterError'
 
   /**

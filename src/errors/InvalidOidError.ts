@@ -1,6 +1,10 @@
 import { BaseError } from './BaseError'
 
-export class InvalidOidError extends BaseError {
+type InvalidOidErrorData = {
+  value: string
+}
+
+export class InvalidOidError extends BaseError<InvalidOidErrorData> {
   public static readonly code = 'InvalidOidError'
 
   /**

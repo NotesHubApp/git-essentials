@@ -6,8 +6,8 @@ import { unionOfIterators } from '../utils/unionOfIterators'
 
 type WalkerMap = (filename: string, entries: WalkerEntry[]) => Promise<any>
 type WalkerReduce = (parent: any, children: any[]) => Promise<any>
-type WalkerIterateCallback = (entries: (WalkerEntry | string | null)[]) => Promise<any[] | void>
-type WalkerIterate = (walk: WalkerIterateCallback, children: IterableIterator<(WalkerEntry | string | null)[]>) => Promise<any[]>
+type WalkerIterateCallback = (entries: (string | null)[]) => Promise<any[] | void>
+type WalkerIterate = (walk: WalkerIterateCallback, children: IterableIterator<(string | null)[]>) => Promise<any[]>
 
 type WalkParams = {
   fs: FileSystem
@@ -77,7 +77,7 @@ export async function _walk({
     }
   }
 
-  const walk = async (root: (string | WalkerEntry | null)[]): Promise<any[] | void> => {
+  const walk = async (root: (string | null)[]): Promise<any[] | void> => {
     const { entries, children } = await unionWalkerFromReaddir(root)
     const fullpath = entries.find(entry => entry && entry._fullpath)!._fullpath
     const parent = await map(fullpath, entries)

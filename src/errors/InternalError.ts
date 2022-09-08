@@ -1,6 +1,10 @@
 import { BaseError } from './BaseError'
 
-export class InternalError extends BaseError {
+type InternalErrorData = {
+  message: string
+}
+
+export class InternalError extends BaseError<InternalErrorData> {
   public static readonly code = 'InternalError'
 
   /**

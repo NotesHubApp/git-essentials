@@ -4,6 +4,10 @@ export type EncodingOpts = {
   encoding?: 'utf8';
 }
 
+export type WriteOpts = EncodingOpts & {
+  mode?: number
+}
+
 export interface RMDirOptions {
   force?: boolean
 }
@@ -50,7 +54,7 @@ export type StatLike = Stat & {
 export interface IBackend {
   // highly recommended - usually necessary for apps to work
   readFile(filepath: string, opts: EncodingOpts): Promise<Uint8Array | string>; // throws ENOENT
-  writeFile(filepath: string, data: Uint8Array | string, opts: EncodingOpts): Promise<void>; // throws ENOENT
+  writeFile(filepath: string, data: Uint8Array | string, opts: WriteOpts): Promise<void>; // throws ENOENT
   unlink(filepath: string): Promise<void>; // throws ENOENT
   readdir(filepath: string): Promise<string[]>; // throws ENOENT, ENOTDIR
   mkdir(filepath: string): Promise<void>; // throws ENOENT, EEXIST
