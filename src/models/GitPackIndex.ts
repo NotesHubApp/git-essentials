@@ -9,6 +9,7 @@ import { applyDelta } from '../utils/applyDelta'
 import { listpack } from '../utils/git-list-pack'
 import { inflate } from '../utils/inflate'
 import { shasum } from '../utils/shasum'
+import { ProgressCallback } from './Common'
 
 function decodeVarInt(reader: BufferCursor) {
   const bytes = []
@@ -44,8 +45,6 @@ function otherVarIntDecode(reader: BufferCursor, startWith: number) {
 }
 
 type GetExternalRefDelta = (oid: string) => Promise<{ type: string, object: Buffer }>
-
-type OnProgress = ({ phase, loaded, total }: { phase: string, loaded: number, total: number }) => Promise<void>
 
 type GitPackIndexParams = {
   pack: Promise<Buffer> | null
@@ -126,7 +125,7 @@ export class GitPackIndex {
 
   static async fromPack(
     { pack, getExternalRefDelta, onProgress }:
-    { pack: Buffer, getExternalRefDelta: GetExternalRefDelta, onProgress?: OnProgress }) {
+    { pack: Buffer, getExternalRefDelta: GetExternalRefDelta, onProgress?: ProgressCallback }) {
     const listpackTypes: {[key: number]: string} = {
       1: 'commit',
       2: 'tree',

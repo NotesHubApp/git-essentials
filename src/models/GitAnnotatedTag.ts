@@ -5,7 +5,7 @@ import { formatAuthor } from '../utils/formatAuthor'
 import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { parseAuthor } from '../utils/parseAuthor'
 import { Author } from './Author'
-import { SignCallback } from './Signing'
+import { SignCallback } from './Common'
 
 type TagHeaders = {
   tagger: Author

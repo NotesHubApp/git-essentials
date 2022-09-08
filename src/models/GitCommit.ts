@@ -7,7 +7,7 @@ import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { outdent } from '../utils/outdent'
 import { parseAuthor } from '../utils/parseAuthor'
 import { Author } from './Author'
-import { SignCallback } from './Signing'
+import { SignCallback } from './Common'
 
 type CommitHeaders = {
   author: Author

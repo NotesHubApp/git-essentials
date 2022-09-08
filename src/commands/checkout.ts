@@ -13,14 +13,8 @@ import { GitIndexManager } from '../managers/GitIndexManager'
 import { GitRefManager } from '../managers/GitRefManager'
 import { _readObject as readObject } from '../storage/readObject'
 import { worthWalking } from '../utils/worthWalking'
+import { ProgressCallback } from '../models/Common'
 
-type ProgressParams = {
-  phase: string
-  loaded: number
-  total?: number
-}
-
-type ProgressCallback = (args: ProgressParams) => Promise<void>
 
 type CheckoutParams = {
   fs: FileSystem

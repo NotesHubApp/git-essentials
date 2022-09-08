@@ -1,4 +1,6 @@
 export * from './AlreadyExistsError'
+export * from './CheckoutConflictError'
+export * from './CommitNotFetchedError'
 export * from './InternalError'
 export * from './InvalidOidError'
 export * from './InvalidRefNameError'

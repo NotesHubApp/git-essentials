@@ -5,3 +5,12 @@ export type SignParams = {
 
 export type SignCallback =
   (args: SignParams) => { signature: string } | Promise<{ signature: string }> // an 'ASCII armor' encoded "detached"
+
+
+export type ProgressParams = {
+  phase: string
+  loaded: number
+  total?: number
+}
+
+export type ProgressCallback = (args: ProgressParams) => Promise<void>
