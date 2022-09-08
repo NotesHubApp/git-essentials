@@ -1,6 +1,6 @@
 import { GitIndex } from './GitIndex'
 import { GitPackIndex } from './GitPackIndex'
-import { StatLike } from './IBackend'
+import { Stat } from './IBackend'
 
 export const IndexCache = Symbol('IndexCache')
 export const PackfileCache = Symbol('PackfileCache')
@@ -12,5 +12,5 @@ export type Cache = {
 
 export type IndexCacheObject = {
   map: Map<string, GitIndex>
-  stats: Map<string, StatLike>
+  stats: Map<string, Stat | null>
 }
