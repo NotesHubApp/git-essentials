@@ -1,7 +1,7 @@
-import { StatLike } from '../models/IBackend'
+import { Stat } from '../models/IBackend'
 import { normalizeStats } from './normalizeStats'
 
-export function compareStats(entry: StatLike, stats: StatLike) {
+export function compareStats(entry: Stat, stats: Stat) {
   // Comparison based on the description in Paragraph 4 of
   // https://www.kernel.org/pub/software/scm/git/docs/technical/racy-git.txt
   const e = normalizeStats(entry)

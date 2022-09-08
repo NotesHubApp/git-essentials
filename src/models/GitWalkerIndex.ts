@@ -4,30 +4,14 @@ import { GitIndexManager } from '../managers/GitIndexManager'
 import { compareStrings } from '../utils/compareStrings'
 import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToDirectoryStructure'
 import { mode2type } from '../utils/mode2type'
-import { normalizeStats, Stat } from '../utils/normalizeStats'
-import { NormalizedStat } from './NormalizedStat'
+import { normalizeStats } from '../utils/normalizeStats'
+import { WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { Stat } from './IBackend'
 
-
-type StageEntryType = 'blob' | 'tree' | 'commit'
-type StageEntryConstructor = new(fullpath: string) => StageEntry
-
-interface StageEntry {
-  _fullpath: string
-  _type: boolean | StageEntryType
-  _mode: boolean | number
-  _stat: boolean | NormalizedStat | undefined
-  _oid: boolean | string
-
-  type(): Promise<StageEntryType>
-  mode(): Promise<number>
-  stat(): Promise<NormalizedStat | undefined>
-  content(): Promise<void>
-  oid(): Promise<string>
-}
 
 export class GitWalkerIndex {
   private readonly treePromise: Promise<Map<string, Node>>
-  public readonly ConstructEntry: StageEntryConstructor
+  public readonly ConstructEntry: WalkerEntryConstructor
 
   constructor({ fs, gitdir, cache }: { fs: FileSystem, gitdir: string, cache: Cache }) {
     this.treePromise = GitIndexManager.acquire(
@@ -43,7 +27,9 @@ export class GitWalkerIndex {
       _type: boolean
       _mode: boolean
       _stat: boolean
+      _content: undefined
       _oid: boolean
+      _actualSize: undefined
 
       constructor(fullpath: string) {
         this._fullpath = fullpath
@@ -75,7 +61,7 @@ export class GitWalkerIndex {
     }
   }
 
-  async readdir(entry: StageEntry) {
+  async readdir(entry: WalkerEntry) {
     const filepath = entry._fullpath
     const tree = await this.treePromise
     const inode = tree.get(filepath)
@@ -89,21 +75,21 @@ export class GitWalkerIndex {
     return names
   }
 
-  async type(entry: StageEntry) {
+  async type(entry: WalkerEntry) {
     if (entry._type === false) {
       await entry.stat()
     }
-    return entry._type as StageEntryType
+    return entry._type as WalkerEntryType
   }
 
-  async mode(entry: StageEntry) {
+  async mode(entry: WalkerEntry) {
     if (entry._mode === false) {
       await entry.stat()
     }
     return entry._mode as number
   }
 
-  async stat(entry: StageEntry) {
+  async stat(entry: WalkerEntry) {
     if (entry._stat === false) {
       const tree = await this.treePromise
       const inode = tree.get(entry._fullpath)
@@ -112,7 +98,8 @@ export class GitWalkerIndex {
           `ENOENT: no such file or directory, lstat '${entry._fullpath}'`
         )
       }
-      const stats = inode.type === 'tree' ? {} as NormalizedStat : normalizeStats(inode.metadata as Stat)
+
+      const stats = inode.type === 'tree' ? {} as Stat : normalizeStats(inode.metadata as Stat)
       entry._type = inode.type === 'tree' ? 'tree' : mode2type(stats.mode)
       entry._mode = stats.mode
       if (inode.type === 'tree') {
@@ -121,14 +108,14 @@ export class GitWalkerIndex {
         entry._stat = stats
       }
     }
-    return entry._stat as NormalizedStat
+    return entry._stat as Stat
   }
 
-  async content(_entry: StageEntry) {
+  async content(_entry: WalkerEntry) {
     // Cannot get content for an index entry
   }
 
-  async oid(entry: StageEntry) {
+  async oid(entry: WalkerEntry) {
     if (entry._oid === false) {
       const tree = await this.treePromise
       const inode = tree.get(entry._fullpath)

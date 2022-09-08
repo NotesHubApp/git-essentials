@@ -1,28 +1,9 @@
+import { Stat } from '../models/IBackend';
 import { NormalizedStat } from '../models/NormalizedStat';
 import { normalizeMode } from './normalizeMode'
 
 const MAX_UINT32 = 2 ** 32
 
-export type Stat = {
-  mode: number;
-  size: number;
-  ino: number | BigInt;
-  mtimeMs?: number;
-  ctimeMs?: number;
-
-  // Non-standard
-  uid: number;
-  gid: number;
-  dev: number;
-
-  ctime?: Date;
-  ctimeSeconds?: number;
-  ctimeNanoseconds?: number;
-
-  mtime?: Date;
-  mtimeSeconds?: number;
-  mtimeNanoseconds?: number;
-}
 
 function SecondsNanoseconds(
   givenSeconds?: number,

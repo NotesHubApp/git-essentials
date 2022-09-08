@@ -6,7 +6,7 @@ import { comparePath } from '../utils/comparePath'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
 import { IndexEntry, IndexEntryFlags } from './IndexEntry'
-import { StatLike } from './IBackend'
+import { Stat } from './IBackend'
 
 // Extract 1-bit assume-valid, 1-bit extended flag, 2-bit merge state flag, 12-bit path length flag
 function parseCacheEntryFlags(bits: number): IndexEntryFlags {
@@ -141,7 +141,7 @@ export class GitIndex {
 
   insert(
     { filepath, stats, oid }:
-    { filepath: string, stats: StatLike, oid: string }) {
+    { filepath: string, stats: Stat, oid: string }) {
     const normalizedStats = normalizeStats(stats)
     const bfilepath = Buffer.from(filepath)
     const entry: IndexEntry = {
