@@ -1,6 +1,6 @@
-export async function collect(iterable: IterableIterator<Buffer>) {
+export async function collect(iterable: IterableIterator<Uint8Array>) {
   let size = 0
-  const buffers: Buffer[] = []
+  const buffers: Uint8Array[] = []
 
   for await (const value of iterable) {
     buffers.push(value)

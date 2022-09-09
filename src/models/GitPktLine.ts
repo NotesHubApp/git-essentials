@@ -66,7 +66,7 @@ export class GitPktLine {
     return Buffer.from('0001', 'utf8')
   }
 
-  static encode(line: string | Buffer) {
+  static encode(line: string | Uint8Array) {
     if (typeof line === 'string') {
       line = Buffer.from(line)
     }
@@ -76,7 +76,7 @@ export class GitPktLine {
     return Buffer.concat([Buffer.from(hexlength, 'utf8'), line])
   }
 
-  static streamReader(stream: Buffer[]) {
+  static streamReader(stream: Uint8Array[]) {
     const reader = new StreamReader(stream)
 
     return async function read() {

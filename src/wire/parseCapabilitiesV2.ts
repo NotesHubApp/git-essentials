@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer'
+
 /**
  * @param {function} read
  */
