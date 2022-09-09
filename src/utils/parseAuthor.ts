@@ -1,4 +1,4 @@
-import { Author } from '../models/common'
+import { Author } from '../models/_common'
 
 export function parseAuthor(author: string): Author {
   const [, name, email, timestamp, offset] = author.match(/^(.*) <(.*)> (.*) (.*)$/) as string[]

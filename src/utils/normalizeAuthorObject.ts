@@ -1,6 +1,6 @@
 import { FileSystem } from '../models/FileSystem'
 import { _getConfig } from '../commands/getConfig'
-import { Author } from '../models/common'
+import { Author } from '../models/_common'
 
 /**
  *

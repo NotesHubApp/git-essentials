@@ -1,4 +1,4 @@
-import { Author } from '../models/common'
+import { Author } from '../models/_common'
 
 
 export function formatAuthor({ name, email, timestamp, timezoneOffset }: Author) {

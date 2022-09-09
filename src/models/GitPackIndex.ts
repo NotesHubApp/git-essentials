@@ -9,7 +9,7 @@ import { applyDelta } from '../utils/applyDelta'
 import { listpack } from '../utils/git-list-pack'
 import { inflate } from '../utils/inflate'
 import { shasum } from '../utils/shasum'
-import { ProgressCallback } from './common'
+import { ProgressCallback } from './_common'
 
 function decodeVarInt(reader: BufferCursor) {
   const bytes = []
