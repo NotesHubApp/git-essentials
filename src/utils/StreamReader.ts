@@ -4,7 +4,7 @@ import { getIterator } from './getIterator'
 
 // inspired by 'gartal' but lighter-weight and more battle-tested.
 export class StreamReader {
-  private stream: AsyncIterator<Buffer, undefined>
+  private stream: AsyncIterator<Uint8Array, undefined>
   private buffer: Buffer | null
   private cursor: number
   private undoCursor: number
@@ -14,7 +14,7 @@ export class StreamReader {
 
   public get ended() { return this._ended }
 
-  constructor(stream: Buffer[]) {
+  constructor(stream: Uint8Array[]) {
     this.stream = getIterator(stream)
     this.buffer = null
     this.cursor = 0
@@ -79,16 +79,19 @@ export class StreamReader {
     this.cursor = this.undoCursor
   }
 
-  async _next() {
+  async _next(): Promise<Buffer | null> {
     this.started = true
     let { done, value } = await this.stream.next()
+
     if (done) {
       this._ended = true
     }
+
     if (value) {
-      value = Buffer.from(value)
+      return Buffer.from(value)
     }
-    return value ?? null
+
+    return null
   }
 
   _trim() {
@@ -135,6 +138,6 @@ export class StreamReader {
 
 // This helper function helps us postpone concatenating buffers, which
 // would create intermediate buffer objects,
-function lengthBuffers(buffers: Buffer[]) {
+function lengthBuffers(buffers: Uint8Array[]) {
   return buffers.reduce((acc, buffer) => acc + buffer.length, 0)
 }
