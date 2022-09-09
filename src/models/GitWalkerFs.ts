@@ -156,7 +156,7 @@ export class GitWalkerFs implements GitWalkder {
             oid = undefined
           } else {
             oid = await shasum(
-              GitObject.wrap({ type: 'blob', object: (await entry.content()) as Buffer }) // TODO: TAlex check for casting
+              GitObject.wrap({ type: 'blob', object: (await entry.content())! })
             )
             if (stage && oid === stage.oid) {
               index.insert({ filepath: entry._fullpath, stats, oid: oid })
