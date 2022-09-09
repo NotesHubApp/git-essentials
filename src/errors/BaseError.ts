@@ -34,8 +34,4 @@ export class BaseError<T> extends Error {
     e.stack = json.stack
     return e
   }
-
-  get isIsomorphicGitError() { // TODO: TAlex rename this method
-    return true
-  }
 }
