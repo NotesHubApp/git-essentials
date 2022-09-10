@@ -3,7 +3,7 @@ import { BaseError } from './BaseError'
 type UnknownTransportErrorData = {
   url: string
   transport: string
-  suggestion: string
+  suggestion?: string
 }
 
 export class UnknownTransportError extends BaseError<UnknownTransportErrorData> {
@@ -14,7 +14,7 @@ export class UnknownTransportError extends BaseError<UnknownTransportErrorData> 
    * @param {string} transport
    * @param {string} suggestion
    */
-  constructor(url: string, transport: string, suggestion: string) {
+  constructor(url: string, transport: string, suggestion?: string) {
     super(
       `Git remote "${url}" uses an unrecognized transport protocol: "${transport}"`,
       UnknownTransportError.code,
