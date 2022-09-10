@@ -8,12 +8,12 @@ import { ProgressCallback } from '../models'
 
 type CheckoutParams = {
   fs: IBackend
-  onProgress: ProgressCallback
+  onProgress?: ProgressCallback
   dir: string
   gitdir?: string
   remote?: string
   ref?: string
-  filepaths: string[]
+  filepaths?: string[]
   noCheckout?: boolean
   noUpdateHead?: boolean
   dryRun?: boolean

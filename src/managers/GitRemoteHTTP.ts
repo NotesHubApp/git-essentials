@@ -18,13 +18,6 @@ import { collect } from '../utils/collect'
 import { extractAuthFromUrl } from '../utils/extractAuthFromUrl'
 import { parseRefsAdResponse, RemoteHTTPV1, RemoteHTTPV2 } from '../wire/parseRefsAdResponse'
 
-// Try to accomodate known CORS proxy implementations:
-// - https://jcubic.pl/proxy.php?  <-- uses query string
-// - https://cors.isomorphic-git.org  <-- uses path
-const corsProxify = (corsProxy: string, url: string) =>
-  corsProxy.endsWith('?')
-    ? `${corsProxy}${url}`
-    : `${corsProxy}/${url.replace(/^https?:\/\//, '')}`
 
 const updateHeaders = (headers: HttpHeaders, auth: GitAuth) => {
   // Update the basic auth header
@@ -64,7 +57,6 @@ export type DiscoverParams<T> = {
   onAuth?: AuthCallback
   onAuthSuccess?: AuthSuccessCallback
   onAuthFailure?: AuthFailureCallback
-  corsProxy?: string
   service: string
   url: string
   headers: HttpHeaders
@@ -79,7 +71,6 @@ export type RemoteHTTP<T> =
 export type ConnectParams = {
   http: HttpClient
   onProgress?: ProgressCallback
-  corsProxy?: string
   service: string
   url: string
   auth: GitAuth
@@ -99,7 +90,6 @@ export class GitRemoteHTTP {
    * @param {AuthCallback} [args.onAuth]
    * @param {AuthFailureCallback} [args.onAuthFailure]
    * @param {AuthSuccessCallback} [args.onAuthSuccess]
-   * @param {string} [args.corsProxy]
    * @param {string} args.service
    * @param {string} args.url
    * @param {Object<string, string>} args.headers
@@ -111,14 +101,12 @@ export class GitRemoteHTTP {
     onAuth,
     onAuthSuccess,
     onAuthFailure,
-    corsProxy,
     service,
     url: _origUrl,
     headers,
     protocolVersion,
   }: DiscoverParams<T>): Promise<RemoteHTTP<T>> {
     let { url, auth } = extractAuthFromUrl(_origUrl)
-    const proxifiedURL = corsProxy ? corsProxify(corsProxy, url) : url
 
     if (auth.username || auth.password) {
       headers.Authorization = calculateBasicAuthHeader(auth)
@@ -148,7 +136,7 @@ export class GitRemoteHTTP {
       res = await http.request({
         onProgress,
         method: 'GET',
-        url: `${proxifiedURL}/info/refs?service=${service}`,
+        url: `${url}/info/refs?service=${service}`,
         headers,
       })
 
@@ -210,7 +198,6 @@ export class GitRemoteHTTP {
    * @param {Object} args
    * @param {HttpClient} args.http
    * @param {ProgressCallback} [args.onProgress]
-   * @param {string} [args.corsProxy]
    * @param {string} args.service
    * @param {string} args.url
    * @param {Object<string, string>} [args.headers]
@@ -220,7 +207,6 @@ export class GitRemoteHTTP {
   static async connect({
     http,
     onProgress,
-    corsProxy,
     service,
     url,
     auth,
@@ -231,8 +217,6 @@ export class GitRemoteHTTP {
     // we need to strip out the username/password from the URL yet again.
     const urlAuth = extractAuthFromUrl(url)
     if (urlAuth) url = urlAuth.url
-
-    if (corsProxy) url = corsProxify(corsProxy, url)
 
     headers['content-type'] = `application/x-${service}-request`
     headers.accept = `application/x-${service}-result`

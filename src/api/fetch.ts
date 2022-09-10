@@ -20,7 +20,6 @@ type FetchParams = {
   remoteRef?: string
   remote?: string
   url: string | void
-  corsProxy?: string
   depth?: number | null,
   since?: Date | null,
   exclude?: string[]
@@ -58,7 +57,6 @@ type FetchParams = {
  * @param {string[]} [args.exclude = []] - A list of branches or tags. Instructs the remote server not to send us any commits reachable from these refs.
  * @param {boolean} [args.prune] - Delete local remote-tracking branches that are not present on the remote
  * @param {boolean} [args.pruneTags] - Prune local tags that don’t exist on the remote, and force-update those tags that differ
- * @param {string} [args.corsProxy] - Optional [CORS proxy](https://www.npmjs.com/%40isomorphic-git/cors-proxy). Overrides value in repo config.
  * @param {Object<string, string>} [args.headers] - Additional headers to include in HTTP requests, similar to git's `extraHeader` config
  * @param {object} [args.cache] - a [cache](cache.md) object
  *
@@ -70,8 +68,7 @@ type FetchParams = {
  *   fs,
  *   http,
  *   dir: '/tutorial',
- *   corsProxy: 'https://cors.isomorphic-git.org',
- *   url: 'https://github.com/isomorphic-git/isomorphic-git',
+ *   url: 'https://github.com/NotesHubApp/git-essentials',
  *   ref: 'main',
  *   depth: 1,
  *   singleBranch: true,
@@ -94,7 +91,6 @@ export async function fetch({
   remote,
   remoteRef,
   url,
-  corsProxy,
   depth = null,
   since = null,
   exclude = [],
@@ -125,7 +121,6 @@ export async function fetch({
       remote,
       remoteRef,
       url,
-      corsProxy,
       depth,
       since,
       exclude,

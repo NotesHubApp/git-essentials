@@ -47,7 +47,6 @@ type FetchParams = {
   remoteRef?: string
   remote?: string
   url?: string | void
-  corsProxy?: string
   depth?: number | null,
   since?: Date | null,
   exclude?: string[]
@@ -91,7 +90,6 @@ export type FetchResult = {
  * @param {AuthSuccessCallback} [args.onAuthSuccess]
  * @param {string} args.gitdir
  * @param {string|void} [args.url]
- * @param {string} [args.corsProxy]
  * @param {string} [args.ref]
  * @param {string} [args.remoteRef]
  * @param {string} [args.remote]
@@ -122,7 +120,6 @@ export async function _fetch({
   remoteRef: _remoteRef,
   remote: _remote,
   url: _url,
-  corsProxy,
   depth = null,
   since = null,
   exclude = [],
@@ -150,17 +147,12 @@ export async function _fetch({
     _ref ||
     'HEAD'
 
-  if (corsProxy === undefined) {
-    corsProxy = (await config.get('http.corsProxy')) as string
-  }
-
   const GitRemoteHTTP = GitRemoteManager.getRemoteHelperFor({ url })
   const remoteHTTP = await GitRemoteHTTP.discover({
     http,
     onAuth,
     onAuthSuccess,
     onAuthFailure,
-    corsProxy,
     service: 'git-upload-pack',
     url,
     headers,
@@ -262,7 +254,6 @@ export async function _fetch({
   const raw = await GitRemoteHTTP.connect({
     http,
     onProgress,
-    corsProxy,
     service: 'git-upload-pack',
     url,
     auth,

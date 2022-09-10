@@ -24,11 +24,11 @@ type CheckoutParams = {
   gitdir: string
   remote: string
   ref: string
-  filepaths: string[]
+  filepaths?: string[]
   noCheckout: boolean
-  noUpdateHead: boolean
-  dryRun: boolean
-  force: boolean
+  noUpdateHead?: boolean
+  dryRun?: boolean
+  force?: boolean
 }
 
 type AnalyzeParams = {
@@ -38,8 +38,8 @@ type AnalyzeParams = {
   dir: string
   gitdir: string
   ref: string
-  force: boolean
-  filepaths: string[]
+  force?: boolean
+  filepaths?: string[]
 }
 
 /**
