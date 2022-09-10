@@ -1,8 +1,14 @@
 import { UnknownTransportError } from '../errors/UnknownTransportError'
 import { UrlParseError } from '../errors/UrlParseError'
+import { GitHttpResponse } from '../models'
 import { translateSSHtoHTTP } from '../utils/translateSSHtoHTTP'
+import { ConnectParams, DiscoverParams, GitRemoteHTTP, RemoteHTTP } from './GitRemoteHTTP'
 
-import { GitRemoteHTTP } from './GitRemoteHTTP'
+
+type RemoteHelper = {
+  discover: <T extends 1 | 2>(args: DiscoverParams<T>) => Promise<RemoteHTTP<T>>
+  connect: (args: ConnectParams) => Promise<GitHttpResponse>
+}
 
 function parseRemoteUrl({ url }: { url: string }) {
   // the stupid "shorter scp-like syntax"
@@ -42,19 +48,22 @@ function parseRemoteUrl({ url }: { url: string }) {
 }
 
 export class GitRemoteManager {
-  static getRemoteHelperFor({ url }: { url: string }) {
+  static getRemoteHelperFor({ url }: { url: string }): RemoteHelper {
     // TODO: clean up the remoteHelper API and move into PluginCore
-    const remoteHelpers = new Map()
+    const remoteHelpers = new Map<string, RemoteHelper>()
     remoteHelpers.set('http', GitRemoteHTTP)
     remoteHelpers.set('https', GitRemoteHTTP)
 
     const parts = parseRemoteUrl({ url })
+
     if (!parts) {
       throw new UrlParseError(url)
     }
+
     if (remoteHelpers.has(parts.transport)) {
-      return remoteHelpers.get(parts.transport)
+      return remoteHelpers.get(parts.transport)!
     }
+
     throw new UnknownTransportError(
       url,
       parts.transport,

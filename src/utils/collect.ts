@@ -1,4 +1,4 @@
-export async function collect(iterable: AsyncIterableIterator<Uint8Array>) {
+export async function collect(iterable: Uint8Array[] | AsyncIterableIterator<Uint8Array>) {
   let size = 0
   const buffers: Uint8Array[] = []
 

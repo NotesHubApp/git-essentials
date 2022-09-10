@@ -1,12 +1,23 @@
+import { Buffer } from 'buffer'
 import { EmptyServerResponseError } from '../errors/EmptyServerResponseError'
 import { ParseError } from '../errors/ParseError'
 import { GitPktLine } from '../models/GitPktLine'
-import { parseCapabilitiesV2 } from '../wire/parseCapabilitiesV2'
 
+export type RemoteHTTPV1 = {
+  protocolVersion?: 1
+  capabilities: Set<string>
+  refs: Map<string, string>
+  symrefs: Map<string, string>
+}
+
+export type RemoteHTTPV2 = {
+  protocolVersion: 2
+  capabilities2: { [key: string]: string | true }
+}
 
 export async function parseRefsAdResponse(
   stream: Uint8Array[] | AsyncIterableIterator<Uint8Array>,
-  { service }: { service: string }) {
+  { service }: { service: string }): Promise<RemoteHTTPV1 | RemoteHTTPV2> {
 
   const capabilities = new Set<string>()
   const refs = new Map<string, string>()
@@ -15,21 +26,28 @@ export async function parseRefsAdResponse(
   // There is probably a better way to do this, but for now
   // let's just throw the result parser inline here.
   const read = GitPktLine.streamReader(stream)
+
   let lineOne = await read()
   // skip past any flushes
   while (lineOne === null) lineOne = await read()
+
   if (lineOne === true) throw new EmptyServerResponseError()
+
   // Clients MUST ignore an LF at the end of the line.
   if (lineOne.toString('utf8').replace(/\n$/, '') !== `# service=${service}`) {
     throw new ParseError(`# service=${service}\\n`, lineOne.toString('utf8'))
   }
+
   let lineTwo = await read()
+
   // skip past any flushes
   while (lineTwo === null) lineTwo = await read()
+
   // In the edge case of a brand new repo, zero refs (and zero capabilities)
   // are returned.
   if (lineTwo === true) return { capabilities, refs, symrefs }
   const lineTwoStr = lineTwo.toString('utf8')
+
   // Handle protocol v2 responses
   if (lineTwoStr.includes('version 2')) {
     return parseCapabilitiesV2(read)
@@ -39,6 +57,7 @@ export async function parseRefsAdResponse(
   capabilitiesLine.split(' ').map(x => capabilities.add(x))
   const [ref, name] = splitAndAssert(firstRef, ' ', ' ')
   refs.set(name, ref)
+
   while (true) {
     const line = await read()
     if (line === true) break
@@ -47,6 +66,7 @@ export async function parseRefsAdResponse(
       refs.set(name, ref)
     }
   }
+
   // Symrefs are thrown into the "capabilities" unfortunately.
   for (const cap of capabilities) {
     if (cap.startsWith('symref=')) {
@@ -56,6 +76,7 @@ export async function parseRefsAdResponse(
       }
     }
   }
+
   return { protocolVersion: 1, capabilities, refs, symrefs }
 }
 
@@ -66,4 +87,31 @@ function splitAndAssert(line: string, sep: string, expected: string) {
   }
 
   return split
+}
+
+/**
+ * @param {function} read
+ */
+async function parseCapabilitiesV2(read: () => Promise<true | Buffer | null>): Promise<RemoteHTTPV2> {
+  /** @type {Object<string, string | true>} */
+  const capabilities2: { [key: string]: string | true } = {}
+
+  while (true) {
+    const lineObj = await read()
+    if (lineObj === true) break
+    if (lineObj === null) continue
+
+    const line = lineObj.toString('utf8').replace(/\n$/, '')
+    const i = line.indexOf('=')
+
+    if (i > -1) {
+      const key = line.slice(0, i)
+      const value = line.slice(i + 1)
+      capabilities2[key] = value
+    } else {
+      capabilities2[line] = true
+    }
+  }
+
+  return { protocolVersion: 2, capabilities2 }
 }

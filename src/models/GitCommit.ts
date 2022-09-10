@@ -12,7 +12,7 @@ type CommitHeaders = {
   author: Author
   committer: Author
   tree?: string
-  parent?: string[]
+  parent: string[]
   gpgsig?: string
 }
 

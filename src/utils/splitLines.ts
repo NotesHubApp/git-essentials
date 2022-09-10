@@ -14,7 +14,7 @@ function findSplit(str: string) {
   return Math.min(r, n) + 1 // \r or \n
 }
 
-export function splitLines(input: IterableIterator<Buffer>) {
+export function splitLines(input: AsyncIterableIterator<Buffer>) {
   const output = new FIFO<string>()
   let tmp = ''
 

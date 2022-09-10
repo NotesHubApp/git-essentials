@@ -16,7 +16,7 @@ import {
 import { calculateBasicAuthHeader } from '../utils/calculateBasicAuthHeader'
 import { collect } from '../utils/collect'
 import { extractAuthFromUrl } from '../utils/extractAuthFromUrl'
-import { parseRefsAdResponse } from '../wire/parseRefsAdResponse'
+import { parseRefsAdResponse, RemoteHTTPV1, RemoteHTTPV2 } from '../wire/parseRefsAdResponse'
 
 // Try to accomodate known CORS proxy implementations:
 // - https://jcubic.pl/proxy.php?  <-- uses query string
@@ -56,27 +56,34 @@ const stringifyBody = async (res: GitHttpResponse) => {
   }
 }
 
-type DiscoverParams = {
+type ProtocolVersion = 1 | 2
+
+export type DiscoverParams<T> = {
   http: HttpClient
-  onProgress: ProgressCallback
-  onAuth: AuthCallback
-  onAuthSuccess: AuthSuccessCallback
-  onAuthFailure: AuthFailureCallback
+  onProgress?: ProgressCallback
+  onAuth?: AuthCallback
+  onAuthSuccess?: AuthSuccessCallback
+  onAuthFailure?: AuthFailureCallback
   corsProxy?: string
   service: string
   url: string
   headers: HttpHeaders
-  protocolVersion: 1 | 2
+  protocolVersion: T
 }
 
-type ConnectParams = {
+export type RemoteHTTP<T> =
+  T extends 1 ? { auth: GitAuth } & RemoteHTTPV1 :
+  T extends 2 ? { auth: GitAuth } & RemoteHTTPV2 :
+  never
+
+export type ConnectParams = {
   http: HttpClient
-  onProgress: ProgressCallback
+  onProgress?: ProgressCallback
   corsProxy?: string
   service: string
   url: string
   auth: GitAuth
-  body: AsyncIterableIterator<Uint8Array>
+  body: Uint8Array[] | AsyncIterableIterator<Uint8Array>
   headers: HttpHeaders
 }
 
@@ -98,7 +105,7 @@ export class GitRemoteHTTP {
    * @param {Object<string, string>} args.headers
    * @param {1 | 2} args.protocolVersion - Git Protocol Version
    */
-  static async discover({
+  static async discover<T extends ProtocolVersion>({
     http,
     onProgress,
     onAuth,
@@ -109,7 +116,7 @@ export class GitRemoteHTTP {
     url: _origUrl,
     headers,
     protocolVersion,
-  }: DiscoverParams) {
+  }: DiscoverParams<T>): Promise<RemoteHTTP<T>> {
     let { url, auth } = extractAuthFromUrl(_origUrl)
     const proxifiedURL = corsProxy ? corsProxify(corsProxy, url) : url
 
@@ -121,9 +128,10 @@ export class GitRemoteHTTP {
       headers['Git-Protocol'] = 'version=2'
     }
 
-    let res
-    let tryAgain
+    let res: GitHttpResponse
+    let tryAgain: boolean
     let providedAuthBefore = false
+
     do {
       if (onAuth && !providedAuthBefore) {
         // Acquire credentials
@@ -177,10 +185,11 @@ export class GitRemoteHTTP {
       const { response } = await stringifyBody(res)
       throw new HttpError(res.statusCode, res.statusMessage, response)
     }
+
     // Git "smart" HTTP servers should respond with the correct Content-Type header.
     if (res.headers['content-type'] === `application/x-${service}-advertisement`) {
       const remoteHTTP = await parseRefsAdResponse(res.body!, { service })
-      return { ...remoteHTTP, auth }
+      return { ...remoteHTTP, auth } as RemoteHTTP<T>
     } else {
       // If they don't send the correct content-type header, that's a good indicator it is either a "dumb" HTTP
       // server, or the user specified an incorrect remote URL and the response is actually an HTML page.
@@ -190,7 +199,7 @@ export class GitRemoteHTTP {
       // TODO: maybe just throw instead of trying?
       try {
         const remoteHTTP = await parseRefsAdResponse([data!], { service })
-        return { ...remoteHTTP, auth }
+        return { ...remoteHTTP, auth } as RemoteHTTP<T>
       } catch (e) {
         throw new SmartHttpError(preview, response)
       }

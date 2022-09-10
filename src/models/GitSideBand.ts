@@ -23,7 +23,7 @@ import { FIFO } from '../utils/FIFO'
 import { GitPktLine } from './GitPktLine'
 
 export class GitSideBand {
-  static demux(input: Buffer[]) {
+  static demux(input: AsyncIterableIterator<Uint8Array>) {
     const read = GitPktLine.streamReader(input)
     // And now for the ridiculous side-band or side-band-64k protocol
     const packetlines = new FIFO<Buffer>()

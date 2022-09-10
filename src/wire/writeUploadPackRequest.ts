@@ -2,7 +2,7 @@ import { GitPktLine } from '../models/GitPktLine'
 
 type WriteUploadPackRequestParams = {
   capabilities?: string[]
-  wants?: string[]
+  wants?: string[] | IterableIterator<string>
   haves?: string[]
   shallows?: string[]
   depth: number | null
