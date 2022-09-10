@@ -1,8 +1,8 @@
 import { BaseError } from './BaseError'
 
 type SmartHttpErrorData = {
-  preview: string
-  response: string
+  preview?: string
+  response?: string
 }
 
 export class SmartHttpError extends BaseError<SmartHttpErrorData> {
@@ -12,7 +12,7 @@ export class SmartHttpError extends BaseError<SmartHttpErrorData> {
    * @param {string} preview
    * @param {string} response
    */
-  constructor(preview: string, response: string) {
+  constructor(preview?: string, response?: string) {
     super(
       `Remote did not reply using the "smart" HTTP protocol. Expected "001e# service=git-upload-pack" but received: ${preview}`,
       SmartHttpError.code,

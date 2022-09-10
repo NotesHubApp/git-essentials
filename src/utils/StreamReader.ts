@@ -4,7 +4,7 @@ import { getIterator } from './getIterator'
 
 // inspired by 'gartal' but lighter-weight and more battle-tested.
 export class StreamReader {
-  private stream: AsyncIterator<Uint8Array, undefined>
+  private stream: Iterator<Uint8Array, undefined> | AsyncIterator<Uint8Array, undefined>
   private buffer: Buffer | null
   private cursor: number
   private undoCursor: number
@@ -14,7 +14,7 @@ export class StreamReader {
 
   public get ended() { return this._ended }
 
-  constructor(stream: Uint8Array[]) {
+  constructor(stream: Uint8Array[] | AsyncIterableIterator<Uint8Array>) {
     this.stream = getIterator(stream)
     this.buffer = null
     this.cursor = 0
@@ -79,7 +79,7 @@ export class StreamReader {
     this.cursor = this.undoCursor
   }
 
-  async _next(): Promise<Buffer | null> {
+  private async _next(): Promise<Buffer | null> {
     this.started = true
     let { done, value } = await this.stream.next()
 
@@ -94,7 +94,7 @@ export class StreamReader {
     return null
   }
 
-  _trim() {
+  private _trim() {
     // Throw away parts of the buffer we don't need anymore
     // assert(this.cursor <= this.buffer.length)
     this.buffer = this.buffer!.slice(this.undoCursor)
@@ -103,7 +103,7 @@ export class StreamReader {
     this.undoCursor = 0
   }
 
-  _moveCursor(n: number) {
+  private _moveCursor(n: number) {
     this.undoCursor = this.cursor
     this.cursor += n
     if (this.cursor > this.buffer!.length) {
@@ -111,7 +111,7 @@ export class StreamReader {
     }
   }
 
-  async _accumulate(n: number) {
+  private async _accumulate(n: number) {
     if (this._ended) return
     // Expand the buffer until we have N bytes of data
     // or we've reached the end of the stream
@@ -124,14 +124,14 @@ export class StreamReader {
     this.buffer = Buffer.concat(buffers)
   }
 
-  async _loadnext() {
+  private async _loadnext() {
     this._discardedBytes += this.buffer!.length
     this.undoCursor = 0
     this.cursor = 0
     this.buffer = await this._next()
   }
 
-  async _init() {
+  private async _init() {
     this.buffer = await this._next()
   }
 }

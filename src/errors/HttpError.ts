@@ -3,7 +3,7 @@ import { BaseError } from './BaseError'
 type HttpErrorData = {
   statusCode: number
   statusMessage: string
-  response: string
+  response?: string
 }
 
 export class HttpError extends BaseError<HttpErrorData> {
@@ -14,7 +14,7 @@ export class HttpError extends BaseError<HttpErrorData> {
    * @param {string} statusMessage
    * @param {string} response
    */
-  constructor(statusCode: number, statusMessage: string, response: string) {
+  constructor(statusCode: number, statusMessage: string, response?: string) {
     super(
       `HTTP Error: ${statusCode} ${statusMessage}`,
       HttpError.code,

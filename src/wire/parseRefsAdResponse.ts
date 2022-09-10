@@ -4,7 +4,10 @@ import { GitPktLine } from '../models/GitPktLine'
 import { parseCapabilitiesV2 } from '../wire/parseCapabilitiesV2'
 
 
-export async function parseRefsAdResponse(stream: AsyncIterableIterator<Uint8Array>, { service }: { service: string }) {
+export async function parseRefsAdResponse(
+  stream: Uint8Array[] | AsyncIterableIterator<Uint8Array>,
+  { service }: { service: string }) {
+
   const capabilities = new Set<string>()
   const refs = new Map<string, string>()
   const symrefs = new Map<string, string>()

@@ -1,12 +1,9 @@
-type Result<T> = {
-  value?: T
-  done?: boolean
-}
+type IteratorResolve<T> = ((value: IteratorResult<T, undefined> | PromiseLike<IteratorResult<T, undefined>>) => void)
 
-export class FIFO<T> {
+export class FIFO<T> implements AsyncIterator<T, undefined> {
   private readonly _queue: T[]
   private _ended: boolean
-  private _waiting?: ((value: Result<T> | PromiseLike<Result<T>>) => void) | null
+  private _waiting?: IteratorResolve<T> | null
   private error?: Error
 
   constructor() {
@@ -34,7 +31,7 @@ export class FIFO<T> {
     if (this._waiting) {
       const resolve = this._waiting
       this._waiting = null
-      resolve({ done: true })
+      resolve({ done: true, value: undefined })
     }
   }
 
@@ -43,13 +40,13 @@ export class FIFO<T> {
     this.error = err
   }
 
-  async next() {
+  async next(): Promise<IteratorResult<T, undefined>> {
     if (this._queue.length > 0) {
-      return { value: this._queue.shift() }
+      return { done: false, value: this._queue.shift()! }
     }
 
     if (this._ended) {
-      return { done: true }
+      return { done: true, value: undefined }
     }
 
     if (this._waiting) {
@@ -58,7 +55,7 @@ export class FIFO<T> {
       )
     }
 
-    return new Promise<Result<T>>(resolve => {
+    return new Promise<IteratorResult<T, undefined>>(resolve => {
       this._waiting = resolve
     })
   }

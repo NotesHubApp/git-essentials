@@ -1,4 +1,6 @@
-export function extractAuthFromUrl(url: string) {
+import { GitAuth } from '../models'
+
+export function extractAuthFromUrl(url: string): { url: string, auth: GitAuth } {
   // For whatever reason, the `fetch` API does not convert credentials embedded in the URL
   // into Basic Authentication headers automatically. Instead it throws an error!
   // So we must manually parse the URL, rip out the user:password portion if it is present

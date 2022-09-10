@@ -76,7 +76,7 @@ export class GitPktLine {
     return Buffer.concat([Buffer.from(hexlength, 'utf8'), line])
   }
 
-  static streamReader(stream: Uint8Array[]) {
+  static streamReader(stream: Uint8Array[] | AsyncIterableIterator<Uint8Array>) {
     const reader = new StreamReader(stream)
 
     return async function read() {
