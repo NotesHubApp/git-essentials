@@ -19,18 +19,18 @@ type CloneParams = {
   fs: FileSystem
   cache: Cache
   http: HttpClient
-  onProgress: ProgressCallback
-  onMessage: MessageCallback
-  onAuth: AuthCallback
-  onAuthSuccess: AuthSuccessCallback
-  onAuthFailure: AuthFailureCallback
-  dir?: string
+  onProgress?: ProgressCallback
+  onMessage?: MessageCallback
+  onAuth?: AuthCallback
+  onAuthSuccess?: AuthSuccessCallback
+  onAuthFailure?: AuthFailureCallback
+  dir: string
   gitdir: string
   url: string
-  ref: string
+  ref?: string
   remote: string
-  depth: number
-  since: Date
+  depth?: number
+  since?: Date
   exclude: string[]
   relative: boolean
   singleBranch: boolean
@@ -89,7 +89,7 @@ export async function _clone({
   noTags,
   headers,
 }: CloneParams) {
-  await _init({ fs, gitdir })
+  await _init({ fs, dir, gitdir })
   await _addRemote({ fs, gitdir, remote, url, force: false })
 
   const { defaultBranch, fetchHead } = await _fetch({
@@ -112,9 +112,11 @@ export async function _clone({
     headers,
     tags: !noTags,
   })
+
   if (fetchHead === null) return
-  ref = ref || defaultBranch
+  ref = ref || defaultBranch!
   ref = ref.replace('refs/heads/', '')
+
   // Checkout that branch
   await _checkout({
     fs,
