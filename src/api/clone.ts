@@ -17,11 +17,11 @@ import { Cache } from '../models/Cache'
 type CloneParams = {
   fs: IBackend
   http: HttpClient
-  onProgress: ProgressCallback
-  onMessage: MessageCallback
-  onAuth: AuthCallback
-  onAuthSuccess: AuthSuccessCallback
-  onAuthFailure: AuthFailureCallback
+  onProgress?: ProgressCallback
+  onMessage?: MessageCallback
+  onAuth?: AuthCallback
+  onAuthSuccess?: AuthSuccessCallback
+  onAuthFailure?: AuthFailureCallback
   dir: string
   gitdir?: string
   url: string
