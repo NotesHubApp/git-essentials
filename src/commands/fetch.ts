@@ -36,7 +36,6 @@ import {
 
 type FetchParams = {
   fs: FileSystem
-  cache: Cache
   http: HttpClient
   onProgress?: ProgressCallback
   onMessage?: MessageCallback
@@ -58,6 +57,7 @@ type FetchParams = {
   headers?: HttpHeaders
   prune?: boolean
   pruneTags?: boolean
+  cache: Cache
 }
 
 /**
@@ -70,7 +70,7 @@ type FetchParams = {
  * @property {string[]} [pruned] - A list of branches that were pruned, if you provided the `prune` parameter
  *
  */
-type FetchResult = {
+export type FetchResult = {
   defaultBranch: string | null // The branch that is cloned if no branch is specified
   fetchHead: string | null // The SHA-1 object id of the fetched head commit
   fetchHeadDescription: string | null // a textual description of the branch that was fetched
