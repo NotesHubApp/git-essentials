@@ -48,7 +48,7 @@ export type GitHttpRequest = {
   url: string // The URL to request
   method?: string // The HTTP method to use
   headers?: HttpHeaders // Headers to include in the HTTP request
-  body?: AsyncIterableIterator<Uint8Array> // An async iterator of Uint8Arrays that make up the body of POST requests
+  body?: Uint8Array[] | AsyncIterableIterator<Uint8Array> // An async iterator of Uint8Arrays that make up the body of POST requests
   onProgress?: ProgressCallback // Reserved for future use (emitting `GitProgressEvent`s)
   signal?: object // Reserved for future use (canceling a request)
 }

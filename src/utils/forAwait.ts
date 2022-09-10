@@ -1,6 +1,8 @@
 import { getIterator } from './getIterator'
 
-export async function forAwait<T>(iterable: any, cb: (value: T) => void | Promise<void>) {
+type Iterable<T> = T[] | AsyncIterableIterator<T>
+
+export async function forAwait<T>(iterable: Iterable<T>, cb: (value: T) => void | Promise<void>) {
   const iter = getIterator<T>(iterable)
 
   while (true) {
