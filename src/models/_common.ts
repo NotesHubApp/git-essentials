@@ -57,7 +57,7 @@ export type GitHttpResponse = {
   url: string // The final URL that was fetched after any redirects
   method?: string // The HTTP method that was used
   headers: HttpHeaders // HTTP response headers
-  body?: AsyncIterableIterator<Uint8Array> // An async iterator of Uint8Arrays that make up the body of the response
+  body?: Uint8Array[] | AsyncIterableIterator<Uint8Array> // An async iterator of Uint8Arrays that make up the body of the response
   statusCode: number // The HTTP status code
   statusMessage: string // The HTTP status message
 }

@@ -12,7 +12,7 @@ type ParseUploadPackResponseResult = {
   progress: FIFO<Buffer>
 }
 
-export async function parseUploadPackResponse(stream: AsyncIterableIterator<Uint8Array>) {
+export async function parseUploadPackResponse(stream: Uint8Array[] | AsyncIterableIterator<Uint8Array>) {
   const { packetlines, packfile, progress } = GitSideBand.demux(stream)
   const shallows: string[] = []
   const unshallows: string[] = []
