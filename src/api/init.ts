@@ -1,11 +1,11 @@
 import { _init } from '../commands/init'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type InitParams = {
-  fs: IBackend
+  fs: FsClient
   bare?: boolean
   dir: string
   gitdir?: string

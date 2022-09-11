@@ -4,7 +4,7 @@ import { Cache, IndexCacheObject, IndexCache } from '../models/Cache'
 
 import { FileSystem } from '../models/FileSystem'
 import { GitIndex } from '../models/GitIndex'
-import { StatLike } from '../models/IBackend'
+import { StatLike } from '../models/FsClient'
 import { compareStats } from '../utils/compareStats'
 
 // import Lock from '../utils.js'

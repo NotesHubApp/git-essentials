@@ -3,11 +3,11 @@ import { _checkout } from '../commands/checkout'
 import { FileSystem } from '../models/FileSystem'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { ProgressCallback } from '../models'
 
 type CheckoutParams = {
-  fs: IBackend
+  fs: FsClient
   onProgress?: ProgressCallback
   dir: string
   gitdir?: string

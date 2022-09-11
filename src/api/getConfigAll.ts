@@ -1,11 +1,11 @@
 import { _getConfigAll } from '../commands/getConfigAll'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type GetConfigAllParams = {
-  fs: IBackend
+  fs: FsClient
   dir: string
   gitdir?: string
   path: string

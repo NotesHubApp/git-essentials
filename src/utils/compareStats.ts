@@ -1,4 +1,4 @@
-import { Stat } from '../models/IBackend'
+import { Stat } from '../models/FsClient'
 import { normalizeStats } from './normalizeStats'
 
 export function compareStats(entry: Stat, stats: Stat) {

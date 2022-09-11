@@ -1,7 +1,7 @@
 import { _merge } from '../commands/merge'
 import { MissingNameError } from '../errors/MissingNameError'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { Author, SignCallback, Cache, BlobMergeCallback } from '../models'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
@@ -10,7 +10,7 @@ import { normalizeCommitterObject } from '../utils/normalizeCommitterObject'
 
 
 type MergeParams = {
-  fs: IBackend,
+  fs: FsClient,
   onSign: SignCallback
   dir: string
   gitdir?: string

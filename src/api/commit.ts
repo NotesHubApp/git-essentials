@@ -1,7 +1,7 @@
 import { _commit } from '../commands/commit'
 import { MissingNameError } from '../errors/MissingNameError'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { Author, SignCallback } from '../models/_common'
 import { Cache } from '../models/Cache'
 import { assertParameter } from '../utils/assertParameter'
@@ -10,7 +10,7 @@ import { normalizeAuthorObject } from '../utils/normalizeAuthorObject'
 import { normalizeCommitterObject } from '../utils/normalizeCommitterObject'
 
 type CommitParams = {
-  fs: IBackend,
+  fs: FsClient,
   onSign?: SignCallback
   dir: string
   gitdir?: string

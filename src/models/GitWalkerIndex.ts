@@ -6,7 +6,7 @@ import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToD
 import { mode2type } from '../utils/mode2type'
 import { normalizeStats } from '../utils/normalizeStats'
 import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
-import { Stat } from './IBackend'
+import { Stat } from './FsClient'
 
 
 export class GitWalkerIndex implements GitWalkder {

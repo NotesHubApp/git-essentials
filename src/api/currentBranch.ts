@@ -1,11 +1,11 @@
 import { _currentBranch } from '../commands/currentBranch'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type CurrentBranchParams = {
-  fs: IBackend
+  fs: FsClient
   dir: string
   gitdir?: string
   fullname?: boolean

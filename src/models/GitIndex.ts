@@ -6,7 +6,7 @@ import { comparePath } from '../utils/comparePath'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
 import { IndexEntry, IndexEntryFlags } from './IndexEntry'
-import { Stat } from './IBackend'
+import { Stat } from './FsClient'
 
 // Extract 1-bit assume-valid, 1-bit extended flag, 2-bit merge state flag, 12-bit path length flag
 function parseCacheEntryFlags(bits: number): IndexEntryFlags {

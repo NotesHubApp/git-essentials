@@ -51,7 +51,7 @@ export type StatLike = Stat & {
   isSymbolicLink(): boolean;
 }
 
-export interface IBackend {
+export interface FsClient {
   // highly recommended - usually necessary for apps to work
   readFile(filepath: string, opts: EncodingOpts): Promise<Uint8Array | string>; // throws ENOENT
   writeFile(filepath: string, data: Uint8Array | string, opts: WriteOpts): Promise<void>; // throws ENOENT

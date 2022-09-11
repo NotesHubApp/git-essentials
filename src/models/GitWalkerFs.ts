@@ -8,8 +8,6 @@ import { shasum } from '../utils/shasum'
 import { GitObject } from './GitObject.js'
 import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 import { NormalizedStat } from './NormalizedStat'
-import { Stat } from './IBackend'
-
 
 export class GitWalkerFs implements GitWalkder {
   private readonly fs: FileSystem

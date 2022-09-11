@@ -1,6 +1,6 @@
 import { GitIndex } from './GitIndex'
 import { GitPackIndex } from './GitPackIndex'
-import { Stat } from './IBackend'
+import { Stat } from './FsClient'
 
 export const IndexCache = Symbol('IndexCache')
 export const PackfileCache = Symbol('PackfileCache')

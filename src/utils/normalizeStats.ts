@@ -1,4 +1,4 @@
-import { Stat } from '../models/IBackend';
+import { Stat } from '../models/FsClient';
 import { NormalizedStat } from '../models/NormalizedStat';
 import { normalizeMode } from './normalizeMode'
 

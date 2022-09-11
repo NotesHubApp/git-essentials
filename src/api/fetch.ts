@@ -1,13 +1,13 @@
 import { FetchResult, _fetch } from '../commands/fetch'
 import { AuthCallback, AuthFailureCallback, AuthSuccessCallback, HttpClient, HttpHeaders, MessageCallback, ProgressCallback } from '../models'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { Cache } from '../models/Cache'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type FetchParams = {
-  fs: IBackend
+  fs: FsClient
   http: HttpClient
   onProgress?: ProgressCallback
   onMessage?: MessageCallback

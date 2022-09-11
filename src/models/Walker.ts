@@ -1,6 +1,6 @@
 import { FileSystem } from './FileSystem'
 import { Cache } from './Cache'
-import { Stat } from './IBackend'
+import { Stat } from './FsClient'
 
 // This is part of an elaborate system to facilitate code-splitting / tree-shaking.
 // commands/walk.js can depend on only this, and the actual Walker classes exported

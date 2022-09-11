@@ -1,11 +1,11 @@
 import { GitConfigManager } from '../managers/GitConfigManager'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type SetConfigParams = {
-  fs: IBackend
+  fs: FsClient
   dir: string
   gitdir?: string
   path: string

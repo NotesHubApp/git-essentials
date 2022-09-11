@@ -1,3 +1,3 @@
 export * from './_common'
 export * from './Cache'
-export * from './IBackend'
+export * from './FsClient'
