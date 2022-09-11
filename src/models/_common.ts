@@ -37,6 +37,25 @@ export type AuthFailureCallback = (url: string, auth: GitAuth) => GitAuth | void
 
 export type AuthSuccessCallback = (url: string, auth: GitAuth) => void | Promise<void>
 
+export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
+export type WalkerEntry = {
+  content(): Promise<Uint8Array | void>
+  type(): Promise<WalkerEntryType>
+  mode(): Promise<number>
+  oid(): Promise<string>
+}
+
+export type BlobMergeCallback = (
+  filePath: string,
+  theirBlob: WalkerEntry | null,
+  baseBlob: WalkerEntry | null,
+  ourBlob: WalkerEntry | null,
+  theirName: string,
+  baseName: string,
+  ourName: string
+) => Promise<{ mergedText: string, mode: number } | { oid: string, mode: number } | undefined>
+
+
 // HTTP
 export type HttpHeaders = {
   [ header: string ]: string
