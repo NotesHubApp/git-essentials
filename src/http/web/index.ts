@@ -1,22 +1,23 @@
 import {
   GitHttpRequest,
   GitHttpResponse,
+  HttpClient,
   HttpHeaders
 } from '../../models'
 import { collect } from '../../utils/collect'
 import { fromStream } from '../../utils/fromStream';
 
 
-type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean) => string
-const DefaultTransformRequestUrl: TransformRequestUrl = (originalUrl) => originalUrl
+export type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean) => string
 
-type HttpClientOptions = {
+export const DefaultTransformRequestUrl: TransformRequestUrl = (originalUrl) => originalUrl
+
+export type HttpClientOptions = {
   transformRequestUrl?: TransformRequestUrl
   retriesCount?: number
 }
 
-
-export function makeHttpClient(options: HttpClientOptions = {}) {
+export function makeHttpClient(options: HttpClientOptions = {}): HttpClient {
   const transformRequestUrl = options.transformRequestUrl ?? DefaultTransformRequestUrl
   const retriesCount = options.retriesCount ?? 3
 
@@ -64,5 +65,5 @@ export function makeHttpClient(options: HttpClientOptions = {}) {
     }
   }
 
-  return request
+  return { request }
 }

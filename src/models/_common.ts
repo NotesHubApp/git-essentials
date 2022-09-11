@@ -5,8 +5,7 @@ export type Author = {
   timezoneOffset: number
 }
 
-
-export type SignCallbackParams = {
+type SignCallbackParams = {
   payload: string  // plaintext message
   secretKey: string // 'ASCII armor' encoded PGP key (technically can actually contain _multiple_ keys)
 }
@@ -14,15 +13,13 @@ export type SignCallbackParams = {
 export type SignCallback =
   (args: SignCallbackParams) => { signature: string } | Promise<{ signature: string }> // an 'ASCII armor' encoded "detached"
 
-
-export type ProgressCallbackParams = {
+type ProgressCallbackParams = {
   phase: string
   loaded: number
   total?: number
 }
 
 export type ProgressCallback = (args: ProgressCallbackParams) => Promise<void>
-
 
 export type MessageCallback = (message: string) => void | Promise<void>
 
@@ -35,9 +32,10 @@ export type GitAuth = {
 }
 
 export type AuthCallback = (url: string, auth: GitAuth) => GitAuth | void | Promise<GitAuth | void>
-export type AuthFailureCallback = (url: string, auth: GitAuth) => GitAuth | void | Promise<GitAuth | void>
-export type AuthSuccessCallback = (url: string, auth: GitAuth) => void | Promise<void>
 
+export type AuthFailureCallback = (url: string, auth: GitAuth) => GitAuth | void | Promise<GitAuth | void>
+
+export type AuthSuccessCallback = (url: string, auth: GitAuth) => void | Promise<void>
 
 // HTTP
 export type HttpHeaders = {
@@ -67,4 +65,3 @@ export type HttpFetch = (request: GitHttpRequest) => Promise<GitHttpResponse>
 export type HttpClient = {
   request: HttpFetch
 }
-

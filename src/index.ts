@@ -1,5 +1,6 @@
-export * as Models from './models/index'
 export * as Errors from './errors/index'
+export * as Web from './http/web/index'
+export * from './models/index'
 
 export { add } from './api/add'
 export { addRemote } from './api/addRemote'
