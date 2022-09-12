@@ -5,14 +5,14 @@ import { GitIgnoreManager } from '../managers/GitIgnoreManager'
 import { GitIndexManager } from '../managers/GitIndexManager'
 import { FileSystem } from '../models/FileSystem'
 import { GitIndex } from '../models/GitIndex'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { Cache } from '../models/Cache'
 import { _writeObject } from '../storage/writeObject'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type AddParams = {
-  fs: IBackend
+  fs: FsClient
   dir: string
   gitdir?: string
   filepath: string

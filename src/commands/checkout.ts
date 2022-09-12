@@ -22,7 +22,7 @@ type CheckoutParams = {
   onProgress?: ProgressCallback
   dir: string
   gitdir: string
-  remote: string
+  remote?: string
   ref: string
   filepaths?: string[]
   noCheckout: boolean
@@ -92,7 +92,7 @@ export async function _checkout({
     })
     // Set up remote tracking branch
     const config = await GitConfigManager.get({ fs, gitdir })
-    await config.set(`branch.${ref}.remote`, remote)
+    await config.set(`branch.${ref}.remote`, remote!)
     await config.set(`branch.${ref}.merge`, `refs/heads/${ref}`)
     await GitConfigManager.save({ fs, gitdir, config })
     // Create a new branch that points at that same commit

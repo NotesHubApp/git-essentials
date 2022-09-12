@@ -2,13 +2,13 @@ import { Buffer } from 'buffer'
 
 import { compareStrings } from '../utils/compareStrings'
 import { dirname } from '../utils/dirname'
-import { EncodingOpts, IBackend, WriteOpts } from './IBackend'
+import { EncodingOpts, FsClient, WriteOpts } from './FsClient'
 
 /**
  * This is just a collection of helper functions really. At least that's how it started.
  */
 export class FileSystem {
-  constructor(private readonly fs: IBackend) { }
+  constructor(private readonly fs: FsClient) { }
 
   /**
    * Return true if a file exists, false if it doesn't exist.

@@ -1,6 +1,6 @@
 import { _clone } from '../commands/clone'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 import {
@@ -15,7 +15,7 @@ import {
 import { Cache } from '../models/Cache'
 
 type CloneParams = {
-  fs: IBackend
+  fs: FsClient
   http: HttpClient
   onProgress?: ProgressCallback
   onMessage?: MessageCallback

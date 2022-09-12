@@ -1,13 +1,13 @@
 import { _log } from '../commands/log'
 import { FileSystem } from '../models/FileSystem'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 import { Cache } from '../models/Cache'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 import { ReadCommitResult } from '../commands/readCommit'
 
 type LogParams = {
-  fs: IBackend
+  fs: FsClient
   dir: string
   gitdir?: string
   ref?: string

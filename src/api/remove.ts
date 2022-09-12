@@ -3,10 +3,10 @@ import { GitIndexManager } from '../managers/GitIndexManager'
 import { FileSystem } from '../models/FileSystem'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
-import { IBackend } from '../models/IBackend'
+import { FsClient } from '../models/FsClient'
 
 type RemoveParams = {
-  fs: IBackend
+  fs: FsClient
   dir: string
   gitdir?: string
   filepath: string

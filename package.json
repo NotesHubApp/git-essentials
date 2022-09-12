@@ -1,6 +1,6 @@
 {
   "name": "git-essentials",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "The essential GIT commands",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,6 +31,7 @@
     "buffer": "^6.0.3",
     "clean-git-ref": "^2.0.1",
     "crc-32": "^1.2.2",
+    "diff3": "^0.0.4",
     "ignore": "^5.2.0",
     "pako": "^1.0.10",
     "sha.js": "^2.4.11"
