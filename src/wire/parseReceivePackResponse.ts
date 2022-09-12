@@ -1,4 +1,5 @@
 import { ParseError } from '../errors/ParseError'
+import { HttpHeaders } from '../models'
 import { GitPktLine } from '../models/GitPktLine'
 import { FIFO } from '../utils/FIFO'
 
@@ -6,6 +7,7 @@ type PushResult = {
   ok: boolean
   error?: string
   refs: { [key: string]: { ok: boolean, error?: string } }
+  headers?: HttpHeaders
 }
 
 export async function parseReceivePackResponse(packfile: FIFO<Buffer>): Promise<PushResult> {
