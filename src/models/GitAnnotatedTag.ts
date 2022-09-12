@@ -4,11 +4,11 @@ import { InternalError } from '../errors/InternalError'
 import { formatAuthor } from '../utils/formatAuthor'
 import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { parseAuthor } from '../utils/parseAuthor'
-import { Author, SignCallback } from './_common'
+import { NormalizedAuthor, SignCallback } from './_common'
 
 type TagHeaders = {
-  tagger: Author
-  committer: Author
+  tagger: NormalizedAuthor
+  committer: NormalizedAuthor
   object: string
   type: string
   tag: string

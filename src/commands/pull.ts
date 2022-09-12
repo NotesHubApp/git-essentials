@@ -7,13 +7,13 @@ import { MissingParameterError } from '../errors/MissingParameterError'
 import {
   AuthCallback,
   AuthFailureCallback,
-  Author,
   AuthSuccessCallback,
   BlobMergeCallback,
   Cache,
   HttpClient,
   HttpHeaders,
   MessageCallback,
+  NormalizedAuthor,
   ProgressCallback
 } from '../models'
 
@@ -36,8 +36,8 @@ type PullParams = {
   fastForwardOnly: boolean
   singleBranch?: boolean
   headers: HttpHeaders
-  author: Author
-  committer: Author
+  author: NormalizedAuthor
+  committer: NormalizedAuthor
   signingKey?: string
 }
 
@@ -61,16 +61,8 @@ type PullParams = {
  * @param {boolean} args.singleBranch
  * @param {boolean} args.fastForwardOnly
  * @param {Object<string, string>} [args.headers]
- * @param {Object} args.author
- * @param {string} args.author.name
- * @param {string} args.author.email
- * @param {number} args.author.timestamp
- * @param {number} args.author.timezoneOffset
- * @param {Object} args.committer
- * @param {string} args.committer.name
- * @param {string} args.committer.email
- * @param {number} args.committer.timestamp
- * @param {number} args.committer.timezoneOffset
+ * @param {NormalizedAuthor} args.author
+ * @param {NormalizedAuthor} args.committer
  * @param {string} [args.signingKey]
  *
  * @returns {Promise<void>} Resolves successfully when pull operation completes

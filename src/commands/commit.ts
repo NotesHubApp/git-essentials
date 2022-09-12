@@ -6,7 +6,7 @@ import { GitCommit } from '../models/GitCommit'
 import { GitTree } from '../models/GitTree'
 import { _writeObject as writeObject } from '../storage/writeObject'
 import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToDirectoryStructure'
-import { Author, SignCallback } from '../models/_common'
+import { NormalizedAuthor, SignCallback } from '../models/_common'
 import { GitIndex } from '../models/GitIndex'
 
 
@@ -16,8 +16,8 @@ type CommitParams = {
   onSign?: SignCallback
   gitdir: string
   message: string
-  author: Author
-  committer: Author
+  author: NormalizedAuthor
+  committer: NormalizedAuthor
   signingKey?: string
   dryRun?: boolean
   noUpdateBranch?: boolean
@@ -29,21 +29,13 @@ type CommitParams = {
 /**
  *
  * @param {Object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
+ * @param {FileSystem} args.fs
  * @param {object} args.cache
  * @param {SignCallback} [args.onSign]
  * @param {string} args.gitdir
  * @param {string} args.message
- * @param {Object} args.author
- * @param {string} args.author.name
- * @param {string} args.author.email
- * @param {number} args.author.timestamp
- * @param {number} args.author.timezoneOffset
- * @param {Object} args.committer
- * @param {string} args.committer.name
- * @param {string} args.committer.email
- * @param {number} args.committer.timestamp
- * @param {number} args.committer.timezoneOffset
+ * @param {NormalizedAuthor} args.author
+ * @param {NormalizedAuthor} args.committer
  * @param {string} [args.signingKey]
  * @param {boolean} [args.dryRun = false]
  * @param {boolean} [args.noUpdateBranch = false]

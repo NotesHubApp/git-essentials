@@ -1,5 +1,5 @@
 import { FileSystem } from '../models/FileSystem'
-import { Author, BlobMergeCallback, Cache } from '../models'
+import { BlobMergeCallback, Cache, NormalizedAuthor } from '../models'
 import { _commit } from '../commands/commit'
 import { _currentBranch } from '../commands/currentBranch'
 import { _findMergeBase } from '../commands/findMergeBase'
@@ -20,8 +20,8 @@ type MergeParams = {
   dryRun: boolean
   noUpdateBranch: boolean
   message?: string
-  author: Author
-  committer: Author
+  author: NormalizedAuthor
+  committer: NormalizedAuthor
   signingKey?: string
   onBlobMerge?: BlobMergeCallback
 }
@@ -40,7 +40,7 @@ type MergeParams = {
 
 /**
  * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
+ * @param {FileSystem} args.fs
  * @param {object} args.cache
  * @param {string} args.dir
  * @param {string} args.gitdir
@@ -50,16 +50,8 @@ type MergeParams = {
  * @param {boolean} args.dryRun
  * @param {boolean} args.noUpdateBranch
  * @param {string} [args.message]
- * @param {Object} args.author
- * @param {string} args.author.name
- * @param {string} args.author.email
- * @param {number} args.author.timestamp
- * @param {number} args.author.timezoneOffset
- * @param {Object} args.committer
- * @param {string} args.committer.name
- * @param {string} args.committer.email
- * @param {number} args.committer.timestamp
- * @param {number} args.committer.timezoneOffset
+ * @param {NormalizedAuthor} args.author
+ * @param {NormalizedAuthor} args.committer
  * @param {string} [args.signingKey]
  * @param {BlobMergeCallback} [args.onBlobMerge]
  *

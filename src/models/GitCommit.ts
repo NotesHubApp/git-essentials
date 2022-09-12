@@ -6,11 +6,11 @@ import { indent } from '../utils/indent'
 import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { outdent } from '../utils/outdent'
 import { parseAuthor } from '../utils/parseAuthor'
-import { Author, SignCallback } from './_common'
+import { NormalizedAuthor, SignCallback } from './_common'
 
 type CommitHeaders = {
-  author: Author
-  committer: Author
+  author: NormalizedAuthor
+  committer: NormalizedAuthor
   tree?: string
   parent: string[]
   gpgsig?: string
