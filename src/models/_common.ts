@@ -1,3 +1,5 @@
+import { Stat } from './FsClient'
+
 /**
  * The details about the author.
  */
@@ -59,11 +61,15 @@ export type AuthSuccessCallback = (url: string, auth: GitAuth) => void | Promise
 
 export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
 
+/**
+ * The `WalkerEntry` is an interface that abstracts computing many common tree / blob stats.
+ */
 export type WalkerEntry = {
   content(): Promise<Uint8Array | void>
   type(): Promise<WalkerEntryType>
   mode(): Promise<number>
   oid(): Promise<string>
+  stat(): Promise<Stat | undefined | void>
 }
 
 export type BlobMergeCallback = (

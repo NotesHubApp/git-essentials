@@ -45,7 +45,7 @@ type CheckoutParams = {
 }
 
 /**
- * Checkout a branch
+ * Checkout a branch.
  *
  * If the branch already exists it will check out that branch. Otherwise, it will create a new remote tracking branch set to track the remote branch of that name.
  *

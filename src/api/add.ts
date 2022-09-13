@@ -29,7 +29,7 @@ type AddParams = {
 }
 
 /**
- * Add a file to the git index (aka staging area)
+ * Add a file to the git index (aka staging area).
  *
  * @param {AddParams} args
  *

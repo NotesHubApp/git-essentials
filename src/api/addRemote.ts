@@ -25,7 +25,7 @@ type AddRemoteParams = {
 }
 
 /**
- * Add or update a remote
+ * Add or update a remote.
  *
  * @param {AddRemoteParams} args
  *
