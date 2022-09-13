@@ -17,6 +17,7 @@ import {
   ProgressCallback
 } from '../models'
 
+
 type PullParams = {
   fs: FileSystem
   cache: Cache
@@ -42,28 +43,7 @@ type PullParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {object} args.cache
- * @param {HttpClient} args.http
- * @param {ProgressCallback} [args.onProgress]
- * @param {MessageCallback} [args.onMessage]
- * @param {AuthCallback} [args.onAuth]
- * @param {AuthFailureCallback} [args.onAuthFailure]
- * @param {AuthSuccessCallback} [args.onAuthSuccess]
- * @param {BlobMergeCallback} [args.onBlobMerge]
- * @param {string} args.dir
- * @param {string} args.gitdir
- * @param {string} args.ref
- * @param {string} [args.url]
- * @param {string} [args.remote]
- * @param {string} [args.remoteRef]
- * @param {boolean} args.singleBranch
- * @param {boolean} args.fastForwardOnly
- * @param {Object<string, string>} [args.headers]
- * @param {NormalizedAuthor} args.author
- * @param {NormalizedAuthor} args.committer
- * @param {string} [args.signingKey]
+ * @param {PullParams} args
  *
  * @returns {Promise<void>} Resolves successfully when pull operation completes
  *
@@ -90,7 +70,7 @@ export async function _pull({
   author,
   committer,
   signingKey,
-}: PullParams) {
+}: PullParams): Promise<void> {
   try {
     // If ref is undefined, use 'HEAD'
     if (!ref) {

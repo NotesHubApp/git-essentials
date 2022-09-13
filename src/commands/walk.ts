@@ -4,6 +4,7 @@ import { GitWalkSymbol, Walker, WalkerEntry } from '../models/Walker'
 import { arrayRange } from '../utils/arrayRange'
 import { unionOfIterators } from '../utils/unionOfIterators'
 
+
 type WalkerMap = (filename: string, entries: WalkerEntry[]) => Promise<any>
 type WalkerReduce = (parent: any, children: any[]) => Promise<any>
 type WalkerIterateCallback = (entries: (string | null)[]) => Promise<any[] | void>
@@ -21,15 +22,7 @@ type WalkParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {object} args.cache
- * @param {string} [args.dir]
- * @param {string} [args.gitdir=join(dir,'.git')]
- * @param {Walker[]} args.trees
- * @param {WalkerMap} [args.map]
- * @param {WalkerReduce} [args.reduce]
- * @param {WalkerIterate} [args.iterate]
+ * @param {WalkParams} args
  *
  * @returns {Promise<any>} The finished tree-walking result
  *

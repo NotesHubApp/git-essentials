@@ -9,6 +9,7 @@ import { GitRefManager } from '../managers/GitRefManager'
 import { abbreviateRef } from '../utils/abbreviateRef'
 import { mergeTree } from '../utils/mergeTree'
 
+
 type MergeParams = {
   fs: FileSystem
   cache: Cache

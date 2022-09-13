@@ -8,10 +8,7 @@ type GetConfigParams = {
 }
 
 /**
- * @param {Object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {string} args.gitdir
- * @param {string} args.path
+ * @param {GetConfigParams} args
  *
  * @returns {Promise<any>} Resolves with the config value
  *

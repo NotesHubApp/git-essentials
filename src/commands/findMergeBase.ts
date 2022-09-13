@@ -4,17 +4,18 @@ import { GitCommit } from '../models/GitCommit'
 import { _readObject as readObject } from '../storage/readObject'
 
 
+type FindMergeBaseParams = {
+  fs: FileSystem
+  cache: Cache
+  gitdir: string
+  oids: string[]
+}
+
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} args.gitdir
- * @param {string[]} args.oids
+ * @param {FindMergeBaseParams} args
  *
  */
-export async function _findMergeBase(
-  { fs, cache, gitdir, oids }:
-  { fs: FileSystem, cache: Cache, gitdir: string, oids: string[] }) {
+export async function _findMergeBase({ fs, cache, gitdir, oids }: FindMergeBaseParams) {
   // Note: right now, the tests are geared so that the output should match that of
   // `git merge-base --all --octopus`
   // because without the --octopus flag, git's output seems to depend on the ORDER of the oids,

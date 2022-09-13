@@ -6,6 +6,7 @@ import { GitTree } from '../models/GitTree'
 import { _readObject as readObject } from '../storage/readObject'
 import { join } from '../utils/join'
 
+
 type ListObjectsParams = {
   fs: FileSystem
   cache: Cache
@@ -15,12 +16,7 @@ type ListObjectsParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} [args.dir]
- * @param {string} args.gitdir
- * @param {Iterable<string>} args.oids
+ * @param {ListObjectsParams} args
  * @returns {Promise<Set<string>>}
  */
 export async function listObjects({

@@ -8,6 +8,7 @@ import { _readObject as readObject } from '../storage/readObject'
 import { join } from '../utils/join'
 import { Cache } from '../models'
 
+
 type ListCommitsAndTagsParams = {
   fs: FileSystem
   cache: Cache
@@ -18,13 +19,7 @@ type ListCommitsAndTagsParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} [args.dir]
- * @param {string} args.gitdir
- * @param {Iterable<string>} args.start
- * @param {Iterable<string>} args.finish
+ * @param {ListCommitsAndTagsParams} args
  * @returns {Promise<Set<string>>}
  */
 export async function listCommitsAndTags({

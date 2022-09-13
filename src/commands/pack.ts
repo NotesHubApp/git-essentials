@@ -19,12 +19,7 @@ type PackParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir, '.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string[]} args.oids
+ * @param {PackParams} args
  */
 export async function _pack({
   fs,
