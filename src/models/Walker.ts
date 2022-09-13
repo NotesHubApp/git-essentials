@@ -11,16 +11,16 @@ export const GitWalkSymbol = Symbol('GitWalkSymbol')
 
 export interface GitWalkder {
   readonly ConstructEntry: WalkerEntryConstructor
-  readdir(entry: WalkerEntry): Promise<string[] | null>
+  readdir(entry: WalkerEntryInternal): Promise<string[] | null>
 }
 
 type WalkerParams = { fs: FileSystem, dir: string, gitdir: string, cache: Cache }
 export type Walker = { [GitWalkSymbol]: (args: WalkerParams) => GitWalkder }
 
 export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
-export type WalkerEntryConstructor = new(fullpath: string) => WalkerEntry
+export type WalkerEntryConstructor = new(fullpath: string) => WalkerEntryInternal
 
-export interface WalkerEntry {
+export interface WalkerEntryInternal {
   _fullpath: string
   _type: boolean | WalkerEntryType
   _mode: boolean | number

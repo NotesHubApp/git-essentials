@@ -6,7 +6,7 @@ import { join } from '../utils/join'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
 import { GitObject } from './GitObject.js'
-import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { GitWalkder, WalkerEntryInternal, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 import { NormalizedStat } from './NormalizedStat'
 
 export class GitWalkerFs implements GitWalkder {
@@ -65,7 +65,7 @@ export class GitWalkerFs implements GitWalkder {
     }
   }
 
-  async readdir(entry: WalkerEntry) {
+  async readdir(entry: WalkerEntryInternal) {
     const filepath = entry._fullpath
     const { fs, dir } = this
     const names = await fs.readdir(join(dir, filepath))
@@ -73,21 +73,21 @@ export class GitWalkerFs implements GitWalkder {
     return names.map(name => join(filepath, name))
   }
 
-  async type(entry: WalkerEntry) {
+  async type(entry: WalkerEntryInternal) {
     if (entry._type === false) {
       await entry.stat()
     }
     return entry._type as WalkerEntryType
   }
 
-  async mode(entry: WalkerEntry) {
+  async mode(entry: WalkerEntryInternal) {
     if (entry._mode === false) {
       await entry.stat()
     }
     return entry._mode as number
   }
 
-  async stat(entry: WalkerEntry) {
+  async stat(entry: WalkerEntryInternal) {
     if (entry._stat === false) {
       const { fs, dir } = this
       let stat = await fs.lstat(`${dir}/${entry._fullpath}`)
@@ -114,7 +114,7 @@ export class GitWalkerFs implements GitWalkder {
     return entry._stat as NormalizedStat
   }
 
-  async content(entry: WalkerEntry) {
+  async content(entry: WalkerEntryInternal) {
     if (entry._content === false) {
       const { fs, dir } = this
 
@@ -137,7 +137,7 @@ export class GitWalkerFs implements GitWalkder {
     return entry._content as Uint8Array
   }
 
-  async oid(entry: WalkerEntry) {
+  async oid(entry: WalkerEntryInternal) {
     if (entry._oid === false) {
       const { fs, gitdir, cache } = this
       let oid: string | undefined
