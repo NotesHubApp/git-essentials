@@ -1,6 +1,6 @@
 {
   "name": "git-essentials",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The essential GIT commands",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
