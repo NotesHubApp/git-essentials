@@ -5,24 +5,29 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type AddRemoteParams = {
+  /** A file system implementation. */
   fs: FsClient
+
+  /** The working tree directory path. */
   dir: string
+
+  /**  The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** The name of the remote. */
   remote: string
+
+  /** The URL of the remote. */
   url: string
+
+  /** Instead of throwing an error if a remote named `remote` already exists, overwrite the existing remote. */
   force?: boolean
 }
 
 /**
  * Add or update a remote
  *
- * @param {object} args
- * @param {FsClient} args.fs - a file system implementation
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} args.remote - The name of the remote
- * @param {string} args.url - The URL of the remote
- * @param {boolean} [args.force = false] - Instead of throwing an error if a remote named `remote` already exists, overwrite the existing remote.
+ * @param {AddRemoteParams} args
  *
  * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
  *
