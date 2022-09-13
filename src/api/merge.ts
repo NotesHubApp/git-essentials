@@ -8,38 +8,72 @@ import { join } from '../utils/join'
 import { normalizeAuthorObject } from '../utils/normalizeAuthorObject'
 import { normalizeCommitterObject } from '../utils/normalizeCommitterObject'
 
-
 type MergeParams = {
+  /** A file system client. */
   fs: FsClient,
+
+  /** A PGP signing implementation. */
   onSign: SignCallback
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** The branch receiving the merge. If undefined, defaults to the current branch. */
   ours?: string
+
+  /** The branch to be merged. */
   theirs: string
+
+  /** If true, then non-fast-forward merges will throw an Error instead of performing a merge. */
   fastForwardOnly?: boolean
+
+  /** If true, simulates a merge so you can test whether it would succeed. */
   dryRun?: boolean
+
+  /** If true, does not update the branch pointer after creating the commit. */
   noUpdateBranch?: boolean
+
+  /** Overrides the default auto-generated merge commit message. */
   message?: string
+
+  /** Passed to commit when creating a merge commit. */
   author?: Author
+
+  /** Passed to commit when creating a merge commit. */
   committer?: Author
+
+  /** Passed to commit when creating a merge commit. */
   signingKey?: string
+
+  /** Optional blob merge callback. */
   onBlobMerge?: BlobMergeCallback
+
+  /** A cache object. */
   cache?: Cache
 }
 
-/**
- *
- * @typedef {Object} MergeResult - Returns an object with a schema like this:
- * @property {string} [oid] - The SHA-1 object id that is now at the head of the branch. Absent only if `dryRun` was specified and `mergeCommit` is true.
- * @property {boolean} [alreadyMerged] - True if the branch was already merged so no changes were made
- * @property {boolean} [fastForward] - True if it was a fast-forward merge
- * @property {boolean} [mergeCommit] - True if merge resulted in a merge commit
- * @property {string} [tree] - The SHA-1 object id of the tree resulting from a merge commit
- *
- */
+type MergeResult = {
+  /** The SHA-1 object id that is now at the head of the branch. Absent only if `dryRun` was specified and `mergeCommit` is true. */
+  oid?: string
+
+  /** True if the branch was already merged so no changes were made. */
+  alreadyMerged?: boolean
+
+  /** True if it was a fast-forward merge. */
+  fastForward?: boolean
+
+  /** True if merge resulted in a merge commit. */
+  mergeCommit?: boolean
+
+  /** The SHA-1 object id of the tree resulting from a merge commit. */
+  tree?: string
+}
 
 /**
- * Merge two branches
+ * Merge two branches.
  *
  * ## Limitations
  *
@@ -50,30 +84,7 @@ type MergeParams = {
  *
  * You can use onBlobMerge callback to define your own merge stragegy.
  *
- * @param {object} args
- * @param {FsClient} args.fs - a file system client
- * @param {SignCallback} [args.onSign] - a PGP signing implementation
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} [args.ours] - The branch receiving the merge. If undefined, defaults to the current branch.
- * @param {string} args.theirs - The branch to be merged
- * @param {boolean} [args.fastForwardOnly = false] - If true, then non-fast-forward merges will throw an Error instead of performing a merge.
- * @param {boolean} [args.dryRun = false] - If true, simulates a merge so you can test whether it would succeed.
- * @param {boolean} [args.noUpdateBranch = false] - If true, does not update the branch pointer after creating the commit.
- * @param {string} [args.message] - Overrides the default auto-generated merge commit message
- * @param {Object} [args.author] - passed to [commit](commit.md) when creating a merge commit
- * @param {string} [args.author.name] - Default is `user.name` config.
- * @param {string} [args.author.email] - Default is `user.email` config.
- * @param {number} [args.author.timestamp=Math.floor(Date.now()/1000)] - Set the author timestamp field. This is the integer number of seconds since the Unix epoch (1970-01-01 00:00:00).
- * @param {number} [args.author.timezoneOffset] - Set the author timezone offset field. This is the difference, in minutes, from the current timezone to UTC. Default is `(new Date()).getTimezoneOffset()`.
- * @param {Object} [args.committer] - passed to [commit](commit.md) when creating a merge commit
- * @param {string} [args.committer.name] - Default is `user.name` config.
- * @param {string} [args.committer.email] - Default is `user.email` config.
- * @param {number} [args.committer.timestamp=Math.floor(Date.now()/1000)] - Set the committer timestamp field. This is the integer number of seconds since the Unix epoch (1970-01-01 00:00:00).
- * @param {number} [args.committer.timezoneOffset] - Set the committer timezone offset field. This is the difference, in minutes, from the current timezone to UTC. Default is `(new Date()).getTimezoneOffset()`.
- * @param {string} [args.signingKey] - passed to [commit](commit.md) when creating a merge commit
- * @param {BlobMergeCallback} [args.onBlobMerge] - Optional blob merge callback
- * @param {object} [args.cache] - a [cache](cache.md) object
+ * @param {MergeParams} args
  *
  * @returns {Promise<MergeResult>} Resolves to a description of the merge operation
  * @see MergeResult
@@ -104,7 +115,7 @@ export async function merge({
   signingKey,
   onBlobMerge,
   cache = {},
-}: MergeParams) {
+}: MergeParams): Promise<MergeResult> {
   try {
     assertParameter('fs', _fs)
     if (signingKey) {
