@@ -1,20 +1,22 @@
-import { Author } from '../models/_common'
+import { Author, NormalizedAuthor } from '../models/_common'
 import { FileSystem } from '../models/FileSystem'
 import { normalizeAuthorObject } from '../utils/normalizeAuthorObject'
 
 /**
  *
- * @returns {Promise<void | {name: string, email: string, timestamp: number, timezoneOffset: number }>}
+ * @returns {Promise<NormalizedAuthor>}
  */
 export async function normalizeCommitterObject(
   { fs, gitdir, author, committer }:
-  { fs: FileSystem, gitdir: string, author: Author, committer?: Author }): Promise<Author> {
+  { fs: FileSystem, gitdir: string, author: NormalizedAuthor, committer?: Author }): Promise<NormalizedAuthor> {
+
   committer = Object.assign({}, committer || author)
+
   // Match committer's date to author's one, if omitted
   if (author) {
     committer.timestamp = committer.timestamp || author.timestamp
     committer.timezoneOffset = committer.timezoneOffset || author.timezoneOffset
   }
-  committer = (await normalizeAuthorObject({ fs, gitdir, author: committer }))!
-  return committer
+
+  return (await normalizeAuthorObject({ fs, gitdir, author: committer }))!
 }

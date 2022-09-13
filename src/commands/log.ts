@@ -18,7 +18,7 @@ type LogParams = {
  * Get commit descriptions from the git history
  *
  * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
+ * @param {FileSystem} args.fs
  * @param {any} args.cache
  * @param {string} args.gitdir
  * @param {string} args.ref

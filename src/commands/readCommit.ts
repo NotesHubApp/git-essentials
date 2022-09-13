@@ -29,17 +29,13 @@ export type ReadCommitResult = {
  *
  */
 export async function _readCommit({ fs, cache, gitdir, oid }: ReadCommitParams): Promise<ReadCommitResult> {
-  const { commit, oid: commitOid } = await resolveCommit({
-    fs,
-    cache,
-    gitdir,
-    oid,
-  })
+  const { commit, oid: commitOid } = await resolveCommit({ fs, cache, gitdir, oid })
+
   const result = {
     oid: commitOid,
     commit: commit.parse(),
     payload: commit.withoutSignature(),
   }
-  // @ts-ignore
+
   return result
 }
