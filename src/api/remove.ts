@@ -5,25 +5,30 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 import { FsClient } from '../models/FsClient'
 
+
 type RemoveParams = {
+  /** A file system client. */
   fs: FsClient
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** The path to the file to remove from the index. */
   filepath: string
+
+  /** A cache object. */
   cache?: Cache
 }
 
 /**
- * Remove a file from the git index (aka staging area)
+ * Remove a file from the git index (aka staging area).
  *
  * Note that this does NOT delete the file in the working directory.
  *
- * @param {object} args
- * @param {FsClient} args.fs - a file system client
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir, '.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} args.filepath - The path to the file to remove from the index
- * @param {object} [args.cache] - a [cache](cache.md) object
+ * @param {RemoveParams} args
  *
  * @returns {Promise<void>} Resolves successfully once the git index has been updated
  *

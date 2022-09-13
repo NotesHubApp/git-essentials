@@ -19,6 +19,7 @@ import {
   ProgressCallback
 } from '../models'
 
+
 type PullParams = {
   /** A file system client. */
   fs: FsClient
