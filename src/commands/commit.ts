@@ -6,7 +6,7 @@ import { GitCommit } from '../models/GitCommit'
 import { GitTree } from '../models/GitTree'
 import { _writeObject as writeObject } from '../storage/writeObject'
 import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToDirectoryStructure'
-import { NormalizedAuthor, SignCallback } from '../models/_common'
+import { NormalizedAuthor, SignCallback } from '../models'
 import { GitIndex } from '../models/GitIndex'
 
 
@@ -21,7 +21,7 @@ type CommitParams = {
   signingKey?: string
   dryRun?: boolean
   noUpdateBranch?: boolean
-  ref: string
+  ref?: string
   parent?: string[]
   tree?: string
 }
@@ -61,12 +61,7 @@ export async function _commit({
   tree,
 }: CommitParams): Promise<string> {
   if (!ref) {
-    ref = await GitRefManager.resolve({
-      fs,
-      gitdir,
-      ref: 'HEAD',
-      depth: 2,
-    })
+    ref = await GitRefManager.resolve({ fs, gitdir, ref: 'HEAD', depth: 2 })
   }
 
   return GitIndexManager.acquire({ fs, gitdir, cache }, async function(index: GitIndex) {
@@ -78,7 +73,7 @@ export async function _commit({
 
     if (!parent) {
       try {
-        parent = [ await GitRefManager.resolve({ fs, gitdir, ref }) ]
+        parent = [ await GitRefManager.resolve({ fs, gitdir, ref: ref! }) ]
       } catch (err) {
         // Probably an initial commit
         parent = []
@@ -100,7 +95,7 @@ export async function _commit({
     })
     if (!noUpdateBranch && !dryRun) {
       // Update branch pointer
-      await GitRefManager.writeRef({ fs, gitdir, ref, value: oid })
+      await GitRefManager.writeRef({ fs, gitdir, ref: ref!, value: oid })
     }
 
     return oid
