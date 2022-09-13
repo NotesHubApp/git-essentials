@@ -6,59 +6,83 @@ import { Cache } from '../models/Cache'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
+export { FetchResult }
+
 type FetchParams = {
+  /** A file system client. */
   fs: FsClient
+
+  /** An HTTP client. */
   http: HttpClient
+
+  /** Optional progress event callback. */
   onProgress?: ProgressCallback
+
+  /** Optional message event callback. */
   onMessage?: MessageCallback
+
+  /** Optional auth fill callback. */
   onAuth?: AuthCallback
+
+  /** Optional auth approved callback. */
   onAuthSuccess?: AuthSuccessCallback
+
+  /** Optional auth rejected callback. */
   onAuthFailure?: AuthFailureCallback
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** Which branch to fetch if `singleBranch` is true. By default this is the current branch or the remote's default branch. */
   ref?: string
+
+  /** The name of the branch on the remote to fetch if `singleBranch` is true. By default this is the configured remote tracking branch. */
   remoteRef?: string
+
+  /** If URL is not specified, determines which remote to use. */
   remote?: string
+
+  /** The URL of the remote repository. The default is the value set in the git config for that remote. */
   url: string | void
+
+  /** Determines how much of the git repository's history to retrieve. */
   depth?: number | null,
+
+  /** Only fetch commits created after the given date. Mutually exclusive with `depth`. */
   since?: Date | null,
+
+  /** A list of branches or tags. Instructs the remote server not to send us any commits reachable from these refs. */
   exclude?: string[]
+
+  /** Changes the meaning of `depth` to be measured from the current shallow depth rather than from the branch tip. */
   relative?: boolean
+
+  /** Also fetch tags. */
   tags?: boolean
+
+  /** Instead of the default behavior of fetching all the branches, only fetch a single branch. */
   singleBranch?: boolean
+
+  /** Additional headers to include in HTTP requests, similar to git's `extraHeader` config. */
   headers?: HttpHeaders
+
+  /** Delete local remote-tracking branches that are not present on the remote. */
   prune?: boolean
+
+  /** Prune local tags that don’t exist on the remote, and force-update those tags that differ. */
   pruneTags?: boolean
+
+  /** A cache object. */
   cache?: Cache
 }
 
 /**
- * Fetch commits from a remote repository
+ * Fetch commits from a remote repository.
  *
- * @param {object} args
- * @param {FsClient} args.fs - a file system client
- * @param {HttpClient} args.http - an HTTP client
- * @param {ProgressCallback} [args.onProgress] - optional progress event callback
- * @param {MessageCallback} [args.onMessage] - optional message event callback
- * @param {AuthCallback} [args.onAuth] - optional auth fill callback
- * @param {AuthFailureCallback} [args.onAuthFailure] - optional auth rejected callback
- * @param {AuthSuccessCallback} [args.onAuthSuccess] - optional auth approved callback
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} [args.url] - The URL of the remote repository. The default is the value set in the git config for that remote.
- * @param {string} [args.remote] - If URL is not specified, determines which remote to use.
- * @param {boolean} [args.singleBranch = false] - Instead of the default behavior of fetching all the branches, only fetch a single branch.
- * @param {string} [args.ref] - Which branch to fetch if `singleBranch` is true. By default this is the current branch or the remote's default branch.
- * @param {string} [args.remoteRef] - The name of the branch on the remote to fetch if `singleBranch` is true. By default this is the configured remote tracking branch.
- * @param {boolean} [args.tags = false] - Also fetch tags
- * @param {number} [args.depth] - Integer. Determines how much of the git repository's history to retrieve
- * @param {boolean} [args.relative = false] - Changes the meaning of `depth` to be measured from the current shallow depth rather than from the branch tip.
- * @param {Date} [args.since] - Only fetch commits created after the given date. Mutually exclusive with `depth`.
- * @param {string[]} [args.exclude = []] - A list of branches or tags. Instructs the remote server not to send us any commits reachable from these refs.
- * @param {boolean} [args.prune] - Delete local remote-tracking branches that are not present on the remote
- * @param {boolean} [args.pruneTags] - Prune local tags that don’t exist on the remote, and force-update those tags that differ
- * @param {Object<string, string>} [args.headers] - Additional headers to include in HTTP requests, similar to git's `extraHeader` config
- * @param {object} [args.cache] - a [cache](cache.md) object
+ * @param {FetchParams} args
  *
  * @returns {Promise<FetchResult>} Resolves successfully when fetch completes
  * @see FetchResult

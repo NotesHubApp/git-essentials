@@ -5,9 +5,16 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type GetConfigParams = {
+  /** A file system implementation. */
   fs: FsClient
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git'`). */
   gitdir?: string
+
+  /** The key of the git config entry. */
   path: string
 }
 
@@ -18,11 +25,7 @@ type GetConfigParams = {
  * - Currently only the local `$GIT_DIR/config` file can be read or written. However support for the global `~/.gitconfig` and system `$(prefix)/etc/gitconfig` will be added in the future.
  * - The current parser does not support the more exotic features of the git-config file format such as `[include]` and `[includeIf]`.
  *
- * @param {Object} args
- * @param {FsClient} args.fs - a file system implementation
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} args.path - The key of the git config entry
+ * @param {GetConfigParams} args
  *
  * @returns {Promise<any>} Resolves with the config value
  *
