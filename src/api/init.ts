@@ -22,7 +22,7 @@ type InitParams = {
 }
 
 /**
- * Initialize a new repository
+ * Initialize a new repository.
  *
  * @param {InitParams} args
  * @returns {Promise<void>}  Resolves successfully when filesystem operations are complete
