@@ -1,7 +1,8 @@
-import {describe, expect, it} from '@jest/globals'
+import { expect } from 'chai'
 
 import { init, setConfig, getConfig } from '../src'
 import { makeFsFixture } from './helpers/makeFsFixture';
+
 
 describe('init', () => {
   it('init', async () => {
@@ -12,10 +13,10 @@ describe('init', () => {
     await init({ dir, fs })
 
     // assert
-    expect(await fs.exists(dir)).toBe(true)
-    expect(await fs.exists(`${dir}/.git/objects`)).toBe(true)
-    expect(await fs.exists(`${dir}/.git/refs/heads`)).toBe(true)
-    expect(await fs.exists(`${dir}/.git/HEAD`)).toBe(true)
+    expect(await fs.exists(dir)).to.be.true
+    expect(await fs.exists(`${dir}/.git/objects`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/refs/heads`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/HEAD`)).to.be.true
   })
 
   it('init --bare', async () => {
@@ -26,10 +27,10 @@ describe('init', () => {
     await init({ fs, dir, bare: true })
 
     // assert
-    expect(await fs.exists(dir)).toBe(true)
-    expect(await fs.exists(`${dir}/objects`)).toBe(true)
-    expect(await fs.exists(`${dir}/refs/heads`)).toBe(true)
-    expect(await fs.exists(`${dir}/HEAD`)).toBe(true)
+    expect(await fs.exists(dir)).to.be.true
+    expect(await fs.exists(`${dir}/objects`)).to.be.true
+    expect(await fs.exists(`${dir}/refs/heads`)).to.be.true
+    expect(await fs.exists(`${dir}/HEAD`)).to.be.true
   })
 
   it('init does not overwrite existing config', async () => {
@@ -38,8 +39,8 @@ describe('init', () => {
     const name = 'me'
     const email = 'meme'
     await init({ fs, dir })
-    expect(await fs.exists(dir)).toBe(true)
-    expect(await fs.exists(`${dir}/.git/config`)).toBe(true)
+    expect(await fs.exists(dir)).to.be.true
+    expect(await fs.exists(`${dir}/.git/config`)).to.be.true
     await setConfig({ fs, dir, path: 'user.name', value: name })
     await setConfig({ fs, dir, path: 'user.email', value: email })
 
@@ -47,10 +48,10 @@ describe('init', () => {
     await init({ fs, dir })
 
     // assert
-    expect(await fs.exists(dir)).toBe(true)
-    expect(await fs.exists(`${dir}/.git/config`)).toBe(true)
+    expect(await fs.exists(dir)).to.be.true
+    expect(await fs.exists(`${dir}/.git/config`)).to.be.true
     // check that the properties we added are still there.
-    expect(await getConfig({ fs, dir, path: 'user.name' })).toEqual(name)
-    expect(await getConfig({ fs, dir, path: 'user.email' })).toEqual(email)
+    expect(await getConfig({ fs, dir, path: 'user.name' })).to.eq(name)
+    expect(await getConfig({ fs, dir, path: 'user.email' })).to.eq(email)
   })
 });
