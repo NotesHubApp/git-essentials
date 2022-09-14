@@ -392,7 +392,7 @@ export async function _fetch({
   // which due to the way `git-list-pack` works causes the program to hang when it tries to read it.
   // TODO: Longer term, we should actually:
   // a) NOT concatenate the entire packfile into memory (line 78),
-  // b) compute the SHA of the stream except for the last 20 bytes, using the same library used in push.js, and
+  // b) compute the SHA of the stream except for the last 20 bytes, using the same library used in push.ts, and
   // c) compare the computed SHA with the last 20 bytes of the stream before saving to disk, and throwing a "packfile got corrupted during download" error if the SHA doesn't match.
   if (packfileSha !== '' && !emptyPackfile(packfile)) {
     res.packfile = `objects/pack/pack-${packfileSha}.pack`

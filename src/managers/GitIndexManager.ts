@@ -7,7 +7,6 @@ import { GitIndex } from '../models/GitIndex'
 import { StatLike } from '../models/FsClient'
 import { compareStats } from '../utils/compareStats'
 
-// import Lock from '../utils.js'
 
 // const lm = new LockManager()
 let lock: AsyncLock | null = null
