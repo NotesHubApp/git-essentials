@@ -12,5 +12,6 @@ describe('init', () => {
     await init({ dir, fs })
 
     // assert
+    console.log(await fs.readFile('/test_init/.git/config', { encoding: 'utf8' }))
   });
 });

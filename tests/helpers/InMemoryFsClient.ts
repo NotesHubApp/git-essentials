@@ -21,7 +21,18 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async readFile(filepath: string, opts: EncodingOpts): Promise<string | Uint8Array> {
-    throw new Error('Method not implemented.');
+    const { folder, entryName } = this.parsePath(filepath)
+
+    const targetEntry = folder.children.find(x => x.name === entryName)
+    if (!targetEntry || targetEntry.type !== 'file') {
+      throw new ENOENT(filepath)
+    }
+
+    const content = opts && opts.encoding === 'utf8' ?
+      new TextDecoder().decode(targetEntry.content) :
+      targetEntry.content
+
+    return content
   }
 
   public async writeFile(filepath: string, data: string | Uint8Array, opts: WriteOpts): Promise<void> {
@@ -99,7 +110,7 @@ export class InMemoryFsClient implements FsClient {
       throw new ENOTDIR(filepath)
     }
 
-    if (targetEntry.children.length > 0 && (!opts || !opts.force)) {
+    if (targetEntry.children.length > 0 && !(opts && opts.force)) {
       throw new ENOTEMPTY(filepath)
     }
 
