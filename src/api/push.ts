@@ -1,5 +1,5 @@
 import { _push, PushResult } from '../commands/push'
-import { FileSystem } from '../models/FileSystem.js'
+import { FileSystem } from '../models/FileSystem'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 import {

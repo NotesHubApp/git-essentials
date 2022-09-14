@@ -5,7 +5,7 @@ import { compareStats } from '../utils/compareStats'
 import { join } from '../utils/join'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
-import { GitObject } from './GitObject.js'
+import { GitObject } from './GitObject'
 import { GitWalkder, WalkerEntryInternal, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 import { NormalizedStat } from './NormalizedStat'
 

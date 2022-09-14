@@ -8,16 +8,16 @@ import { collect } from '../../utils/collect'
 import { fromStream } from '../../utils/fromStream';
 
 
-export type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean) => string
+type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean) => string
 
-export const DefaultTransformRequestUrl: TransformRequestUrl = (originalUrl) => originalUrl
+const DefaultTransformRequestUrl: TransformRequestUrl = (originalUrl) => originalUrl
 
-export type HttpClientOptions = {
+export type WebHttpClientOptions = {
   transformRequestUrl?: TransformRequestUrl
   retriesCount?: number
 }
 
-export function makeHttpClient(options: HttpClientOptions = {}): HttpClient {
+export function makeWebHttpClient(options: WebHttpClientOptions = {}): HttpClient {
   const transformRequestUrl = options.transformRequestUrl ?? DefaultTransformRequestUrl
   const retriesCount = options.retriesCount ?? 3
 

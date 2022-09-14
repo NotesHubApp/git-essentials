@@ -189,7 +189,7 @@ export class GitRefManager {
 
   /**
    * @param {object} args
-   * @param {import('../models/FileSystem.js').FileSystem} args.fs
+   * @param {FileSystem} args.fs
    * @param {string} args.gitdir
    * @param {string} args.ref
    * @param {number} [args.depth]

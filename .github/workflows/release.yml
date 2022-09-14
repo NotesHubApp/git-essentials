@@ -13,19 +13,31 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-        
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Build
         run: npm run build
-        
+
+      - name: Test
+        run: npm run test
+
+      - name: Test Cypress (Electron)
+        run: npm run test:cy:electron
+
+      - name: Test Cypress (Chrome)
+        run: npm run test:cy:chrome
+
+      - name: Test Cypress (Webkit)
+        run: npm run test:cy:webkit
+
       - name: Publish
         run: npm publish
         env:
