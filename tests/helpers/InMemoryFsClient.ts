@@ -7,7 +7,6 @@ import {
   FsClient,
   ReadLinkOptions,
   RMDirOptions,
-  Stat,
   StatLike,
   WriteOpts
 } from '../../src';
@@ -179,7 +178,15 @@ enum FileMode {
   COMMIT = 57344,
 };
 
-export class StatImpl implements StatLike {
+
+type Stat = {
+  mode: number
+  size: number
+  ctime: Date
+  mtime: Date
+}
+
+class StatImpl implements StatLike {
   type: 'file' | 'dir' | 'symlink';
   mode: number;
   size: number;
@@ -196,9 +203,9 @@ export class StatImpl implements StatLike {
     this.type = type;
     this.mode = stats.mode;
     this.size = stats.size;
-    this.ino = stats.ino;
-    this.mtimeMs = stats.mtimeMs!;
-    this.ctimeMs = stats.ctimeMs || stats.mtimeMs;
+    this.ino = 0;
+    this.ctimeMs = stats.ctime.valueOf()
+    this.mtimeMs = stats.mtime.valueOf()
     this.ctime = stats.ctime
     this.mtime = stats.mtime
     this.uid = 1;
@@ -245,7 +252,7 @@ type TreeEntry = FileTreeEntry | SymlinkTreeEntry | FolderTreeEntry
 
 function makeNewFile(name: string, content: Uint8Array): FileTreeEntry {
   const now = new Date()
-  const stat: Stat = { mode: FileMode.BLOB, size: content.byteLength, uid: 1, gid: 1, dev: 1, ino: 0, ctime: now, mtime: now }
+  const stat: Stat = { mode: FileMode.BLOB, size: content.byteLength, ctime: now, mtime: now }
   return { type: 'file', name, content, stat }
 }
 
@@ -257,7 +264,7 @@ function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
 
 function makeEmptyFolder(name: string): FolderTreeEntry {
   const now = new Date()
-  const stat: Stat = { mode: FileMode.TREE, size: 0, uid: 1, gid: 1, dev: 1, ino: 0, ctime: now, mtime: now }
+  const stat: Stat = { mode: FileMode.TREE, size: 0, ctime: now, mtime: now }
   return { type: 'dir', name, children: [], stat }
 }
 
