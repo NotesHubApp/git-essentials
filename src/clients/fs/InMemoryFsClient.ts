@@ -9,7 +9,7 @@ import {
   RMDirOptions,
   StatLike,
   WriteOpts
-} from '../../src';
+} from '../../';
 
 
 export class InMemoryFsClient implements FsClient {
@@ -224,7 +224,7 @@ class StatImpl implements StatLike {
   isSymbolicLink() {
     return this.type === 'symlink';
   }
-};
+}
 
 
 type FileTreeEntry = {
@@ -268,6 +268,6 @@ function makeEmptyFolder(name: string): FolderTreeEntry {
   return { type: 'dir', name, children: [], stat }
 }
 
-export function split(path: string): string[] {
+function split(path: string): string[] {
   return (path ?? '').split('/').filter( x => x);
 }
