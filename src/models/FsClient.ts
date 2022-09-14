@@ -69,3 +69,22 @@ export interface FsClient {
   readlink(filepath: string, opts: ReadLinkOptions): Promise<Buffer | string>; // throws ENOENT
   symlink(target: string, filepath: string): Promise<void>; // throws ENOENT
 }
+
+function Err(name: string, no: number, defaultMessage: string) {
+  return class extends Error {
+    public readonly name = name;
+    public readonly code = name;
+    public readonly errno = no;
+    public readonly path?: string;
+
+    constructor(path?: string) {
+      super(defaultMessage);
+      this.path = path;
+    }
+  };
+}
+
+export const EEXIST = Err('EEXIST', 47, 'file already exists');
+export const ENOENT = Err('ENOENT', 34, 'no such file or directory');
+export const ENOTDIR = Err('ENOTDIR', 27, 'not a directory');
+export const ENOTEMPTY = Err('ENOTEMPTY', 53, 'directory not empty');
