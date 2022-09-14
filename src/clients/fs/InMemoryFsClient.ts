@@ -145,6 +145,24 @@ export class InMemoryFsClient implements FsClient {
     throw new Error('Method not implemented.');
   }
 
+  /**
+   * Return true if a file exists, false if it doesn't exist.
+   * Rethrows errors that aren't related to file existance.
+   */
+   public async exists(filepath: string): Promise<boolean> {
+    try {
+      await this.stat(filepath)
+      return true
+    } catch (err: any) {
+      if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
+        return false
+      } else {
+        console.log('Unhandled error in "FileSystem.exists()" function', err)
+        throw err
+      }
+    }
+  }
+
   private parsePath(filepath: string) {
     const segments = split(filepath);
     const folders = segments.slice(0, -1)

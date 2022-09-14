@@ -1,14 +1,9 @@
-import { FileSystem } from '../../src/models/FileSystem'
-import { InMemoryFsClient } from '../../src/clients/fs/InMemoryFsClient'
+import { InMemoryFsClient } from '../../src/clients/fs'
 
 export async function makeFsFixture(dir: string) {
   const targetDir = `/${dir}`
   const fs = new InMemoryFsClient()
   await fs.mkdir(targetDir)
 
-  return {
-    fsClient: fs,
-    fs: new FileSystem(fs),
-    dir: targetDir
-  }
+  return { fs, dir: targetDir }
 }
