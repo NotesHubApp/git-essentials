@@ -5,22 +5,26 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type CurrentBranchParams = {
+  /** A file system implementation. */
   fs: FsClient
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** Return the full path (e.g. "refs/heads/main") instead of the abbreviated form. */
   fullname?: boolean
+
+  /** If the current branch doesn't actually exist (such as right after git init) then return `undefined`. */
   test?: boolean
 }
 
 /**
- * Get the name of the branch currently pointed to by .git/HEAD
+ * Get the name of the branch currently pointed to by .git/HEAD.
  *
- * @param {Object} args
- * @param {FsClient} args.fs - a file system implementation
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {boolean} [args.fullname = false] - Return the full path (e.g. "refs/heads/main") instead of the abbreviated form.
- * @param {boolean} [args.test = false] - If the current branch doesn't actually exist (such as right after git init) then return `undefined`.
+ * @param {CurrentBranchParams} args
  *
  * @returns {Promise<string|void>} The name of the current branch or undefined if the HEAD is detached.
  *

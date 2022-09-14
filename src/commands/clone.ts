@@ -40,28 +40,7 @@ type CloneParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {object} args.cache
- * @param {HttpClient} args.http
- * @param {ProgressCallback} [args.onProgress]
- * @param {MessageCallback} [args.onMessage]
- * @param {AuthCallback} [args.onAuth]
- * @param {AuthFailureCallback} [args.onAuthFailure]
- * @param {AuthSuccessCallback} [args.onAuthSuccess]
- * @param {string} [args.dir]
- * @param {string} args.gitdir
- * @param {string} args.url
- * @param {string} args.ref
- * @param {boolean} args.singleBranch
- * @param {boolean} args.noCheckout
- * @param {boolean} args.noTags
- * @param {string} args.remote
- * @param {number} args.depth
- * @param {Date} args.since
- * @param {string[]} args.exclude
- * @param {boolean} args.relative
- * @param {Object<string, string>} args.headers
+ * @param {CloneParams} args
  *
  * @returns {Promise<void>} Resolves successfully when clone completes
  *
@@ -88,7 +67,7 @@ export async function _clone({
   noCheckout,
   noTags,
   headers,
-}: CloneParams) {
+}: CloneParams): Promise<void> {
   await _init({ fs, dir, gitdir })
   await _addRemote({ fs, gitdir, remote, url, force: false })
 

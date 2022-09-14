@@ -7,26 +7,32 @@ import { join } from '../utils/join'
 import { ReadCommitResult } from '../commands/readCommit'
 
 type LogParams = {
+  /** A file system client. */
   fs: FsClient
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** The commit to begin walking backwards through the history from (default: `HEAD`). */
   ref?: string
+
+  /** Limit the number of commits returned. No limit by default. */
   depth?: number
+
+  /** Return history newer than the given date. Can be combined with `depth` to get whichever is shorter. */
   since?: Date
+
+  /** A cache object. */
   cache?: Cache
 }
 
 /**
- * Get commit descriptions from the git history
+ * Get commit descriptions from the git history.
  *
- * @param {object} args
- * @param {FsClient} args.fs - a file system client
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} [args.ref = 'HEAD'] - The commit to begin walking backwards through the history from
- * @param {number} [args.depth] - Limit the number of commits returned. No limit by default.
- * @param {Date} [args.since] - Return history newer than the given date. Can be combined with `depth` to get whichever is shorter.
- * @param {object} [args.cache] - a [cache](cache.md) object
+ * @param {LogParams} args
  *
  * @returns {Promise<Array<ReadCommitResult>>} Resolves to an array of ReadCommitResult objects
  * @see ReadCommitResult

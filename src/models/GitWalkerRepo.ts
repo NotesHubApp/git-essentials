@@ -8,7 +8,7 @@ import { _readObject as readObject } from '../storage/readObject'
 import { join } from '../utils/join'
 import { normalizeMode } from '../utils/normalizeMode'
 import { resolveTree } from '../utils/resolveTree'
-import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { GitWalkder, WalkerEntryConstructor, WalkerEntryInternal, WalkerEntryType } from './Walker'
 
 type TreeNode = {
   tree?: GitTree
@@ -91,7 +91,7 @@ export class GitWalkerRepo implements GitWalkder {
     }
   }
 
-  async readdir(entry: WalkerEntry) {
+  async readdir(entry: WalkerEntryInternal) {
     const filepath = entry._fullpath
     const { fs, cache, gitdir } = this
     const map = await this.mapPromise
@@ -117,7 +117,7 @@ export class GitWalkerRepo implements GitWalkder {
     return tree.entries().map(entry => join(filepath, entry.path))
   }
 
-  async type(entry: WalkerEntry) {
+  async type(entry: WalkerEntryInternal) {
     if (entry._type === false) {
       const map = await this.mapPromise
       const { type } = (map.get(entry._fullpath)!)
@@ -126,7 +126,7 @@ export class GitWalkerRepo implements GitWalkder {
     return entry._type as WalkerEntryType
   }
 
-  async mode(entry: WalkerEntry) {
+  async mode(entry: WalkerEntryInternal) {
     if (entry._mode === false) {
       const map = await this.mapPromise
       const { mode } = (map.get(entry._fullpath)!)
@@ -135,9 +135,9 @@ export class GitWalkerRepo implements GitWalkder {
     return entry._mode as number
   }
 
-  async stat(_entry: WalkerEntry) {}
+  async stat(_entry: WalkerEntryInternal) {}
 
-  async content(entry: WalkerEntry) {
+  async content(entry: WalkerEntryInternal) {
     if (entry._content === false) {
       const map = await this.mapPromise
       const { fs, cache, gitdir } = this
@@ -154,7 +154,7 @@ export class GitWalkerRepo implements GitWalkder {
     return entry._content as Uint8Array
   }
 
-  async oid(entry: WalkerEntry) {
+  async oid(entry: WalkerEntryInternal) {
     if (entry._oid === false) {
       const map = await this.mapPromise
       const obj = map.get(entry._fullpath)

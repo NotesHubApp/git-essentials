@@ -7,23 +7,19 @@ import { GitCommit } from '../models/GitCommit'
 import { _readObject } from '../storage/readObject'
 import { Cache } from '../models'
 
+
 type IsDescendentParams = {
   fs: FileSystem
   cache: Cache
   gitdir: string
   oid: string
   ancestor: string
+  /** Maximum depth to search before giving up. -1 means no maximum depth. */
   depth: number
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} args.gitdir
- * @param {string} args.oid
- * @param {string} args.ancestor
- * @param {number} args.depth - Maximum depth to search before giving up. -1 means no maximum depth.
+ * @param {IsDescendentParams} args
  *
  * @returns {Promise<boolean>}
  */

@@ -1,8 +1,10 @@
 import { FileSystem } from '../models/FileSystem'
 import { Cache } from '../models/Cache'
-import { GitWalkSymbol, Walker, WalkerEntry } from '../models/Walker'
+import { GitWalkSymbol, Walker, WalkerEntryInternal } from '../models/Walker'
 import { arrayRange } from '../utils/arrayRange'
 import { unionOfIterators } from '../utils/unionOfIterators'
+import { WalkerEntry } from '../models'
+
 
 type WalkerMap = (filename: string, entries: WalkerEntry[]) => Promise<any>
 type WalkerReduce = (parent: any, children: any[]) => Promise<any>
@@ -21,15 +23,7 @@ type WalkParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {object} args.cache
- * @param {string} [args.dir]
- * @param {string} [args.gitdir=join(dir,'.git')]
- * @param {Walker[]} args.trees
- * @param {WalkerMap} [args.map]
- * @param {WalkerReduce} [args.reduce]
- * @param {WalkerIterate} [args.iterate]
+ * @param {WalkParams} args
  *
  * @returns {Promise<any>} The finished tree-walking result
  *
@@ -60,19 +54,19 @@ export async function _walk({
   const root = new Array<string>(walkers.length).fill('.')
   const range = arrayRange(0, walkers.length)
 
-  const unionWalkerFromReaddir = async (entries: (string | WalkerEntry | null)[]) => {
+  const unionWalkerFromReaddir = async (entries: (string | WalkerEntryInternal | null)[]) => {
     range.map(i => {
       entries[i] = entries[i] && new walkers[i].ConstructEntry(entries[i] as string)
     })
     const subdirs = await Promise.all(
-      range.map(i => (entries[i] ? walkers[i].readdir(entries[i] as WalkerEntry) as Promise<string[]> : [] as string[]))
+      range.map(i => (entries[i] ? walkers[i].readdir(entries[i] as WalkerEntryInternal) as Promise<string[]> : [] as string[]))
     )
     // Now process child directories
     const iterators = subdirs
       .map(array => (array === null ? [] as string[] : array))
       .map(array => array[Symbol.iterator]())
     return {
-      entries: entries as WalkerEntry[],
+      entries: entries as WalkerEntryInternal[],
       children: unionOfIterators(iterators),
     }
   }

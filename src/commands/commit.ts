@@ -28,20 +28,7 @@ type CommitParams = {
 
 /**
  *
- * @param {Object} args
- * @param {FileSystem} args.fs
- * @param {object} args.cache
- * @param {SignCallback} [args.onSign]
- * @param {string} args.gitdir
- * @param {string} args.message
- * @param {NormalizedAuthor} args.author
- * @param {NormalizedAuthor} args.committer
- * @param {string} [args.signingKey]
- * @param {boolean} [args.dryRun = false]
- * @param {boolean} [args.noUpdateBranch = false]
- * @param {string} [args.ref]
- * @param {string[]} [args.parent]
- * @param {string} [args.tree]
+ * @param {CommitParams} args
  *
  * @returns {Promise<string>} Resolves successfully with the SHA-1 object id of the newly created commit.
  */

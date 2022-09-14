@@ -12,22 +12,26 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 type AddParams = {
+  /** A file system implementation. */
   fs: FsClient
+
+  /** A directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** The path to the file to add to the index. */
   filepath: string
+
+  /** A cache object. */
   cache?: Cache
 }
 
 /**
- * Add a file to the git index (aka staging area)
+ * Add a file to the git index (aka staging area).
  *
- * @param {object} args
- * @param {FsClient} args.fs - a file system implementation
- * @param {string} args.dir - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir, '.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} args.filepath - The path to the file to add to the index
- * @param {object} [args.cache] - a [cache](cache.md) object
+ * @param {AddParams} args
  *
  * @returns {Promise<void>} Resolves successfully once the git index has been updated
  *

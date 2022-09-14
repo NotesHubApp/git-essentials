@@ -17,7 +17,7 @@ import { filterCapabilities } from '../utils/filterCapabilities'
 import { forAwait } from '../utils/forAwait'
 import { pkg } from '../utils/pkg'
 import { splitLines } from '../utils/splitLines'
-import { parseReceivePackResponse } from '../wire/parseReceivePackResponse'
+import { parseReceivePackResponse, PushResult } from '../wire/parseReceivePackResponse'
 import { writeReceivePackRequest } from '../wire/writeReceivePackRequest'
 import {
   AuthCallback,
@@ -29,6 +29,9 @@ import {
   MessageCallback,
   ProgressCallback
 } from '../models'
+
+export { PushResult }
+
 
 type PushParams = {
   fs: FileSystem
@@ -51,25 +54,7 @@ type PushParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem').FileSystem} args.fs
- * @param {any} args.cache
- * @param {HttpClient} args.http
- * @param {ProgressCallback} [args.onProgress]
- * @param {MessageCallback} [args.onMessage]
- * @param {AuthCallback} [args.onAuth]
- * @param {AuthFailureCallback} [args.onAuthFailure]
- * @param {AuthSuccessCallback} [args.onAuthSuccess]
- * @param {string} args.dir
- * @param {string} args.gitdir
- * @param {string} [args.ref]
- * @param {string} [args.remoteRef]
- * @param {string} [args.remote]
- * @param {boolean} [args.force = false]
- * @param {boolean} [args.delete = false]
- * @param {string} [args.url]
- * @param {string} [args.corsProxy]
- * @param {Object<string, string>} [args.headers]
+ * @param {PushParams} args
  *
  * @returns {Promise<PushResult>}
  */
@@ -91,7 +76,7 @@ export async function _push({
   force = false,
   delete: _delete = false,
   headers = {},
-}: PushParams) {
+}: PushParams): Promise<PushResult> {
   const ref = _ref || (await _currentBranch({ fs, gitdir }))
   if (typeof ref === 'undefined') {
     throw new MissingParameterError('ref')

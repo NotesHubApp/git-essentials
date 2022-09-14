@@ -43,19 +43,7 @@ type AnalyzeParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {any} args.cache
- * @param {ProgressCallback} [args.onProgress]
- * @param {string} args.dir
- * @param {string} args.gitdir
- * @param {string} args.ref
- * @param {string[]} [args.filepaths]
- * @param {string} args.remote
- * @param {boolean} args.noCheckout
- * @param {boolean} [args.noUpdateHead]
- * @param {boolean} [args.dryRun]
- * @param {boolean} [args.force]
+ * @param {CheckoutParams} args
  *
  * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
  *

@@ -15,15 +15,9 @@ type LogParams = {
 }
 
 /**
- * Get commit descriptions from the git history
+ * Get commit descriptions from the git history.
  *
- * @param {object} args
- * @param {FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} args.gitdir
- * @param {string} args.ref
- * @param {number|void} args.depth
- * @param {Date|void} args.since
+ * @param {LogParams} args
  *
  * @returns {Promise<Array<ReadCommitResult>>}
  */

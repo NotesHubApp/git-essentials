@@ -2,19 +2,27 @@ import { FileSystem } from '../models/FileSystem'
 import { GitRefManager } from '../managers/GitRefManager'
 import { abbreviateRef } from '../utils/abbreviateRef'
 
+
+type CurrentBranchParams = {
+  fs: FileSystem
+
+  gitdir: string
+
+  /** Return the full path (e.g. "refs/heads/main") instead of the abbreviated form. */
+  fullname?: boolean
+
+  /** If the current branch doesn't actually exist (such as right after git init) then return `undefined`. */
+  test?: boolean
+}
+
 /**
- * @param {Object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {string} args.gitdir
- * @param {boolean} [args.fullname = false] - Return the full path (e.g. "refs/heads/main") instead of the abbreviated form.
- * @param {boolean} [args.test = false] - If the current branch doesn't actually exist (such as right after git init) then return `undefined`.
+ * @param {CurrentBranchParams} args
  *
  * @returns {Promise<string|undefined>} The name of the current branch or undefined if the HEAD is detached.
  *
  */
 export async function _currentBranch(
-  { fs, gitdir, fullname = false, test = false }:
-  { fs: FileSystem, gitdir: string, fullname?: boolean, test?: boolean }): Promise<string | undefined> {
+  { fs, gitdir, fullname = false, test = false }: CurrentBranchParams): Promise<string | undefined> {
   const ref = await GitRefManager.resolve({
     fs,
     gitdir,

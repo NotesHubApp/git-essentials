@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer'
 
 import { FileSystem } from '../models/FileSystem'
-import { BlobMergeCallback, Cache, WalkerEntry } from '../models'
+import { BlobMergeCallback, BlobMergeCallbackParams, Cache, WalkerEntry } from '../models'
 import { TREE } from '../commands/TREE'
 import { _walk } from '../commands/walk'
 import { MergeNotSupportedError } from '../errors/MergeNotSupportedError'
@@ -262,15 +262,15 @@ async function mergeBlobs({
   }
 
   const blobMergeCallback = onBlobMerge || defaultBlobMergeCallback
-  const blobMergeResult = await blobMergeCallback(
-    filepath,
-    theirs,
-    base,
-    ours,
-    theirName,
-    baseName,
-    ourName
-  )
+  const blobMergeResult = await blobMergeCallback({
+    filePath: filepath,
+    theirBlob: theirs,
+    baseBlob: base,
+    ourBlob: ours,
+    theirName: theirName,
+    baseName: baseName,
+    ourName: ourName
+  })
 
   if (!blobMergeResult) return undefined
 
@@ -304,15 +304,15 @@ async function mergeBlobs({
  * @param {string} ourName
  * @returns {Promise<{ mergedText: string, mode: number } | { oid: string, mode: number } | undefined>}
  */
-async function defaultBlobMergeCallback(
-  filePath: string,
-  their: WalkerEntry,
-  base: WalkerEntry,
-  our: WalkerEntry,
-  theirName: string,
-  baseName: string,
-  ourName: string
-) {
+async function defaultBlobMergeCallback({
+  filePath,
+  theirBlob: their,
+  baseBlob: base,
+  ourBlob: our,
+  theirName,
+  baseName,
+  ourName
+}: BlobMergeCallbackParams) {
   if (base && our && their) {
     const ourContent = await our.content()
     const baseContent = await base.content()

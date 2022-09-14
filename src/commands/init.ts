@@ -12,12 +12,7 @@ type InitParams = {
 /**
  * Initialize a new repository
  *
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {string} [args.dir]
- * @param {string} [args.gitdir]
- * @param {boolean} [args.bare = false]
- * @param {string} [args.defaultBranch = 'main']
+ * @param {InitParams} args
  * @returns {Promise<void>}
  */
 export async function _init({

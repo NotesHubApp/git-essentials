@@ -14,12 +14,7 @@ type AddRemoteParams = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {string} args.gitdir
- * @param {string} args.remote
- * @param {string} args.url
- * @param {boolean} args.force
+ * @param {AddRemoteParams} args
  *
  * @returns {Promise<void>}
  *

@@ -17,11 +17,7 @@ export type ReadCommitResult = {
 }
 
 /**
- * @param {object} args
- * @param {import('../models/FileSystem.js').FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} args.gitdir
- * @param {string} args.oid
+ * @param {ReadCommitParams} args
  *
  * @returns {Promise<ReadCommitResult>} Resolves successfully with a git commit object
  * @see ReadCommitResult

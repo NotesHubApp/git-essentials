@@ -4,12 +4,24 @@ import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
+
 type SetConfigParams = {
+  /** A file system implementation. */
   fs: FsClient
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** The key of the git config entry. */
   path: string
+
+  /** A value to store at that path (use `undefined` as the value to delete a config entry). */
   value: string
+
+  /** If true, will append rather than replace when setting (use with multi-valued config options). */
   append?: boolean
 }
 
@@ -20,13 +32,7 @@ type SetConfigParams = {
  * - Currently only the local `$GIT_DIR/config` file can be read or written. However support for the global `~/.gitconfig` and system `$(prefix)/etc/gitconfig` will be added in the future.
  * - The current parser does not support the more exotic features of the git-config file format such as `[include]` and `[includeIf]`.
  *
- * @param {Object} args
- * @param {FsClient} args.fs - a file system implementation
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} args.path - The key of the git config entry
- * @param {string | boolean | number | void} args.value - A value to store at that path. (Use `undefined` as the value to delete a config entry.)
- * @param {boolean} [args.append = false] - If true, will append rather than replace when setting (use with multi-valued config options).
+ * @param {SetConfigParams} args
  *
  * @returns {Promise<void>} Resolves successfully when operation completed
  *

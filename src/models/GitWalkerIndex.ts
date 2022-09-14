@@ -5,7 +5,7 @@ import { compareStrings } from '../utils/compareStrings'
 import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToDirectoryStructure'
 import { mode2type } from '../utils/mode2type'
 import { normalizeStats } from '../utils/normalizeStats'
-import { GitWalkder, WalkerEntry, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { GitWalkder, WalkerEntryInternal, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 import { Stat } from './FsClient'
 
 
@@ -61,7 +61,7 @@ export class GitWalkerIndex implements GitWalkder {
     }
   }
 
-  async readdir(entry: WalkerEntry) {
+  async readdir(entry: WalkerEntryInternal) {
     const filepath = entry._fullpath
     const tree = await this.treePromise
     const inode = tree.get(filepath)
@@ -75,21 +75,21 @@ export class GitWalkerIndex implements GitWalkder {
     return names
   }
 
-  async type(entry: WalkerEntry) {
+  async type(entry: WalkerEntryInternal) {
     if (entry._type === false) {
       await entry.stat()
     }
     return entry._type as WalkerEntryType
   }
 
-  async mode(entry: WalkerEntry) {
+  async mode(entry: WalkerEntryInternal) {
     if (entry._mode === false) {
       await entry.stat()
     }
     return entry._mode as number
   }
 
-  async stat(entry: WalkerEntry) {
+  async stat(entry: WalkerEntryInternal) {
     if (entry._stat === false) {
       const tree = await this.treePromise
       const inode = tree.get(entry._fullpath)
@@ -111,11 +111,11 @@ export class GitWalkerIndex implements GitWalkder {
     return entry._stat as Stat
   }
 
-  async content(_entry: WalkerEntry) {
+  async content(_entry: WalkerEntryInternal) {
     // Cannot get content for an index entry
   }
 
-  async oid(entry: WalkerEntry) {
+  async oid(entry: WalkerEntryInternal) {
     if (entry._oid === false) {
       const tree = await this.treePromise
       const inode = tree.get(entry._fullpath)

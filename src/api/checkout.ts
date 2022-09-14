@@ -7,38 +7,49 @@ import { FsClient } from '../models/FsClient'
 import { ProgressCallback } from '../models'
 
 type CheckoutParams = {
+  /** A file system implementation. */
   fs: FsClient
+
+  /** Optional progress event callback. */
   onProgress?: ProgressCallback
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `join(dir, '.git')`). */
   gitdir?: string
+
+  /** Which remote repository to use (default: `origin`). */
   remote?: string
+
+  /** Source to checkout files from (default: `HEAD`). */
   ref?: string
+
+  /** Limit the checkout to the given files and directories. */
   filepaths?: string[]
+
+  /** If true, will update HEAD but won't update the working directory. */
   noCheckout?: boolean
+
+  /** If true, will update the working directory but won't update HEAD. Defaults to `false` when `ref` is provided, and `true` if `ref` is not provided. */
   noUpdateHead?: boolean
+
+  /** If true, simulates a checkout so you can test whether it would succeed. */
   dryRun?: boolean
+
+  /** If true, conflicts will be ignored and files will be overwritten regardless of local changes. */
   force?: boolean
+
+  /** A cache object. */
   cache?: Cache
 }
 
 /**
- * Checkout a branch
+ * Checkout a branch.
  *
  * If the branch already exists it will check out that branch. Otherwise, it will create a new remote tracking branch set to track the remote branch of that name.
  *
- * @param {object} args
- * @param {FsClient} args.fs - a file system implementation
- * @param {ProgressCallback} [args.onProgress] - optional progress event callback
- * @param {string} args.dir - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} [args.ref = 'HEAD'] - Source to checkout files from
- * @param {string[]} [args.filepaths] - Limit the checkout to the given files and directories
- * @param {string} [args.remote = 'origin'] - Which remote repository to use
- * @param {boolean} [args.noCheckout = false] - If true, will update HEAD but won't update the working directory
- * @param {boolean} [args.noUpdateHead] - If true, will update the working directory but won't update HEAD. Defaults to `false` when `ref` is provided, and `true` if `ref` is not provided.
- * @param {boolean} [args.dryRun = false] - If true, simulates a checkout so you can test whether it would succeed.
- * @param {boolean} [args.force = false] - If true, conflicts will be ignored and files will be overwritten regardless of local changes.
- * @param {object} [args.cache] - a [cache](cache.md) object
+ * @param {CheckoutParams} args
  *
  * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
  *
