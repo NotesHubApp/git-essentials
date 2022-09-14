@@ -10,7 +10,7 @@ import {
   Stat,
   StatLike,
   WriteOpts
-} from '../../src/models/FsClient';
+} from '../../src';
 
 
 export class InMemoryFsClient implements FsClient {
@@ -21,9 +21,8 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async readFile(filepath: string, opts: EncodingOpts): Promise<string | Uint8Array> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { targetEntry } = this.parsePath(filepath)
 
-    const targetEntry = folder.children.find(x => x.name === entryName)
     if (!targetEntry || targetEntry.type !== 'file') {
       throw new ENOENT(filepath)
     }
@@ -36,9 +35,8 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async writeFile(filepath: string, data: string | Uint8Array, opts: WriteOpts): Promise<void> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { folder, targetEntry, entryName } = this.parsePath(filepath)
 
-    const targetEntry = folder.children.find(x => x.name === entryName)
     if ((targetEntry && targetEntry.type !== 'file') || !entryName) {
       throw new ENOENT(filepath)
     }
@@ -46,18 +44,15 @@ export class InMemoryFsClient implements FsClient {
     const content = typeof data === 'string' ? new TextEncoder().encode(data) : data
 
     if (targetEntry) {
-      targetEntry.content = content
-      targetEntry.stat.size = content.byteLength
-      targetEntry.stat.mtime = new Date()
+      updateFileContent(targetEntry, content)
     } else {
       folder.children.push(makeNewFile(entryName, content))
     }
   }
 
   public async unlink(filepath: string): Promise<void> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { folder, targetEntry, entryName } = this.parsePath(filepath)
 
-    const targetEntry = folder.children.find(x => x.name === entryName)
     if (!targetEntry) {
       throw new ENOENT(filepath)
     }
@@ -70,9 +65,8 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async readdir(filepath: string): Promise<string[]> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { targetEntry } = this.parsePath(filepath)
 
-    const targetEntry = folder.children.find(x => x.name === entryName)
     if (!targetEntry) {
       throw new ENOENT(filepath)
     }
@@ -85,13 +79,13 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async mkdir(filepath: string): Promise<void> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { folder, targetEntry, entryName } = this.parsePath(filepath)
 
     if (!entryName) {
       throw new ENOENT(filepath)
     }
 
-    if (folder.children.some(x => x.name === entryName)) {
+    if (targetEntry) {
       throw new EEXIST(filepath)
     }
 
@@ -99,9 +93,8 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async rmdir(filepath: string, opts?: RMDirOptions | undefined): Promise<void> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { folder, targetEntry, entryName } = this.parsePath(filepath)
 
-    const targetEntry = folder.children.find(x => x.name === entryName)
     if (!targetEntry) {
       throw new ENOENT(filepath)
     }
@@ -118,9 +111,8 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async stat(filepath: string): Promise<StatLike> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { targetEntry } = this.parsePath(filepath)
 
-    const targetEntry = folder.children.find(x => x.name === entryName)
     if (!targetEntry) {
       throw new ENOENT(filepath)
     }
@@ -133,9 +125,8 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async lstat(filepath: string): Promise<StatLike> {
-    const { folder, entryName } = this.parsePath(filepath)
+    const { targetEntry } = this.parsePath(filepath)
 
-    const targetEntry = folder.children.find(x => x.name === entryName)
     if (!targetEntry) {
       throw new ENOENT(filepath)
     }
@@ -173,7 +164,9 @@ export class InMemoryFsClient implements FsClient {
       targetFolder = subEntry as FolderTreeEntry
     }
 
-    return { folder: targetFolder, entryName: segments.at(-1) }
+    const entryName = segments.at(-1)
+    const targetEntry = targetFolder.children.find(x => x.name === entryName)
+    return { folder: targetFolder, targetEntry, entryName }
   }
 }
 
@@ -254,6 +247,12 @@ function makeNewFile(name: string, content: Uint8Array): FileTreeEntry {
   const now = new Date()
   const stat: Stat = { mode: FileMode.BLOB, size: content.byteLength, uid: 1, gid: 1, dev: 1, ino: 0, ctime: now, mtime: now }
   return { type: 'file', name, content, stat }
+}
+
+function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
+  file.content = newContent
+  file.stat.size = newContent.byteLength
+  file.stat.mtime = new Date()
 }
 
 function makeEmptyFolder(name: string): FolderTreeEntry {
