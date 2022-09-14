@@ -21,43 +21,43 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async readFile(filepath: string, opts: EncodingOpts): Promise<string | Uint8Array> {
-    const { targetEntry } = this.parsePath(filepath)
+    const { entry } = this.parsePath(filepath)
 
-    if (!targetEntry || targetEntry.type !== 'file') {
+    if (!entry || entry.type !== 'file') {
       throw new ENOENT(filepath)
     }
 
     const content = opts && opts.encoding === 'utf8' ?
-      new TextDecoder().decode(targetEntry.content) :
-      targetEntry.content
+      new TextDecoder().decode(entry.content) :
+      entry.content
 
     return content
   }
 
   public async writeFile(filepath: string, data: string | Uint8Array, opts: WriteOpts): Promise<void> {
-    const { folder, targetEntry, entryName } = this.parsePath(filepath)
+    const { folder, entry, entryName } = this.parsePath(filepath)
 
-    if ((targetEntry && targetEntry.type !== 'file') || !entryName) {
+    if ((entry && entry.type !== 'file') || !entryName) {
       throw new ENOENT(filepath)
     }
 
     const content = typeof data === 'string' ? new TextEncoder().encode(data) : data
 
-    if (targetEntry) {
-      updateFileContent(targetEntry, content)
+    if (entry) {
+      updateFileContent(entry, content)
     } else {
       folder.children.push(makeNewFile(entryName, content))
     }
   }
 
   public async unlink(filepath: string): Promise<void> {
-    const { folder, targetEntry, entryName } = this.parsePath(filepath)
+    const { folder, entry, entryName } = this.parsePath(filepath)
 
-    if (!targetEntry) {
+    if (!entry) {
       throw new ENOENT(filepath)
     }
 
-    if (targetEntry.type === 'dir') {
+    if (entry.type === 'dir') {
       throw new ENOENT(filepath)
     }
 
@@ -65,27 +65,27 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async readdir(filepath: string): Promise<string[]> {
-    const { targetEntry } = this.parsePath(filepath)
+    const { entry } = this.parsePath(filepath)
 
-    if (!targetEntry) {
+    if (!entry) {
       throw new ENOENT(filepath)
     }
 
-    if (targetEntry.type !== 'dir') {
+    if (entry.type !== 'dir') {
       throw new ENOTDIR(filepath)
     }
 
-    return targetEntry.children.map(x => x.name)
+    return entry.children.map(x => x.name)
   }
 
   public async mkdir(filepath: string): Promise<void> {
-    const { folder, targetEntry, entryName } = this.parsePath(filepath)
+    const { folder, entry, entryName } = this.parsePath(filepath)
 
     if (!entryName) {
       throw new ENOENT(filepath)
     }
 
-    if (targetEntry) {
+    if (entry) {
       throw new EEXIST(filepath)
     }
 
@@ -93,17 +93,17 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async rmdir(filepath: string, opts?: RMDirOptions | undefined): Promise<void> {
-    const { folder, targetEntry, entryName } = this.parsePath(filepath)
+    const { folder, entry, entryName } = this.parsePath(filepath)
 
-    if (!targetEntry) {
+    if (!entry) {
       throw new ENOENT(filepath)
     }
 
-    if (targetEntry.type !== 'dir') {
+    if (entry.type !== 'dir') {
       throw new ENOTDIR(filepath)
     }
 
-    if (targetEntry.children.length > 0 && !(opts && opts.force)) {
+    if (entry.children.length > 0 && !(opts && opts.force)) {
       throw new ENOTEMPTY(filepath)
     }
 
@@ -111,27 +111,27 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async stat(filepath: string): Promise<StatLike> {
-    const { targetEntry } = this.parsePath(filepath)
+    const { entry } = this.parsePath(filepath)
 
-    if (!targetEntry) {
+    if (!entry) {
       throw new ENOENT(filepath)
     }
 
-    if (targetEntry.type === 'symlink') {
-      return await this.stat(targetEntry.target)
+    if (entry.type === 'symlink') {
+      return await this.stat(entry.target)
     }
 
-    return new InMemoryStat(targetEntry.stat, targetEntry.type)
+    return new StatImpl(entry.stat, entry.type)
   }
 
   public async lstat(filepath: string): Promise<StatLike> {
-    const { targetEntry } = this.parsePath(filepath)
+    const { entry } = this.parsePath(filepath)
 
-    if (!targetEntry) {
+    if (!entry) {
       throw new ENOENT(filepath)
     }
 
-    return new InMemoryStat(targetEntry.stat, targetEntry.type)
+    return new StatImpl(entry.stat, entry.type)
   }
 
   public async rename(oldFilepath: string, newFilepath: string): Promise<void> {
@@ -165,8 +165,8 @@ export class InMemoryFsClient implements FsClient {
     }
 
     const entryName = segments.at(-1)
-    const targetEntry = targetFolder.children.find(x => x.name === entryName)
-    return { folder: targetFolder, targetEntry, entryName }
+    const entry = targetFolder.children.find(x => x.name === entryName)
+    return { folder: targetFolder, entry, entryName }
   }
 }
 
@@ -179,7 +179,7 @@ enum FileMode {
   COMMIT = 57344,
 };
 
-export class InMemoryStat implements StatLike {
+export class StatImpl implements StatLike {
   type: 'file' | 'dir' | 'symlink';
   mode: number;
   size: number;
