@@ -10,5 +10,7 @@ describe('init', () => {
 
     // act
     await init({ dir, fs })
+
+    // assert
   });
 });

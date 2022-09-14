@@ -17,37 +17,54 @@ export interface ReadLinkOptions {
 }
 
 export type Stat = {
+  /** A bit-field describing the file type and mode. */
   mode: number;
+
+  /** The size of the file in bytes. */
   size: number;
+
+  /** The file system specific "Inode" number for the file. */
   ino: number | BigInt;
+
+  /** The timestamp indicating the last time this file was modified expressed in milliseconds since the POSIX Epoch. */
   mtimeMs?: number;
+
+  /** The timestamp indicating the last time the file status was changed expressed in milliseconds since the POSIX Epoch. */
   ctimeMs?: number;
 
   // Non-standard
+
+  /** The numeric user identifier of the user that owns the file (POSIX). */
   uid: number;
+
+  /** The numeric group identifier of the group that owns the file (POSIX). */
   gid: number;
+
+  /** The numeric identifier of the device containing the file. */
   dev: number;
 
+  /** Change timestamp (ctime): which refers to the last time some metadata related to the file was changed. */
   ctime?: Date;
   ctimeSeconds?: number;
   ctimeNanoseconds?: number;
 
+  /** Modified timestamp (mtime): which is the last time a file's contents were modified. */
   mtime?: Date;
   mtimeSeconds?: number;
   mtimeNanoseconds?: number;
 }
 
-/**
- * Access timestamp (atime): which indicates the last time a file was accessed.
- * Modified timestamp (mtime): which is the last time a file's contents were modified.
- * Change timestamp (ctime): which refers to the last time some metadata related to the file was changed.
- */
 export type StatLike = Stat & {
   type: 'file' | 'dir' | 'symlink';
   mtimeMs: number;
 
+  /** Returns true if the <fs.Stats> object describes a regular file. */
   isFile(): boolean;
+
+  /** Returns true if the <fs.Stats> object describes a file system directory. */
   isDirectory(): boolean;
+
+  /** Returns true if the <fs.Stats> object describes a symbolic link. */
   isSymbolicLink(): boolean;
 }
 
