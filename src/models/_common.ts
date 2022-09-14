@@ -72,7 +72,7 @@ export type WalkerEntry = {
   stat(): Promise<Stat | undefined | void>
 }
 
-export type BlobMergeCallback = (
+export type BlobMergeCallbackParams = {
   filePath: string,
   theirBlob: WalkerEntry | null,
   baseBlob: WalkerEntry | null,
@@ -80,7 +80,14 @@ export type BlobMergeCallback = (
   theirName: string,
   baseName: string,
   ourName: string
-) => Promise<{ mergedText: string, mode: number } | { oid: string, mode: number } | undefined>
+}
+
+export type BlobMergeCallbackResult =
+  | { mergedText: string, mode: number }
+  | { oid: string, mode: number }
+  | undefined
+
+export type BlobMergeCallback = (args: BlobMergeCallbackParams) => Promise<BlobMergeCallbackResult>
 
 
 // HTTP
