@@ -6,7 +6,7 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
@@ -29,13 +29,13 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Test Cypress (Electron)
+      - name: Test (Electron)
         run: npm run test:cy:electron
 
-      - name: Test Cypress (Chrome)
+      - name: Test (Chrome)
         run: npm run test:cy:chrome
 
-      - name: Test Cypress (Webkit)
+      - name: Test (Webkit)
         run: npm run test:cy:webkit
 
       - name: Publish
