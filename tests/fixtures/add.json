@@ -1,72 +1,86 @@
-{
-  ".gitignore": {
+[
+  {
+    "name": ".gitignore",
     "type": "file",
     "encoding": "utf8",
     "content": "*-pattern.js\ni.txt\njs_modules\n.DS_Store"
   },
-  "a-copy.txt": {
+  {
+    "name": "a-copy.txt",
     "type": "file",
-    "content": "Hello\n",
-    "encoding": "utf8"
+    "encoding": "utf8",
+    "content": "Hello\n"
   },
-  "a.txt": {
+  {
+    "name": "a.txt",
     "type": "file",
-    "content": "Hello\n",
-    "encoding": "utf8"
+    "encoding": "utf8",
+    "content": "Hello\n"
   },
-  "b.txt": {
+  {
+    "name": "b.txt",
     "type": "file",
-    "content": "World!",
-    "encoding": "utf8"
+    "encoding": "utf8",
+    "content": "World!"
   },
-  "c": {
+  {
+    "name": "c",
     "type": "dir",
-    "children": {
-      "d.txt": {
+    "children": [
+      {
+        "name": "d.txt",
         "type": "file",
-        "content": "Oi!",
-        "encoding": "utf8"
+        "encoding": "utf8",
+        "content": "Oi!"
       },
-      "e.txt": {
+      {
+        "name": "e.txt",
         "type": "file",
-        "content": "Hola!",
-        "encoding": "utf8"
+        "encoding": "utf8",
+        "content": "Hola!"
       },
-      "f": {
+      {
+        "name": "f",
         "type": "dir",
-        "children": {
-          "g.txt": {
+        "children": [
+          {
+            "name": "g.txt",
             "type": "file",
-            "content": "Hi",
-            "encoding": "utf8"
+            "encoding": "utf8",
+            "content": "Hi"
           }
-        }
+        ]
       },
-      "special-pattern.js": {
+      {
+        "name": "special-pattern.js",
         "type": "file",
-        "content": "module.exports = {\n  ignore: true\n}\n",
-        "encoding": "utf8"
+        "encoding": "utf8",
+        "content": "module.exports = {\n  ignore: true\n}\n"
       }
-    }
+    ]
   },
-  "i.txt": {
+  {
+    "name": "i.txt",
     "type": "file",
-    "content": "ignore me!",
-    "encoding": "utf8"
+    "encoding": "utf8",
+    "content": "ignore me!"
   },
-  "js_modules": {
+  {
+    "name": "js_modules",
     "type": "dir",
-    "children": {
-      "awesome": {
+    "children": [
+      {
+        "name": "awesome",
         "type": "dir",
-        "children": {
-          "index.js": {
+        "children": [
+          {
+            "name": "index.js",
             "type": "file",
-            "content": "module.exports = () => {\n  return {\n    happiness: true\n  }\n}\n",
-            "encoding": "utf8"
+            "encoding": "utf8",
+            "content": "module.exports = () => {\n  return {\n    happiness: true\n  }\n}\n"
           }
-        }
+        ]
       }
-    }
+    ]
   }
-}
+]

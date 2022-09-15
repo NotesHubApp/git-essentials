@@ -1,12 +1,14 @@
-{
-  ".git": {
+[
+  {
+    "name": ".git",
     "type": "dir",
-    "children": {
-      "config": {
+    "children": [
+      {
+        "name": "config",
         "type": "file",
         "encoding": "utf8",
         "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"foo\"]\n\turl = git@github.com:foo/foo.git\n\tfetch = +refs/heads/*:refs/remotes/foo/*\n[remote \"bar\"]\n\turl = git@github.com:bar/bar.git\n\tfetch = +refs/heads/*:refs/remotes/bar/*\n"
       }
-    }
+    ]
   }
-}
+]
