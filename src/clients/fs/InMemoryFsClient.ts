@@ -14,6 +14,135 @@ import {
 } from '../../';
 
 
+enum FileMode {
+  NEW = 0,
+  TREE = 16877,
+  BLOB = 33188,
+  EXECUTABLE = 33261,
+  LINK = 40960,
+  COMMIT = 57344,
+}
+
+type Stat = {
+  mode: number
+  size: number
+  ctime: Date
+  mtime: Date
+}
+
+class StatImpl implements StatLike {
+  type: 'file' | 'dir' | 'symlink';
+  mode: number;
+  size: number;
+  ino: number | BigInt;
+  mtimeMs: number;
+  ctimeMs?: number;
+  ctime?: Date
+  mtime?: Date
+  uid: number;
+  gid: number;
+  dev: number;
+
+  constructor(stats: Stat, type: 'file' | 'dir' | 'symlink') {
+    this.type = type;
+    this.mode = stats.mode;
+    this.size = stats.size;
+    this.ino = 0;
+    this.ctimeMs = stats.ctime.valueOf()
+    this.mtimeMs = stats.mtime.valueOf()
+    this.ctime = stats.ctime
+    this.mtime = stats.mtime
+    this.uid = 1;
+    this.gid = 1;
+    this.dev = 1;
+  }
+
+  isFile() {
+    return this.type === 'file';
+  }
+
+  isDirectory() {
+    return this.type === 'dir';
+  }
+
+  isSymbolicLink() {
+    return this.type === 'symlink';
+  }
+}
+
+
+type FileTreeEntry = {
+  type: 'file'
+  name: string
+  content: Uint8Array
+  stat: Stat
+}
+
+type SymlinkTreeEntry = {
+  type: 'symlink'
+  name: string
+  target: string
+  stat: Stat
+}
+
+type FolderTreeEntry = {
+  type: 'dir'
+  name: string
+  children: TreeEntry[]
+  stat: Stat
+}
+
+type TreeEntry = FileTreeEntry | SymlinkTreeEntry | FolderTreeEntry
+
+type FolderTreeEntryDto = {
+  type: 'dir'
+  children: TreeEntriesDto
+}
+
+type FileTreeEntryDto = {
+  type: 'file'
+  content: string
+}
+
+type SymlinkTreeEntryDto = {
+  type: 'symlink'
+  target: string
+}
+
+type TreeEntryDto = FolderTreeEntryDto | FileTreeEntryDto | SymlinkTreeEntryDto
+
+export type TreeEntriesDto = { [name: string]: TreeEntryDto }
+
+function makeFile(name: string, content: Uint8Array | string): FileTreeEntry {
+  const data = typeof content === 'string' ? Buffer.from(content, 'base64'): content
+  const now = new Date()
+  const stat: Stat = { mode: FileMode.BLOB, size: data.byteLength, ctime: now, mtime: now }
+  return { type: 'file', name, content: data, stat }
+}
+
+function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
+  file.content = newContent
+  file.stat.size = newContent.byteLength
+  file.stat.mtime = new Date()
+}
+
+function makeSymlink(name: string, target: string): SymlinkTreeEntry {
+  const now = new Date()
+  const stat: Stat = { mode: FileMode.LINK, size: 0, ctime: now, mtime: now }
+  return { type: 'symlink', name, target: target, stat }
+}
+
+function makeEmptyFolder(name: string): FolderTreeEntry {
+  const now = new Date()
+  const stat: Stat = { mode: FileMode.TREE, size: 0, ctime: now, mtime: now }
+  return { type: 'dir', name, children: [], stat }
+}
+
+function split(path: string): string[] {
+  return (path ?? '').split('/').filter( x => x);
+}
+
+
 export class InMemoryFsClient implements FsClient {
   private readonly root: FolderTreeEntry
 
@@ -223,135 +352,3 @@ export class InMemoryFsClient implements FsClient {
     return { folder: targetFolder, entry, entryName }
   }
 }
-
-enum FileMode {
-  NEW = 0,
-  TREE = 16877,
-  BLOB = 33188,
-  EXECUTABLE = 33261,
-  LINK = 40960,
-  COMMIT = 57344,
-};
-
-
-type Stat = {
-  mode: number
-  size: number
-  ctime: Date
-  mtime: Date
-}
-
-class StatImpl implements StatLike {
-  type: 'file' | 'dir' | 'symlink';
-  mode: number;
-  size: number;
-  ino: number | BigInt;
-  mtimeMs: number;
-  ctimeMs?: number;
-  ctime?: Date
-  mtime?: Date
-  uid: number;
-  gid: number;
-  dev: number;
-
-  constructor(stats: Stat, type: 'file' | 'dir' | 'symlink') {
-    this.type = type;
-    this.mode = stats.mode;
-    this.size = stats.size;
-    this.ino = 0;
-    this.ctimeMs = stats.ctime.valueOf()
-    this.mtimeMs = stats.mtime.valueOf()
-    this.ctime = stats.ctime
-    this.mtime = stats.mtime
-    this.uid = 1;
-    this.gid = 1;
-    this.dev = 1;
-  }
-
-  isFile() {
-    return this.type === 'file';
-  }
-
-  isDirectory() {
-    return this.type === 'dir';
-  }
-
-  isSymbolicLink() {
-    return this.type === 'symlink';
-  }
-}
-
-
-type FileTreeEntry = {
-  type: 'file'
-  name: string
-  content: Uint8Array
-  stat: Stat
-}
-
-type SymlinkTreeEntry = {
-  type: 'symlink'
-  name: string
-  target: string
-  stat: Stat
-}
-
-type FolderTreeEntry = {
-  type: 'dir'
-  name: string
-  children: TreeEntry[]
-  stat: Stat
-}
-
-type TreeEntry = FileTreeEntry | SymlinkTreeEntry | FolderTreeEntry
-
-function makeFile(name: string, content: Uint8Array | string): FileTreeEntry {
-  const data = typeof content === 'string' ? Buffer.from(content, 'base64'): content
-  const now = new Date()
-  const stat: Stat = { mode: FileMode.BLOB, size: data.byteLength, ctime: now, mtime: now }
-  return { type: 'file', name, content: data, stat }
-}
-
-function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
-  file.content = newContent
-  file.stat.size = newContent.byteLength
-  file.stat.mtime = new Date()
-}
-
-function makeSymlink(name: string, target: string): SymlinkTreeEntry {
-  const now = new Date()
-  const stat: Stat = { mode: FileMode.LINK, size: 0, ctime: now, mtime: now }
-  return { type: 'symlink', name, target: target, stat }
-}
-
-function makeEmptyFolder(name: string): FolderTreeEntry {
-  const now = new Date()
-  const stat: Stat = { mode: FileMode.TREE, size: 0, ctime: now, mtime: now }
-  return { type: 'dir', name, children: [], stat }
-}
-
-function split(path: string): string[] {
-  return (path ?? '').split('/').filter( x => x);
-}
-
-
-
-//----------
-type FolderTreeEntryDto = {
-  type: 'dir'
-  children: TreeEntriesDto
-}
-
-type FileTreeEntryDto = {
-  type: 'file'
-  content: string
-}
-
-type SymlinkTreeEntryDto = {
-  type: 'symlink'
-  target: string
-}
-
-type TreeEntryDto = FolderTreeEntryDto | FileTreeEntryDto | SymlinkTreeEntryDto
-
-export type TreeEntriesDto = {[name: string]: TreeEntryDto}

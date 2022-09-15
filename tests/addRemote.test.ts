@@ -1,16 +1,16 @@
 import { expect } from 'chai'
 
 import { addRemote, Errors, listRemotes } from '../src'
+import { TreeEntriesDto } from '../src/clients/fs'
 import { makeFsFixture } from './helpers/makeFsFixture'
 
-import gitFolderFixture from './fixtures/addRemote.json'
-import { TreeEntriesDto } from '../src/clients/fs'
+import dataFixture from './fixtures/addRemote.json'
 
 
 describe('addRemote', () => {
   it('addRemote', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture('test-addRemote', gitFolderFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture('test-addRemote', dataFixture as TreeEntriesDto)
     const remote = 'baz'
     const url = 'git@github.com:baz/baz.git'
 
@@ -27,33 +27,39 @@ describe('addRemote', () => {
   })
 
   it('missing argument', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture('test-addRemote')
     const remote = 'baz'
     const url = undefined as any
-    // Test
+
+    // act
     let error = null
     try {
       await addRemote({ fs, dir, remote, url })
     } catch (err: any) {
       error = err
     }
+
+    // assert
     expect(error).not.to.be.null
     expect(error.code).to.eq(Errors.MissingParameterError.code)
   })
 
   it('invalid remote name', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture('test-addRemote')
     const remote = '@{HEAD~1}'
     const url = 'git@github.com:baz/baz.git'
-    // Test
+
+    // act
     let error = null
     try {
       await addRemote({ fs, dir, remote, url })
     } catch (err: any) {
       error = err
     }
+
+    // assert
     expect(error).not.to.be.null
     expect(error.code as any).to.eq(Errors.InvalidRefNameError.code)
   })
