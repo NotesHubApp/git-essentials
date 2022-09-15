@@ -6,45 +6,53 @@
   },
   "a-copy.txt": {
     "type": "file",
-    "content": "SGVsbG8K"
+    "content": "Hello\n",
+    "encoding": "utf8"
   },
   "a.txt": {
     "type": "file",
-    "content": "SGVsbG8K"
+    "content": "Hello\n",
+    "encoding": "utf8"
   },
   "b.txt": {
     "type": "file",
-    "content": "V29ybGQh"
+    "content": "World!",
+    "encoding": "utf8"
   },
   "c": {
     "type": "dir",
     "children": {
       "d.txt": {
         "type": "file",
-        "content": "T2kh"
+        "content": "Oi!",
+        "encoding": "utf8"
       },
       "e.txt": {
         "type": "file",
-        "content": "SG9sYSE="
+        "content": "Hola!",
+        "encoding": "utf8"
       },
       "f": {
         "type": "dir",
         "children": {
           "g.txt": {
             "type": "file",
-            "content": "SGk="
+            "content": "Hi",
+            "encoding": "utf8"
           }
         }
       },
       "special-pattern.js": {
         "type": "file",
-        "content": "bW9kdWxlLmV4cG9ydHMgPSB7CiAgaWdub3JlOiB0cnVlCn0K"
+        "content": "module.exports = {\n  ignore: true\n}\n",
+        "encoding": "utf8"
       }
     }
   },
   "i.txt": {
     "type": "file",
-    "content": "aWdub3JlIG1lIQ=="
+    "content": "ignore me!",
+    "encoding": "utf8"
   },
   "js_modules": {
     "type": "dir",
@@ -54,7 +62,8 @@
         "children": {
           "index.js": {
             "type": "file",
-            "content": "bW9kdWxlLmV4cG9ydHMgPSAoKSA9PiB7CiAgcmV0dXJuIHsKICAgIGhhcHBpbmVzczogdHJ1ZQogIH0KfQo="
+            "content": "module.exports = () => {\n  return {\n    happiness: true\n  }\n}\n",
+            "encoding": "utf8"
           }
         }
       }

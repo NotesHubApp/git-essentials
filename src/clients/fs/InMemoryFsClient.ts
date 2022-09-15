@@ -115,11 +115,10 @@ type TreeEntryDto = FolderTreeEntryDto | FileTreeEntryDto | SymlinkTreeEntryDto
 
 export type TreeEntriesDto = { [name: string]: TreeEntryDto }
 
-function makeFile(name: string, content: Uint8Array | string, encoding: FileTreeEncodingDto = 'base64'): FileTreeEntry {
-  const data = typeof content === 'string' ? Buffer.from(content, encoding): content
+function makeFile(name: string, content: Uint8Array): FileTreeEntry {
   const now = new Date()
-  const stat: Stat = { mode: FileMode.BLOB, size: data.byteLength, ctime: now, mtime: now }
-  return { type: 'file', name, content: data, stat }
+  const stat: Stat = { mode: FileMode.BLOB, size: content.byteLength, ctime: now, mtime: now }
+  return { type: 'file', name, content, stat }
 }
 
 function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
@@ -296,7 +295,7 @@ export class InMemoryFsClient implements FsClient {
     }
   }
 
-  public import(filepath: string, data: TreeEntriesDto) {
+  public importInto(filepath: string, data: TreeEntriesDto) {
     const { entry } = this.parsePath(filepath)
 
     if (!entry) {
@@ -316,7 +315,8 @@ export class InMemoryFsClient implements FsClient {
 
       switch (importEntry.type) {
         case 'file':
-          entry.children.push(makeFile(importEntryName, importEntry.content, importEntry.encoding))
+          const content = Buffer.from(importEntry.content, importEntry.encoding ?? 'base64')
+          entry.children.push(makeFile(importEntryName, content))
           break;
 
         case 'symlink':
@@ -325,7 +325,7 @@ export class InMemoryFsClient implements FsClient {
 
         case 'dir':
           entry.children.push(makeEmptyFolder(importEntryName))
-          this.import(`${filepath}/${importEntryName}`, importEntry.children)
+          this.importInto(`${filepath}/${importEntryName}`, importEntry.children)
           break;
       }
     }
