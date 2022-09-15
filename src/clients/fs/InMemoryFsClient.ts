@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 import {
   EEXIST,
   EncodingOpts,
@@ -45,7 +47,7 @@ export class InMemoryFsClient implements FsClient {
     if (entry) {
       updateFileContent(entry, content)
     } else {
-      folder.children.push(makeNewFile(entryName, content))
+      folder.children.push(makeFile(entryName, content))
     }
   }
 
@@ -148,8 +150,8 @@ export class InMemoryFsClient implements FsClient {
   /**
    * Return true if a file exists, false if it doesn't exist.
    * Rethrows errors that aren't related to file existance.
-   */
-   public async exists(filepath: string): Promise<boolean> {
+  */
+  public async exists(filepath: string): Promise<boolean> {
     try {
       await this.stat(filepath)
       return true
@@ -159,6 +161,41 @@ export class InMemoryFsClient implements FsClient {
       } else {
         console.log('Unhandled error in "FileSystem.exists()" function', err)
         throw err
+      }
+    }
+  }
+
+  public import(filepath: string, data: TreeEntriesDto) {
+    const { entry } = this.parsePath(filepath)
+
+    if (!entry) {
+      throw new ENOENT(filepath)
+    }
+
+    if (entry.type !== 'dir') {
+      throw new ENOTDIR(filepath)
+    }
+
+    if (entry.children.length > 0) {
+      throw new ENOTEMPTY(filepath)
+    }
+
+    for (const importEntryName in data) {
+      const importEntry = data[importEntryName]
+
+      switch (importEntry.type) {
+        case 'file':
+          entry.children.push(makeFile(importEntryName, importEntry.content))
+          break;
+
+        case 'symlink':
+          entry.children.push(makeSymlink(importEntryName, importEntry.target))
+          break;
+
+        case 'dir':
+          entry.children.push(makeEmptyFolder(importEntryName))
+          this.import(`${filepath}/${importEntryName}`, importEntry.children)
+          break;
       }
     }
   }
@@ -268,16 +305,23 @@ type FolderTreeEntry = {
 
 type TreeEntry = FileTreeEntry | SymlinkTreeEntry | FolderTreeEntry
 
-function makeNewFile(name: string, content: Uint8Array): FileTreeEntry {
+function makeFile(name: string, content: Uint8Array | string): FileTreeEntry {
+  const data = typeof content === 'string' ? Buffer.from(content, 'base64'): content
   const now = new Date()
-  const stat: Stat = { mode: FileMode.BLOB, size: content.byteLength, ctime: now, mtime: now }
-  return { type: 'file', name, content, stat }
+  const stat: Stat = { mode: FileMode.BLOB, size: data.byteLength, ctime: now, mtime: now }
+  return { type: 'file', name, content: data, stat }
 }
 
 function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
   file.content = newContent
   file.stat.size = newContent.byteLength
   file.stat.mtime = new Date()
+}
+
+function makeSymlink(name: string, target: string): SymlinkTreeEntry {
+  const now = new Date()
+  const stat: Stat = { mode: FileMode.LINK, size: 0, ctime: now, mtime: now }
+  return { type: 'symlink', name, target: target, stat }
 }
 
 function makeEmptyFolder(name: string): FolderTreeEntry {
@@ -289,3 +333,25 @@ function makeEmptyFolder(name: string): FolderTreeEntry {
 function split(path: string): string[] {
   return (path ?? '').split('/').filter( x => x);
 }
+
+
+
+//----------
+type FolderTreeEntryDto = {
+  type: 'dir'
+  children: TreeEntriesDto
+}
+
+type FileTreeEntryDto = {
+  type: 'file'
+  content: string
+}
+
+type SymlinkTreeEntryDto = {
+  type: 'symlink'
+  target: string
+}
+
+type TreeEntryDto = FolderTreeEntryDto | FileTreeEntryDto | SymlinkTreeEntryDto
+
+export type TreeEntriesDto = {[name: string]: TreeEntryDto}
