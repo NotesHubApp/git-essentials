@@ -1,0 +1,63 @@
+{
+  ".gitignore": {
+    "type": "file",
+    "encoding": "utf8",
+    "content": "*-pattern.js\ni.txt\njs_modules\n.DS_Store"
+  },
+  "a-copy.txt": {
+    "type": "file",
+    "content": "SGVsbG8K"
+  },
+  "a.txt": {
+    "type": "file",
+    "content": "SGVsbG8K"
+  },
+  "b.txt": {
+    "type": "file",
+    "content": "V29ybGQh"
+  },
+  "c": {
+    "type": "dir",
+    "children": {
+      "d.txt": {
+        "type": "file",
+        "content": "T2kh"
+      },
+      "e.txt": {
+        "type": "file",
+        "content": "SG9sYSE="
+      },
+      "f": {
+        "type": "dir",
+        "children": {
+          "g.txt": {
+            "type": "file",
+            "content": "SGk="
+          }
+        }
+      },
+      "special-pattern.js": {
+        "type": "file",
+        "content": "bW9kdWxlLmV4cG9ydHMgPSB7CiAgaWdub3JlOiB0cnVlCn0K"
+      }
+    }
+  },
+  "i.txt": {
+    "type": "file",
+    "content": "aWdub3JlIG1lIQ=="
+  },
+  "js_modules": {
+    "type": "dir",
+    "children": {
+      "awesome": {
+        "type": "dir",
+        "children": {
+          "index.js": {
+            "type": "file",
+            "content": "bW9kdWxlLmV4cG9ydHMgPSAoKSA9PiB7CiAgcmV0dXJuIHsKICAgIGhhcHBpbmVzczogdHJ1ZQogIH0KfQo="
+          }
+        }
+      }
+    }
+  }
+}

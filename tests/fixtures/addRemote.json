@@ -2,10 +2,7 @@
   ".git": {
     "type": "dir",
     "children": {
-      "config": {
-        "type": "file",
-        "content": "W2NvcmVdCglyZXBvc2l0b3J5Zm9ybWF0dmVyc2lvbiA9IDAKCWZpbGVtb2RlID0gZmFsc2UKCWJhcmUgPSB0cnVlCglzeW1saW5rcyA9IGZhbHNlCglpZ25vcmVjYXNlID0gdHJ1ZQpbcmVtb3RlICJmb28iXQoJdXJsID0gZ2l0QGdpdGh1Yi5jb206Zm9vL2Zvby5naXQKCWZldGNoID0gK3JlZnMvaGVhZHMvKjpyZWZzL3JlbW90ZXMvZm9vLyoKW3JlbW90ZSAiYmFyIl0KCXVybCA9IGdpdEBnaXRodWIuY29tOmJhci9iYXIuZ2l0CglmZXRjaCA9ICtyZWZzL2hlYWRzLyo6cmVmcy9yZW1vdGVzL2Jhci8qCg=="
-      }
+      "config": { "type": "file", "content": "W2NvcmVdCglyZXBvc2l0b3J5Zm9ybWF0dmVyc2lvbiA9IDAKCWZpbGVtb2RlID0gZmFsc2UKCWJhcmUgPSB0cnVlCglzeW1saW5rcyA9IGZhbHNlCglpZ25vcmVjYXNlID0gdHJ1ZQpbcmVtb3RlICJmb28iXQoJdXJsID0gZ2l0QGdpdGh1Yi5jb206Zm9vL2Zvby5naXQKCWZldGNoID0gK3JlZnMvaGVhZHMvKjpyZWZzL3JlbW90ZXMvZm9vLyoKW3JlbW90ZSAiYmFyIl0KCXVybCA9IGdpdEBnaXRodWIuY29tOmJhci9iYXIuZ2l0CglmZXRjaCA9ICtyZWZzL2hlYWRzLyo6cmVmcy9yZW1vdGVzL2Jhci8qCg==" }
     }
   }
 }
