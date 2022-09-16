@@ -1,0 +1,110 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "objects",
+        "type": "dir",
+        "children": [
+          {
+            "name": "24",
+            "type": "dir",
+            "children": [
+              {
+                "name": "fc0a9596d825432f06f0c7e3286898b89a04f2",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "x���A\n\u00021\fE]�\u0014����4ӂ�Wi:\u0019\u0015\r\u001d�\n\u001e��\tܼ���fv���q�7U I!Ε)Ta�\\�Q#ɒf�!�ET)#���uȧ��~��O=�f�qG�'���\t��_��߂��P\u0018�Ws_�_0�"
+              }
+            ]
+          },
+          {
+            "name": "4b",
+            "type": "dir",
+            "children": [
+              {
+                "name": "825dc642cb6eb9a060e54bf8d69288fbee4904",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eJwrKUpNVTBgAAAKLAIB"
+              }
+            ]
+          },
+          {
+            "name": "8f",
+            "type": "dir",
+            "children": [
+              {
+                "name": "7a1ba0e8eb33743c8c7fa9920b6da809c99107",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eJwrKUpNVTA2ZjA0MDAzMVHISM3JyWc4k9RzVqBEe90KFZlIlfsztWMY5xcCAA0KDfM="
+              }
+            ]
+          },
+          {
+            "name": "cc",
+            "type": "dir",
+            "children": [
+              {
+                "name": "628ccd10742baea8241c5924df992b5c019f71",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eJxLyslPUjBjKM8vyknhAgAeUwQo"
+              }
+            ]
+          },
+          {
+            "name": "d4",
+            "type": "dir",
+            "children": [
+              {
+                "name": "ddffa3db6f52466e09076e70fbefa0641b4cea",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eJyNjkkOwjAMADnnFfkAyFnq2BJCfMVxHUCitCpheT6IF3CZ22hG52m6dB8YN30189SKhCpgZDWlkpOSlibMESqOQsDKHKC4RVa7dR9zUxAeGEeKQ06xATbQYikSElMlFsgtOnn087z60ze2/+Job5mWq+10ng4+DDkHxILBb6EAOP1tdftbcC952t19AINmPAA="
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "refs",
+        "type": "dir",
+        "children": [
+          {
+            "name": "heads",
+            "type": "dir",
+            "children": [
+              {
+                "name": "master",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "d4ddffa3db6f52466e09076e70fbefa0641b4cea\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HEAD",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "d4ddffa3db6f52466e09076e70fbefa0641b4cea\n"
+      },
+      {
+        "name": "config",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = false\n\tlogallrefupdates = true\n\tsymlinks = false\n\tignorecase = true\n"
+      },
+      {
+        "name": "index",
+        "type": "file",
+        "encoding": "base64",
+        "content": "RElSQwAAAAIAAAABXAodaQ9CQABcCh1pD0JAAAAAAC0BEQhvAACBpAAAA+gAAAPoAAAABsxijM0QdCuuqCQcWSTfmStcAZ9xAAVoZWxsbwAAAAAAx4EkfgRBGf4Is0VkL5w2WHYHFKI="
+      }
+    ]
+  }
+]

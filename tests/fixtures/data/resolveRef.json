@@ -1,0 +1,146 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "objects",
+        "type": "dir",
+        "children": [
+          {
+            "name": "03",
+            "type": "dir",
+            "children": [
+              {
+                "name": "3417ae18b174f078f2f44232cb7a374f4c60ce",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGdVEnTo0YMzZlf0bccyIzZmiWVpAJeMNif2cFwg6bBmNXs9q8PM7nmFJ2kJ6mkUuk91NZ1MQKa5rlfxh5jwFM0D1kkMDRFiwnMEinlaI6VaMxCKqMFKCIWiTFHdHGPmxEkYkJnCKME8RnEsZggiYaIjRFLS1hEEk4YisskSMTT+Gh7EBRVBc5FNbYN+GOpHz+9v/M6LqrvqK3/AjSkGF6gJciAbxRHUcSGbiuO+P/05l0+FDn49sOUo6rdgKmawNHUm+x69vEnTgAf90PRNr8DtZlMFcw0AQhQWBpSZFmRc1lVLD0qTduS5VY/6qE+XQKn4GPoS5q5K+xTNcjnJ1etMLujVg1IuiSfBPCemOHDfVqFWMtsYz24CHtPzQ0EVS2bl25M/hW79iUZz9S8FrRpv1Itu7LOsVug3jIEMPMht47nd9cHWjaXzroXOSt9jujK0eSw59GzjthT/Z7W1hOMN3WXZp8p3+eD5X5FeR5sO6SP9SjNffcuxbVQuZFeq9NOzXYjqTt1rdCyo7BeFuHsA4+91zzabg2hbNYUt9eHziLAjX1qBauIbzG77U1oneRy33ycfhWbjKSsVnIU0zai7MuU4qeafLQ0Wd27f48MRqJkcbulak4RAytmHTIfJnxzv1XYdOjaEgZLWd2jLfGhS13GeRv72SfL1a59HhZGGup8n2CNAKEhVRDpbcV2ZXAZ7mrufVDkvaodxZOhFQqLJZ5v9KKwr/KaImmfT7R4sfDSCCarCm8CVB6VBJXrLpQfRpFIRl0DZ1fV/FP17JzrKYr7cCz9d8jwVuyVc2qSMG2/YuMRHTxHOmz/IEuygYJIDor+0wZGkCj3SdTRvuHsoMxk119rmUt8qJHOW4L74G4ppno69eHcklbhEGAN23svwq8XEprhEl8URIpiJFS+c3s+Em7yboj6eDHT7EPDXLCtPpfGTYaDdaEuzKdfCDCQxrh9wMg63Z7SFU7goDDsBF8075/Jp6z7/OlZaJznsLYt8X7Br5S7kvF5Ofud1vYhAbgEDt4rPPim9N59dY7ctB4B/tR5ciD+pcnxdvgvkhAaSKemaUGRgfFRDGD5QeQex1X1Bkvbl7/9yGxSkrZ4aH4dwXMaRpAXMwZTB0Y8jEWTb/VDW83YxhnINjGIwbIJAAabW8cl3uKsWMepx8Q/1UN0cA=="
+              }
+            ]
+          },
+          {
+            "name": "1e",
+            "type": "dir",
+            "children": [
+              {
+                "name": "40fdfba1cf17f3c9f9f3d6b392b1865e5147b9",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGdk0evq1YUhTPmV5w5ejHVQPQSBTCm2KaYzgxTz6U3U359nJvpG2WPtpa0i9bSl3RNA2eAYwT+2zxmGaAInMM4miOymM4IIjmnaXzmUjxJWBrHWYLCKIalKAqJl7nsRuDDugYKrOeuBT/Xpvzu/i6aGNa/J13zF8BpDCdZnOUo8AOjMAz5qJ+Tc/Z/Zou+mGABfvxbgiSrOjBlE9iqrPOO+5S+dQR42TjBrv0DyO1iyuCNIwAB0FITgecFvuBlwdKi3HVlnu80SQu15ebb8BzTuKdavGauXsW8rv5L7+4vyCmQI/GKRIB0rmSf1Vp/TZxzyOR9g3V63wUz6h6Dlrql50CU4daJ3G8JtuAJT5CtF1xcK2x0wWEQQIbVEZjE62xILGRaLM8P/2WoqzL4ZsvUDfasp8mWwge/ysfFMan8i4DTU7wKg0XUr88P6dAz0euA1buqLEOfOP7WS8y990PHW3apFlaDeM61mkTWOBFcLmxRQQ1UXl3RZjDKHgGXh/9Q346eiTFJT1+NX1IoNAODEOcu9G5BLh6RPR91lonLasnPMhfv27jNyRIYT+lL/myAtdyKEQYfHCrWx4VaL25+ikPySmfbPhDdUM3qwLBSeX2raneEaOHGTns+ApiM9JJ+fMAsy8TOpJOzq0iKO0fH0sBZwz2sHkFphMJlb+jcj1fJ75hpagzVxztMtXNbZXvHixDwikY65workpza8UvbLGlVHoZUGVUiX+m+agxcPxlSS93ZC/Nkv7pp3gnWo9C1IorJQMDq2uYuvBmp9zZCmw2U8xeOwvPoRgyGIDTOV+KE+8SZVhZyrjKPjkXuJ3w8Dem9T10FAZxyO230ritD39q8o/RPGLV59b7l8bat6is27oLpsVVpxqdj4dILivnbJbDnuyf4eVAg4PEO+YUa0MayC0PHrQWt/OLM1Hq5nU7VU8Fu6Nt9aJ+8EvaB7m5RaeVzUE6KKh1SonkIyDIq1wlV9QNMdPSRvU5sjIA/MWf7RP2Ng6RffgUJorZwhnEN/sMR+Qd6eEXH"
+              }
+            ]
+          },
+          {
+            "name": "e1",
+            "type": "dir",
+            "children": [
+              {
+                "name": "0ebb90d03eaacca84de1af0a59b444232da99e",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGdk8nOo0gQhOfMU9Td6nYBBYbRzGgAGwzeMPwG7BtLQWGWYjfm6dvTc+1T5ykVikh9UipiWlX5AFiW5f8YOowBhpGU8sIGQRFizCEMeYzClJdkMRWFJOGgFIowjpkm7HA9gAilEgfFRMa8ICNWjGDKI46X4ghHCMJ0k4SSJIcSE44DoR3w87IE+7wcaA3+elXk5/ZvVoV5+T2m1T+AFSCHJMRBCL7BzwXmo34QB/w72azJ+jwD3/4bdWeYZ2AbNnBN46x83ZzdT50BHu76nNZ/AqMebQNMLAMYkF/NWFUUVckUQ71ajyeJqKJQa2fdrfHgu7kYCp5ws9cfSDfFlcXytqMG/cBhVZCzngE8sWdO3joHlejDVKxGdyUJHL8mt7R7cxT7fiLenSKui3lWboNap4tXmLKSOWbMnr9ODCBCMBxP1zHSlMNLsvzJm2iw+1pennLZVkk1ach3r9pxXNGGYnHtb5yp6L62sImK1x7tGHAKKAkFuTf9x1oP40cgqu97S/R3kVpHKdP0yXGXZ96qZtTbm6DlTgQ9C+VwL4Vl9viRAa1WcCKpyXG1Kl5pUI7cPTEGVV6VT74p2DP2W4ffyIuzEGSzUJ8Di5Vad46XqFD0y50BIhXIJlyf2pI9tL4q73R1bLTm+U6qRhlsKpbsrUchX+aqcLQmjchz5nD7wSUOiuTNhQG12QQ2qrM3WuTbuwuCeW7y67VeF169Hg/ZMBmNVF/0nFKRtbVcfvbctbrOcT+qF3xZMWCb6K1QcPbp/Di+8mVAtrQzUs+idnQkyd1G1M9P2nj31lx6JpAu5bplN+Le6Jcy7Qr8+SbPPWAVWrwizKbzhNFmcs57T1KUUt4STPlj3zwxnWwuf8faXrchn7mNdkiOjupo6IsBAQtVVd9KNdVOgTVHQovrLl3hg5NICco21hC/l9bLCvUqSoZpSAh5vqPS8rLMSH0LDIiV8LV27+bD4B3aKTHL5o9NP4XwqZsufla7xcTRqBF3SfwLd7n4jjedEvJ+vLbHW6ZEDLjmM+Giys46nsj13HLbqmbA32i1PTP/12R33v6qJIxZNR2dMOhwT8sJOzgFAwUkrJMSg4p2GBR5nfSAph9L2n8HSpKAAfdDz/wA+oJjyQ=="
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "refs",
+        "type": "dir",
+        "children": [
+          {
+            "name": "heads",
+            "type": "dir",
+            "children": [
+              {
+                "name": "config",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "e10ebb90d03eaacca84de1af0a59b444232da99e\n"
+              },
+              {
+                "name": "master",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "033417ae18b174f078f2f44232cb7a374f4c60ce\n"
+              },
+              {
+                "name": "test-branch",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "e10ebb90d03eaacca84de1af0a59b444232da99e\n"
+              }
+            ]
+          },
+          {
+            "name": "remotes",
+            "type": "dir",
+            "children": [
+              {
+                "name": "origin",
+                "type": "dir",
+                "children": [
+                  {
+                    "name": "master",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "033417ae18b174f078f2f44232cb7a374f4c60ce\n"
+                  },
+                  {
+                    "name": "test-branch",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "e10ebb90d03eaacca84de1af0a59b444232da99e\n"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "tags",
+            "type": "dir",
+            "children": [
+              {
+                "name": "test-tag",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HEAD",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "ref: refs/heads/master\n"
+      },
+      {
+        "name": "config",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n\tignorecase = true\n\tprecomposeunicode = true\n"
+      },
+      {
+        "name": "description",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "Unnamed repository; edit this file 'description' to name the repository.\n"
+      },
+      {
+        "name": "packed-refs",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "# pack-refs with: peeled fully-peeled \n1a2149e96a9767b281a8f10fd014835322da2d14 refs/tags/v0.0.1\n"
+      },
+      {
+        "name": "shallow",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "b8b1fcecbc6f5ea8bc915c3ac319e8c9eb204f95\n"
+      }
+    ]
+  }
+]
