@@ -60,7 +60,23 @@ function isBinary(buffer) {
   const MAX_XDIFF_SIZE = 1024 * 1024 * 1023
   if (buffer.length > MAX_XDIFF_SIZE) return true
   // check for null characters in the first 8000 bytes
-  return buffer.slice(0, 8000).some(value => value === 0)
+  const hasNullChar = buffer.slice(0, 8000).some(value => value === 0)
+  if (hasNullChar) return true
+
+  // check for known headers
+  const magicNumbers = [
+    [0x78, 0x01], // zlib (no compression/low)
+    [0x78, 0x9C], // zlib (default compression)
+    [0x78, 0xDA], // zlib (best Compression)
+  ]
+
+  for (const header of magicNumbers) {
+    if (buffer.byteLength >= header.length && header.every((v, i) => v === buffer[i])) {
+      return true
+    }
+  }
+
+  return false
 }
 
 
