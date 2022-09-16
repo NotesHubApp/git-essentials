@@ -4,13 +4,13 @@ import { addRemote, Errors, listRemotes } from '../src'
 import { TreeEntriesDto } from '../src/clients/fs'
 import { makeFsFixture } from './helpers/makeFsFixture'
 
-import dataFixture from './fixtures/data/addRemote.json'
+import addRemoteDataFixture from './fixtures/data/addRemote.json'
 
 
 describe('addRemote', () => {
   it('addRemote', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture('test-addRemote', dataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture('addRemote', addRemoteDataFixture as TreeEntriesDto)
     const remote = 'baz'
     const url = 'git@github.com:baz/baz.git'
 
@@ -28,7 +28,7 @@ describe('addRemote', () => {
 
   it('missing argument', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture('test-addRemote')
+    const { fs, dir } = await makeFsFixture('addRemote')
     const remote = 'baz'
     const url = undefined as any
 
@@ -47,7 +47,7 @@ describe('addRemote', () => {
 
   it('invalid remote name', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture('test-addRemote')
+    const { fs, dir } = await makeFsFixture('addRemote')
     const remote = '@{HEAD~1}'
     const url = 'git@github.com:baz/baz.git'
 

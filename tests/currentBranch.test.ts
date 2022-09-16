@@ -8,31 +8,31 @@ import resolveRefDataFixture from './fixtures/data/resolveRef.json'
 import detachedHeadDataFixture from './fixtures/data/detachedHead.json'
 
 describe('currentBranch', () => {
-  it('resolve HEAD to master', async () => {
+  it('resolve HEAD to main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture('test-resolveRef', resolveRefDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture('resolveRef', resolveRefDataFixture as TreeEntriesDto)
 
     // act
     const branch = await currentBranch({ fs, dir })
 
     // assert
-    expect(branch).to.eq('master')
+    expect(branch).to.eq('main')
   })
 
-  it('resolve HEAD to refs/heads/master', async () => {
+  it('resolve HEAD to refs/heads/main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture('test-resolveRef', resolveRefDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture('resolveRef', resolveRefDataFixture as TreeEntriesDto)
 
     // act
     const branch = await currentBranch({ fs, dir, fullname: true })
 
     // assert
-    expect(branch).to.eq('refs/heads/master')
+    expect(branch).to.eq('refs/heads/main')
   })
 
   it('returns undefined if HEAD is detached', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture('test-detachedHead', detachedHeadDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture('detachedHead', detachedHeadDataFixture as TreeEntriesDto)
 
     // act
     const branch = await currentBranch({ fs, dir })

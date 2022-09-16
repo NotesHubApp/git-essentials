@@ -60,7 +60,7 @@
                 "content": "e10ebb90d03eaacca84de1af0a59b444232da99e\n"
               },
               {
-                "name": "master",
+                "name": "main",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "033417ae18b174f078f2f44232cb7a374f4c60ce\n"
@@ -82,7 +82,7 @@
                 "type": "dir",
                 "children": [
                   {
-                    "name": "master",
+                    "name": "main",
                     "type": "file",
                     "encoding": "utf8",
                     "content": "033417ae18b174f078f2f44232cb7a374f4c60ce\n"
@@ -115,7 +115,7 @@
         "name": "HEAD",
         "type": "file",
         "encoding": "utf8",
-        "content": "ref: refs/heads/master\n"
+        "content": "ref: refs/heads/main\n"
       },
       {
         "name": "config",

@@ -7,7 +7,7 @@ import { makeFsFixture } from './helpers/makeFsFixture';
 describe('init', () => {
   it('init', async () => {
     // arrange
-    const { dir, fs } = await makeFsFixture('test-init')
+    const { dir, fs } = await makeFsFixture('init')
 
     // act
     await init({ dir, fs })
@@ -21,7 +21,7 @@ describe('init', () => {
 
   it('init --bare', async () => {
     // arrange
-    const { dir, fs } = await makeFsFixture('test-init')
+    const { dir, fs } = await makeFsFixture('init')
 
     // act
     await init({ fs, dir, bare: true })
@@ -35,7 +35,7 @@ describe('init', () => {
 
   it('init does not overwrite existing config', async () => {
     // arrange
-    const { dir, fs } = await makeFsFixture('test-init')
+    const { dir, fs } = await makeFsFixture('init')
     const name = 'me'
     const email = 'meme'
     await init({ fs, dir })
