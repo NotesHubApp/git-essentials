@@ -3,11 +3,11 @@ const fs = require('fs')
 
 const [folderPath] = process.argv.slice(2)
 
-let jsonObj = []
-readFolder(folderPath, jsonObj)
+let dataObj = []
+readFolder(folderPath, dataObj)
 
-const data = JSON.stringify(jsonObj, null, 2);
-fs.writeFileSync(path.join(path.dirname(folderPath), `${path.basename(folderPath)}.json`), data)
+const dataStr = JSON.stringify(dataObj, null, 2);
+fs.writeFileSync(path.join(path.dirname(folderPath), `${path.basename(folderPath)}.json`), dataStr)
 
 /**
  *
