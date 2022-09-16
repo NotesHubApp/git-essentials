@@ -297,7 +297,7 @@ export class InMemoryFsClient implements FsClient {
     }
   }
 
-  public importInto(filepath: string, data: TreeEntriesDto) {
+  public import(filepath: string, data: TreeEntriesDto) {
     const { entry } = this.parsePath(filepath)
 
     if (!entry) {
@@ -325,7 +325,7 @@ export class InMemoryFsClient implements FsClient {
 
         case 'dir':
           entry.children.push(makeEmptyFolder(importEntry.name))
-          this.importInto(`${filepath}/${importEntry.name}`, importEntry.children)
+          this.import(`${filepath}/${importEntry.name}`, importEntry.children)
           break;
       }
     }

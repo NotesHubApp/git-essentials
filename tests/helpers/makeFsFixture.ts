@@ -6,7 +6,7 @@ export async function makeFsFixture(data?: TreeEntriesDto) {
   await fs.mkdir(targetDir)
 
   if (data) {
-    fs.importInto(targetDir, data)
+    fs.import(targetDir, data)
   }
 
   return { fs, dir: targetDir }
