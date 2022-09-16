@@ -4,7 +4,7 @@ import { init, add, listFiles } from '../src'
 import { TreeEntriesDto } from '../src/clients/fs'
 import { makeFsFixture } from './helpers/makeFsFixture'
 
-import dataFixture from './fixtures/add.json'
+import dataFixture from './fixtures/data/add.json'
 
 
 describe('add', () => {

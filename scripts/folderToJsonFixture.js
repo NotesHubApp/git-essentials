@@ -11,22 +11,35 @@ fs.writeFileSync(path.join(path.dirname(folderPath), `${path.basename(folderPath
 
 /**
  *
- * @param {string} path
+ * @param {string} folderPath
  * @param {Array} obj
  */
 function readFolder(folderPath, obj) {
-  const treeEntries = fs.readdirSync(folderPath)
+  const treeEntries = fs.readdirSync(folderPath).map(x => ({
+      treeEntryName: x,
+      treeEntryPath: path.join(folderPath, x),
+      treeEntryStat: fs.statSync(path.join(folderPath, x))
+    }))
 
-  for (const treeEntryName of treeEntries) {
-    const treeEntryPath = path.join(folderPath, treeEntryName)
-    const treeEntryStat = fs.statSync(treeEntryPath)
+  treeEntries.sort((a, b) => {
+    if (
+      (a.treeEntryStat.isDirectory() && b.treeEntryStat.isDirectory()) ||
+      (a.treeEntryStat.isFile() && b.treeEntryStat.isFile()) ||
+      (a.treeEntryStat.isSymbolicLink() && b.treeEntryStat.isSymbolicLink())) {
+      return stringComparer(a.name, b.name);
+    } else if (a.treeEntryStat.isDirectory() && (b.treeEntryStat.isFile() || b.treeEntryStat.isSymbolicLink())) {
+      return -1;
+    } else {
+      return 1;
+    }
+  })
 
+  for (const { treeEntryName, treeEntryPath, treeEntryStat } of treeEntries) {
     if (treeEntryStat.isFile()) {
       const data = fs.readFileSync(treeEntryPath)
-      const isBinaryData = isBinary(data)
-      const content = data.toString(isBinaryData ? 'base64' : 'utf8')
-      const encoding = isBinaryData ? {} : { encoding: 'utf8' }
-      obj.push({ name: treeEntryName, type: 'file', ...encoding, content })
+      const encoding = isBinary(data) ? 'base64' : 'utf8'
+      const content = data.toString(encoding)
+      obj.push({ name: treeEntryName, type: 'file', encoding, content })
     } else if (treeEntryStat.isSymbolicLink()) {
       obj.push({ name: treeEntryName, type: 'symlink', target: fs.readlinkSync(treeEntryPath) })
     } else if (treeEntryStat.isDirectory()) {
@@ -48,4 +61,16 @@ function isBinary(buffer) {
   if (buffer.length > MAX_XDIFF_SIZE) return true
   // check for null characters in the first 8000 bytes
   return buffer.slice(0, 8000).some(value => value === 0)
+}
+
+
+/**
+ * @param {string} a
+ * @param {string} b
+ * @returns
+ */
+function stringComparer(a, b) {
+  if (a < b) { return -1; }
+  if (a > b) { return 1; }
+  return 0;
 }

@@ -4,7 +4,7 @@ import { addRemote, Errors, listRemotes } from '../src'
 import { TreeEntriesDto } from '../src/clients/fs'
 import { makeFsFixture } from './helpers/makeFsFixture'
 
-import dataFixture from './fixtures/addRemote.json'
+import dataFixture from './fixtures/data/addRemote.json'
 
 
 describe('addRemote', () => {
