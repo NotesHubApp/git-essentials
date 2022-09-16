@@ -1,8 +1,7 @@
 import { expect } from 'chai'
 
 import { listFiles } from '../src'
-import { makeFsFixture } from './helpers/makeFsFixture'
-import { TreeEntriesDto } from '../src/clients/fs'
+import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
 
 import listFilesDataFixture from './fixtures/data/listFiles.json'
 import checkoutDataFixture from './fixtures/data/checkout.json'
@@ -10,7 +9,7 @@ import checkoutDataFixture from './fixtures/data/checkout.json'
 describe('listFiles', () => {
   it('index', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(listFilesDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(listFilesDataFixture as DataFixture)
 
     // Test
     const files = await listFiles({ fs, dir })
@@ -54,7 +53,7 @@ describe('listFiles', () => {
 
   it('ref', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(checkoutDataFixture as DataFixture)
 
     // act
     const files = await listFiles({ fs, dir, ref: 'test-branch' })

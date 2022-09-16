@@ -1,8 +1,7 @@
 import { expect } from 'chai'
 
 import { init, add, listFiles } from '../src'
-import { TreeEntriesDto } from '../src/clients/fs'
-import { makeFsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
 
 import addDataFixture from './fixtures/data/add.json'
 
@@ -10,7 +9,7 @@ import addDataFixture from './fixtures/data/add.json'
 describe('add', () => {
   it('file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(addDataFixture as DataFixture)
 
     // act
     await init({ fs, dir })
@@ -36,7 +35,7 @@ describe('add', () => {
 
   it('ignored file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(addDataFixture as DataFixture)
 
     // act
     await init({ fs, dir })
@@ -48,7 +47,7 @@ describe('add', () => {
 
   it('non-existant file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(addDataFixture as DataFixture)
 
     // act
     await init({ fs, dir })
@@ -66,7 +65,7 @@ describe('add', () => {
 
   it('folder', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(addDataFixture as DataFixture)
     await fs.unlink(`${dir}/.gitignore`)
 
     // act
@@ -82,7 +81,7 @@ describe('add', () => {
 
   it('folder with .gitignore', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(addDataFixture as DataFixture)
 
     // act
     await init({ fs, dir })
@@ -97,7 +96,7 @@ describe('add', () => {
 
   it('git add .', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addDataFixture as TreeEntriesDto)
+    const { fs, dir } = await makeFsFixture(addDataFixture as DataFixture)
 
     // act
     await init({ fs, dir })

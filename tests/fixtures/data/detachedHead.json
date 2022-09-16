@@ -78,7 +78,7 @@
             "type": "dir",
             "children": [
               {
-                "name": "master",
+                "name": "main",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "d4ddffa3db6f52466e09076e70fbefa0641b4cea\n"

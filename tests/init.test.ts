@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { init, setConfig, getConfig } from '../src'
-import { makeFsFixture } from './helpers/makeFsFixture';
+import { makeFsFixture } from './helpers/makeFsFixture'
 
 
 describe('init', () => {
