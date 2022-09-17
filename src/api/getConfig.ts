@@ -1,10 +1,11 @@
 import { _getConfig } from '../commands/getConfig'
+import { ConfigPath } from '../models'
 import { FileSystem } from '../models/FileSystem'
 import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-type GetConfigParams = {
+type GetConfigParams<T> = {
   /** A file system implementation. */
   fs: FsClient
 
@@ -15,7 +16,7 @@ type GetConfigParams = {
   gitdir?: string
 
   /** The key of the git config entry. */
-  path: string
+  path: T
 }
 
 /**
@@ -39,7 +40,7 @@ type GetConfigParams = {
  * console.log(value)
  *
  */
-export async function getConfig({ fs, dir, gitdir = join(dir, '.git'), path }: GetConfigParams) {
+export async function getConfig<T extends ConfigPath>({ fs, dir, gitdir = join(dir, '.git'), path }: GetConfigParams<T>) {
   try {
     assertParameter('fs', fs)
     assertParameter('gitdir', gitdir)

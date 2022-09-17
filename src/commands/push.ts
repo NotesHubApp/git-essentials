@@ -85,20 +85,22 @@ export async function _push({
   // Figure out what remote to use.
   remote =
     remote ||
-    (await config.get(`branch.${ref}.pushRemote`)) as string ||
-    (await config.get('remote.pushDefault')) as string ||
-    (await config.get(`branch.${ref}.remote`)) as string ||
-    'origin'
+      config.get(`branch.${ref}.pushRemote`) ||
+      config.get('remote.pushDefault') ||
+      config.get(`branch.${ref}.remote`) ||
+      'origin'
   // Lookup the URL for the given remote.
   const url =
     _url ||
-    (await config.get(`remote.${remote}.pushurl`)) as string ||
-    (await config.get(`remote.${remote}.url`)) as string
-  if (typeof url === 'undefined') {
+      config.get(`remote.${remote}.pushurl`) ||
+      config.get(`remote.${remote}.url`)
+
+      if (typeof url === 'undefined') {
     throw new MissingParameterError('remote OR url')
   }
+
   // Figure out what remote ref to use.
-  const remoteRef = _remoteRef || (await config.get(`branch.${ref}.merge`)) as  string
+  const remoteRef = _remoteRef || config.get(`branch.${ref}.merge`)
   if (typeof url === 'undefined') {
     throw new MissingParameterError('remoteRef')
   }

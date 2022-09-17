@@ -1,10 +1,11 @@
 import { FileSystem } from '../models/FileSystem'
 import { GitConfigManager } from '../managers/GitConfigManager'
+import { ConfigPath } from '../models'
 
-type GetConfigParams = {
+type GetConfigParams<T> = {
   fs: FileSystem
   gitdir: string
-  path: string
+  path: T
 }
 
 /**
@@ -21,7 +22,7 @@ type GetConfigParams = {
  * console.log(value)
  *
  */
-export async function _getConfig({ fs, gitdir, path }: GetConfigParams) {
+export async function _getConfig<T extends ConfigPath>({ fs, gitdir, path }: GetConfigParams<T>) {
   const config = await GitConfigManager.get({ fs, gitdir })
   return config.get(path)
 }

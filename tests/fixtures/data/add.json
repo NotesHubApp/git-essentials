@@ -1,0 +1,86 @@
+[
+  {
+    "name": "c",
+    "type": "dir",
+    "children": [
+      {
+        "name": "f",
+        "type": "dir",
+        "children": [
+          {
+            "name": "g.txt",
+            "type": "file",
+            "encoding": "utf8",
+            "content": "Hi"
+          }
+        ]
+      },
+      {
+        "name": "d.txt",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "Oi!"
+      },
+      {
+        "name": "e.txt",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "Hola!"
+      },
+      {
+        "name": "special-pattern.js",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "module.exports = {\n  ignore: true\n}\n"
+      }
+    ]
+  },
+  {
+    "name": "js_modules",
+    "type": "dir",
+    "children": [
+      {
+        "name": "awesome",
+        "type": "dir",
+        "children": [
+          {
+            "name": "index.js",
+            "type": "file",
+            "encoding": "utf8",
+            "content": "module.exports = () => {\n  return {\n    happiness: true\n  }\n}\n"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": ".gitignore",
+    "type": "file",
+    "encoding": "utf8",
+    "content": "*-pattern.js\ni.txt\njs_modules\n.DS_Store"
+  },
+  {
+    "name": "a-copy.txt",
+    "type": "file",
+    "encoding": "utf8",
+    "content": "Hello\n"
+  },
+  {
+    "name": "a.txt",
+    "type": "file",
+    "encoding": "utf8",
+    "content": "Hello\n"
+  },
+  {
+    "name": "b.txt",
+    "type": "file",
+    "encoding": "utf8",
+    "content": "World!"
+  },
+  {
+    "name": "i.txt",
+    "type": "file",
+    "encoding": "utf8",
+    "content": "ignore me!"
+  }
+]
