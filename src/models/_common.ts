@@ -24,6 +24,25 @@ export type NormalizedAuthor = {
   timezoneOffset: number
 }
 
+export type ConfigPath =
+  | 'core.filemode'
+  | 'core.bare'
+  | 'core.logallrefupdates'
+  | 'core.symlinks'
+  | 'core.ignorecase'
+  | 'core.bigFileThreshold'
+  | string
+
+export type ConfigValue<T> =
+  T extends 'core.filemode' ? boolean :
+  T extends 'core.bare' ? boolean :
+  T extends 'core.logallrefupdates' ? boolean :
+  T extends 'core.symlinks' ? boolean :
+  T extends 'core.ignorecase' ? boolean :
+  T extends 'core.bigFileThreshold' ? number :
+  T extends string ? string :
+  never;
+
 type SignCallbackParams = {
   /** A plaintext message. */
   payload: string

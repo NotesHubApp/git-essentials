@@ -115,16 +115,16 @@ export async function _fetch({
   const config = await GitConfigManager.get({ fs, gitdir })
   // Figure out what remote to use.
   const remote =
-    _remote || (ref && (await config.get(`branch.${ref}.remote`)) as string) || 'origin'
+    _remote || (ref && config.get(`branch.${ref}.remote`)) || 'origin'
   // Lookup the URL for the given remote.
-  const url = _url || (await config.get(`remote.${remote}.url`)) as string
+  const url = _url || config.get(`remote.${remote}.url`)
   if (typeof url === 'undefined') {
     throw new MissingParameterError('remote OR url')
   }
   // Figure out what remote ref to use.
   const remoteRef =
     _remoteRef ||
-    (ref && (await config.get(`branch.${ref}.merge`)) as string) ||
+    (ref && config.get(`branch.${ref}.merge`)) ||
     _ref ||
     'HEAD'
 

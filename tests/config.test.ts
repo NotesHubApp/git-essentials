@@ -10,7 +10,7 @@ describe('config', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(configDataFixture as DataFixture)
 
-    // Test
+    // act
     const sym = await getConfig({ fs, dir, path: 'core.symlinks' })
     const rfv = await getConfig({ fs, dir, path: 'core.repositoryformatversion' })
     const url = await getConfig({ fs, dir, path: 'remote.origin.url' })
@@ -34,20 +34,20 @@ describe('config', () => {
     const { fs, dir } = await makeFsFixture(configDataFixture as DataFixture)
 
     // act
-    let bare
+    let bare: boolean | undefined
 
     // set to true
-    await setConfig({ fs, dir, path: 'core.bare', value: true as any })
+    await setConfig({ fs, dir, path: 'core.bare', value: true })
     bare = await getConfig({ fs, dir, path: 'core.bare' })
     expect(bare).to.be.true
 
     // set to false
-    await setConfig({ fs, dir, path: 'core.bare', value: false as any })
+    await setConfig({ fs, dir, path: 'core.bare', value: false })
     bare = await getConfig({ fs, dir, path: 'core.bare' })
     expect(bare).to.be.false
 
     // set to undefined
-    await setConfig({ fs, dir, path: 'core.bare', value: undefined as any })
+    await setConfig({ fs, dir, path: 'core.bare', value: undefined })
     bare = await getConfig({ fs, dir, path: 'core.bare' })
     expect(bare).to.be.undefined
 

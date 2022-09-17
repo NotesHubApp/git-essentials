@@ -51,9 +51,10 @@ export class GitRefManager {
         throw new InvalidOidError(value)
       }
     }
+
     const config = await GitConfigManager.get({ fs, gitdir })
     if (!refspecs) {
-      refspecs = (await config.getall(`remote.${remote}.fetch`)) as string[]
+      refspecs = config.getall(`remote.${remote}.fetch`) as string[]
       if (refspecs.length === 0) {
         throw new NoRefspecError(remote)
       }

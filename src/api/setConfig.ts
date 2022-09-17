@@ -1,11 +1,12 @@
 import { GitConfigManager } from '../managers/GitConfigManager'
+import { ConfigPath, ConfigValue } from '../models'
 import { FileSystem } from '../models/FileSystem'
 import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 
-type SetConfigParams = {
+type SetConfigParams<T> = {
   /** A file system implementation. */
   fs: FsClient
 
@@ -16,10 +17,10 @@ type SetConfigParams = {
   gitdir?: string
 
   /** The key of the git config entry. */
-  path: string
+  path: T
 
   /** A value to store at that path (use `undefined` as the value to delete a config entry). */
-  value: string
+  value: ConfigValue<T> | undefined
 
   /** If true, will append rather than replace when setting (use with multi-valued config options). */
   append?: boolean
@@ -61,26 +62,25 @@ type SetConfigParams = {
  * file = await fs.promises.readFile('/tutorial/.git/config', 'utf8')
  * console.log(file)
  */
-export async function setConfig({
+export async function setConfig<T extends ConfigPath>({
   fs: _fs,
   dir,
   gitdir = join(dir, '.git'),
   path,
   value,
   append = false,
-}: SetConfigParams): Promise<void> {
+}: SetConfigParams<T>): Promise<void> {
   try {
     assertParameter('fs', _fs)
     assertParameter('gitdir', gitdir)
     assertParameter('path', path)
-    // assertParameter('value', value) // We actually allow 'undefined' as a value to unset/delete
 
     const fs = new FileSystem(_fs)
     const config = await GitConfigManager.get({ fs, gitdir })
     if (append) {
-      await config.append(path, value)
+      config.append(path, value)
     } else {
-      await config.set(path, value)
+      config.set(path, value)
     }
     await GitConfigManager.save({ fs, gitdir, config })
   } catch (err: any) {

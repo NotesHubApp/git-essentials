@@ -1,3 +1,5 @@
+import { ConfigPath, ConfigValue } from './_common'
+
 // This is straight from parse_unit_factor in config.c of canonical git
 const num = (val: string) => {
   val = val.toLowerCase()
@@ -19,7 +21,7 @@ const bool = (val: string) => {
 }
 
 const schema = new Map([
-  ['core', new Map<string | null, (val: string) => boolean | number | string>([
+  ['core', new Map<string | undefined, (val: string) => boolean | number | string>([
     ['filemode', bool],
     ['bare', bool],
     ['logallrefupdates', bool],
@@ -28,6 +30,7 @@ const schema = new Map([
     ['bigFileThreshold', num]
   ])]
 ])
+
 
 // https://git-scm.com/docs/git-config#_syntax
 
@@ -102,11 +105,11 @@ const removeQuotes = (text: string) => {
   }, '')
 }
 
-const lower = (text: string | null) => {
-  return text !== null ? text.toLowerCase() : null
+const lower = (text?: string) => {
+  return text != null ? text.toLowerCase() : undefined
 }
 
-const getPath = (section: string | null, subsection: string | null, name: string | null) => {
+const getPath = (section?: string, subsection?: string, name?: string) => {
   return [lower(section), subsection, lower(name)]
     .filter(a => a != null)
     .join('.')
@@ -122,9 +125,9 @@ type ConfigEntry = {
   line?: string
   isSection: boolean
   section: string
-  subsection: string | null
-  name: string | null
-  value: string | null
+  subsection?: string
+  name?: string
+  value?: string
   path: string
   modified?: boolean
 }
@@ -135,11 +138,12 @@ export class GitConfig {
   private parsedConfig: ConfigEntry[]
 
   constructor(text: string) {
-    let section: string | null = null
-    let subsection: string | null = null
+    let section: string | undefined = undefined
+    let subsection: string | undefined = undefined
+
     this.parsedConfig = text.split('\n').map(line => {
-      let name = null
-      let value = null
+      let name: string | undefined = undefined
+      let value: string | undefined = undefined
 
       const trimmedLine = line.trim()
       const extractedSection = extractSectionLine(trimmedLine)
@@ -163,37 +167,36 @@ export class GitConfig {
     return new GitConfig(text)
   }
 
-  async get(path: string, getall = false) {
-    const allValues = this.parsedConfig
+  getall<T extends ConfigPath>(path: T): (ConfigValue<T> | undefined)[] {
+    return this.parsedConfig
       .filter(config => config.path === path.toLowerCase())
       .map(({ section, name, value }) => {
         const fn = schema.get(section)?.get(name)
-        return fn && value ? fn(value) : value
+        return (fn && value ? fn(value) : value) as ConfigValue<T>
       })
-    return getall ? allValues : allValues.pop()
   }
 
-  async getall(path: string) {
-    return this.get(path, true)
+  get<T extends ConfigPath>(path: T): ConfigValue<T> | undefined {
+    return this.getall(path).pop()
   }
 
-  async getSubsections(section: string) {
+  getSubsections(section: string) {
     return this.parsedConfig
       .filter(config => config.section === section && config.isSection)
       .map(config => config.subsection)
   }
 
-  async deleteSection(section: string, subsection: string) {
+  deleteSection(section: string, subsection: string) {
     this.parsedConfig = this.parsedConfig.filter(
       config => !(config.section === section && config.subsection === subsection)
     )
   }
 
-  async append(path: string, value: string) {
+  append<T extends ConfigPath>(path: T, value: ConfigValue<T> | undefined) {
     return this.set(path, value, true)
   }
 
-  async set(path: string, value: string, append: boolean = false) {
+  set<T extends ConfigPath>(path: T, value: ConfigValue<T> | undefined, append: boolean = false) {
     const configIndex = findLastIndex(
       this.parsedConfig,
       config => config.path === path.toLowerCase()
@@ -207,7 +210,7 @@ export class GitConfig {
       if (configIndex !== -1) {
         const config = this.parsedConfig[configIndex]
         const modifiedConfig = Object.assign({}, config, {
-          value,
+          value: String(value),
           modified: true,
         })
         if (append) {
@@ -225,13 +228,13 @@ export class GitConfig {
           config => config.path === sectionPath
         )
         const [section, subsection] = sectionPath.split('.')
-        const name = path.split('.').pop() ?? null
+        const name = path.split('.').pop()
         const newConfig: ConfigEntry = {
           isSection: false,
           section,
           subsection,
           name,
-          value,
+          value: String(value),
           modified: true,
           path: getPath(section, subsection, name),
         }
@@ -246,10 +249,10 @@ export class GitConfig {
               isSection: true,
               section,
               subsection,
-              name: null,
-              value: null,
+              name: undefined,
+              value: undefined,
               modified: true,
-              path: getPath(section, subsection, null),
+              path: getPath(section, subsection, undefined),
             }
             this.parsedConfig.push(newSection, newConfig)
           }

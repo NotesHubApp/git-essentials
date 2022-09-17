@@ -16,7 +16,7 @@ export async function _listRemotes({ fs, gitdir }: ListRemotesParams): Promise<{
   const remoteNames = await config.getSubsections('remote')
   const remotes = Promise.all(
     remoteNames.map(async remote => {
-      const url = await config.get(`remote.${remote}.url`) as string
+      const url = config.get(`remote.${remote}.url`)!
       return { remote: remote!, url }
     })
   )
