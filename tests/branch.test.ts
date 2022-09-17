@@ -39,13 +39,13 @@ describe('branch', () => {
     // act
     try {
       await branch({ fs, dir, ref: 'inv@{id..branch.lock' })
-    } catch (err) {
+    } catch (err: any) {
       error = err
     }
 
     // assert
     expect(error).not.to.be.null
-    expect(error instanceof Errors.InvalidRefNameError).to.be.true
+    expect(error.code).to.eq(Errors.InvalidRefNameError.code)
   })
 
   it('missing ref argument', async () => {
@@ -57,13 +57,13 @@ describe('branch', () => {
     try {
       // @ts-ignore
       await branch({ fs, dir })
-    } catch (err) {
+    } catch (err: any) {
       error = err
     }
 
     // assert
     expect(error).not.to.be.null
-    expect(error instanceof Errors.MissingParameterError).to.be.true
+    expect(error.code).to.eq(Errors.MissingParameterError.code)
   })
 
   it('empty repo', async () => {
