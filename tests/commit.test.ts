@@ -2,6 +2,7 @@ import { expect } from 'chai'
 
 import { Errors, readCommit, commit, log } from '../src'
 import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { PgpMock } from './helpers/pgpMock'
 
 import commitDataFixture from './fixtures/data/commit.json'
 
@@ -185,9 +186,11 @@ describe('commit', () => {
 
   it('create signed commit', async () => {
     // arrange
-    const { pgp } = require('@isomorphic-git/pgp-plugin')
-    const { privateKey, publicKey } = require('./__fixtures__/pgp-keys.js')
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const privateKey = 'privatekey123'
+    const publicKey = 'publickey123'
+    const keyId = 'f2f0ced8a52613c4'
+    const pgp = new PgpMock(publicKey, keyId)
 
     // act
     const oid = await commit({
@@ -201,18 +204,14 @@ describe('commit', () => {
         timezoneOffset: 0,
       },
       signingKey: privateKey,
-      onSign: pgp.sign,
+      onSign: (params) => pgp.sign(params),
     })
 
     // assert
     const { commit: commitObject, payload } = await readCommit({ fs, dir, oid })
-    const { valid, invalid } = await pgp.verify({
-      payload,
-      publicKey,
-      signature: commitObject.gpgsig,
-    })
+    const { valid, invalid } = await pgp.verify({ payload, publicKey, signature: commitObject.gpgsig })
     expect(invalid).to.eql([])
-    expect(valid).to.eql(['f2f0ced8a52613c4'])
+    expect(valid).to.eql([keyId])
   })
 
   it('with timezone', async () => {
