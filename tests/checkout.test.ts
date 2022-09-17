@@ -12,6 +12,8 @@ describe('checkout', () => {
 
     // act
     await checkout({ fs, dir, ref: 'test-branch' })
+
+    // assert
     const files = await fs.readdir(dir)
     expect(files).to.have.members([
       ".git",
@@ -230,11 +232,8 @@ describe('checkout', () => {
     await checkout({ fs, dir, ref: 'test-branch' })
 
     // assert
-    const actualRegularFileMode = (await fs.lstat(dir + '/regular-file.txt'))
-      .mode
-    const actualExecutableFileMode = (
-      await fs.lstat(dir + '/executable-file.sh')
-    ).mode
+    const actualRegularFileMode = (await fs.lstat(dir + '/regular-file.txt')).mode
+    const actualExecutableFileMode = (await fs.lstat(dir + '/executable-file.sh')).mode
 
     expect(actualRegularFileMode).to.eq(expectedRegularFileMode)
     expect(actualExecutableFileMode).to.eq(expectedExecutableFileMode)
