@@ -7,10 +7,11 @@ import commitDataFixture from './fixtures/data/commit.json'
 
 describe('commit', () => {
   it('commit', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
-    // Test
+
+    // act
     const sha = await commit({
       fs,
       dir,
@@ -22,22 +23,22 @@ describe('commit', () => {
       },
       message: 'Initial commit',
     })
+
+    // assert
     expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // updates branch pointer
-    const {
-      oid: currentOid,
-      commit: { parent },
-    } = (await log({ fs, dir, depth: 1 }))[0]
+    const { oid: currentOid, commit: { parent } } = (await log({ fs, dir, depth: 1 }))[0]
     expect(parent).to.eql([originalOid])
     expect(currentOid).not.to.eq(originalOid)
     expect(currentOid).to.eq(sha)
   })
 
   it('without updating branch', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
-    // Test
+
+    // act
     const sha = await commit({
       fs,
       dir,
@@ -50,6 +51,8 @@ describe('commit', () => {
       message: 'Initial commit',
       noUpdateBranch: true,
     })
+
+    // assert
     expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // does NOT update branch pointer
     const { oid: currentOid } = (await log({ fs, dir, depth: 1 }))[0]
@@ -60,10 +63,11 @@ describe('commit', () => {
   })
 
   it('dry run', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
-    // Test
+
+    // act
     const sha = await commit({
       fs,
       dir,
@@ -76,6 +80,8 @@ describe('commit', () => {
       message: 'Initial commit',
       dryRun: true,
     })
+
+    // assert
     expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // does NOT update branch pointer
     const { oid: currentOid } = (await log({ fs, dir, depth: 1 }))[0]
@@ -86,10 +92,11 @@ describe('commit', () => {
   })
 
   it('custom ref', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
-    // Test
+
+    // act
     const sha = await commit({
       fs,
       dir,
@@ -102,29 +109,30 @@ describe('commit', () => {
       message: 'Initial commit',
       ref: 'refs/heads/master-copy',
     })
+
+    // assert
     expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // does NOT update master branch pointer
     const { oid: currentOid } = (await log({ fs, dir, depth: 1 }))[0]
     expect(currentOid).to.eq(originalOid)
     expect(currentOid).not.to.eq(sha)
     // but DOES update master-copy
-    const { oid: copyOid } = (
-      await log({ fs, dir, depth: 1, ref: 'master-copy' })
-    )[0]
+    const { oid: copyOid } = (await log({ fs, dir, depth: 1, ref: 'master-copy' }))[0]
     expect(sha).to.eq(copyOid)
   })
 
   it('custom parents and tree', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
-    // Test
     const parent = [
       '1111111111111111111111111111111111111111',
       '2222222222222222222222222222222222222222',
       '3333333333333333333333333333333333333333',
     ]
     const tree = '4444444444444444444444444444444444444444'
+
+    // act
     const sha = await commit({
       fs,
       dir,
@@ -138,24 +146,21 @@ describe('commit', () => {
       },
       message: 'Initial commit',
     })
+
+    // assert
     expect(sha).to.eq('43fbc94f2c1db655a833e08c72d005954ff32f32')
     // does NOT update master branch pointer
-    const { parent: parents, tree: _tree } = (
-      await log({
-        fs,
-        dir,
-        depth: 1,
-      })
-    )[0].commit
+    const { parent: parents, tree: _tree } = (await log({ fs, dir, depth: 1 }))[0].commit
     expect(parents).not.to.eql([originalOid])
     expect(parents).to.eql(parent)
     expect(_tree).to.eq(tree)
   })
 
   it('throw error if missing author', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
-    // Test
+
+    // act
     let error = null
     try {
       await commit({
@@ -172,16 +177,19 @@ describe('commit', () => {
     } catch (err: any) {
       error = err
     }
+
+    // assert
     expect(error).not.to.be.null
     expect(error.code).to.eq(Errors.MissingNameError.code)
   })
 
   it('create signed commit', async () => {
-    // Setup
+    // arrange
     const { pgp } = require('@isomorphic-git/pgp-plugin')
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
-    // Test
     const { privateKey, publicKey } = require('./__fixtures__/pgp-keys.js')
+    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+
+    // act
     const oid = await commit({
       fs,
       dir,
@@ -195,6 +203,8 @@ describe('commit', () => {
       signingKey: privateKey,
       onSign: pgp.sign,
     })
+
+    // assert
     const { commit: commitObject, payload } = await readCommit({ fs, dir, oid })
     const { valid, invalid } = await pgp.verify({
       payload,
@@ -206,10 +216,10 @@ describe('commit', () => {
   })
 
   it('with timezone', async () => {
-    // Setup
+    // arrange
     const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
-    let commits
-    // Test
+
+    // act
     await commit({
       fs,
       dir,
@@ -221,9 +231,12 @@ describe('commit', () => {
       },
       message: '-0 offset',
     })
-    commits = await log({ fs, dir, depth: 1 })
+
+    // assert
+    let commits = await log({ fs, dir, depth: 1 })
     expect(Object.is(commits[0].commit.author.timezoneOffset, -0)).to.be.true
 
+    // act
     await commit({
       fs,
       dir,
@@ -235,9 +248,12 @@ describe('commit', () => {
       },
       message: '+0 offset',
     })
+
+    // assert
     commits = await log({ fs, dir, depth: 1 })
     expect(Object.is(commits[0].commit.author.timezoneOffset, 0)).to.be.true
 
+    // act
     await commit({
       fs,
       dir,
@@ -249,9 +265,12 @@ describe('commit', () => {
       },
       message: '+240 offset',
     })
+
+    // assert
     commits = await log({ fs, dir, depth: 1 })
     expect(Object.is(commits[0].commit.author.timezoneOffset, 240)).to.be.true
 
+    // act
     await commit({
       fs,
       dir,
@@ -263,6 +282,8 @@ describe('commit', () => {
       },
       message: '-240 offset',
     })
+
+    // assert
     commits = await log({ fs, dir, depth: 1 })
     expect(Object.is(commits[0].commit.author.timezoneOffset, -240)).to.be.true
   })
