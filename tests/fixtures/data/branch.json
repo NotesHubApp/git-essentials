@@ -1,0 +1,98 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "objects",
+        "type": "dir",
+        "children": [
+          {
+            "name": "06",
+            "type": "dir",
+            "children": [
+              {
+                "name": "74da21ba278014a243d1e5ae58df828c819181",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGVjVEKAiEQQPv2FPMfhCPjpBDRVRx3LCkRXJeu30JdoL/Hg8fLvbU6Ac94mEMVSILzS2ZyWVglJstWPUkJC0cXQhFVipZM2uajD5D+3N4qcPkButu9pfo65d6ugN4xecTAcLTRWrPbfTf179CUOtYJ3958APecN4c="
+              }
+            ]
+          },
+          {
+            "name": "4b",
+            "type": "dir",
+            "children": [
+              {
+                "name": "825dc642cb6eb9a060e54bf8d69288fbee4904",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAErKUpNVTBgAAAKLAIB"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "refs",
+        "type": "dir",
+        "children": [
+          {
+            "name": "heads",
+            "type": "dir",
+            "children": [
+              {
+                "name": "master",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "0674da21ba278014a243d1e5ae58df828c819181\n"
+              }
+            ]
+          },
+          {
+            "name": "remotes",
+            "type": "dir",
+            "children": [
+              {
+                "name": "origin",
+                "type": "dir",
+                "children": [
+                  {
+                    "name": "master",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "0674da21ba278014a243d1e5ae58df828c819181\n"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "COMMIT_EDITMSG",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "first commit\n"
+      },
+      {
+        "name": "HEAD",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "ref: refs/heads/master\n"
+      },
+      {
+        "name": "config",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n\tignorecase = true\n\tprecomposeunicode = true\n"
+      },
+      {
+        "name": "index",
+        "type": "file",
+        "encoding": "base64",
+        "content": "RElSQwAAAAIAAAAAVFJFRQAAABkAMCAwCkuCXcZCy265oGDlS/jWkoj77kkEctU/eH2GqTKiWoU3zuI22BhGqPE="
+      }
+    ]
+  }
+]
