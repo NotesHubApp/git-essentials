@@ -30,13 +30,13 @@
             "type": "dir",
             "children": [
               {
-                "name": "master",
+                "name": "main",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "1386e77b0a7afa8333663a9e4cbf8e6158e625c1\n"
               },
               {
-                "name": "master-copy",
+                "name": "main-copy",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "1386e77b0a7afa8333663a9e4cbf8e6158e625c1\n"
@@ -49,7 +49,7 @@
         "name": "HEAD",
         "type": "file",
         "encoding": "utf8",
-        "content": "ref: refs/heads/master\n"
+        "content": "ref: refs/heads/main\n"
       },
       {
         "name": "config",

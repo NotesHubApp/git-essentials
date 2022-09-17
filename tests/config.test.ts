@@ -23,7 +23,7 @@ describe('config', () => {
     expect(rfv).to.eq('0')
     expect(fetch).to.eq('refs/heads/qa/*:refs/remotes/upstream/qa/*')
     expect(fetches).to.eql([
-      '+refs/heads/master:refs/remotes/upstream/master',
+      '+refs/heads/main:refs/remotes/upstream/main',
       'refs/heads/develop:refs/remotes/upstream/develop',
       'refs/heads/qa/*:refs/remotes/upstream/qa/*',
     ])

@@ -16,8 +16,8 @@ describe('branch', () => {
     const files = await fs.readdir(path.resolve(dir, '.git', 'refs', 'heads'))
 
     // assert
-    expect(files).to.eql(['master', 'test-branch'])
-    expect(await currentBranch({ fs, dir })).to.eq('master')
+    expect(files).to.eql(['main', 'test-branch'])
+    expect(await currentBranch({ fs, dir })).to.eq('main')
   })
 
   it('branch --checkout', async () => {

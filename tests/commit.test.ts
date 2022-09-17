@@ -108,17 +108,17 @@ describe('commit', () => {
         timezoneOffset: -0,
       },
       message: 'Initial commit',
-      ref: 'refs/heads/master-copy',
+      ref: 'refs/heads/main-copy',
     })
 
     // assert
     expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
-    // does NOT update master branch pointer
+    // does NOT update main branch pointer
     const { oid: currentOid } = (await log({ fs, dir, depth: 1 }))[0]
     expect(currentOid).to.eq(originalOid)
     expect(currentOid).not.to.eq(sha)
-    // but DOES update master-copy
-    const { oid: copyOid } = (await log({ fs, dir, depth: 1, ref: 'master-copy' }))[0]
+    // but DOES update main-copy
+    const { oid: copyOid } = (await log({ fs, dir, depth: 1, ref: 'main-copy' }))[0]
     expect(sha).to.eq(copyOid)
   })
 
@@ -150,7 +150,7 @@ describe('commit', () => {
 
     // assert
     expect(sha).to.eq('43fbc94f2c1db655a833e08c72d005954ff32f32')
-    // does NOT update master branch pointer
+    // does NOT update main branch pointer
     const { parent: parents, tree: _tree } = (await log({ fs, dir, depth: 1 }))[0].commit
     expect(parents).not.to.eql([originalOid])
     expect(parents).to.eql(parent)

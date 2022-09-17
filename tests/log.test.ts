@@ -352,7 +352,7 @@ Improve resolveRef to handle more kinds of refs. Add tests\n`,
     const { fs, dir } = await makeFsFixture(logComplexDataFixture as DataFixture)
 
     // act
-    const commits = await log({ fs, dir, ref: 'master' })
+    const commits = await log({ fs, dir, ref: 'main' })
 
     // assert
     expect(commits).to.deep.eq(
