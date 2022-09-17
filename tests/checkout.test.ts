@@ -203,16 +203,10 @@ describe('checkout', () => {
     // assert
     expect(error).not.to.be.null
     expect(error.caller).to.eq('git.checkout')
-    error = error.toJSON()
-    delete error.stack
-    expect(error).to.be.deep.equal({
-      caller: "git.checkout",
-      code: "CommitNotFetchedError",
-      data: {
-        oid: "033417ae18b174f078f2f44232cb7a374f4c60ce",
-        ref: "missing-branch"
-      },
-      "message": "Failed to checkout \"missing-branch\" because commit 033417ae18b174f078f2f44232cb7a374f4c60ce is not available locally. Do a git fetch to make the branch available locally.",
+    expect(error.code).to.eq(Errors.CommitNotFetchedError.code)
+    expect(error.data).to.eql({
+      oid: "033417ae18b174f078f2f44232cb7a374f4c60ce",
+      ref: "missing-branch"
     })
   })
 
