@@ -1,5 +1,3 @@
-import { Buffer } from 'buffer'
-
 export type EncodingOpts = {
   encoding?: 'utf8';
 }
@@ -10,10 +8,6 @@ export type WriteOpts = EncodingOpts & {
 
 export interface RMDirOptions {
   force?: boolean
-}
-
-export interface ReadLinkOptions {
-  encoding?: 'buffer'
 }
 
 export type Stat = {
@@ -83,7 +77,7 @@ export interface FsClient {
 
   // suggested - used occasionally by apps
   rename(oldFilepath: string, newFilepath: string): Promise<void>; // throws ENOENT
-  readlink(filepath: string, opts: ReadLinkOptions): Promise<Buffer | string>; // throws ENOENT
+  readlink(filepath: string): Promise<string>; // throws ENOENT
   symlink(target: string, filepath: string): Promise<void>; // throws ENOENT
 }
 

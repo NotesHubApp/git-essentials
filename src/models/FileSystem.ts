@@ -170,10 +170,8 @@ export class FileSystem {
    * Rethrows errors that aren't related to file existance.
    */
   async readlink(filename: string): Promise<Buffer | null> {
-    // Note: FileSystem.readlink returns a buffer by default
-    // so we can dump it into GitObject.write just like any other file.
     try {
-      return (await this.fs.readlink(filename, { encoding: 'buffer' })) as Buffer
+      return Buffer.from(await this.fs.readlink(filename))
     } catch (err: any) {
       if (err.code === 'ENOENT') {
         return null
