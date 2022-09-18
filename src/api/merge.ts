@@ -13,7 +13,7 @@ type MergeParams = {
   fs: FsClient,
 
   /** A PGP signing implementation. */
-  onSign: SignCallback
+  onSign?: SignCallback
 
   /** The working tree directory path. */
   dir: string
