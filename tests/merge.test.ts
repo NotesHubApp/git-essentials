@@ -5,6 +5,13 @@ import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
 
 import mergeDataFixture from './fixtures/data/merge.json'
 
+const author = {
+  name: 'Mr. Test',
+  email: 'mrtest@example.com',
+  timestamp: 1262356920,
+  timezoneOffset: -0
+}
+
 describe('merge', () => {
   it('merge main into main', async () => {
     // arrange
@@ -110,18 +117,7 @@ describe('merge', () => {
     const commit = (await log({ fs, dir, depth: 1, ref: 'add-files-merge-remove-files', }))[0].commit
 
     // act
-    const report = await merge({
-      fs,
-      dir,
-      ours: 'add-files',
-      theirs: 'remove-files',
-      author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0,
-      }
-    })
+    const report = await merge({ fs, dir, ours: 'add-files', theirs: 'remove-files', author })
 
     // assert
     const mergeCommit = (await log({fs, dir, ref: 'add-files', depth: 1, }))[0].commit
@@ -137,18 +133,7 @@ describe('merge', () => {
     const commit = (await log({ fs, dir, depth: 1, ref: 'remove-files-merge-add-files', }))[0].commit
 
     // act
-    const report = await merge({
-      fs,
-      dir,
-      ours: 'remove-files',
-      theirs: 'add-files',
-      author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0,
-      }
-    })
+    const report = await merge({ fs, dir, ours: 'remove-files', theirs: 'add-files', author })
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'remove-files', depth: 1, }))[0].commit
@@ -182,19 +167,7 @@ describe('merge', () => {
     const originalCommit = (await log({ fs, dir, ref: 'delete-first-half', depth: 1 }))[0]
 
     // act
-    const report = await merge({
-      fs,
-      dir,
-      ours: 'delete-first-half',
-      theirs: 'delete-second-half',
-      author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0
-      },
-      dryRun: true
-    })
+    const report = await merge({ fs, dir, ours: 'delete-first-half', theirs: 'delete-second-half', author, dryRun: true })
 
     // assert
     expect(report.tree).to.eq(commit.commit.tree)
@@ -218,12 +191,7 @@ describe('merge', () => {
       dir,
       ours: 'delete-first-half',
       theirs: 'delete-second-half',
-      author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0
-      },
+      author,
       noUpdateBranch: true
     })
 
@@ -243,18 +211,7 @@ describe('merge', () => {
     const commit = (await log({ fs, dir, depth: 1, ref: 'delete-first-half-merge-delete-second-half' }))[0].commit
 
     // act
-    const report = await merge({
-      fs,
-      dir,
-      ours: 'delete-first-half',
-      theirs: 'delete-second-half',
-      author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0
-      }
-    })
+    const report = await merge({ fs, dir, ours: 'delete-first-half', theirs: 'delete-second-half', author })
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'delete-first-half', depth: 1 }))[0].commit
@@ -271,18 +228,7 @@ describe('merge', () => {
     // act
     let error = null
     try {
-      await merge({
-        fs,
-        dir,
-        ours: 'a-file',
-        theirs: 'a-folder',
-        author: {
-          name: 'Mr. Test',
-          email: 'mrtest@example.com',
-          timestamp: 1262356920,
-          timezoneOffset: -0
-        }
-      })
+      await merge({ fs, dir, ours: 'a-file', theirs: 'a-folder', author })
     } catch (e: any) {
       error = e
     }
@@ -298,18 +244,7 @@ describe('merge', () => {
     const commit = (await log({ fs, dir, depth: 1, ref: 'a-merge-b' }))[0].commit
 
     // act
-    const report = await merge({
-      fs,
-      dir,
-      ours: 'a',
-      theirs: 'b',
-      author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0
-      }
-    })
+    const report = await merge({ fs, dir, ours: 'a', theirs: 'b', author })
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'a', depth: 1 }))[0].commit
@@ -325,18 +260,7 @@ describe('merge', () => {
     const commit = (await log({ fs, dir, depth: 1, ref: 'a-merge-d' }))[0].commit
 
     // act
-    const report = await merge({
-      fs,
-      dir,
-      ours: 'a',
-      theirs: 'd',
-      author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0
-      }
-    })
+    const report = await merge({ fs, dir, ours: 'a', theirs: 'd', author })
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'a', depth: 1, }))[0].commit
@@ -353,18 +277,7 @@ describe('merge', () => {
     // act
     let error = null
     try {
-      await merge({
-        fs,
-        dir,
-        ours: 'a',
-        theirs: 'c',
-        author: {
-          name: 'Mr. Test',
-          email: 'mrtest@example.com',
-          timestamp: 1262356920,
-          timezoneOffset: -0
-        }
-      })
+      await merge({ fs, dir, ours: 'a', theirs: 'c', author })
     } catch (e: any) {
       error = e
     }
