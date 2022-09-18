@@ -984,7 +984,7 @@
                 "content": "43a53734debc39e779e4c9d626d443b7f8e6b565\n"
               },
               {
-                "name": "master",
+                "name": "main",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "3e80cede3c2a753a5272ed4d93496b67bb65cb0d\n"
@@ -1033,7 +1033,7 @@
         "name": "HEAD",
         "type": "file",
         "encoding": "utf8",
-        "content": "ref: refs/heads/master\n"
+        "content": "ref: refs/heads/main\n"
       },
       {
         "name": "config",
