@@ -1,0 +1,68 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "refs",
+        "type": "dir",
+        "children": [
+          {
+            "name": "heads",
+            "type": "dir",
+            "children": [
+              {
+                "name": "feature",
+                "type": "dir",
+                "children": [
+                  {
+                    "name": "supercool",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "e10ebb90d03eaacca84de1af0a59b444232da99e\n"
+                  }
+                ]
+              },
+              {
+                "name": "master",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "033417ae18b174f078f2f44232cb7a374f4c60ce\n"
+              },
+              {
+                "name": "test-branch",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "e10ebb90d03eaacca84de1af0a59b444232da99e\n"
+              }
+            ]
+          },
+          {
+            "name": "remotes",
+            "type": "dir",
+            "children": [
+              {
+                "name": "origin",
+                "type": "dir",
+                "children": [
+                  {
+                    "name": "HEAD",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "033417ae18b174f078f2f44232cb7a374f4c60ce\n"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "packed-refs",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "# pack-refs with: peeled fully-peeled \n1a2149e96a9767b281a8f10fd014835322da2d14 refs/tags/v0.0.1\n452556eb554fdbcc49d23605cab0c24952ec0716 refs/heads/greenkeeper/initial\n452556eb554fdbcc49d23605cab0c24952ec0716 refs/remotes/origin/master\n"
+      }
+    ]
+  }
+]
