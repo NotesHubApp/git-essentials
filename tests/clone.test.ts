@@ -4,13 +4,13 @@ import { clone } from '../src'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
-import cloneHttpFixture from './fixtures/http/clone.json'
+import cloneHttpFixtureData from './fixtures/http/clone.json'
 
 describe('clone', () => {
   it('clone', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture()
-    const http = makeHttpFixture(cloneHttpFixture as HttpFixtureData)
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
     const url = 'https://noteshubapp.com'
 
     // act
