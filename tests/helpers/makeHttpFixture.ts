@@ -2,10 +2,10 @@ import { Buffer } from 'buffer'
 
 import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from '../../src'
 
-export type HttpFixture = HttpFixtureEntry[]
+export type HttpFixtureData = HttpFixtureEntry[]
 
 type HttpFixtureEntry = {
-  request: HttpFixtureRequestMatch
+  request: HttpFixtureRequest
   response: HttpFixtureResponse
 }
 
@@ -13,9 +13,10 @@ type HttpStatusCode = 200
 
 const DefaultStatusCode = 200
 
-type HttpFixtureRequestMatch = {
+type HttpFixtureRequest = {
   url: string
   method: 'GET' | 'POST'
+  encoding?: 'utf8' | 'base64'
   body?: string
 }
 
@@ -31,7 +32,7 @@ function statusCodeToStatusMessage(code: HttpStatusCode): string {
   }
 }
 
-function findMatch(fixture: HttpFixture, request: GitHttpRequest): HttpFixtureEntry | undefined {
+function findMatch(fixture: HttpFixtureData, request: GitHttpRequest): HttpFixtureEntry | undefined {
   const requestUrl = new URL(request.url)
   const requestUrlMatchPart = requestUrl.pathname + requestUrl.search
 
@@ -58,7 +59,7 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
   }
 }
 
-export function makeHttpFixture(fixture: HttpFixture): HttpClient {
+export function makeHttpFixture(data: HttpFixtureData): HttpClient {
   /**
    * HttpClient
    *
@@ -66,7 +67,7 @@ export function makeHttpFixture(fixture: HttpFixture): HttpClient {
    * @returns {Promise<GitHttpResponse>}
    */
   async function request(httpRequest: GitHttpRequest): Promise<GitHttpResponse> {
-    const matchingEntry = findMatch(fixture, httpRequest)
+    const matchingEntry = findMatch(data, httpRequest)
 
     if (!matchingEntry) {
       throw new Error('No matching request found.')

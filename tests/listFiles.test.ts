@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { listFiles } from '../src'
-import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import listFilesFsFixture from './fixtures/fs/listFiles.json'
-import checkoutFsFixture from './fixtures/fs/checkout.json'
+import listFilesFsFixtureData from './fixtures/fs/listFiles.json'
+import checkoutFsFixtureData from './fixtures/fs/checkout.json'
 
 describe('listFiles', () => {
   it('index', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(listFilesFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(listFilesFsFixtureData as FsFixtureData)
 
     // Test
     const files = await listFiles({ fs, dir })
@@ -53,7 +53,7 @@ describe('listFiles', () => {
 
   it('ref', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     const files = await listFiles({ fs, dir, ref: 'test-branch' })

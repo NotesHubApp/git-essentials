@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { Errors, readCommit } from '../src'
-import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import readCommitFsFixture from './fixtures/fs/readCommit.json'
+import readCommitFsFixtureData from './fixtures/fs/readCommit.json'
 
 
 describe('readCommit', () => {
   it('test missing', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(readCommitFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(readCommitFsFixtureData as FsFixtureData)
 
     // act
     let error = null
@@ -26,7 +26,7 @@ describe('readCommit', () => {
 
   it('parsed', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(readCommitFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(readCommitFsFixtureData as FsFixtureData)
 
     // act
     const result = await readCommit({ fs, dir, oid: 'e10ebb90d03eaacca84de1af0a59b444232da99e' })
@@ -81,7 +81,7 @@ Improve resolveRef to handle more kinds of refs. Add tests\n`
 
   it('from packfile', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(readCommitFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(readCommitFsFixtureData as FsFixtureData)
 
     // act
     const result = await readCommit({ fs, dir, oid: '0b8faa11b353db846b40eb064dfb299816542a46' })
@@ -118,7 +118,7 @@ index on master: fbd56b4 Add 'unpkg' key to package.json\n`
 
   it('peels tags', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(readCommitFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(readCommitFsFixtureData as FsFixtureData)
 
     // act
     const result = await readCommit({ fs, dir, oid: '587d3f8290b513e2ee85ecd317e6efecd545aee6' })

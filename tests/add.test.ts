@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { init, add, listFiles } from '../src'
-import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import addFsFixture from './fixtures/fs/add.json'
+import addFsFixtureData from './fixtures/fs/add.json'
 
 
 describe('add', () => {
   it('file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
 
     // act
     await init({ fs, dir })
@@ -35,7 +35,7 @@ describe('add', () => {
 
   it('ignored file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
 
     // act
     await init({ fs, dir })
@@ -47,7 +47,7 @@ describe('add', () => {
 
   it('non-existant file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
 
     // act
     await init({ fs, dir })
@@ -65,7 +65,7 @@ describe('add', () => {
 
   it('folder', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
     await fs.unlink(`${dir}/.gitignore`)
 
     // act
@@ -81,7 +81,7 @@ describe('add', () => {
 
   it('folder with .gitignore', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
 
     // act
     await init({ fs, dir })
@@ -96,7 +96,7 @@ describe('add', () => {
 
   it('git add .', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
 
     // act
     await init({ fs, dir })

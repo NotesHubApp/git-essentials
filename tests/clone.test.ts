@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import { clone } from '../src'
 import { makeFsFixture } from './helpers/makeFsFixture'
-import { makeHttpFixture, HttpFixture } from './helpers/makeHttpFixture'
+import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
 import cloneHttpFixture from './fixtures/http/clone.json'
 
@@ -10,7 +10,7 @@ describe('clone', () => {
   it('clone', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture()
-    const http = makeHttpFixture(cloneHttpFixture as HttpFixture)
+    const http = makeHttpFixture(cloneHttpFixture as HttpFixtureData)
     const url = 'https://noteshubapp.com'
 
     // act

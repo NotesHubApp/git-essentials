@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 
 import { getConfig, getConfigAll, setConfig } from '../src'
-import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import configFsFixture from './fixtures/fs/config.json'
+import configFsFixtureData from './fixtures/fs/config.json'
 
 describe('config', () => {
   it('getting', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(configFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(configFsFixtureData as FsFixtureData)
 
     // act
     const sym = await getConfig({ fs, dir, path: 'core.symlinks' })
@@ -31,7 +31,7 @@ describe('config', () => {
 
   it('setting', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(configFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(configFsFixtureData as FsFixtureData)
 
     // act
     let bare: boolean | undefined

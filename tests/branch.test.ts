@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { Errors, branch, init, currentBranch } from '../src'
-import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import * as path from './helpers/path'
 
-import branchFsFixture from './fixtures/fs/branch.json'
+import branchFsFixtureData from './fixtures/fs/branch.json'
 
 describe('branch', () => {
   it('branch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(branchFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
 
     // act
     await branch({ fs, dir, ref: 'test-branch' })
@@ -22,7 +22,7 @@ describe('branch', () => {
 
   it('branch --checkout', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(branchFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
 
     // act
     await branch({ fs, dir, ref: 'test-branch', checkout: true })
@@ -33,7 +33,7 @@ describe('branch', () => {
 
   it('invalid branch name', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(branchFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
     let error = null
 
     // act
@@ -50,7 +50,7 @@ describe('branch', () => {
 
   it('missing ref argument', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(branchFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
     let error = null
 
     // act
@@ -87,7 +87,7 @@ describe('branch', () => {
 
   it('create branch with same name as a remote', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(branchFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
     let error = null
 
     // act
@@ -104,7 +104,7 @@ describe('branch', () => {
 
   it('create branch named "HEAD"', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(branchFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
     let error = null
 
     // act

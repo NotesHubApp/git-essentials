@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 
 import { Errors, checkout, listFiles, add, commit, branch } from '../src'
-import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import checkoutFsFixture from './fixtures/fs/checkout.json'
+import checkoutFsFixtureData from './fixtures/fs/checkout.json'
 
 describe('checkout', () => {
   it('checkout', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     await checkout({ fs, dir, ref: 'test-branch' })
@@ -69,7 +69,7 @@ describe('checkout', () => {
 
   it('checkout by tag', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     await checkout({ fs, dir, ref: 'v1.0.0' })
@@ -130,7 +130,7 @@ describe('checkout', () => {
 
   it('checkout by SHA', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     await checkout({ fs, dir, ref: 'e10ebb90d03eaacca84de1af0a59b444232da99e' })
@@ -191,7 +191,7 @@ describe('checkout', () => {
 
   it('checkout unfetched branch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     let error = null
@@ -214,7 +214,7 @@ describe('checkout', () => {
 
   it('checkout file permissions', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
     await branch({ fs, dir, ref: 'other', checkout: true })
     await checkout({ fs, dir, ref: 'test-branch' })
     await fs.writeFile(dir + '/regular-file.txt', 'regular file', { mode: 0o666 })
@@ -241,7 +241,7 @@ describe('checkout', () => {
 
   it('checkout changing file permissions', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     await fs.writeFile(dir + '/regular-file.txt', 'regular file', { mode: 0o666 })
     await fs.writeFile(dir + '/executable-file.sh', 'executable file', { mode: 0o777 })
@@ -267,7 +267,7 @@ describe('checkout', () => {
 
   it('checkout directories using filepaths', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     await checkout({ fs, dir, ref: 'test-branch', filepaths: ['src/models', 'test'] })
@@ -291,7 +291,7 @@ describe('checkout', () => {
 
   it('checkout files using filepaths', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     await checkout({ fs, dir, ref: 'test-branch', filepaths: ['src/models/GitBlob.js', 'src/utils/write.js'] })
@@ -309,7 +309,7 @@ describe('checkout', () => {
 
   it('checkout detects conflicts', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
@@ -328,7 +328,7 @@ describe('checkout', () => {
 
   it('checkout files ignoring conflicts dry run', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
@@ -346,7 +346,7 @@ describe('checkout', () => {
 
   it('checkout files ignoring conflicts', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
@@ -364,7 +364,7 @@ describe('checkout', () => {
 
   it('restore files to HEAD state by not providing a ref', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
     await checkout({ fs, dir, ref: 'test-branch' })
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
@@ -383,7 +383,7 @@ describe('checkout', () => {
 
   it('checkout files should not delete other files', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     await checkout({ fs, dir, ref: 'test-branch' })

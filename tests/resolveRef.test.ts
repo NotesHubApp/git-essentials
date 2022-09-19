@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { resolveRef } from '../src'
-import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import resolveRefFsFixture from './fixtures/fs/resolveRef.json'
+import resolveRefFsFixtureData from './fixtures/fs/resolveRef.json'
 
 
 describe('resolveRef', () => {
   it('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     const ref = await resolveRef({ fs, dir, ref: '1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9' })
@@ -20,7 +20,7 @@ describe('resolveRef', () => {
 
   it('test-branch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     const ref = await resolveRef({ fs, dir, ref: 'origin/test-branch' })
@@ -31,7 +31,7 @@ describe('resolveRef', () => {
 
   it('config', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     const ref = await resolveRef({ fs, dir, ref: 'config' })
@@ -42,7 +42,7 @@ describe('resolveRef', () => {
 
   it('test-tag', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     const ref = await resolveRef({ fs, dir, ref: 'test-tag' })
@@ -53,7 +53,7 @@ describe('resolveRef', () => {
 
   it('HEAD', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     const ref = await resolveRef({ fs, dir, ref: 'HEAD' })
@@ -64,7 +64,7 @@ describe('resolveRef', () => {
 
   it('HEAD depth', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     const ref = await resolveRef({ fs, dir, ref: 'HEAD', depth: 2 })
@@ -75,7 +75,7 @@ describe('resolveRef', () => {
 
   it('packed-refs', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     const ref = await resolveRef({ fs, dir, ref: 'v0.0.1' })
@@ -86,7 +86,7 @@ describe('resolveRef', () => {
 
   it('non-existant refs', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
     let error: { message?: string, caller?: string } = {}
