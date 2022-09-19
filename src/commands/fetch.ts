@@ -280,10 +280,10 @@ export async function _fetch({
 
   // Update local remote refs
   if (singleBranch) {
-    const refs = new Map([[fullref, oid]])
+    const refs = new Map<string, string>([[fullref, oid]])
     // But wait, maybe it was a symref, like 'HEAD'!
     // We need to save all the refs in the symref chain (sigh).
-    const symrefs = new Map()
+    const symrefs = new Map<string, string>()
     let bail = 10
     let key = fullref
     while (bail--) {

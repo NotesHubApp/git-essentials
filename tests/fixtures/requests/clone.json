@@ -1,0 +1,34 @@
+[
+  {
+    "requestMatch": {
+      "url": "/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "statusCode": 200,
+      "headers": {
+        "content-type": "application/x-git-upload-pack-advertisement"
+      },
+      "body": "MDAxZSMgc2VydmljZT1naXQtdXBsb2FkLXBhY2sKMDAwMDAxNTQxZTY2NDdhODI4OGViYmViZjZhODU2OWQxNDI2MjJlYTRkZGQ1YzdjIEhFQUQAbXVsdGlfYWNrIHRoaW4tcGFjayBzaWRlLWJhbmQgc2lkZS1iYW5kLTY0ayBvZnMtZGVsdGEgc2hhbGxvdyBkZWVwZW4tc2luY2UgZGVlcGVuLW5vdCBkZWVwZW4tcmVsYXRpdmUgbm8tcHJvZ3Jlc3MgaW5jbHVkZS10YWcgbXVsdGlfYWNrX2RldGFpbGVkIGFsbG93LXRpcC1zaGExLWluLXdhbnQgYWxsb3ctcmVhY2hhYmxlLXNoYTEtaW4td2FudCBuby1kb25lIHN5bXJlZj1IRUFEOnJlZnMvaGVhZHMvbWFpbiBmaWx0ZXIgb2JqZWN0LWZvcm1hdD1zaGExIGFnZW50PWdpdC9naXRodWItZzIyODMxN2U0N2YyNQowMDNkMWU2NjQ3YTgyODhlYmJlYmY2YTg1NjlkMTQyNjIyZWE0ZGRkNWM3YyByZWZzL2hlYWRzL21haW4KMDAwMA=="
+    }
+  },
+
+  {
+    "requestMatch": {
+      "url": "/git-upload-pack",
+      "method": "POST",
+      "headers": {
+        "content-type": "application/x-git-upload-pack-request"
+      },
+      "body": "MDA4NHdhbnQgMWU2NjQ3YTgyODhlYmJlYmY2YTg1NjlkMTQyNjIyZWE0ZGRkNWM3YyBtdWx0aV9hY2tfZGV0YWlsZWQgbm8tZG9uZSBzaWRlLWJhbmQtNjRrIG9mcy1kZWx0YSBhZ2VudD1naXQvaXNvbW9ycGhpYy1naXRAMS45LjQKMDAwZGRlZXBlbiAxCjAwMDAwMDA5ZG9uZQ==",
+      "body-utf-8": "0084want 1e6647a8288ebbebf6a8569d142622ea4ddd5c7c multi_ack_detailed no-done side-band-64k ofs-delta agent=git/isomorphic-git@1.9.4\n000ddeepen 1\n00000009done"
+    },
+    "response": {
+      "statusCode": 200,
+      "headers": {
+        "content-type": "application/x-git-upload-pack-result"
+      },
+      "body": "MDAzNHNoYWxsb3cgMWU2NjQ3YTgyODhlYmJlYmY2YTg1NjlkMTQyNjIyZWE0ZGRkNWM3YzAwMDAwMDA4TkFLCjAwMjMCRW51bWVyYXRpbmcgb2JqZWN0czogMywgZG9uZS4KMDAyMgJDb3VudGluZyBvYmplY3RzOiAgMzMlICgxLzMpDTAwMjICQ291bnRpbmcgb2JqZWN0czogIDY2JSAoMi8zKQ0wMDIyAkNvdW50aW5nIG9iamVjdHM6IDEwMCUgKDMvMykNMDAyOQJDb3VudGluZyBvYmplY3RzOiAxMDAlICgzLzMpLCBkb25lLgowMDI1AkNvbXByZXNzaW5nIG9iamVjdHM6ICA1MCUgKDEvMikNMDAyNQJDb21wcmVzc2luZyBvYmplY3RzOiAxMDAlICgyLzIpDTAwMmMCQ29tcHJlc3Npbmcgb2JqZWN0czogMTAwJSAoMi8yKSwgZG9uZS4KMDM0MQFQQUNLAAAAAgAAAAOZD3icpYxNCsIwEEb3OcXsXFmSNH+CiC48gb3ANJnRYmqljNDj2y48gfBt3gfvyUwEpNvImAJTThywWNO77CwH69c55/vSoqZevXGml0DLoWfMB7bBhmDN6jAjOSo+eROL5jYxeqfwI49phkulBbpBNvs5wRHr0sgPz/cRh9rkaTyB2WpJh2hhr6PWan3HQYT+aahClYRg111vXTOWHfBQ6Qu7+01jqwJ4nDM0MDAzMVEIT81Jzs9NVcjLL0nVy01heCJTNdn08PbJynf/XNbwtpM4tU/6GwBHGxFxtEF4nG1TQW4bMQy85xUEfDNi/yGXpEbRoEARFD3KEtdmrBUFimtn+/qS2k2aAr14LVIcDoejzQYORYXTFJW43N0B/CQ9w3b7zIrty3TcbmHmSaD4GVSmPMMRM5cTKHsKQkmeBaXTWT0Yygw1iFKcchC4Ykkse3jIGXhY0FLQANSgKQsmoAJPpCBYuZGFCNs9tAU+hgLR+iHoGcfebQwlnBB40kapxyHUunf2Lw2h8g3FW30Lckl8K05qYBmDfprlHqJgUCsPx+zHTE3tQ6Nh2xc17v8i3MjYnzFXx7og1s+qGH3n0MJoPzpntElOQZLBWnJYxuBKNqnim8IgPPYKKopSUIEFbmJYS6pFCRrPXYLCMJpGkGgYULBYNRfdDSE6Sf8PjX73cTiztK7Ck0E6fglK1y7OLtMFAd8qmrglog1kax45WX+owicxrn73hke/nykGd8Ryz0hEHu3aSA33cFAYMRSzw3mRtC9pah+r+KjOZAOGbJ6xg/si4ZWiQfxai6g0tTyQ3ncAHoZMtmsT5HVqCqE5IzOFt10gYvhPo5fDsqKQuOrqTHEhEUsX6F+uWF55tqbdTkd0BfoTuGLXb7OBrzjDo/ljMmE8tAV7GiyX9k5xjT3zanDIHC87Kmv8uwnNiSIcQ7ychCdr1OYS3Zfu/vXa4+TiROHWdjUHdZuuqYcUal/fy2GN/JhqZdFmAHLpz+GdxYdPq5jAeFvWZuOzaeJt3zEnZXsGRmtEsScUudgw0SBtTM6Ta/kHe0JrqLLcERwS7u58fp5wOROWkKktqwkwMDNhAlRvdGFsIDMgKGRlbHRhIDApLCByZXVzZWQgMSAoZGVsdGEgMCksIHBhY2stcmV1c2VkIDAKMDAwNgE6MDAwMA=="
+    }
+  }
+]
