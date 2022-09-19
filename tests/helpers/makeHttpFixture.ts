@@ -5,11 +5,13 @@ import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from '../../
 export type HttpFixture = HttpFixtureEntry[]
 
 type HttpFixtureEntry = {
-  requestMatch: HttpFixtureRequestMatch
+  request: HttpFixtureRequestMatch
   response: HttpFixtureResponse
 }
 
 type HttpStatusCode = 200
+
+const DefaultStatusCode = 200
 
 type HttpFixtureRequestMatch = {
   url: string
@@ -18,7 +20,7 @@ type HttpFixtureRequestMatch = {
 }
 
 type HttpFixtureResponse = {
-  statusCode: HttpStatusCode
+  statusCode?: HttpStatusCode
   headers: HttpHeaders
   body?: string
 }
@@ -34,8 +36,8 @@ function findMatch(fixture: HttpFixture, request: GitHttpRequest): HttpFixtureEn
   const requestUrlMatchPart = requestUrl.pathname + requestUrl.search
 
   return fixture.find(x =>
-    x.requestMatch.url === requestUrlMatchPart &&
-    x.requestMatch.method === request.method)
+    x.request.url === requestUrlMatchPart &&
+    x.request.method === request.method)
 }
 
 function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixtureResponse): GitHttpResponse {
@@ -49,8 +51,8 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
   return {
     url: sourceRequest.url,
     method: sourceRequest.method,
-    statusCode: fixtureResponse.statusCode,
-    statusMessage: statusCodeToStatusMessage(fixtureResponse.statusCode),
+    statusCode: fixtureResponse.statusCode ?? DefaultStatusCode,
+    statusMessage: statusCodeToStatusMessage(fixtureResponse.statusCode ?? DefaultStatusCode),
     headers,
     body
   }
