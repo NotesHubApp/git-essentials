@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { resolveRef } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import resolveRefFsFixture from './fixtures/data/resolveRef.json'
+import resolveRefFsFixture from './fixtures/fs/resolveRef.json'
 
 
 describe('resolveRef', () => {

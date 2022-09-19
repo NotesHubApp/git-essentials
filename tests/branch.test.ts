@@ -4,7 +4,7 @@ import { Errors, branch, init, currentBranch } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 import * as path from './helpers/path'
 
-import branchFsFixture from './fixtures/data/branch.json'
+import branchFsFixture from './fixtures/fs/branch.json'
 
 describe('branch', () => {
   it('branch', async () => {

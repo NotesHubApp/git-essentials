@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { remove, listFiles } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import remoteFsFixture from './fixtures/data/remove.json'
+import remoteFsFixture from './fixtures/fs/remove.json'
 
 describe('remove', () => {
   it('file', async () => {

@@ -3,8 +3,8 @@ import { expect } from 'chai'
 import { currentBranch } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import resolveRefFsFixture from './fixtures/data/resolveRef.json'
-import detachedHeadFsFixture from './fixtures/data/detachedHead.json'
+import resolveRefFsFixture from './fixtures/fs/resolveRef.json'
+import detachedHeadFsFixture from './fixtures/fs/detachedHead.json'
 
 describe('currentBranch', () => {
   it('resolve HEAD to main', async () => {

@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { Errors, merge, resolveRef, log } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import mergeFsFixture from './fixtures/data/merge.json'
+import mergeFsFixture from './fixtures/fs/merge.json'
 
 const author = {
   name: 'Mr. Test',

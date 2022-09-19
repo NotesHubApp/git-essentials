@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { Errors, checkout, listFiles, add, commit, branch } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import checkoutFsFixture from './fixtures/data/checkout.json'
+import checkoutFsFixture from './fixtures/fs/checkout.json'
 
 describe('checkout', () => {
   it('checkout', async () => {

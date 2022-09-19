@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { Errors, readCommit } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import readCommitFsFixture from './fixtures/data/readCommit.json'
+import readCommitFsFixture from './fixtures/fs/readCommit.json'
 
 
 describe('readCommit', () => {

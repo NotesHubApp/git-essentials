@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { listRemotes } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import listRemotesFsFixture from './fixtures/data/listRemotes.json'
+import listRemotesFsFixture from './fixtures/fs/listRemotes.json'
 
 
 describe('listRemotes', () => {

@@ -4,7 +4,7 @@ import { Errors, readCommit, commit, log } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 import { PgpMock } from './helpers/pgpMock'
 
-import commitFsFixture from './fixtures/data/commit.json'
+import commitFsFixture from './fixtures/fs/commit.json'
 
 describe('commit', () => {
   it('commit', async () => {

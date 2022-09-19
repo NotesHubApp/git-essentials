@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { listBranches } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import listBranchesFsFixture from './fixtures/data/listBranches.json'
+import listBranchesFsFixture from './fixtures/fs/listBranches.json'
 
 
 describe('listBranches', () => {

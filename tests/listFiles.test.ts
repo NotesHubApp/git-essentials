@@ -3,8 +3,8 @@ import { expect } from 'chai'
 import { listFiles } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import listFilesFsFixture from './fixtures/data/listFiles.json'
-import checkoutFsFixture from './fixtures/data/checkout.json'
+import listFilesFsFixture from './fixtures/fs/listFiles.json'
+import checkoutFsFixture from './fixtures/fs/checkout.json'
 
 describe('listFiles', () => {
   it('index', async () => {

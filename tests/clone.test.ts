@@ -4,7 +4,7 @@ import { clone } from '../src'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixture } from './helpers/makeHttpFixture'
 
-import cloneHttpFixture from './fixtures/requests/clone.json'
+import cloneHttpFixture from './fixtures/http/clone.json'
 
 describe('clone', () => {
   it('clone', async () => {

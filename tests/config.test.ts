@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { getConfig, getConfigAll, setConfig } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import configFsFixture from './fixtures/data/config.json'
+import configFsFixture from './fixtures/fs/config.json'
 
 describe('config', () => {
   it('getting', async () => {

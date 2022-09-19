@@ -4,8 +4,8 @@ import { log } from '../src'
 import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 import { PgpMock } from './helpers/pgpMock'
 
-import logFsFixture from './fixtures/data/log.json'
-import logComplexFsFixture from './fixtures/data/log-complex.json'
+import logFsFixture from './fixtures/fs/log.json'
+import logComplexFsFixture from './fixtures/fs/log-complex.json'
 
 describe('log', () => {
   it('HEAD', async () => {
