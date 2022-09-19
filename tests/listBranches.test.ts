@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { listBranches } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import listBranchesDataFixture from './fixtures/data/listBranches.json'
+import listBranchesFsFixture from './fixtures/data/listBranches.json'
 
 
 describe('listBranches', () => {
   it('listBranches', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(listBranchesDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(listBranchesFsFixture as FsFixture)
 
     // act
     const commits = await listBranches({ fs, dir })
@@ -25,7 +25,7 @@ describe('listBranches', () => {
 
   it('remote', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(listBranchesDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(listBranchesFsFixture as FsFixture)
 
     // act
     const commits = await listBranches({ fs, dir, remote: 'origin' })

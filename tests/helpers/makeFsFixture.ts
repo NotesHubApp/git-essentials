@@ -1,7 +1,7 @@
-import { InMemoryFsClient, TreeEntriesDto as DataFixture } from '../../src/clients/fs'
-export { DataFixture }
+import { InMemoryFsClient, TreeEntriesDto as FsFixture } from '../../src/clients/fs'
+export { FsFixture }
 
-export async function makeFsFixture(data?: DataFixture) {
+export async function makeFsFixture(data?: FsFixture) {
   const targetDir = `/test`
   const fs = new InMemoryFsClient()
   await fs.mkdir(targetDir)

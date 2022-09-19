@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { listRemotes } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import listRemotesDataFixture from './fixtures/data/listRemotes.json'
+import listRemotesFsFixture from './fixtures/data/listRemotes.json'
 
 
 describe('listRemotes', () => {
   it('listRemotes', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(listRemotesDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(listRemotesFsFixture as FsFixture)
 
     // act
     const a = await listRemotes({ fs, dir })

@@ -1,16 +1,16 @@
 import { expect } from 'chai'
 
 import { log } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 import { PgpMock } from './helpers/pgpMock'
 
-import logDataFixture from './fixtures/data/log.json'
-import logComplexDataFixture from './fixtures/data/log-complex.json'
+import logFsFixture from './fixtures/data/log.json'
+import logComplexFsFixture from './fixtures/data/log-complex.json'
 
 describe('log', () => {
   it('HEAD', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(logDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(logFsFixture as FsFixture)
 
     // act
     const commits = await log({ fs, dir, ref: 'HEAD' })
@@ -256,7 +256,7 @@ Initial commit\n`,
 
   it('HEAD depth', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(logDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(logFsFixture as FsFixture)
 
     // act
     const commits = await log({ fs, dir, ref: 'HEAD', depth: 1 })
@@ -267,7 +267,7 @@ Initial commit\n`,
 
   it('HEAD since', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(logDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(logFsFixture as FsFixture)
 
     // act
     const commits = await log({ fs, dir, ref: 'HEAD', since: new Date(1501462174000) })
@@ -278,7 +278,7 @@ Initial commit\n`,
 
   it('shallow branch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(logDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(logFsFixture as FsFixture)
 
     // act
     const commits = await log({ fs, dir, ref: 'origin/shallow-branch' })
@@ -338,7 +338,7 @@ Improve resolveRef to handle more kinds of refs. Add tests\n`,
 
   it('has correct payloads', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(logDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(logFsFixture as FsFixture)
 
     // act
     const commits = await log({ fs, dir, ref: 'HEAD' })
@@ -349,7 +349,7 @@ Improve resolveRef to handle more kinds of refs. Add tests\n`,
 
   it('with complex merging history', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(logComplexDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(logComplexFsFixture as FsFixture)
 
     // act
     const commits = await log({ fs, dir, ref: 'main' })

@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 
 import { Errors, merge, resolveRef, log } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import mergeDataFixture from './fixtures/data/merge.json'
+import mergeFsFixture from './fixtures/data/merge.json'
 
 const author = {
   name: 'Mr. Test',
@@ -15,7 +15,7 @@ const author = {
 describe('merge', () => {
   it('merge main into main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const desiredOid = await resolveRef({ fs, dir, ref: 'main' })
 
     // act
@@ -31,7 +31,7 @@ describe('merge', () => {
 
   it('merge medium into main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const desiredOid = await resolveRef({ fs, dir, ref: 'medium' })
 
     // act
@@ -47,7 +47,7 @@ describe('merge', () => {
 
   it('merge oldest into main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const desiredOid = await resolveRef({ fs, dir, ref: 'main' })
 
     // act
@@ -63,7 +63,7 @@ describe('merge', () => {
 
   it('merge newest into main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const desiredOid = await resolveRef({ fs, dir, ref: 'newest' })
 
     // act
@@ -79,7 +79,7 @@ describe('merge', () => {
 
   it('merge newest into main --dryRun (no author needed since fastForward)', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const originalOid = await resolveRef({ fs, dir, ref: 'main' })
     const desiredOid = await resolveRef({ fs, dir, ref: 'newest' })
 
@@ -96,7 +96,7 @@ describe('merge', () => {
 
   it('merge newest into main --noUpdateBranch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const originalOid = await resolveRef({ fs, dir, ref: 'main' })
     const desiredOid = await resolveRef({ fs, dir, ref: 'newest' })
 
@@ -113,7 +113,7 @@ describe('merge', () => {
 
   it("merge 'add-files' and 'remove-files'", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const commit = (await log({ fs, dir, depth: 1, ref: 'add-files-merge-remove-files', }))[0].commit
 
     // act
@@ -129,7 +129,7 @@ describe('merge', () => {
 
   it("merge 'remove-files' and 'add-files'", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const commit = (await log({ fs, dir, depth: 1, ref: 'remove-files-merge-add-files', }))[0].commit
 
     // act
@@ -145,7 +145,7 @@ describe('merge', () => {
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun, missing author)", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
 
     // act
     let error = null
@@ -162,7 +162,7 @@ describe('merge', () => {
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun)", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const commit = (await log({ fs, dir, depth: 1, ref: 'delete-first-half-merge-delete-second-half', }))[0]
     const originalCommit = (await log({ fs, dir, ref: 'delete-first-half', depth: 1 }))[0]
 
@@ -181,7 +181,7 @@ describe('merge', () => {
 
   it("merge 'delete-first-half' and 'delete-second-half' (noUpdateBranch)", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const commit = (await log({ fs, dir, depth: 1, ref: 'delete-first-half-merge-delete-second-half' }))[0]
     const originalCommit = (await log({ fs, dir, ref: 'delete-first-half', depth: 1 }))[0]
 
@@ -207,7 +207,7 @@ describe('merge', () => {
 
   it("merge 'delete-first-half' and 'delete-second-half'", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const commit = (await log({ fs, dir, depth: 1, ref: 'delete-first-half-merge-delete-second-half' }))[0].commit
 
     // act
@@ -223,7 +223,7 @@ describe('merge', () => {
 
   it("merge 'a-file' and 'a-folder'", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
 
     // act
     let error = null
@@ -240,7 +240,7 @@ describe('merge', () => {
 
   it("merge two branches that modified the same file (no conflict)'", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const commit = (await log({ fs, dir, depth: 1, ref: 'a-merge-b' }))[0].commit
 
     // act
@@ -256,7 +256,7 @@ describe('merge', () => {
 
   it("merge two branches where one modified file and the other modified file mode'", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
     const commit = (await log({ fs, dir, depth: 1, ref: 'a-merge-d' }))[0].commit
 
     // act
@@ -272,7 +272,7 @@ describe('merge', () => {
 
   it("merge two branches that modified the same file (should conflict)'", async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(mergeDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(mergeFsFixture as FsFixture)
 
     // act
     let error = null

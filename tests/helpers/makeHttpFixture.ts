@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer'
+
 import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from '../../src'
 
 export type HttpFixture = HttpFixtureEntry[]

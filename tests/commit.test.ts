@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { Errors, readCommit, commit, log } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 import { PgpMock } from './helpers/pgpMock'
 
-import commitDataFixture from './fixtures/data/commit.json'
+import commitFsFixture from './fixtures/data/commit.json'
 
 describe('commit', () => {
   it('commit', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
 
     // act
@@ -36,7 +36,7 @@ describe('commit', () => {
 
   it('without updating branch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
 
     // act
@@ -65,7 +65,7 @@ describe('commit', () => {
 
   it('dry run', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
 
     // act
@@ -94,7 +94,7 @@ describe('commit', () => {
 
   it('custom ref', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
 
     // act
@@ -124,7 +124,7 @@ describe('commit', () => {
 
   it('custom parents and tree', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
     const { oid: originalOid } = (await log({ fs, dir, depth: 1 }))[0]
     const parent = [
       '1111111111111111111111111111111111111111',
@@ -159,7 +159,7 @@ describe('commit', () => {
 
   it('throw error if missing author', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
 
     // act
     let error = null
@@ -186,7 +186,7 @@ describe('commit', () => {
 
   it('create signed commit', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
     const privateKey = 'privatekey123'
     const publicKey = 'publickey123'
     const keyId = 'f2f0ced8a52613c4'
@@ -216,7 +216,7 @@ describe('commit', () => {
 
   it('with timezone', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(commitDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(commitFsFixture as FsFixture)
 
     // act
     await commit({

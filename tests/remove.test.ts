@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 
 import { remove, listFiles } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import remoteDataFixture from './fixtures/data/remove.json'
+import remoteFsFixture from './fixtures/data/remove.json'
 
 describe('remove', () => {
   it('file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(remoteDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(remoteFsFixture as FsFixture)
 
     // act
     const before = await listFiles({ fs, dir })
@@ -77,7 +77,7 @@ describe('remove', () => {
 
   it('dir', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(remoteDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(remoteFsFixture as FsFixture)
 
     // act
     const before = await listFiles({ fs, dir })

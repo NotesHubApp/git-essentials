@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { currentBranch } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import resolveRefDataFixture from './fixtures/data/resolveRef.json'
-import detachedHeadDataFixture from './fixtures/data/detachedHead.json'
+import resolveRefFsFixture from './fixtures/data/resolveRef.json'
+import detachedHeadFsFixture from './fixtures/data/detachedHead.json'
 
 describe('currentBranch', () => {
   it('resolve HEAD to main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
 
     // act
     const branch = await currentBranch({ fs, dir })
@@ -20,7 +20,7 @@ describe('currentBranch', () => {
 
   it('resolve HEAD to refs/heads/main', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(resolveRefDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(resolveRefFsFixture as FsFixture)
 
     // act
     const branch = await currentBranch({ fs, dir, fullname: true })
@@ -31,7 +31,7 @@ describe('currentBranch', () => {
 
   it('returns undefined if HEAD is detached', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(detachedHeadDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(detachedHeadFsFixture as FsFixture)
 
     // act
     const branch = await currentBranch({ fs, dir })

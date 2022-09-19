@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
 import { addRemote, Errors, listRemotes } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixture } from './helpers/makeFsFixture'
 
-import addRemoteDataFixture from './fixtures/data/addRemote.json'
+import addRemoteFsFixture from './fixtures/data/addRemote.json'
 
 
 describe('addRemote', () => {
   it('addRemote', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addRemoteDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(addRemoteFsFixture as FsFixture)
     const remote = 'baz'
     const url = 'git@github.com:baz/baz.git'
 
@@ -27,7 +27,7 @@ describe('addRemote', () => {
 
   it('missing argument', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addRemoteDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(addRemoteFsFixture as FsFixture)
     const remote = 'baz'
     const url = undefined as any
 
@@ -46,7 +46,7 @@ describe('addRemote', () => {
 
   it('invalid remote name', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(addRemoteDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(addRemoteFsFixture as FsFixture)
     const remote = '@{HEAD~1}'
     const url = 'git@github.com:baz/baz.git'
 
