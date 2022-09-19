@@ -1,7 +1,7 @@
 [
   {
     "request": {
-      "url": "/info/refs?service=git-upload-pack",
+      "url": "https://github.com/NotesHubApp/Welcome.git/info/refs?service=git-upload-pack",
       "method": "GET"
     },
     "response": {
@@ -14,7 +14,7 @@
 
   {
     "request": {
-      "url": "/git-upload-pack",
+      "url": "https://github.com/NotesHubApp/Welcome.git/git-upload-pack",
       "method": "POST",
       "headers": {
         "content-type": "application/x-git-upload-pack-request"

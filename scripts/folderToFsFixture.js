@@ -1,20 +1,21 @@
 var path = require('path');
 const fs = require('fs')
 
-const [folderPath] = process.argv.slice(2)
+const scriptArgs = process.argv.slice(2)
+const [folderPath] = scriptArgs
 
-let dataObj = []
-readFolder(folderPath, dataObj)
+const fixture = []
+readFolder(folderPath, fixture)
 
-const dataStr = JSON.stringify(dataObj, null, 2);
-fs.writeFileSync(path.join(path.dirname(folderPath), `${path.basename(folderPath)}.json`), dataStr)
+const jsonFixture = JSON.stringify(fixture, null, 2);
+fs.writeFileSync(path.join(path.dirname(folderPath), `${path.basename(folderPath)}.json`), jsonFixture)
 
 /**
  *
  * @param {string} folderPath
- * @param {Array} obj
+ * @param {Array} fixture
  */
-function readFolder(folderPath, obj) {
+function readFolder(folderPath, fixture) {
   const treeEntries = fs.readdirSync(folderPath).map(x => ({
       treeEntryName: x,
       treeEntryPath: path.join(folderPath, x),
@@ -39,12 +40,12 @@ function readFolder(folderPath, obj) {
       const data = fs.readFileSync(treeEntryPath)
       const encoding = isBinary(data) ? 'base64' : 'utf8'
       const content = data.toString(encoding)
-      obj.push({ name: treeEntryName, type: 'file', encoding, content })
+      fixture.push({ name: treeEntryName, type: 'file', encoding, content })
     } else if (treeEntryStat.isSymbolicLink()) {
-      obj.push({ name: treeEntryName, type: 'symlink', target: fs.readlinkSync(treeEntryPath) })
+      fixture.push({ name: treeEntryName, type: 'symlink', target: fs.readlinkSync(treeEntryPath) })
     } else if (treeEntryStat.isDirectory()) {
       const children = []
-      obj.push({ name: treeEntryName, type: 'dir', children })
+      fixture.push({ name: treeEntryName, type: 'dir', children })
       readFolder(treeEntryPath, children)
     }
   }

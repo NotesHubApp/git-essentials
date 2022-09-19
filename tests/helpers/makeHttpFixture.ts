@@ -33,11 +33,8 @@ function statusCodeToStatusMessage(code: HttpStatusCode): string {
 }
 
 function findMatch(fixture: HttpFixtureData, request: GitHttpRequest): HttpFixtureEntry | undefined {
-  const requestUrl = new URL(request.url)
-  const requestUrlMatchPart = requestUrl.pathname + requestUrl.search
-
   return fixture.find(x =>
-    x.request.url === requestUrlMatchPart &&
+    x.request.url === request.url &&
     x.request.method === request.method)
 }
 
