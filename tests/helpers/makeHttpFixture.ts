@@ -17,13 +17,14 @@ const DefaultStatusCode = 200
 type HttpFixtureRequest = {
   url: string
   method: 'GET' | 'POST'
+  contentType?: string
   encoding?: 'utf8' | 'base64'
   body?: string
 }
 
 type HttpFixtureResponse = {
   statusCode?: HttpStatusCode
-  headers: HttpHeaders
+  contentType: string
   body?: string
 }
 
@@ -41,9 +42,7 @@ function findMatch(fixture: HttpFixtureData, request: GitHttpRequest): HttpFixtu
 
 function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixtureResponse): GitHttpResponse {
   const headers: HttpHeaders = {}
-  for (const headerName in fixtureResponse.headers) {
-    headers[headerName] = fixtureResponse.headers[headerName]
-  }
+  headers['content-type'] = fixtureResponse.contentType
 
   const body = fixtureResponse.body ? [Buffer.from(fixtureResponse.body, 'base64')] : undefined
 
