@@ -37,7 +37,8 @@ function statusCodeToStatusMessage(code: HttpStatusCode): string {
 function findMatch(fixture: HttpFixtureData, request: GitHttpRequest): HttpFixtureEntry | undefined {
   return fixture.find(x =>
     x.request.url === request.url &&
-    x.request.method === request.method)
+    x.request.method === request.method &&
+    (request.headers && x.request.contentType === request.headers['content-type']))
 }
 
 function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixtureResponse): GitHttpResponse {
