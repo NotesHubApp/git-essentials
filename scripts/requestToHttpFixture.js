@@ -33,8 +33,11 @@ const req = https.request(requestOptions, async (res) => {
     chunks.push(chunk)
   }).on('end', () => {
     const body = Buffer.concat(chunks).toString('base64')
+    const fixture = generateFixture(body, res.headers['content-type'])
+    const jsonFixture = JSON.stringify(fixture, null, 2)
+
     console.log('Fixture:')
-    console.log(generateFixture(body, res.headers['content-type']))
+    console.log(jsonFixture)
   }).on('error', (e) => {
     console.error(`Error: ${e.message}`);
   })
