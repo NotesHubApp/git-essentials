@@ -36,8 +36,8 @@ const req = https.request(requestOptions, async (res) => {
     const fixture = generateFixture(body, res.headers['content-type'])
     const jsonFixture = JSON.stringify(fixture, null, 2)
 
-    console.log('Fixture:')
-    console.log(jsonFixture)
+    console.log('Fixture:\n')
+    console.log(ConsoleColors.Blue, jsonFixture)
   }).on('error', (e) => {
     console.error(`Error: ${e.message}`);
   })
@@ -49,6 +49,9 @@ if (body) {
 
 req.end()
 
+const ConsoleColors = {
+  Blue: '\x1b[34m%s\x1b[0m'
+}
 
 function generateFixture(responseBody, responseContentType) {
   const requestContentType = !infoRequest ? { contentType: `application/x-${service}-request` } : {}

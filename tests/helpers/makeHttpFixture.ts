@@ -2,6 +2,7 @@ import { Buffer } from 'buffer'
 
 import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from '../../src'
 import { collect } from '../../src/utils/collect'
+import { NoMatchingRequestFoundError } from './NoMatchingRequestFoundError'
 
 export type HttpFixtureData = HttpFixtureEntry[]
 
@@ -42,8 +43,9 @@ function findMatch(fixture: HttpFixtureData, request: GitHttpRequest): HttpFixtu
 }
 
 function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixtureResponse): GitHttpResponse {
-  const headers: HttpHeaders = {}
-  headers['content-type'] = fixtureResponse.contentType
+  const headers: HttpHeaders = {
+    'content-type': fixtureResponse.contentType
+  }
 
   const body = fixtureResponse.body ? [Buffer.from(fixtureResponse.body, 'base64')] : undefined
 
@@ -57,18 +59,7 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
   }
 }
 
-async function printInstruction(request: GitHttpRequest) {
-  console.log('Execute the following command got generate fixture:')
-  let command = `node ./scripts/requestToHttpFixture.js ${request.url}`
-
-  if (request.body) {
-    command += ' ' + Buffer.from(await collect(request.body)).toString('base64')
-  }
-
-  console.log(command)
-}
-
-export function makeHttpFixture(data: HttpFixtureData): HttpClient {
+export function makeHttpFixture(fixtureData: HttpFixtureData): HttpClient {
   /**
    * HttpClient
    *
@@ -76,11 +67,13 @@ export function makeHttpFixture(data: HttpFixtureData): HttpClient {
    * @returns {Promise<GitHttpResponse>}
    */
   async function request(httpRequest: GitHttpRequest): Promise<GitHttpResponse> {
-    const matchingEntry = findMatch(data, httpRequest)
+    const matchingEntry = findMatch(fixtureData, httpRequest)
 
     if (!matchingEntry) {
-      await printInstruction(httpRequest)
-      throw new Error('No matching request found.')
+      const payload = httpRequest.body ?
+        Buffer.from(await collect(httpRequest.body)).toString('base64') :
+        undefined
+      throw new NoMatchingRequestFoundError(httpRequest, payload)
     }
 
     const httpResponse = toHttpResponse(httpRequest, matchingEntry.response)
