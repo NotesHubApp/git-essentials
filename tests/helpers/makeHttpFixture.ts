@@ -1,6 +1,7 @@
 import { Buffer } from 'buffer'
 
 import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from '../../src'
+import { collect } from '../../src/utils/collect'
 
 export type HttpFixtureData = HttpFixtureEntry[]
 
@@ -56,6 +57,17 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
   }
 }
 
+async function printInstruction(request: GitHttpRequest) {
+  console.log('Execute the following command got generate fixture:')
+  let command = `node ./scripts/requestToHttpFixture.js ${request.url}`
+
+  if (request.body) {
+    command += ' ' + Buffer.from(await collect(request.body)).toString('base64')
+  }
+
+  console.log(command)
+}
+
 export function makeHttpFixture(data: HttpFixtureData): HttpClient {
   /**
    * HttpClient
@@ -67,6 +79,7 @@ export function makeHttpFixture(data: HttpFixtureData): HttpClient {
     const matchingEntry = findMatch(data, httpRequest)
 
     if (!matchingEntry) {
+      await printInstruction(httpRequest)
       throw new Error('No matching request found.')
     }
 
