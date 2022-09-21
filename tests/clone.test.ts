@@ -129,19 +129,19 @@ describe('clone', () => {
     expect(error.caller).to.eq('git.clone')
   })
 
-  // it('clone empty repository', async () => {
-  //   // arrange
-  //   const { fs, dir } = await makeFsFixture()
-  //   const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+  it('clone empty repository', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
 
-  //   // act
-  //   await clone({ fs, http, dir, url: `http://localhost/test-empty.git` })
+    // act
+    await clone({ fs, http, dir, url: `http://localhost/test-empty.git` })
 
-  //   // assert
-  //   expect(await fs.exists(`${dir}`)).to.be.true
-  //   expect(await fs.exists(`${dir}/.git/HEAD`)).to.be.true
-  //   const headFile = <string>await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
-  //   expect(headFile.trim()).to.eq('ref: refs/heads/main')
-  //   expect(await fs.exists(`${dir}/.git/refs/heads/master`)).to.be.false
-  // })
+    // assert
+    expect(await fs.exists(`${dir}`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/HEAD`)).to.be.true
+    const headFile = <string>await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
+    expect(headFile.trim()).to.eq('ref: refs/heads/main')
+    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).to.be.false
+  })
 })

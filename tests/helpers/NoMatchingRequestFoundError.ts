@@ -22,7 +22,7 @@ function generateCreateFixtureCommands(requestUrl: string, payload?: Buffer): Co
       command: requestToHttpFixtureCommand
     },
     {
-      description: 'If you create fixture from local repository located in "fixtures/remotes/*"',
+      description: 'If you create fixture from local repository located in "tests/fixtures/remotes/*" folder',
       command: folderToHttpFixtureCommand
     }
   ]

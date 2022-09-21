@@ -51,5 +51,17 @@
       "encoding": "base64",
       "body": "MDAzNHNoYWxsb3cgOTdjMDI0ZjczZWFhYjI3ODFiZjM2OTE1OTdiYzdjODMzY2IwZTIyZjAwMDAwMDA4TkFLCjAwMjMCRW51bWVyYXRpbmcgb2JqZWN0czogNSwgZG9uZS4KMDAyMgJDb3VudGluZyBvYmplY3RzOiAgMjAlICgxLzUpDTAwMjICQ291bnRpbmcgb2JqZWN0czogIDQwJSAoMi81KQ0wMDIyAkNvdW50aW5nIG9iamVjdHM6ICA2MCUgKDMvNSkNMDAyMgJDb3VudGluZyBvYmplY3RzOiAgODAlICg0LzUpDTAwNDYCQ291bnRpbmcgb2JqZWN0czogMTAwJSAoNS81KQ1Db3VudGluZyBvYmplY3RzOiAxMDAlICg1LzUpLCBkb25lLgowMDQ1AkNvbXByZXNzaW5nIG9iamVjdHM6ICA1MCUgKDEvMikNQ29tcHJlc3Npbmcgb2JqZWN0czogMTAwJSAoMi8yKQ0wMDJjAkNvbXByZXNzaW5nIG9iamVjdHM6IDEwMCUgKDIvMiksIGRvbmUuCjAwM2ECVG90YWwgNSAoZGVsdGEgMCksIHJldXNlZCAwIChkZWx0YSAwKSwgcGFjay1yZXVzZWQgMAowMTQ1AVBBQ0sAAAACAAAABZoNeJyVi0EKAjEMAO99RT7gkpa2SUFEH+DND7RpFgVXlxphn+9+wbkMDIwNVahUG3IVCkSJWVmklRYCRupZW6PkuyrObq1DXwbCITFJoaY8l+oRmVNBxSyl40yZtCeJ1dWv3d8DrmOCm34Mjsuw3Wfd6rI+dZL3cgKfMGOMvgQ44I7b6/Iw079Hd+ldO8hkm7kf9OhA/KMGeJwzNDAwMzFRSNQrqShheJnKUnX9aEVqk03tTG1ZlrxlefcrDCEKksAKTrq8PtTPWiz3tWNN0gyP6KUv9puzQBUkgxVw/Fp9p0J70sMXlwv/XrQ2OLD4q1sZAEksKUA2eJzzSM3JyecCAAeLAf82eJwrzy/KSVEEAAjwAkozeJxTVFQEAADJAGSVHSnoIEsN9dUNOvyqxrOGuDTcMDAwNgHOMDAwMA=="
     }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/test-empty.git/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-advertisement",
+      "encoding": "utf8",
+      "body": "001e# service=git-upload-pack\n00000000"
+    }
   }
 ]
