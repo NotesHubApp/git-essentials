@@ -24,5 +24,32 @@
       "encoding": "base64",
       "body": "MDAzNHNoYWxsb3cgMWU2NjQ3YTgyODhlYmJlYmY2YTg1NjlkMTQyNjIyZWE0ZGRkNWM3YzAwMDAwMDA4TkFLCjAwMjMCRW51bWVyYXRpbmcgb2JqZWN0czogMywgZG9uZS4KMDAyMgJDb3VudGluZyBvYmplY3RzOiAgMzMlICgxLzMpDTAwM2YCQ291bnRpbmcgb2JqZWN0czogIDY2JSAoMi8zKQ1Db3VudGluZyBvYmplY3RzOiAxMDAlICgzLzMpDTAwMjkCQ291bnRpbmcgb2JqZWN0czogMTAwJSAoMy8zKSwgZG9uZS4KMDAyNQJDb21wcmVzc2luZyBvYmplY3RzOiAgNTAlICgxLzIpDTAwMjUCQ29tcHJlc3Npbmcgb2JqZWN0czogMTAwJSAoMi8yKQ0wMDJjAkNvbXByZXNzaW5nIG9iamVjdHM6IDEwMCUgKDIvMiksIGRvbmUuCjAzNDEBUEFDSwAAAAIAAAADmQ94nKWMTQrCMBBG9znF7FxZkjR/goguPIG9wDSZ0WJqpYzQ49suPIHwbd4H78lMBKTbyJgCU04csFjTu+wsB+vXOef70qKmXr1xppdAy6FnzAe2wYZgzeowIzkqPnkTi+Y2MXqn8COPaYZLpQW6QTb7OcER69LID8/3EYfa5Gk8gdlqSYdoYa+j1mp9x0GE/mmoQpWEYNddb10zlh3wUOkLu/tNY6sCeJwzNDAwMzFRCE/NSc7PTVXIyy9J1ctNYXgiUzXZ9PD2ycp3/1zW8LaTOLVP+hsARxsRcbRBeJxtU0FuGzEMvOcVBHwzYv8hl6RG0aBAERQ9yhLXZqwVBYprZ/v6ktpNmgK9eC1SHA6Ho80GDkWF0xSVuNzdAfwkPcN2+8yK7ct03G5h5kmg+BlUpjzDETOXEyh7CkJJngWl01k9GMoMNYhSnHIQuGJJLHt4yBl4WNBS0ADUoCkLJqACT6QgWLmRhQjbPbQFPoYC0foh6BnH3m0MJZwQeNJGqcch1Lp39i8NofINxVt9C3JJfCtOamAZg36a5R6iYFArD8fsx0xN7UOjYdsXNe7/ItzI2J8xV8e6INbPqhh959DCaD86Z7RJTkGSwVpyWMbgSjap4pvCIDz2CiqKUlCBBW5iWEuqRQkaz12CwjCaRpBoGFCwWDUX3Q0hOkn/D41+93E4s7SuwpNBOn4JStcuzi7TBQHfKpq4JaINZGseOVl/qMInMa5+94ZHv58pBnfEcs9IRB7t2kgN93BQGDEUs8N5kbQvaWofq/iozmQDhmyesYP7IuGVokH8WouoNLU8kN53AB6GTLZrE+R1agqhOSMzhbddIGL4T6OXw7KikLjq6kxxIRFLF+hfrlheebam3U5HdAX6E7hi12+zga84w6P5YzJhPLQFexosl/ZOcY0982pwyBwvOypr/LsJzYkiHEO8nIQna9TmEt2X7v712uPk4kTh1nY1B3WbrqmHFGpf38thjfyYamXRZgBy6c/hncWHT6uYwHhb1mbjs2nibd8xJ2V7BkZrRLEnFLnYMNEgbUzOk2v5B3tCa6iy3BEcEu7ufH6ecDkTlpCpLasJMDAzYQJUb3RhbCAzIChkZWx0YSAwKSwgcmV1c2VkIDEgKGRlbHRhIDApLCBwYWNrLXJldXNlZCAwCjAwMDYBOjAwMDA="
     }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/test-clone-no-master.git/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-advertisement",
+      "encoding": "utf8",
+      "body": "001e# service=git-upload-pack\n0000011697c024f73eaab2781bf3691597bc7c833cb0e22f HEAD\u0000multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed no-done symref=HEAD:refs/heads/i-am-not-master object-format=sha1 agent=git/2.34.1\n004897c024f73eaab2781bf3691597bc7c833cb0e22f refs/heads/i-am-not-master\n003f97c024f73eaab2781bf3691597bc7c833cb0e22f refs/heads/master\n003d5a8905a02e181fe1821068b8c0f48cb6633d5b81 refs/heads/test\n0000"
+    }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/test-clone-no-master.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "0084want 97c024f73eaab2781bf3691597bc7c833cb0e22f multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials@0.1.0\n000ddeepen 1\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAzNHNoYWxsb3cgOTdjMDI0ZjczZWFhYjI3ODFiZjM2OTE1OTdiYzdjODMzY2IwZTIyZjAwMDAwMDA4TkFLCjAwMjMCRW51bWVyYXRpbmcgb2JqZWN0czogNSwgZG9uZS4KMDAyMgJDb3VudGluZyBvYmplY3RzOiAgMjAlICgxLzUpDTAwMjICQ291bnRpbmcgb2JqZWN0czogIDQwJSAoMi81KQ0wMDIyAkNvdW50aW5nIG9iamVjdHM6ICA2MCUgKDMvNSkNMDAyMgJDb3VudGluZyBvYmplY3RzOiAgODAlICg0LzUpDTAwNDYCQ291bnRpbmcgb2JqZWN0czogMTAwJSAoNS81KQ1Db3VudGluZyBvYmplY3RzOiAxMDAlICg1LzUpLCBkb25lLgowMDQ1AkNvbXByZXNzaW5nIG9iamVjdHM6ICA1MCUgKDEvMikNQ29tcHJlc3Npbmcgb2JqZWN0czogMTAwJSAoMi8yKQ0wMDJjAkNvbXByZXNzaW5nIG9iamVjdHM6IDEwMCUgKDIvMiksIGRvbmUuCjAwM2ECVG90YWwgNSAoZGVsdGEgMCksIHJldXNlZCAwIChkZWx0YSAwKSwgcGFjay1yZXVzZWQgMAowMTQ1AVBBQ0sAAAACAAAABZoNeJyVi0EKAjEMAO99RT7gkpa2SUFEH+DND7RpFgVXlxphn+9+wbkMDIwNVahUG3IVCkSJWVmklRYCRupZW6PkuyrObq1DXwbCITFJoaY8l+oRmVNBxSyl40yZtCeJ1dWv3d8DrmOCm34Mjsuw3Wfd6rI+dZL3cgKfMGOMvgQ44I7b6/Iw079Hd+ldO8hkm7kf9OhA/KMGeJwzNDAwMzFRSNQrqShheJnKUnX9aEVqk03tTG1ZlrxlefcrDCEKksAKTrq8PtTPWiz3tWNN0gyP6KUv9puzQBUkgxVw/Fp9p0J70sMXlwv/XrQ2OLD4q1sZAEksKUA2eJzzSM3JyecCAAeLAf82eJwrzy/KSVEEAAjwAkozeJxTVFQEAADJAGSVHSnoIEsN9dUNOvyqxrOGuDTcMDAwNgHOMDAwMA=="
+    }
   }
 ]

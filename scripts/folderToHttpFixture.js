@@ -31,6 +31,9 @@ gitServiceProcess.stdout.on('data', (data) => {
 })
 
 gitServiceProcess.on('close', () => {
+  if (infoRequest) {
+    chanks.unshift(Buffer.from(pack('# service=' + service + '\n') + '0000'))
+  }
   const response = Buffer.concat(chanks)
   const fixture = generateFixture(response)
 
@@ -44,6 +47,14 @@ if (payload) {
   gitServiceProcess.stdin.write(Buffer.from(payload, 'base64'))
 }
 
+
+/**
+ * @param {string} s
+ */
+function pack (s) {
+  var n = (4 + s.length).toString(16);
+  return Array(4 - n.length + 1).join('0') + n + s;
+}
 
 /**
  * @param {Buffer} responseBody

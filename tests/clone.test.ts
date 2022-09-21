@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { clone } from '../src'
+import { clone, currentBranch } from '../src'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
@@ -27,6 +27,25 @@ describe('clone', () => {
     // assert
     expect(await fs.exists(`${dir}/.git`)).to.be.true
     expect(await fs.exists(`${dir}/Welcome note.md`)).to.be.true
+  })
+
+  it('clone default branch with --singleBranch', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+
+    // act
+    await clone({
+      fs,
+      http,
+      dir,
+      depth: 1,
+      singleBranch: true,
+      url: `http://localhost/test-clone-no-master.git`,
+    })
+
+    // assert
+    expect(await currentBranch({ fs, dir })).to.eq('i-am-not-master')
   })
 
   // it('clone empty repository', async () => {
