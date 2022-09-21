@@ -25,16 +25,16 @@ gitServiceProcess.stderr.on('data', (error) => {
   throw new Error(error)
 })
 
-const chanks = []
+const chunks = []
 gitServiceProcess.stdout.on('data', (data) => {
-  chanks.push(data)
+  chunks.push(data)
 })
 
 gitServiceProcess.on('close', () => {
   if (infoRequest) {
-    chanks.unshift(Buffer.from(pack('# service=' + service + '\n') + '0000'))
+    chunks.unshift(Buffer.from(pack('# service=' + service + '\n') + '0000'))
   }
-  const response = Buffer.concat(chanks)
+  const response = Buffer.concat(chunks)
   const fixture = generateFixture(response)
 
   const jsonFixture = JSON.stringify(fixture, null, 2)
