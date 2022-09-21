@@ -36,13 +36,21 @@ function statusCodeToStatusMessage(code: HttpStatusCode): string {
   }
 }
 
-function findMatch(fixture: HttpFixtureData, request: GitHttpRequest, requestPayload?: Uint8Array):
+function findMatch(fixture: HttpFixtureData, request: GitHttpRequest, requestPayload?: Buffer):
   HttpFixtureEntry | undefined {
   function matchHeaders(contentType?: string) {
-    return request.headers && contentType === request.headers['content-type']
+    if (request.headers) {
+      const requestContentType = request.headers['content-type']
+      return !requestContentType || (contentType === requestContentType)
+    }
+    return true
   }
 
   function matchBody(body?: string, encoding?: 'base64' | 'utf8') {
+    if (requestPayload) {
+      const requestBody = requestPayload.toString(encoding)
+      return body === requestBody
+    }
     return true
   }
 
