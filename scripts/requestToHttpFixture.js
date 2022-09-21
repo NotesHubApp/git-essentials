@@ -33,7 +33,7 @@ const req = https.request(requestOptions, async (res) => {
     chunks.push(chunk)
   }).on('end', () => {
     const body = Buffer.concat(chunks)
-    const fixture = generateFixture(body, res.headers['content-type'])
+    const fixture = generateFixture(body)
     const jsonFixture = JSON.stringify(fixture, null, 2)
 
     console.log('Copy generated fixture below into your HttpFixure file:\n')
