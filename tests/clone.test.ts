@@ -95,11 +95,11 @@ describe('clone', () => {
       dir,
       depth: 1,
       singleBranch: true,
-      url: `http://localhost/test-clone-no-master.git`,
+      url: `http://localhost/test-clone-no-main.git`,
     })
 
     // assert
-    expect(await currentBranch({ fs, dir })).to.eq('i-am-not-master')
+    expect(await currentBranch({ fs, dir })).to.eq('i-am-not-main')
   })
 
   it('clone with an unregistered protocol', async () => {

@@ -5,4 +5,4 @@
 	symlinks = false
 	ignorecase = true
 [remote "origin"]
-	url = https://github.com/wmhilton/test.empty
+	url = http://localhost/test-clone-no-main.git

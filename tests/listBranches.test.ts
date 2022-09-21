@@ -18,7 +18,7 @@ describe('listBranches', () => {
     expect(commits).to.have.members([
       "feature/supercool",
       "greenkeeper/initial",
-      "master",
+      "main",
       "test-branch",
     ])
   })
@@ -33,7 +33,7 @@ describe('listBranches', () => {
     // assert
     expect(commits).to.have.members([
       "HEAD",
-      "master",
+      "main",
     ])
   })
 })

@@ -24,7 +24,7 @@
                 ]
               },
               {
-                "name": "master",
+                "name": "main",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "033417ae18b174f078f2f44232cb7a374f4c60ce\n"
@@ -61,7 +61,7 @@
         "name": "packed-refs",
         "type": "file",
         "encoding": "utf8",
-        "content": "# pack-refs with: peeled fully-peeled \n1a2149e96a9767b281a8f10fd014835322da2d14 refs/tags/v0.0.1\n452556eb554fdbcc49d23605cab0c24952ec0716 refs/heads/greenkeeper/initial\n452556eb554fdbcc49d23605cab0c24952ec0716 refs/remotes/origin/master\n"
+        "content": "# pack-refs with: peeled fully-peeled \n1a2149e96a9767b281a8f10fd014835322da2d14 refs/tags/v0.0.1\n452556eb554fdbcc49d23605cab0c24952ec0716 refs/heads/greenkeeper/initial\n452556eb554fdbcc49d23605cab0c24952ec0716 refs/remotes/origin/main\n"
       }
     ]
   }
