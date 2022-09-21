@@ -1,7 +1,7 @@
 const https = require('https')
 
 const scriptArgs = process.argv.slice(2)
-const [url, body] = scriptArgs
+const [url, payload] = scriptArgs
 
 const parsedUrl = new URL(url)
 const infoRequest = parsedUrl.pathname.endsWith('/info/refs')
@@ -43,8 +43,8 @@ const req = https.request(requestOptions, async (res) => {
   })
 })
 
-if (body) {
-  req.write(Buffer.from(body, 'base64'))
+if (payload) {
+  req.write(Buffer.from(payload, 'base64'))
 }
 
 req.end()
@@ -58,9 +58,9 @@ req.end()
 function generateFixture(responseBody, responseContentType) {
   const requestContentType = !infoRequest ? { contentType: `application/x-${service}-request` } : {}
   let requestBody = {}
-  if (body) {
+  if (payload) {
     const requestEncoding = service !== 'git-receive-pack' ? 'utf8' : 'base64'
-    requestBody = { encoding: requestEncoding, body: Buffer.from(body, 'base64').toString(requestEncoding) }
+    requestBody = { encoding: requestEncoding, body: Buffer.from(payload, 'base64').toString(requestEncoding) }
   }
   const responseEncoding = infoRequest ? 'utf8' : 'base64'
 
