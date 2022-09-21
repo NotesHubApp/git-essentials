@@ -7,7 +7,7 @@
     "response": {
       "contentType": "application/x-git-upload-pack-advertisement",
       "encoding": "utf8",
-      "body": "001e# service=git-upload-pack\n000001541e6647a8288ebbebf6a8569d142622ea4ddd5c7c HEAD\u0000multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed allow-tip-sha1-in-want allow-reachable-sha1-in-want no-done symref=HEAD:refs/heads/main filter object-format=sha1 agent=git/github-g228317e47f25\n003d1e6647a8288ebbebf6a8569d142622ea4ddd5c7c refs/heads/main\n0000"
+      "body": "001e# service=git-upload-pack\n000001541e6647a8288ebbebf6a8569d142622ea4ddd5c7c HEAD\u0000multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed allow-tip-sha1-in-want allow-reachable-sha1-in-want no-done symref=HEAD:refs/heads/main filter object-format=sha1 agent=git/github-g228317e47f25\n003d1e6647a8288ebbebf6a8569d142622ea4ddd5c7c refs/heads/main\n003c1e6647a8288ebbebf6a8569d142622ea4ddd5c7c refs/tags/v2.0\n0000"
     }
   },
 
