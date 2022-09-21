@@ -1,17 +1,18 @@
-import { GitHttpRequest } from '../../src';
+import { Buffer } from 'buffer'
 
-function generateCreateFixtureCommands(request: GitHttpRequest, payload?: string) {
-  let command = `node ./scripts/requestToHttpFixture.js ${request.url}`
+
+function generateCreateFixtureCommands(requestUrl: string, payload?: Buffer) {
+  let command = `node ./scripts/requestToHttpFixture.js ${requestUrl}`
   if (payload) {
-    command += ' ' + payload
+    command += ' ' + payload.toString('base64')
   }
 
   return command
 }
 
 export class NoMatchingRequestFoundError extends Error {
-  constructor(public readonly missingRequest: GitHttpRequest, payload?: string) {
-    const command = generateCreateFixtureCommands(missingRequest, payload)
+  constructor(public readonly requestUrl: string, public readonly payload?: Buffer) {
+    const command = generateCreateFixtureCommands(requestUrl, payload)
     const message = `No matching request found. Execute the following command to generate the fixture:\n\n${command}`
 
     super(message)

@@ -32,12 +32,12 @@ const req = https.request(requestOptions, async (res) => {
   res.on('data', (chunk) => {
     chunks.push(chunk)
   }).on('end', () => {
-    const body = Buffer.concat(chunks).toString('base64')
+    const body = Buffer.concat(chunks)
     const fixture = generateFixture(body, res.headers['content-type'])
     const jsonFixture = JSON.stringify(fixture, null, 2)
 
-    console.log('Fixture:\n')
-    console.log(ConsoleColors.Blue, jsonFixture)
+    console.log('Copy generated fixture below into your HttpFixure file:\n')
+    console.log(jsonFixture)
   }).on('error', (e) => {
     console.error(`Error: ${e.message}`);
   })
@@ -49,13 +49,20 @@ if (body) {
 
 req.end()
 
-const ConsoleColors = {
-  Blue: '\x1b[34m%s\x1b[0m'
-}
 
+/**
+ *
+ * @param {Buffer} responseBody
+ * @param {string} responseContentType
+ */
 function generateFixture(responseBody, responseContentType) {
   const requestContentType = !infoRequest ? { contentType: `application/x-${service}-request` } : {}
-  const requestBody = body ? { body: body } : {}
+  let requestBody = {}
+  if (body) {
+    const requestEncoding = service !== 'git-receive-pack' ? 'utf8' : 'base64'
+    requestBody = { encoding: requestEncoding, body: Buffer.from(body, 'base64').toString(requestEncoding) }
+  }
+  const responseEncoding = infoRequest ? 'utf8' : 'base64'
 
   return {
     request: {
@@ -66,7 +73,8 @@ function generateFixture(responseBody, responseContentType) {
     },
     response: {
       contentType: responseContentType,
-      body: responseBody
+      encoding: responseEncoding,
+      body: responseBody.toString(responseEncoding)
     }
   }
 }

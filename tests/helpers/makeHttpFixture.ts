@@ -26,6 +26,7 @@ type HttpFixtureRequest = {
 type HttpFixtureResponse = {
   statusCode?: HttpStatusCode
   contentType: string
+  encoding?: 'utf8' | 'base64'
   body?: string
 }
 
@@ -35,11 +36,21 @@ function statusCodeToStatusMessage(code: HttpStatusCode): string {
   }
 }
 
-function findMatch(fixture: HttpFixtureData, request: GitHttpRequest): HttpFixtureEntry | undefined {
+function findMatch(fixture: HttpFixtureData, request: GitHttpRequest, requestPayload?: Uint8Array):
+  HttpFixtureEntry | undefined {
+  function matchHeaders(contentType?: string) {
+    return request.headers && contentType === request.headers['content-type']
+  }
+
+  function matchBody(body?: string, encoding?: 'base64' | 'utf8') {
+    return true
+  }
+
   return fixture.find(x =>
     x.request.url === request.url &&
     x.request.method === request.method &&
-    (request.headers && x.request.contentType === request.headers['content-type']))
+    matchHeaders(x.request.contentType) &&
+    matchBody(x.request.body, x.request.encoding))
 }
 
 function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixtureResponse): GitHttpResponse {
@@ -47,7 +58,7 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
     'content-type': fixtureResponse.contentType
   }
 
-  const body = fixtureResponse.body ? [Buffer.from(fixtureResponse.body, 'base64')] : undefined
+  const body = fixtureResponse.body ? [Buffer.from(fixtureResponse.body, fixtureResponse.encoding ?? 'base64')] : undefined
 
   return {
     url: sourceRequest.url,
@@ -67,13 +78,11 @@ export function makeHttpFixture(fixtureData: HttpFixtureData): HttpClient {
    * @returns {Promise<GitHttpResponse>}
    */
   async function request(httpRequest: GitHttpRequest): Promise<GitHttpResponse> {
-    const matchingEntry = findMatch(fixtureData, httpRequest)
+    const payload = httpRequest.body ? Buffer.from(await collect(httpRequest.body)) : undefined
+    const matchingEntry = findMatch(fixtureData, httpRequest, payload)
 
     if (!matchingEntry) {
-      const payload = httpRequest.body ?
-        Buffer.from(await collect(httpRequest.body)).toString('base64') :
-        undefined
-      throw new NoMatchingRequestFoundError(httpRequest, payload)
+      throw new NoMatchingRequestFoundError(httpRequest.url, payload)
     }
 
     const httpResponse = toHttpResponse(httpRequest, matchingEntry.response)
