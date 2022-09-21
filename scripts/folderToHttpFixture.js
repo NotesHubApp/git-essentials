@@ -59,7 +59,7 @@ function pack (s) {
 /**
  * @param {Buffer} responseBody
  */
- function generateFixture(responseBody) {
+function generateFixture(responseBody) {
   const requestContentType = !infoRequest ? { contentType: `application/x-${service}-request` } : {}
   let requestBody = {}
   if (payload) {

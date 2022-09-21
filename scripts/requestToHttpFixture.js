@@ -53,9 +53,8 @@ req.end()
 /**
  *
  * @param {Buffer} responseBody
- * @param {string} responseContentType
  */
-function generateFixture(responseBody, responseContentType) {
+function generateFixture(responseBody) {
   const requestContentType = !infoRequest ? { contentType: `application/x-${service}-request` } : {}
   let requestBody = {}
   if (payload) {
@@ -63,6 +62,7 @@ function generateFixture(responseBody, responseContentType) {
     requestBody = { encoding: requestEncoding, body: Buffer.from(payload, 'base64').toString(requestEncoding) }
   }
   const responseEncoding = infoRequest ? 'utf8' : 'base64'
+  const responseContentType = `application/x-${service}-${ infoRequest ? 'advertisement' : 'result' }`
 
   return {
     request: {
