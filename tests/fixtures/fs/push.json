@@ -114,7 +114,7 @@
             "type": "dir",
             "children": [
               {
-                "name": "master",
+                "name": "main",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "c03e131196f43a78888415924bcdcbf3090f3316\n"
@@ -130,7 +130,7 @@
                 "type": "dir",
                 "children": [
                   {
-                    "name": "master",
+                    "name": "main",
                     "type": "file",
                     "encoding": "utf8",
                     "content": "c03e131196f43a78888415924bcdcbf3090f3316\n"
@@ -163,7 +163,7 @@
         "name": "HEAD",
         "type": "file",
         "encoding": "utf8",
-        "content": "ref: refs/heads/master\n"
+        "content": "ref: refs/heads/main\n"
       },
       {
         "name": "config",

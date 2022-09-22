@@ -30,13 +30,13 @@ describe('push', () => {
         output.push(m)
       },
       remote: 'karma',
-      ref: 'refs/heads/master',
+      ref: 'refs/heads/main',
     })
 
     // assert
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
-    expect(res.refs['refs/heads/master'].ok).to.be.true
+    expect(res.refs['refs/heads/main'].ok).to.be.true
     expect(output).to.eql([
         "build started...\n",
         "build completed...\n",
