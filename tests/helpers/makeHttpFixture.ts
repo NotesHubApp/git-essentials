@@ -67,7 +67,9 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
     'content-type': fixtureResponse.contentType
   }
 
-  const body = fixtureResponse.body ? [Buffer.from(fixtureResponse.body, fixtureResponse.encoding ?? 'base64')] : undefined
+  const body = fixtureResponse.body ?
+    [Buffer.from(fixtureResponse.body, fixtureResponse.encoding ?? 'base64')] :
+    undefined
 
   return {
     url: sourceRequest.url,
