@@ -19,6 +19,7 @@ type HttpFixtureRequest = {
   url: string
   method: 'GET' | 'POST'
   contentType?: string
+  authorization?: string
   encoding?: 'utf8' | 'base64'
   body?: string
 }
@@ -78,6 +79,15 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
   }
 }
 
+function authorizationRequiredResponse(url: string): GitHttpResponse {
+  return {
+    url: url,
+    statusCode: 401,
+    statusMessage: 'Authorization Required',
+    headers: { 'WWW-Authenticate': 'Basic' }
+  }
+}
+
 export function makeHttpFixture(fixtureData: HttpFixtureData): HttpClient {
   /**
    * HttpClient
@@ -91,6 +101,11 @@ export function makeHttpFixture(fixtureData: HttpFixtureData): HttpClient {
 
     if (!matchingEntry) {
       throw new NoMatchingRequestFoundError(httpRequest.url, payload)
+    }
+
+    if (matchingEntry.request.authorization &&
+      (!httpRequest.headers || matchingEntry.request.authorization !== httpRequest.headers.Authorization)) {
+        return authorizationRequiredResponse(httpRequest.url)
     }
 
     const httpResponse = toHttpResponse(httpRequest, matchingEntry.response)
