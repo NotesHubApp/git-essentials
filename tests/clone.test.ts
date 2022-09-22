@@ -1,11 +1,12 @@
 import { expect } from 'chai'
 
 import { clone, currentBranch } from '../src'
+import { setGitClientAgent } from '../src/utils/pkg'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
 import cloneHttpFixtureData from './fixtures/http/clone.json'
-import { setGitClientAgent } from '../src/utils/pkg'
+
 
 describe('clone', () => {
   beforeEach(() => {
