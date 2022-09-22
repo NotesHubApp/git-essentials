@@ -29,7 +29,7 @@ describe('push', () => {
       onMessage: async m => {
         output.push(m)
       },
-      remote: 'karma',
+      remote: 'local',
       ref: 'refs/heads/main',
     })
 
@@ -58,7 +58,7 @@ describe('push', () => {
       fs,
       http,
       dir,
-      remote: 'karma'
+      remote: 'local'
     })
 
     // assert
@@ -77,7 +77,7 @@ describe('push', () => {
       fs,
       http,
       dir,
-      remote: 'karma',
+      remote: 'local',
       ref: 'main',
       remoteRef: 'foobar'
     })
@@ -86,7 +86,7 @@ describe('push', () => {
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
     expect(res.refs['refs/heads/foobar'].ok).to.be.true
-    expect(await listBranches({ fs, dir, remote: 'karma' })).to.contain(
+    expect(await listBranches({ fs, dir, remote: 'local' })).to.contain(
       'foobar'
     )
   })
@@ -101,7 +101,7 @@ describe('push', () => {
       fs,
       http,
       dir,
-      remote: 'karma',
+      remote: 'local',
       ref: 'lightweight-tag',
     })
 
@@ -121,7 +121,7 @@ describe('push', () => {
       fs,
       http,
       dir,
-      remote: 'karma',
+      remote: 'local',
       ref: 'annotated-tag',
     })
 
@@ -141,12 +141,12 @@ describe('push', () => {
       fs,
       http,
       dir,
-      remote: 'karma',
+      remote: 'local',
       ref: 'main',
       remoteRef: 'foobar',
     })
     // assert
-    expect(await listBranches({ fs, dir, remote: 'karma' })).to.contain(
+    expect(await listBranches({ fs, dir, remote: 'local' })).to.contain(
       'foobar'
     )
 
@@ -155,7 +155,7 @@ describe('push', () => {
       fs,
       http,
       dir,
-      remote: 'karma',
+      remote: 'local',
       remoteRef: 'foobar',
       delete: true,
     })
@@ -163,7 +163,7 @@ describe('push', () => {
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
     expect(res.refs['refs/heads/foobar'].ok).to.be.true
-    expect(await listBranches({ fs, dir, remote: 'karma' })).not.to.contain(
+    expect(await listBranches({ fs, dir, remote: 'local' })).not.to.contain(
       'foobar'
     )
   })
