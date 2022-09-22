@@ -13,7 +13,7 @@ const service = infoRequest ?
 const repoName = parsedUrl.pathname.split('/')[1]
 const gitdir = `tests/fixtures/remotes/${repoName}`
 
-const args = ['--stateless-rpc', '--strict']
+const args = ['--stateless-rpc']
 if (infoRequest) {
   args.push('--advertise-refs')
 }

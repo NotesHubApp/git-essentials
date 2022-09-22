@@ -1,6 +1,6 @@
 [
   {
-    "name": "foo.git",
+    "name": ".git",
     "type": "dir",
     "children": [
       {
@@ -19,6 +19,30 @@
         "name": "objects",
         "type": "dir",
         "children": [
+          {
+            "name": "18",
+            "type": "dir",
+            "children": [
+              {
+                "name": "df7980ddf987c2e3e20eb8007727c659b37216",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAFLyslPUjBnKM8vyklR5AIAIrwESg=="
+              }
+            ]
+          },
+          {
+            "name": "48",
+            "type": "dir",
+            "children": [
+              {
+                "name": "af7b9b559ef89fc4a41d492282c927d63f306b",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAErKUpNVTAzYzA0MDAzMVFI1CupKGF4mcpSdf1oRWqTTe1MbVmWvGV59yugCpLACiTuVzbc/dl+6PEjvh0M5erHIjcXiQEAxIMcig=="
+              }
+            ]
+          },
           {
             "name": "5a",
             "type": "dir",
@@ -40,6 +64,30 @@
                 "type": "file",
                 "encoding": "base64",
                 "content": "eAErKUpNVTA2ZjA0MDAzMVFI1CupKGF4mcpSdf1oRWqTTe1MbVmWvGV59ysAD0wOsw=="
+              }
+            ]
+          },
+          {
+            "name": "c0",
+            "type": "dir",
+            "children": [
+              {
+                "name": "3e131196f43a78888415924bcdcbf3090f3316",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGdk0mvq0YQhbPmV/QevZh5kJIoYDBmsBkMBnsHzdQXmsFgLvDr47y3zSq1KJWOVFKdo/pgjzGaAU1x8m/zqygAJ6WlmMkZz8tFKckl5FKOzjmZYSQGyoyYC2zJUkJGDOmr6GbAp5JM8SnFFLREl5/G0JQgZRKkSk6CmSCwbM5nEk2k77nuXyBGbQvOqJ37Dvzxjeuf098VTlH7O+zxX4DmGZZmBIETwA+Koyjio35OnIv/s1sN1YQq8OPfUnXDvALP8MDNNK5KGAX6T50ABEC+CVVFUZVKMVTfSrfgxCpKb+nWw3rb8Q0JKR+qk6+YdebKrJ+VD3+dS+QHpcOj8UGAxKPt2jxpGzktpdasRa/F55F9W95czk8XFRLaI8pbuG68lhuJMLeXfXVkki5xU4QxATBnBhCPs5LzuaF+xWNwzhpx7serSS4jOyw6u3/Vk/ncdxo2Crl4Vrc3Q5THt1hIG5YA5qEzLbyiM35n5qh1w8z5l+Fhzge/ZZfnvAjVGJqGkKroEiFdQOhuKf5sLIxrvo3044INzrShG7qvQzkTPMV4XBkH1m18ac7nFfaU6POlKe6hq8MNQsU+rrDe00U24fPhCBIBOGUxJVfjYBW2G+zWVN9CT98qrOZGcE4G5jRHWlwG/KCH/v6Iv0U2mluZDisxdXjhQIAb3qM9MRKM6Bxz5GTkWjSrnPUtqYE54PdEdbOT00kdHLVd1N3v4np3b1F3GrWCwfmTAP7VkhLb3CT69PVSFW1bXzVFOhN/wVIftnKrhF3cNVudSHZdP1SfKavgXntKW4Zsb9sEEC9Vl0TPZAvzBiou7pBgHQxUUz7vqI22Pki8P+nmfFMPuIyq9ZPQiSbF7Hjcvch8fVxI+1Evw4A5JlbFUX40VcyFCxybLbzXk15JOz9UFrOfqezeTtHpSTLLqF5P613gXkoYrwTIHAfy2oi+k8IoptaIzEMdw1K2G39wJE1d2e2mD7f2Pbx2dH9yii1SFnQMGqtBfrKOBIBRzTXSbA2O6Iokc4Jh//mSP13KvxC/mNCv2n8RQdwK2Hc5+IUe8Q9AT01Z"
+              }
+            ]
+          },
+          {
+            "name": "db",
+            "type": "dir",
+            "children": [
+              {
+                "name": "13ba6f4e969df956fab620f5735281aef832a2",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAEdjEEKwjAQRV3nFHOBykwnaRso4tIbuE7TpEaSRmRAvL2pHz68zXviNiBtTnV5Bi/gkQMxkR2iZjdObZqM7fXiV79ERouRmQYl31cAX0tJoqQ12rv+oC284Z5yTq7ALWWpO8yf8vjTdSsu5XPTLkCGrR6RJoIONaJSbt+rOAnrEVM/tsYuaQ=="
               }
             ]
           },
@@ -69,7 +117,43 @@
                 "name": "master",
                 "type": "file",
                 "encoding": "utf8",
-                "content": "5a8905a02e181fe1821068b8c0f48cb6633d5b81\n"
+                "content": "c03e131196f43a78888415924bcdcbf3090f3316\n"
+              }
+            ]
+          },
+          {
+            "name": "remotes",
+            "type": "dir",
+            "children": [
+              {
+                "name": "pseudo",
+                "type": "dir",
+                "children": [
+                  {
+                    "name": "master",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "c03e131196f43a78888415924bcdcbf3090f3316\n"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "tags",
+            "type": "dir",
+            "children": [
+              {
+                "name": "annotated-tag",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "db13ba6f4e969df956fab620f5735281aef832a2\n"
+              },
+              {
+                "name": "lightweight-tag",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "c03e131196f43a78888415924bcdcbf3090f3316\n"
               }
             ]
           }
@@ -85,19 +169,13 @@
         "name": "config",
         "type": "file",
         "encoding": "utf8",
-        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"origin\"]\n\turl = https://github.com/wmhilton/test.empty.git\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n[remote \"pseudo\"]\n  url = http://example.dev/foo.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*"
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"origin\"]\n\turl = https://github.com/isomorphic-git/test.empty.git\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n[remote \"pseudo\"]\n  url = http://example.dev/foo.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"karma\"]\n  url = http://localhost:8888/test-push-server.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"auth\"]\n  url = http://localhost:8888/test-push-server-auth.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"url\"]\n  url = http://testuser:testpassword@localhost:8888/test-push-server-auth.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n"
       },
       {
         "name": "description",
         "type": "file",
         "encoding": "utf8",
         "content": "Unnamed repository; edit this file 'description' to name the repository.\n"
-      },
-      {
-        "name": "git-daemon-export-ok",
-        "type": "file",
-        "encoding": "utf8",
-        "content": ""
       }
     ]
   }
