@@ -132,8 +132,8 @@ export async function _push({
         ref: remoteRef,
         map: httpRemote.refs,
       })
-    } catch (err) {
-      if (err instanceof NotFoundError) {
+    } catch (err: any) {
+      if (err.code === NotFoundError.code) {
         // The remote reference doesn't exist yet.
         // If it is fully specified, use that value. Otherwise, treat it as a branch.
         fullRemoteRef = remoteRef.startsWith('refs/')
