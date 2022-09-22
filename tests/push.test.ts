@@ -47,4 +47,49 @@ describe('push', () => {
         "Here is a message from 'post-receive' hook.\n",
       ])
   })
+
+  it('push without ref', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
+    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
+
+    // act
+    const res = await push({
+      fs,
+      http,
+      dir,
+      remote: 'karma'
+    })
+
+    // assert
+    expect(res).to.be.not.undefined
+    expect(res.ok).to.be.true
+    expect(res.refs['refs/heads/main'].ok).to.be.true
+  })
+
+  it('push with ref !== remoteRef', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
+    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
+
+    // act
+    const res = await push({
+      fs,
+      http,
+      dir,
+      remote: 'karma',
+      ref: 'main',
+      remoteRef: 'foobar'
+    })
+
+    // assert
+    expect(res).to.be.not.undefined
+    expect(res.ok).to.be.true
+    expect(res.refs['refs/heads/foobar'].ok).to.be.true
+    expect(await listBranches({ fs, dir, remote: 'karma' })).to.contain(
+      'foobar'
+    )
+  })
 })
