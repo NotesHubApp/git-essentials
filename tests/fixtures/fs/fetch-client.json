@@ -1,0 +1,206 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "objects",
+        "type": "dir",
+        "children": [
+          {
+            "name": "02",
+            "type": "dir",
+            "children": [
+              {
+                "name": "d7e1758463e18f93ec3f1cb0151601c8c0ac31",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAErKUpNVTAzYzA0MDAzMVFI1CupKGF4mcpSdf1oRWqTTe1MbVmWvGV59yugCpLACk66vD7Uz1os97VjTdIMj+ilL/abswAAvKYcJA=="
+              }
+            ]
+          },
+          {
+            "name": "08",
+            "type": "dir",
+            "children": [
+              {
+                "name": "faabdc782b92e1e8d371fdd13b30c0a3f54676",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAFLyslPUjBmUFRUBAAQVQJW"
+              }
+            ]
+          },
+          {
+            "name": "5a",
+            "type": "dir",
+            "children": [
+              {
+                "name": "8905a02e181fe1821068b8c0f48cb6633d5b81",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGdk8nOo0gQhOfMU9Qd9bBvo+nRAGYts9nY2L6xVOECDNgGm5+nb0/3dU6dcQmFlAqllF853G5kAhzLc39MD4RALmsFjyWhKpSPcknDooAQJ2GpFHlOlnlN+RiZp/J5ug4PkJGuAy7ppqEHf79v15/u3/qWk+7Pcrj9AziJlTRJVXgFfGNFlqU+6adyQr+zW4/1k9Tg239jWI4XgtiJwd5zQj097KyfOQWO6PEkQ/8XcPo5dsCLowAFSOKVhq4beq07RuJf3svk6vrgW/7Zn2G2J3Iu+USMGeFS8gcVMsm2+pzvjPH1vKwroUCc31p5Ibt+HfvLqlkvDz23nhuZSfA4yZa9IcbYGjDDSuBPhltYXw/jkGbt9vieRrKeKXBatw5W1ymxqwYfd4bCGxrejWZTLXH/kg9WYH1V1f6wZr6ES7c3If0ix7RIOMT33KWgwIa3DVu4t5ZRKDtMPDh2c8gIAy0F+iziw6zT1niA0cndwvcQXll/sdhM7MZopMkKKwoU5S177aSzidhAebtGGc9G2gp+5NBSJyV1iqR9HQh6sGjFCG2Ls0+IDlvualUa1z4DCrjFVCL/2dSjKpRHtjqx4lZNHV2FR6JPhS/DY94/b1t2Elyr7tPdVzgw1VEVXXKmE8xSAKKHEUQ4W5ll8Pap2eiv9E0S/mJ6X7n4ii80mRY6VBpzx9kNTOT53koN0zkro95pjCiQ1K/+lazrncfBqUqYFToOSnzHu6oM6Z4Nem/OV7WaNReGL4RPcvaObxBW6EC6ZbjlFGjZgesWU/VYlCTqeg9t1eGeZzcNPXdqLnJnSqJ52ej3Ka6h0sSn2e+IxpRR4kbQvq8U2OLCxXOk5m1SH+xLsXvf9zrOCiOkPV/IFsFss8hvDF6lmShibMVdoRsq2jU4bGIUQAoovoZTa/DExEQ7x2gMTgr7JpAKfdpYTn7mtclIz2v8WLk50oS8xqwd118529sWgkeNAvTezzamzTbuIxH1K8fh6+fbv0tpIVO/MLHCzf9BQnk9mUjegV84Uj8AnkNCAQ=="
+              }
+            ]
+          },
+          {
+            "name": "97",
+            "type": "dir",
+            "children": [
+              {
+                "name": "c024f73eaab2781bf3691597bc7c833cb0e22f",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGVjkEKwjAQRV3nFHMByyQ0nQmI6AHceYFkMkXB2BJH6PHtFfybBw8efFlaexoEzwfrqpApF+QsFIgis7JISSUEHKlOWgpFX1Vxdmvu+jYQDpFJEhXlOWWPyBwTKk6SKs40kdYoY3b5a4+lw60PcNePwal123nRLbf1pYMs7Qw+4oTj6FOAI+5zu93vmf4dumutWkEG28z9ANTeREA="
+              }
+            ]
+          },
+          {
+            "name": "a6",
+            "type": "dir",
+            "children": [
+              {
+                "name": "9b2f53db7b7ba59f43ee15f5c42166297c4262",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAErKUpNVTA2ZjA0MDAzMVFI1CupKGF4mcpSdf1oRWqTTe1MbVmWvGV59ysAD0wOsw=="
+              }
+            ]
+          },
+          {
+            "name": "a7",
+            "type": "dir",
+            "children": [
+              {
+                "name": "ab08ac7277588e8ccb9b22047d6ebb751dee0f",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAErKUpNVbC0ZDA0MDAzMVFI1CupKGF4mcpSdf1oRWqTTe1MbVmWvGV59yugCpLACk66vD7Uz1os97VjTdIMj+ilL/abs0AVJIMVcPxafadCe9LDF5cL/160Njiw+KtbGQA1eyuC"
+              }
+            ]
+          },
+          {
+            "name": "c8",
+            "type": "dir",
+            "children": [
+              {
+                "name": "2587c97be8f9a10088590e06c9d0f767ed5c4a",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGVjlEKwjAQRP3OKfYClt2kSVMQ0QP45wWSzRYFY0tcocc3V3A+ZmB4A8NrrU8FS/GgTQTQlklo8nEMTigusxN2C3FG8hSQODImdmS21OSt4FOc0Se0HaalmyUMMXdqGSPnEJwrPkcy6auPtcGtDXCXj8KpNu15kT3V7SUDr/UM5DGgm2ZEOGKX6W2/p/L30FxLkQJ50F3ND8g/QrY="
+              }
+            ]
+          },
+          {
+            "name": "c9",
+            "type": "dir",
+            "children": [
+              {
+                "name": "44ebc28f05731ef588ac6298485ba5e8bf3704",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAFLyslPUjBjKM8vyklRBAAeagQ/"
+              }
+            ]
+          },
+          {
+            "name": "e9",
+            "type": "dir",
+            "children": [
+              {
+                "name": "65047ad7c57865823c7d992b1d046ea66edf78",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAFLyslPUjBj8EjNycnnAgAdBQP0"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "refs",
+        "type": "dir",
+        "children": [
+          {
+            "name": "heads",
+            "type": "dir",
+            "children": [
+              {
+                "name": "master",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "5a8905a02e181fe1821068b8c0f48cb6633d5b81\n"
+              }
+            ]
+          },
+          {
+            "name": "remotes",
+            "type": "dir",
+            "children": [
+              {
+                "name": "origin",
+                "type": "dir",
+                "children": [
+                  {
+                    "name": "master",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "97c024f73eaab2781bf3691597bc7c833cb0e22f\n"
+                  },
+                  {
+                    "name": "test",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "5a8905a02e181fe1821068b8c0f48cb6633d5b81\n"
+                  },
+                  {
+                    "name": "test-prune",
+                    "type": "file",
+                    "encoding": "utf8",
+                    "content": "5a8905a02e181fe1821068b8c0f48cb6633d5b81\n"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "tags",
+            "type": "dir",
+            "children": [
+              {
+                "name": "v1.0.0",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "5a8905a02e181fe1821068b8c0f48cb6633d5b81\n"
+              },
+              {
+                "name": "v1.0.0-beta1",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "5a8905a02e181fe1821068b8c0f48cb6633d5b81\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HEAD",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "ref: refs/heads/master\n"
+      },
+      {
+        "name": "config",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"origin\"]\n  url = http://localhost:8888/test-fetch-server.git\n  fetch = +refs/heads/*:refs/remotes/origin/*\n[branch \"master\"]\n  remote = origin\n  merge = refs/heads/master\n"
+      },
+      {
+        "name": "packed-refs",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "# pack-refs with: peeled fully-peeled \n97c024f73eaab2781bf3691597bc7c833cb0e22f refs/heads/master\n5a8905a02e181fe1821068b8c0f48cb6633d5b81 refs/heads/test\n"
+      }
+    ]
+  }
+]

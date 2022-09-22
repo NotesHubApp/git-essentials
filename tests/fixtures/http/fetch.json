@@ -1,0 +1,13 @@
+[
+  {
+    "request": {
+      "url": "http://localhost/empty.git/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-advertisement",
+      "encoding": "utf8",
+      "body": "001e# service=git-upload-pack\n00000000"
+    }
+  }
+]
