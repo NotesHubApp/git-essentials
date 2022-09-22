@@ -5,8 +5,13 @@ import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
 import cloneHttpFixtureData from './fixtures/http/clone.json'
+import { setGitClientAgent } from '../src/utils/pkg'
 
 describe('clone', () => {
+  beforeEach(() => {
+    setGitClientAgent('git/git-essentials')
+  })
+
   it('clone --no-tags --signle-branch --depth 1', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture()
