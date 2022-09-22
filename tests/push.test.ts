@@ -39,14 +39,14 @@ describe('push', () => {
     expect(res.ok).to.be.true
     expect(res.refs['refs/heads/main'].ok).to.be.true
     expect(output).to.eql([
-        "build started...\n",
-        "build completed...\n",
-        "tests started...\n",
-        "tests completed...\n",
-        "starting server...\n",
-        "server running\n",
-        "Here is a message from 'post-receive' hook.\n",
-      ])
+      "build started...\n",
+      "build completed...\n",
+      "tests started...\n",
+      "tests completed...\n",
+      "starting server...\n",
+      "server running\n",
+      "Here is a message from 'post-receive' hook.\n",
+    ])
   })
 
   it('push without ref', async () => {
@@ -108,6 +108,8 @@ describe('push', () => {
       remote: 'karma',
       ref: 'lightweight-tag',
     })
+
+    // assert
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
     expect(res.refs['refs/tags/lightweight-tag'].ok).to.be.true
@@ -127,6 +129,8 @@ describe('push', () => {
       remote: 'karma',
       ref: 'annotated-tag',
     })
+
+    // assert
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
     expect(res.refs['refs/tags/annotated-tag'].ok).to.be.true
@@ -137,6 +141,8 @@ describe('push', () => {
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
     await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
+
+    // act
     await push({
       fs,
       http,
@@ -145,6 +151,7 @@ describe('push', () => {
       ref: 'main',
       remoteRef: 'foobar',
     })
+    // assert
     expect(await listBranches({ fs, dir, remote: 'karma' })).to.contain(
       'foobar'
     )
@@ -158,6 +165,7 @@ describe('push', () => {
       remoteRef: 'foobar',
       delete: true,
     })
+    // assert
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
     expect(res.refs['refs/heads/foobar'].ok).to.be.true
@@ -186,6 +194,7 @@ describe('push', () => {
       err = e
     }
 
+    // assert
     expect(err).to.be.not.undefined
     expect(err.code).to.eq(Errors.UnknownTransportError.code)
   })
@@ -210,6 +219,8 @@ describe('push', () => {
       ref: 'main',
       onAuth: () => ({ username: 'testuser', password: 'testpassword' }),
     })
+
+    // assert
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
     expect(res.refs['refs/heads/main'].ok).to.be.true
@@ -234,6 +245,8 @@ describe('push', () => {
       remote: 'url',
       ref: 'main',
     })
+
+    // assert
     expect(res).to.be.not.undefined
     expect(res.ok).to.be.true
     expect(res.refs['refs/heads/main'].ok).to.be.true
@@ -263,6 +276,8 @@ describe('push', () => {
     } catch (err: any) {
       error = err.message
     }
+
+    // assert
     expect(error).to.contain('401')
   })
 
@@ -291,6 +306,8 @@ describe('push', () => {
     } catch (err: any) {
       error = err.message
     }
+
+    // assert
     expect(error).to.contain('401')
   })
 
@@ -329,6 +346,8 @@ describe('push', () => {
         onAuthFailureArgs.push(args)
       },
     })
+
+    // assert
     expect(onAuthArgs).to.eql([
       [
         `http://localhost/test-push-server-auth.git`,
@@ -404,6 +423,7 @@ describe('push', () => {
       err = e
     }
 
+    // assert
     expect(err).to.be.not.undefined
     expect(err.code).to.eq(Errors.HttpError.code)
     expect(err.data.response).to.be.not.undefined
