@@ -79,12 +79,13 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
   }
 }
 
-function authorizationRequiredResponse(url: string): GitHttpResponse {
+function authorizationRequiredResponse(url: string, reason: string): GitHttpResponse {
   return {
     url: url,
     statusCode: 401,
     statusMessage: 'Authorization Required',
-    headers: { 'WWW-Authenticate': 'Basic' }
+    headers: { 'WWW-Authenticate': 'Basic' },
+    body: [Buffer.from(reason)]
   }
 }
 
@@ -103,9 +104,14 @@ export function makeHttpFixture(fixtureData: HttpFixtureData): HttpClient {
       throw new NoMatchingRequestFoundError(httpRequest.url, payload)
     }
 
-    if (matchingEntry.request.authorization &&
-      (!httpRequest.headers || matchingEntry.request.authorization !== httpRequest.headers.Authorization)) {
-        return authorizationRequiredResponse(httpRequest.url)
+    if (matchingEntry.request.authorization) {
+      if (!httpRequest.headers || !httpRequest.headers.Authorization) {
+        return authorizationRequiredResponse(httpRequest.url, 'Unauthorized\n')
+      }
+
+      if (matchingEntry.request.authorization !== httpRequest.headers.Authorization) {
+        return authorizationRequiredResponse(httpRequest.url, 'Bad credentials\n')
+      }
     }
 
     const httpResponse = toHttpResponse(httpRequest, matchingEntry.response)

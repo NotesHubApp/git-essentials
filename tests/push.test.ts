@@ -94,15 +94,6 @@ describe('push', () => {
     )
   })
 
-
-
-
-
-
-
-
-
-
   it('push with lightweight tag', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
@@ -358,7 +349,6 @@ describe('push', () => {
     expect(onAuthFailureArgs).to.eql([])
   })
 
-  /*
   it('onAuthFailure', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
@@ -458,7 +448,6 @@ describe('push', () => {
       ],
     ])
   })
-  */
 
   it('onAuthFailure then onAuthSuccess', async () => {
     // arrange
