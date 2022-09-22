@@ -101,7 +101,7 @@ describe('clone', () => {
       dir,
       depth: 1,
       singleBranch: true,
-      url: `http://localhost/test-clone-no-main.git`,
+      url: `http://localhost/clone-no-main.git`,
     })
 
     // assert
@@ -141,7 +141,7 @@ describe('clone', () => {
     const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
 
     // act
-    await clone({ fs, http, dir, url: `http://localhost/test-empty.git` })
+    await clone({ fs, http, dir, url: `http://localhost/empty.git` })
 
     // assert
     expect(await fs.exists(`${dir}`)).to.be.true

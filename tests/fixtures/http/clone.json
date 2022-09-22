@@ -28,7 +28,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-clone-no-main.git/info/refs?service=git-upload-pack",
+      "url": "http://localhost/clone-no-main.git/info/refs?service=git-upload-pack",
       "method": "GET"
     },
     "response": {
@@ -40,7 +40,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-clone-no-main.git/git-upload-pack",
+      "url": "http://localhost/clone-no-main.git/git-upload-pack",
       "method": "POST",
       "contentType": "application/x-git-upload-pack-request",
       "encoding": "utf8",
@@ -55,7 +55,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-empty.git/info/refs?service=git-upload-pack",
+      "url": "http://localhost/empty.git/info/refs?service=git-upload-pack",
       "method": "GET"
     },
     "response": {
