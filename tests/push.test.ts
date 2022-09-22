@@ -19,7 +19,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
     const output: string[] = []
 
     // act
@@ -53,7 +52,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
 
     // act
     const res = await push({
@@ -73,7 +71,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
 
     // act
     const res = await push({
@@ -98,7 +95,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
 
     // act
     const res = await push({
@@ -119,7 +115,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
 
     // act
     const res = await push({
@@ -140,7 +135,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({ fs, dir, path: 'remote.karma.url', value: `http://localhost/test-push-server.git` })
 
     // act
     await push({
@@ -203,12 +197,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.auth.url',
-      value: `http://localhost/test-push-server-auth.git`,
-    })
 
     // act
     const res = await push({
@@ -230,12 +218,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.url.url',
-      value: `http://testuser:testpassword@localhost/test-push-server-auth.git`,
-    })
 
     // act
     const res = await push({
@@ -256,12 +238,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.auth.url',
-      value: `http://localhost/test-push-server-auth.git`,
-    })
 
     // act
     let error = null
@@ -285,12 +261,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.auth.url',
-      value: `http://localhost/test-push-server-auth.git`,
-    })
 
     // act
     let error = null
@@ -315,12 +285,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.auth.url',
-      value: `http://localhost/test-push-server-auth.git`,
-    })
 
     // act
     const onAuthArgs: AuthCallbackParams[] = []
@@ -372,12 +336,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.auth.url',
-      value: `http://localhost/test-push-server-auth.git`,
-    })
 
     // act
     let err
@@ -473,12 +431,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.auth.url',
-      value: `http://localhost/test-push-server-auth.git`,
-    })
 
     // act
     const onAuthArgs: AuthCallbackParams[] = []
@@ -563,12 +515,6 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.auth.url',
-      value: `http://localhost/test-push-server-auth.git`,
-    })
 
     // act
     let err
