@@ -1,7 +1,7 @@
 [
   {
     "request": {
-      "url": "http://localhost/test-push-server.git/info/refs?service=git-receive-pack",
+      "url": "http://localhost/push-server.git/info/refs?service=git-receive-pack",
       "method": "GET"
     },
     "response": {
@@ -13,7 +13,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-push-server.git/git-receive-pack",
+      "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
       "contentType": "application/x-git-receive-pack-request",
       "encoding": "base64",
@@ -28,7 +28,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-push-server.git/git-receive-pack",
+      "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
       "contentType": "application/x-git-receive-pack-request",
       "encoding": "base64",
@@ -43,7 +43,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-push-server.git/git-receive-pack",
+      "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
       "contentType": "application/x-git-receive-pack-request",
       "encoding": "base64",
@@ -58,7 +58,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-push-server.git/git-receive-pack",
+      "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
       "contentType": "application/x-git-receive-pack-request",
       "encoding": "base64",
@@ -73,7 +73,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-push-server.git/git-receive-pack",
+      "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
       "contentType": "application/x-git-receive-pack-request",
       "encoding": "base64",
@@ -90,7 +90,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-push-server-auth.git/info/refs?service=git-receive-pack",
+      "url": "http://localhost/push-server-auth.git/info/refs?service=git-receive-pack",
       "method": "GET",
       "authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
     },
@@ -103,7 +103,7 @@
 
   {
     "request": {
-      "url": "http://localhost/test-push-server-auth.git/git-receive-pack",
+      "url": "http://localhost/push-server-auth.git/git-receive-pack",
       "method": "POST",
       "contentType": "application/x-git-receive-pack-request",
       "authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk",

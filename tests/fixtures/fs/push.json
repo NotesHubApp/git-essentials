@@ -169,7 +169,7 @@
         "name": "config",
         "type": "file",
         "encoding": "utf8",
-        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"pseudo\"]\n  url = http://example.dev/foo.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"local\"]\n  url = http://localhost/test-push-server.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"auth\"]\n  url = http://localhost/test-push-server-auth.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"url\"]\n  url = http://testuser:testpassword@localhost/test-push-server-auth.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n"
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"pseudo\"]\n  url = http://example.dev/foo.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"local\"]\n  url = http://localhost/push-server.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"auth\"]\n  url = http://localhost/push-server-auth.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n[remote \"url\"]\n  url = http://testuser:testpassword@localhost/push-server-auth.git\n  fetch = +refs/heads/*:refs/remotes/pseudo/*\n"
       },
       {
         "name": "description",

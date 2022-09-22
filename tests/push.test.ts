@@ -172,7 +172,7 @@ describe('push', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(pushFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
-    await setConfig({ fs, dir, path: 'remote.ssh.url', value: `git@localhost/test-push-server.git` })
+    await setConfig({ fs, dir, path: 'remote.ssh.url', value: `git@localhost/push-server.git` })
 
     // act
     let err
@@ -314,7 +314,7 @@ describe('push', () => {
     // assert
     expect(onAuthArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {},
         },
@@ -322,7 +322,7 @@ describe('push', () => {
     ])
     expect(onAuthSuccessArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           username: 'testuser',
           password: 'testpassword',
@@ -387,7 +387,7 @@ describe('push', () => {
     expect(err.data.response).to.be.not.undefined
     expect(onAuthArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {},
         },
@@ -396,7 +396,7 @@ describe('push', () => {
     expect(onAuthSuccessArgs).to.eql([])
     expect(onAuthFailureArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {
             Authorization: 'Basic dGVzdHVzZXI6Tm9UX3JJZ0h0',
@@ -406,7 +406,7 @@ describe('push', () => {
         },
       ],
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {
             Authorization: 'Basic dGVzdHVzZXI6U3QxbGxfTm9UX3JJZ0h0',
@@ -416,7 +416,7 @@ describe('push', () => {
         },
       ],
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {
             Authorization: 'Bearer Big Bear',
@@ -472,7 +472,7 @@ describe('push', () => {
     // assert
     expect(onAuthArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {},
         },
@@ -480,7 +480,7 @@ describe('push', () => {
     ])
     expect(onAuthSuccessArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           username: 'testuser',
           password: 'testpassword',
@@ -489,7 +489,7 @@ describe('push', () => {
     ])
     expect(onAuthFailureArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {
             Authorization: 'Basic dGVzdHVzZXI6Tm9UX3JJZ0h0',
@@ -499,7 +499,7 @@ describe('push', () => {
         },
       ],
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {
             Authorization: 'Basic dGVzdHVzZXI6U3QxbGxfTm9UX3JJZ0h0',
@@ -550,7 +550,7 @@ describe('push', () => {
     expect(err.code).to.eq('UserCanceledError')
     expect(onAuthArgs).to.eql([
       [
-        `http://localhost/test-push-server-auth.git`,
+        `http://localhost/push-server-auth.git`,
         {
           headers: {},
         },
