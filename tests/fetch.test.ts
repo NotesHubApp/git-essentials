@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { Errors, setConfig, fetch } from '../src'
+import { Errors, fetch } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
@@ -17,66 +17,71 @@ describe('fetch', () => {
     setGitClientAgent('git/git-essentials')
   })
 
-  // it('fetch (from Github)', async () => {
-  //   const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
-  //   const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+  it('fetch', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
-  //   // Smoke Test
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test-branch-shallow-clone',
-  //   })
-  //   expect(
-  //     await fs.exists(`${dir}/.git/refs/remotes/origin/test-branch-shallow-clone`)
-  //   ).to.be.true
-  //   expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).to.be.false
-  // })
+    // act
+    await fetch({
+      fs,
+      http,
+      dir,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'test',
+    })
 
-  // it('shallow fetch (from Github)', async () => {
-  //   const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
-  //   const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+    // assert
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/test`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).to.be.false
+  })
 
-  //   const output: string[] = []
-  //   const progress = []
-  //   // Test
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     onMessage: async x => {
-  //       output.push(x)
-  //     },
-  //     onProgress: async y => {
-  //       progress.push(y)
-  //     },
-  //     depth: 1,
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test-branch-shallow-clone',
-  //   })
+  it('shallow fetch', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+    const output: string[] = []
+    const progress = []
 
-  //   expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
-  //   expect(output[output.length - 1].split(' ')[1]).to.eq('551')
-  //   let shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-  //   expect(shallow === '92e7b4123fbf135f5ffa9b6fe2ec78d07bbc353e\n').to.be.true
-  //   // Now test deepen
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     depth: 2,
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test-branch-shallow-clone',
-  //   })
+    // act
+    await fetch({
+      fs,
+      http,
+      dir,
+      onMessage: async x => {
+        output.push(x)
+      },
+      onProgress: async y => {
+        progress.push(y)
+      },
+      depth: 1,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'main',
+    })
 
-  //   shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
-  //   expect(shallow === '86ec153c7b48e02f92930d07542680f60d104d31\n').to.be.true
-  // })
+    // assert
+    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    expect(output[output.length - 1].split(' ')[1]).to.eq('5')
+    let shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
+    expect(shallow).to.eq('97c024f73eaab2781bf3691597bc7c833cb0e22f\n')
+
+    // act
+    await fetch({
+      fs,
+      http,
+      dir,
+      depth: 2,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'main',
+    })
+
+    // assert
+    shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
+    expect(shallow).to.eq('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
+  })
 
   it('throws UnknownTransportError if using shorter scp-like syntax', async () => {
     // arrange
@@ -93,7 +98,7 @@ describe('fetch', () => {
         depth: 1,
         singleBranch: true,
         remote: 'ssh',
-        ref: 'test-branch-shallow-clone',
+        ref: 'main',
       })
     } catch (e: any) {
       err = e
@@ -119,7 +124,7 @@ describe('fetch', () => {
         depth: 1,
         singleBranch: true,
         remote: 'ssh',
-        ref: 'test-branch-shallow-clone',
+        ref: 'main',
       })
     } catch (e: any) {
       err = e
@@ -129,43 +134,49 @@ describe('fetch', () => {
     expect(err).to.be.not.undefined
     expect(err.code).to.eq(Errors.UnknownTransportError.code)
     expect(err.data.suggestion).to.eq(
-      'https://github.com/isomorphic-git/isomorphic-git.git'
+      'https://localhost/fetch-server.git'
     )
   })
 
-  // it('shallow fetch single commit by hash (from Github)', async () => {
+  it('shallow fetch single commit by hash', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+
+    // act
+    await fetch({
+      fs,
+      http,
+      dir,
+      singleBranch: true,
+      remote: 'origin',
+      depth: 1,
+      ref: '5a8905a02e181fe1821068b8c0f48cb6633d5b81',
+    })
+
+    // assert
+    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    const shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
+    expect(shallow).to.eq('5a8905a02e181fe1821068b8c0f48cb6633d5b81\n')
+  })
+
+  // it('shallow fetch since', async () => {
+  //   // arrange
   //   const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
   //   const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
-  //   // Test
+  //   // act
   //   await fetch({
   //     fs,
   //     http,
   //     dir,
+  //     since: new Date(2015, 1, 1),
   //     singleBranch: true,
   //     remote: 'origin',
-  //     depth: 1,
-  //     ref: '36d201c8fea9d87128e7fccd32c21643f355540d',
+  //     ref: 'main'
   //   })
-  //   expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
-  //   const shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-  //   expect(shallow).to.eq('36d201c8fea9d87128e7fccd32c21643f355540d\n')
-  // })
 
-  // it('shallow fetch since (from Github)', async () => {
-  //   const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
-  //   const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
-
-  //   // Test
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     since: new Date(1506571200000),
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test-branch-shallow-clone',
-  //   })
+  //   // assert
   //   expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
   //   const shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
   //   expect(shallow).to.eq('36d201c8fea9d87128e7fccd32c21643f355540d\n')
@@ -278,7 +289,6 @@ describe('fetch', () => {
     )
     expect(await fs.exists(`${dir}/.git/refs/heads/main`)).to.be.false
   })
-
 
   it('fetch --prune', async () => {
     // arrange

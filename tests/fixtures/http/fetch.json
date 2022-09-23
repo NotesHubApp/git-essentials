@@ -45,6 +45,81 @@
       "method": "POST",
       "contentType": "application/x-git-upload-pack-request",
       "encoding": "utf8",
+      "body": "007ewant 5a8905a02e181fe1821068b8c0f48cb6633d5b81 multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAwOE5BSwowMDQwAkVudW1lcmF0aW5nIG9iamVjdHM6IDMsIGRvbmUuCkNvdW50aW5nIG9iamVjdHM6ICAzMyUgKDEvMykNMDAyMgJDb3VudGluZyBvYmplY3RzOiAgNjYlICgyLzMpDTAwMjICQ291bnRpbmcgb2JqZWN0czogMTAwJSAoMy8zKQ0wMDI5AkNvdW50aW5nIG9iamVjdHM6IDEwMCUgKDMvMyksIGRvbmUuCjAzNjEBUEFDSwAAAAIAAAADnT94nJ2TSxOqRhSE9/yK2VM3vF+pJBVAniMvRVF3IDM4gIAKiPz6mHu3WeX0pquretFV5xufCIFc1goeS0JZKF/lkoZFASFOwtJV5DlZ5jXla2Seyqfx1j9BRtoWuKQd+w788b7ffrq/q3tO2t+u/f0vwEmspEmqwivgByuyLPVN72Qc0f/pVkP1IhX48e8ZluOFIHZisPecUE8PO+tnToEjer5I3/0OnG6KHTBzFKAASbyroeuGXumOkfiX9zK6ut77ln/2J5jtiZxLPhFjRrhc+YMKmWRbfuc7Q3w7L+tKKBDn90ZeyK5bh+6yatbsodfWcyMzCZ4n2bI3xBgaA2ZYCfzRcAvr8zQOadZsj+9xIOuZAqd162B1HRO7rPFxZyi8oeHdYNblEnezfLAC61OW+8Oa+RK+up0J6Zkc0yLhEN9xl4ICG942bOHRWEah7DDx4NBOISP0tBTok4gPk05bwwFGJ3cL3314Y/3FYjOxHaKBJissKVBc79m8k84mYgPl7RrXeDLSRvAjh5ZaKalSJO2rQNCDRSsGaFucfUJ02HA3q9S45hVQwC3GK/JfdTWowvXIlidW3Kqpo6vwSPSx8GV4zLvXfcuOgmtVXbr7hD1THlXRJWc6wSwFIHoaQYSzlVl6b5+atT6nb5LwF9P75OIcX2gyLnSo1OaOs2uYyNOjkWqmdVZGfdAYUSCp5m5O1vXB4+BUJswKHQclvuPdVIa0rxq9N+ebWk6aC8MZ4ZOcveM7hCU6kHbp7zkFGrbn2sVUPRYlibo+Qlt1uNfZTUPPHeuL3JqSaF42+mOMK6jU8WnyW6Ix1yhxI2g/VgpsceHiKVLzJqkO9qXYvR97HWeFEdKeL2SLYDZZ5NcGr9JMFDG24q7QDRXtFhw2MQogBRRfw6nVe2Jiop1j1AYnhV0dSIU+biwnP/PaaKTnNX6u3BRpQl5h1o6rT852toXgUaMAvfezjWmztftMRP3Gcfj2/fY/pbSQqV+YWOHmvyChvI6MJG/BLxypfwDYSz6UoQJ4nDM0MDAzMVFI1CupKGF4mcpSdf1oRWqTTe1MbVmWvGV59ysAuasMfTZ4nPNIzcnJ5wIAB4sB/7sda4eIgFnEW1uCtvgh4e7GS7swMDNhAlRvdGFsIDMgKGRlbHRhIDApLCByZXVzZWQgMCAoZGVsdGEgMCksIHBhY2stcmV1c2VkIDAKMDAwNgGmMDAwMA=="
+    }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/fetch-server.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 97c024f73eaab2781bf3691597bc7c833cb0e22f multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n000ddeepen 1\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAzNHNoYWxsb3cgOTdjMDI0ZjczZWFhYjI3ODFiZjM2OTE1OTdiYzdjODMzY2IwZTIyZjAwMDAwMDA4TkFLCjAwNDACRW51bWVyYXRpbmcgb2JqZWN0czogNSwgZG9uZS4KQ291bnRpbmcgb2JqZWN0czogIDIwJSAoMS81KQ0wMDIyAkNvdW50aW5nIG9iamVjdHM6ICA0MCUgKDIvNSkNMDAzZgJDb3VudGluZyBvYmplY3RzOiAgNjAlICgzLzUpDUNvdW50aW5nIG9iamVjdHM6ICA4MCUgKDQvNSkNMDAyMgJDb3VudGluZyBvYmplY3RzOiAxMDAlICg1LzUpDTAwMjkCQ291bnRpbmcgb2JqZWN0czogMTAwJSAoNS81KSwgZG9uZS4KMDA0NQJDb21wcmVzc2luZyBvYmplY3RzOiAgNTAlICgxLzIpDUNvbXByZXNzaW5nIG9iamVjdHM6IDEwMCUgKDIvMikNMDAyYwJDb21wcmVzc2luZyBvYmplY3RzOiAxMDAlICgyLzIpLCBkb25lLgowMTQ1AVBBQ0sAAAACAAAABZoNeJyVi0EKAjEMAO99RT7gkpa2SUFEH+DND7RpFgVXlxphn+9+wbkMDIwNVahUG3IVCkSJWVmklRYCRupZW6PkuyrObq1DXwbCITFJoaY8l+oRmVNBxSyl40yZtCeJ1dWv3d8DrmOCm34Mjsuw3Wfd6rI+dZL3cgKfMGOMvgQ44I7b6/Iw079Hd+ldO8hkm7kf9OhA/KMGeJwzNDAwMzFRSNQrqShheJnKUnX9aEVqk03tTG1ZlrxlefcrDCEKksAKTrq8PtTPWiz3tWNN0gyP6KUv9puzQBUkgxVw/Fp9p0J70sMXlwv/XrQ2OLD4q1sZAEksKUA2eJzzSM3JyecCAAeLAf82eJwrzy/KSVEEAAjwAkozeJxTVFQEAADJAGSVHSnoIEsN9dUNOvyqxrOGuDTcMDAzYQJUb3RhbCA1IChkZWx0YSAwKSwgcmV1c2VkIDAgKGRlbHRhIDApLCBwYWNrLXJldXNlZCAwCjAwMDYBzjAwMDA="
+    }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/fetch-server.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 97c024f73eaab2781bf3691597bc7c833cb0e22f multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n0035shallow 97c024f73eaab2781bf3691597bc7c833cb0e22f\n000ddeepen 2\n00000032have 97c024f73eaab2781bf3691597bc7c833cb0e22f\n0009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAzNHNoYWxsb3cgYzgyNTg3Yzk3YmU4ZjlhMTAwODg1OTBlMDZjOWQwZjc2N2VkNWM0YTAwMzZ1bnNoYWxsb3cgOTdjMDI0ZjczZWFhYjI3ODFiZjM2OTE1OTdiYzdjODMzY2IwZTIyZjAwMDAwMDM4QUNLIDk3YzAyNGY3M2VhYWIyNzgxYmYzNjkxNTk3YmM3YzgzM2NiMGUyMmYgY29tbW9uCjAwMzFBQ0sgOTdjMDI0ZjczZWFhYjI3ODFiZjM2OTE1OTdiYzdjODMzY2IwZTIyZgowMDQwAkVudW1lcmF0aW5nIG9iamVjdHM6IDQsIGRvbmUuCkNvdW50aW5nIG9iamVjdHM6ICAyNSUgKDEvNCkNMDAyMgJDb3VudGluZyBvYmplY3RzOiAgNTAlICgyLzQpDTAwNjMCQ291bnRpbmcgb2JqZWN0czogIDc1JSAoMy80KQ1Db3VudGluZyBvYmplY3RzOiAxMDAlICg0LzQpDUNvdW50aW5nIG9iamVjdHM6IDEwMCUgKDQvNCksIGRvbmUuCjAwNDUCQ29tcHJlc3Npbmcgb2JqZWN0czogIDUwJSAoMS8yKQ1Db21wcmVzc2luZyBvYmplY3RzOiAxMDAlICgyLzIpDTAwMmMCQ29tcHJlc3Npbmcgb2JqZWN0czogMTAwJSAoMi8yKSwgZG9uZS4KMDAzYQJUb3RhbCA0IChkZWx0YSAwKSwgcmV1c2VkIDAgKGRlbHRhIDApLCBwYWNrLXJldXNlZCAwCjAxMjEBUEFDSwAAAAIAAAAEmg14nJWLXQrCMBCE33OKvYBlt9ukKUjRA/jmBfKzQcHYElfo8c0VnIcZ+PhGmwjgmGeh2frJsZAvC0viQikiWXJIyScMicnsoclbwQa/oA04dplKr5HQ+ditMvkUnWPONnoy4auPrcGtDXCXj8K5Nu17kSPU/SVD2uoKZNEhzwsinLDHdFqfqvL30Vxzlgxx0EPND+hJP3KiBHicMzQwMDMxUUjUK6koYXiZylJ1/WhFapNN7UxtWZa8ZXn3KwwhCpLACk66vD7Uz1os97VjTdIMj+ilL/abswAAHIMZ6DZ4nPNIzcnJ5wIAB4sB/zZ4nCvPL8pJUQQACPACSv1Gld3VFd4ZpS2iBzwF6/LPi50wMDA2Af8wMDAw"
+    }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/fetch-server.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 5a8905a02e181fe1821068b8c0f48cb6633d5b81 multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n000ddeepen 1\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAzNHNoYWxsb3cgNWE4OTA1YTAyZTE4MWZlMTgyMTA2OGI4YzBmNDhjYjY2MzNkNWI4MTAwMDAwMDA4TkFLCjAwNDACRW51bWVyYXRpbmcgb2JqZWN0czogMywgZG9uZS4KQ291bnRpbmcgb2JqZWN0czogIDMzJSAoMS8zKQ0wMDIyAkNvdW50aW5nIG9iamVjdHM6ICA2NiUgKDIvMykNMDA0NgJDb3VudGluZyBvYmplY3RzOiAxMDAlICgzLzMpDUNvdW50aW5nIG9iamVjdHM6IDEwMCUgKDMvMyksIGRvbmUuCjAwM2ECVG90YWwgMyAoZGVsdGEgMCksIHJldXNlZCAwIChkZWx0YSAwKSwgcGFjay1yZXVzZWQgMAowMzYxAVBBQ0sAAAACAAAAA50/eJydk0sTqkYUhPf8itlTN7xfqSQVQJ4jL0VRdyAzOICACoj8+ph7t1nl9Karq3rRVecbnwiBXNYKHktCWShf5ZKGRQEhTsLSVeQ5WeY15Wtknsqn8dY/QUbaFrikHfsO/PG+3366v6t7Ttrfrv39L8BJrKRJqsIr4Acrsiz1Te9kHNH/6VZD9SIV+PHvGZbjhSB2YrD3nFBPDzvrZ06BI3q+SN/9Dpxuih0wcxSgAEm8q6Hrhl7pjpH4l/cyurre+5Z/9ieY7YmcSz4RY0a4XPmDCplkW37nO0N8Oy/rSigQ5/dGXsiuW4fusmrW7KHX1nMjMwmeJ9myN8QYGgNmWAn80XAL6/M0DmnWbI/vcSDrmQKndetgdR0Tu6zxcWcovKHh3WDW5RJ3s3ywAutTlvvDmvkSvrqdCemZHNMi4RDfcZeCAhveNmzh0VhGoeww8eDQTiEj9LQU6JOID5NOW8MBRid3C999eGP9xWIzsR2igSYrLClQXO/ZvJPOJmID5e0a13gy0kbwI4eWWimpUiTtq0DQg0UrBmhbnH1CdNhwN6vUuOYVUMAtxivyX3U1qML1yJYnVtyqqaOr8Ej0sfBleMy7133LjoJrVV26+4Q9Ux5V0SVnOsEsBSB6GkGEs5VZem+fmrU+p2+S8BfT++TiHF9oMi50qNTmjrNrmMjTo5FqpnVWRn3QGFEgqeZuTtb1wePgVCbMCh0HJb7j3VSGtK8avTfnm1pOmgvDGeGTnL3jO4QlOpB26e85BRq259rFVD0WJYm6PkJbdbjX2U1Dzx3ri9yakmheNvpjjCuo1PFp8luiMdcocSNoP1YKbHHh4ilS8yapDval2L0fex1nhRHSni9ki2A2WeTXBq/STBQxtuKu0A0V7RYcNjEKIAUUX8Op1XtiYqKdY9QGJ4VdHUiFPm4sJz/z2mik5zV+rtwUaUJeYdaOq0/OdraF4FGjAL33s41ps7X7TET9xnH49v32P6W0kKlfmFjh5r8gobyOjCRvwS8cqX8A2Es+lKECeJwzNDAwMzFRSNQrqShheJnKUnX9aEVqk03tTG1ZlrxlefcrALmrDH02eJzzSM3JyecCAAeLAf+7HWuHiIBZxFtbgrb4IeHuxku7MDAwNgGmMDAwMA=="
+    }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/fetch-server.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 97c024f73eaab2781bf3691597bc7c833cb0e22f multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n001cdeepen-since 1422777600\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "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"
+    }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/fetch-server.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
       "body": "007ewant 97c024f73eaab2781bf3691597bc7c833cb0e22f multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n0032want 5a8905a02e181fe1821068b8c0f48cb6633d5b81\n000ddeepen 1\n00000032have 5a8905a02e181fe1821068b8c0f48cb6633d5b81\n0032have 97c024f73eaab2781bf3691597bc7c833cb0e22f\n0009done\n"
     },
     "response": {
