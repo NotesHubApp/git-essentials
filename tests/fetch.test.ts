@@ -204,41 +204,43 @@ describe('fetch', () => {
     expect(shallow).to.eq('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
   })
 
-  // it('shallow fetch relative (from Github)', async () => {
-  //   // arrange
-  //   const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
-  //   const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+  it('shallow fetch relative', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
-  //   // act
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     depth: 1,
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test-branch-shallow-clone',
-  //   })
+    // act
+    await fetch({
+      fs,
+      http,
+      dir,
+      depth: 1,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'main',
+    })
 
-  //   // assert
-  //   expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
-  //   let shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-  //   expect(shallow).to.eq('92e7b4123fbf135f5ffa9b6fe2ec78d07bbc353e\n')
-  //   // Now test deepen
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     relative: true,
-  //     depth: 1,
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test-branch-shallow-clone',
-  //   })
+    // assert
+    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    let shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
+    expect(shallow).to.eq('97c024f73eaab2781bf3691597bc7c833cb0e22f\n')
 
-  //   shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
-  //   expect(shallow).to.eq('86ec153c7b48e02f92930d07542680f60d104d31\n')
-  // })
+    // act (now test deepen)
+    await fetch({
+      fs,
+      http,
+      dir,
+      relative: true,
+      depth: 1,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'main',
+    })
+
+    // assert
+    shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
+    expect(shallow).to.eq('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
+  })
 
   it('errors if missing refspec', async () => {
     // arrange
