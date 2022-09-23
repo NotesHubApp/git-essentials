@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { Errors, fetch } from '../src'
+import { Errors, fetch, setConfig } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
@@ -160,27 +160,28 @@ describe('fetch', () => {
     expect(shallow).to.eq('5a8905a02e181fe1821068b8c0f48cb6633d5b81\n')
   })
 
-  // it('shallow fetch since', async () => {
-  //   // arrange
-  //   const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
-  //   const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+  it('shallow fetch since', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+    await setConfig({ fs, dir, path: 'remote.origin.url', value: 'https://github.com/NotesHubApp/Welcome.git' })
 
-  //   // act
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     since: new Date(2017, 8, 20, 18, 52, 7),
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test'
-  //   })
+    // act
+    await fetch({
+      fs,
+      http,
+      dir,
+      since: new Date(2022, 7, 25, 18, 52, 7),
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'main'
+    })
 
-  //   // assert
-  //   expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
-  //   const shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-  //   expect(shallow).to.eq('36d201c8fea9d87128e7fccd32c21643f355540d\n')
-  // })
+    // assert
+    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    const shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
+    expect(shallow).to.eq('76eb4d63a0f172b5d4a0e46daadedd8b3e144773\n')
+  })
 
   it('shallow fetch exclude', async () => {
     // arrange
