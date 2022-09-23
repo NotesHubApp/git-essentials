@@ -7,6 +7,7 @@ import { NoMatchingRequestFoundError } from './NoMatchingRequestFoundError'
 export type HttpFixtureData = HttpFixtureEntry[]
 
 type HttpFixtureEntry = {
+  comment?: string
   request: HttpFixtureRequest
   response: HttpFixtureResponse
 }
