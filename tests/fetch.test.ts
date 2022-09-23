@@ -170,10 +170,10 @@ describe('fetch', () => {
   //     fs,
   //     http,
   //     dir,
-  //     since: new Date(2015, 1, 1),
+  //     since: new Date(2017, 8, 20, 18, 52, 7),
   //     singleBranch: true,
   //     remote: 'origin',
-  //     ref: 'main'
+  //     ref: 'test'
   //   })
 
   //   // assert
@@ -182,27 +182,27 @@ describe('fetch', () => {
   //   expect(shallow).to.eq('36d201c8fea9d87128e7fccd32c21643f355540d\n')
   // })
 
-  // it('shallow fetch exclude (from Github)', async () => {
-  //   // arrange
-  //   const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
-  //   const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+  it('shallow fetch exclude', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
-  //   // act
-  //   await fetch({
-  //     fs,
-  //     http,
-  //     dir,
-  //     exclude: ['v0.0.5'],
-  //     singleBranch: true,
-  //     remote: 'origin',
-  //     ref: 'test-branch-shallow-clone',
-  //   })
+    // act
+    await fetch({
+      fs,
+      http,
+      dir,
+      exclude: ['test'],
+      singleBranch: false,
+      remote: 'origin',
+      ref: 'main',
+    })
 
-  //   // assert
-  //   expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
-  //   const shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
-  //   expect(shallow).to.eq('0094dadf9804971c851e99b13845d10c8849db12\n')
-  // })
+    // assert
+    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    const shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
+    expect(shallow).to.eq('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
+  })
 
   // it('shallow fetch relative (from Github)', async () => {
   //   // arrange
