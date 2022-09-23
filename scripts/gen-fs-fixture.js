@@ -7,8 +7,13 @@ const [folderPath] = scriptArgs
 const fixture = []
 readFolder(folderPath, fixture)
 
-const jsonFixture = JSON.stringify(fixture, null, 2);
-fs.writeFileSync(path.join(path.dirname(folderPath), `${path.basename(folderPath)}.json`), jsonFixture)
+const jsonFixture = JSON.stringify(fixture, null, 2)
+const targetFilepath = `tests/fixtures/fs/${path.basename(folderPath)}.json`
+if (fs.existsSync(targetFilepath)) {
+  throw new Error(`Fixtyre by the path '${targetFilepath}' already exists.`)
+}
+
+fs.writeFileSync(targetFilepath, jsonFixture)
 
 /**
  *
