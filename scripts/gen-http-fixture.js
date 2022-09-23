@@ -81,6 +81,7 @@ function printFixtureForLocalRepo() {
 
   const gitServiceProcess = spawn(service, args)
   gitServiceProcess.stderr.on('data', (error) => {
+    fs.rmSync(gitdirTemp, { recursive: true, force: true })
     throw new Error(error)
   })
 
