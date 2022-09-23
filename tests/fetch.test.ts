@@ -7,7 +7,7 @@ import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
 import emptyFsFixtureData from './fixtures/fs/empty.json'
 import fetchFsFixtureData from './fixtures/fs/fetch.json'
-import fetchCorsFsFixtureData from './fixtures/fs/fetch-cors.json'
+import fetchEmptyRepoFsFixtureData from './fixtures/fs/fetch-empty-repo.json'
 import fetchMissingRefspecFsFixtureData from './fixtures/fs/fetch-missing-refspec.json'
 import fetchHttpFixtureData from './fixtures/http/fetch.json'
 
@@ -19,7 +19,7 @@ describe('fetch', () => {
 
   it('fetch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
@@ -39,7 +39,7 @@ describe('fetch', () => {
 
   it('shallow fetch', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
     const output: string[] = []
     const progress = []
@@ -85,7 +85,7 @@ describe('fetch', () => {
 
   it('throws UnknownTransportError if using shorter scp-like syntax', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
@@ -111,7 +111,7 @@ describe('fetch', () => {
 
   it('the SSH -> HTTPS UnknownTransportError suggestion feature', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
@@ -140,7 +140,7 @@ describe('fetch', () => {
 
   it('shallow fetch single commit by hash', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
@@ -162,7 +162,7 @@ describe('fetch', () => {
 
   it('shallow fetch since', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
     await setConfig({ fs, dir, path: 'remote.origin.url', value: 'https://github.com/NotesHubApp/Welcome.git' })
 
@@ -185,7 +185,7 @@ describe('fetch', () => {
 
   it('shallow fetch exclude', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
@@ -207,7 +207,7 @@ describe('fetch', () => {
 
   it('shallow fetch relative', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(fetchCorsFsFixtureData as FsFixtureData)
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
