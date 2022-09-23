@@ -1,6 +1,61 @@
 [
   {
     "request": {
+      "url": "https://github.com/NotesHubApp/Welcome.git/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-advertisement",
+      "encoding": "utf8",
+      "body": "001e# service=git-upload-pack\n000001541e6647a8288ebbebf6a8569d142622ea4ddd5c7c HEAD\u0000multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed allow-tip-sha1-in-want allow-reachable-sha1-in-want no-done symref=HEAD:refs/heads/main filter object-format=sha1 agent=git/github-g35bb0c1459ab\n003d1e6647a8288ebbebf6a8569d142622ea4ddd5c7c refs/heads/main\n003c1e6647a8288ebbebf6a8569d142622ea4ddd5c7c refs/tags/v2.0\n0000"
+    }
+  },
+
+  {
+    "request": {
+      "url": "https://github.com/NotesHubApp/Welcome.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 1e6647a8288ebbebf6a8569d142622ea4ddd5c7c multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n000ddeepen 1\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAzNHNoYWxsb3cgMWU2NjQ3YTgyODhlYmJlYmY2YTg1NjlkMTQyNjIyZWE0ZGRkNWM3YzAwMDAwMDA4TkFLCjAwMjMCRW51bWVyYXRpbmcgb2JqZWN0czogMywgZG9uZS4KMDAyMgJDb3VudGluZyBvYmplY3RzOiAgMzMlICgxLzMpDTAwMjICQ291bnRpbmcgb2JqZWN0czogIDY2JSAoMi8zKQ0wMDIyAkNvdW50aW5nIG9iamVjdHM6IDEwMCUgKDMvMykNMDAyOQJDb3VudGluZyBvYmplY3RzOiAxMDAlICgzLzMpLCBkb25lLgowMDI1AkNvbXByZXNzaW5nIG9iamVjdHM6ICA1MCUgKDEvMikNMDAyNQJDb21wcmVzc2luZyBvYmplY3RzOiAxMDAlICgyLzIpDTAwMmMCQ29tcHJlc3Npbmcgb2JqZWN0czogMTAwJSAoMi8yKSwgZG9uZS4KMDM0MQFQQUNLAAAAAgAAAAOZD3icpYxNCsIwEEb3OcXsXFmSNH+CiC48gb3ANJnRYmqljNDj2y48gfBt3gfvyUwEpNvImAJTThywWNO77CwH69c55/vSoqZevXGml0DLoWfMB7bBhmDN6jAjOSo+eROL5jYxeqfwI49phkulBbpBNvs5wRHr0sgPz/cRh9rkaTyB2WpJh2hhr6PWan3HQYT+aahClYRg111vXTOWHfBQ6Qu7+01jqwJ4nDM0MDAzMVEIT81Jzs9NVcjLL0nVy01heCJTNdn08PbJynf/XNbwtpM4tU/6GwBHGxFxtEF4nG1TQW4bMQy85xUEfDNi/yGXpEbRoEARFD3KEtdmrBUFimtn+/qS2k2aAr14LVIcDoejzQYORYXTFJW43N0B/CQ9w3b7zIrty3TcbmHmSaD4GVSmPMMRM5cTKHsKQkmeBaXTWT0Yygw1iFKcchC4Ykkse3jIGXhY0FLQANSgKQsmoAJPpCBYuZGFCNs9tAU+hgLR+iHoGcfebQwlnBB40kapxyHUunf2Lw2h8g3FW30Lckl8K05qYBmDfprlHqJgUCsPx+zHTE3tQ6Nh2xc17v8i3MjYnzFXx7og1s+qGH3n0MJoPzpntElOQZLBWnJYxuBKNqnim8IgPPYKKopSUIEFbmJYS6pFCRrPXYLCMJpGkGgYULBYNRfdDSE6Sf8PjX73cTiztK7Ck0E6fglK1y7OLtMFAd8qmrglog1kax45WX+owicxrn73hke/nykGd8Ryz0hEHu3aSA33cFAYMRSzw3mRtC9pah+r+KjOZAOGbJ6xg/si4ZWiQfxai6g0tTyQ3ncAHoZMtmsT5HVqCqE5IzOFt10gYvhPo5fDsqKQuOrqTHEhEUsX6F+uWF55tqbdTkd0BfoTuGLXb7OBrzjDo/ljMmE8tAV7GiyX9k5xjT3zanDIHC87Kmv8uwnNiSIcQ7ychCdr1OYS3Zfu/vXa4+TiROHWdjUHdZuuqYcUal/fy2GN/JhqZdFmAHLpz+GdxYdPq5jAeFvWZuOzaeJt3zEnZXsGRmtEsScUudgw0SBtTM6Ta/kHe0JrqLLcERwS7u58fp5wOROWkKktqwkwMDNhAlRvdGFsIDMgKGRlbHRhIDApLCByZXVzZWQgMSAoZGVsdGEgMCksIHBhY2stcmV1c2VkIDAKMDAwNgE6MDAwMA=="
+    }
+  },
+
+
+  {
+    "request": {
+      "url": "http://localhost/fetch-server.git/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-advertisement",
+      "encoding": "utf8",
+      "body": "001e# service=git-upload-pack\n0000010b97c024f73eaab2781bf3691597bc7c833cb0e22f HEAD\u0000multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed no-done symref=HEAD:refs/heads/main object-format=sha1 agent=git/2.34.1\n003d97c024f73eaab2781bf3691597bc7c833cb0e22f refs/heads/main\n003d5a8905a02e181fe1821068b8c0f48cb6633d5b81 refs/heads/test\n003e97c024f73eaab2781bf3691597bc7c833cb0e22f refs/tags/v1.0.0\n0000"
+    }
+  },
+
+  {
+    "request": {
+      "url": "http://localhost/fetch-server.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 97c024f73eaab2781bf3691597bc7c833cb0e22f multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n0032want 5a8905a02e181fe1821068b8c0f48cb6633d5b81\n000ddeepen 1\n00000032have 5a8905a02e181fe1821068b8c0f48cb6633d5b81\n0032have 97c024f73eaab2781bf3691597bc7c833cb0e22f\n0009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAzNHNoYWxsb3cgNWE4OTA1YTAyZTE4MWZlMTgyMTA2OGI4YzBmNDhjYjY2MzNkNWI4MTAwMzRzaGFsbG93IDk3YzAyNGY3M2VhYWIyNzgxYmYzNjkxNTk3YmM3YzgzM2NiMGUyMmYwMDAwMDAzOEFDSyA1YTg5MDVhMDJlMTgxZmUxODIxMDY4YjhjMGY0OGNiNjYzM2Q1YjgxIGNvbW1vbgowMDM4QUNLIDk3YzAyNGY3M2VhYWIyNzgxYmYzNjkxNTk3YmM3YzgzM2NiMGUyMmYgY29tbW9uCjAwMzFBQ0sgOTdjMDI0ZjczZWFhYjI3ODFiZjM2OTE1OTdiYzdjODMzY2IwZTIyZgowMDI0AVBBQ0sAAAACAAAAAAKdCII72KjqtRCtasdcgjz9PtMwMDNhAlRvdGFsIDAgKGRlbHRhIDApLCByZXVzZWQgMCAoZGVsdGEgMCksIHBhY2stcmV1c2VkIDAKMDAwNgEeMDAwMA=="
+    }
+  },
+
+  {
+    "request": {
       "url": "http://localhost/empty.git/info/refs?service=git-upload-pack",
       "method": "GET"
     },

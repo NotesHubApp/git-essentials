@@ -1,0 +1,20 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "HEAD",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "ref: refs/heads/main\n"
+      },
+      {
+        "name": "config",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"origin\"]\n\turl = https://github.com/isomorphic-git/isomorphic-git.git\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n[remote \"ssh\"]\n\turl = git@github.com:isomorphic-git/isomorphic-git.git\n\tfetch = +refs/heads/*:refs/remotes/origin/*"
+      }
+    ]
+  }
+]

@@ -46,7 +46,7 @@ type FetchParams = {
   remote?: string
 
   /** The URL of the remote repository. The default is the value set in the git config for that remote. */
-  url: string | void
+  url?: string
 
   /** Determines how much of the git repository's history to retrieve. */
   depth?: number | null,

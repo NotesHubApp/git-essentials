@@ -152,7 +152,7 @@ export class InMemoryFsClient implements FsClient {
     this.root = makeEmptyFolder('/')
   }
 
-  public async readFile(filepath: string, opts: EncodingOpts): Promise<string | Uint8Array> {
+  public async readFile(filepath: string, opts?: EncodingOpts): Promise<string | Uint8Array> {
     const { entry } = this.parsePath(filepath)
 
     if (!entry || entry.type !== 'file') {

@@ -4,6 +4,10 @@ const fs = require('fs')
 const scriptArgs = process.argv.slice(2)
 const [folderPath] = scriptArgs
 
+if (!folderPath) {
+  throw new Error('Source folder path is required as first unnamed parameter.')
+}
+
 const fixture = []
 readFolder(folderPath, fixture)
 
