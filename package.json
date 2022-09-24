@@ -12,7 +12,6 @@
     "test:electron": "cypress run --browser electron",
     "test:chrome": "cypress run --browser chrome",
     "test:webkit": "cypress run --browser webkit",
-    "cypress:open": "cypress open",
     "gen-fs-fixture": "node ./scripts/gen-fs-fixture.js",
     "gen-http-fixture": "node ./scripts/gen-http-fixture.js"
   },
