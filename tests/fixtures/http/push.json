@@ -1,5 +1,6 @@
 [
   {
+    "comment": "tests: all tests for push-server.git repo",
     "request": {
       "url": "http://localhost/push-server.git/info/refs?service=git-receive-pack",
       "method": "GET"
@@ -12,6 +13,7 @@
   },
 
   {
+    "comment": "tests: push, push without ref",
     "request": {
       "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
@@ -27,6 +29,7 @@
   },
 
   {
+    "comment": "tests: push with ref !== remoteRef, push delete",
     "request": {
       "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
@@ -42,6 +45,7 @@
   },
 
   {
+    "comment": "test: push with lightweight tag",
     "request": {
       "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
@@ -57,6 +61,7 @@
   },
 
   {
+    "comment": "test: push with annotated tag",
     "request": {
       "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
@@ -72,6 +77,7 @@
   },
 
   {
+    "comment": "test: push delete (second call)",
     "request": {
       "url": "http://localhost/push-server.git/git-receive-pack",
       "method": "POST",
@@ -86,9 +92,8 @@
     }
   },
 
-
-
   {
+    "comment": "tests: all related to auth",
     "request": {
       "url": "http://localhost/push-server-auth.git/info/refs?service=git-receive-pack",
       "method": "GET",
@@ -102,6 +107,7 @@
   },
 
   {
+    "comment": "tests: all related to auth",
     "request": {
       "url": "http://localhost/push-server-auth.git/git-receive-pack",
       "method": "POST",
