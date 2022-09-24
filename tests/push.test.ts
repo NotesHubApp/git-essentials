@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { Errors, setConfig, push, listBranches, GitAuth } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
@@ -34,10 +32,10 @@ describe('push', () => {
     })
 
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/heads/main'].ok).to.be.true
-    expect(output).to.eql([
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/main'].ok).toBe(true)
+    expect(output).toEqual([
       "build started...\n",
       "build completed...\n",
       "tests started...\n",
@@ -62,9 +60,9 @@ describe('push', () => {
     })
 
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/heads/main'].ok).to.be.true
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/main'].ok).toBe(true)
   })
 
   it('push with ref !== remoteRef', async () => {
@@ -83,10 +81,10 @@ describe('push', () => {
     })
 
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/heads/foobar'].ok).to.be.true
-    expect(await listBranches({ fs, dir, remote: 'local' })).to.contain(
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/foobar'].ok).toBe(true)
+    expect(await listBranches({ fs, dir, remote: 'local' })).toContain(
       'foobar'
     )
   })
@@ -106,9 +104,9 @@ describe('push', () => {
     })
 
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/tags/lightweight-tag'].ok).to.be.true
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/tags/lightweight-tag'].ok).toBe(true)
   })
 
   it('push with annotated tag', async () => {
@@ -126,9 +124,9 @@ describe('push', () => {
     })
 
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/tags/annotated-tag'].ok).to.be.true
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/tags/annotated-tag'].ok).toBe(true)
   })
 
   it('push delete', async () => {
@@ -146,7 +144,7 @@ describe('push', () => {
       remoteRef: 'foobar',
     })
     // assert
-    expect(await listBranches({ fs, dir, remote: 'local' })).to.contain(
+    expect(await listBranches({ fs, dir, remote: 'local' })).toContain(
       'foobar'
     )
 
@@ -160,10 +158,10 @@ describe('push', () => {
       delete: true,
     })
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/heads/foobar'].ok).to.be.true
-    expect(await listBranches({ fs, dir, remote: 'local' })).not.to.contain(
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/foobar'].ok).toBe(true)
+    expect(await listBranches({ fs, dir, remote: 'local' })).not.toContain(
       'foobar'
     )
   })
@@ -189,8 +187,8 @@ describe('push', () => {
     }
 
     // assert
-    expect(err).to.be.not.undefined
-    expect(err.code).to.eq(Errors.UnknownTransportError.code)
+    expect(err).toBeDefined()
+    expect(err.code).toBe(Errors.UnknownTransportError.code)
   })
 
   it('push with Basic Auth', async () => {
@@ -209,9 +207,9 @@ describe('push', () => {
     })
 
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/heads/main'].ok).to.be.true
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/main'].ok).toBe(true)
   })
 
   it('push with Basic Auth credentials in the URL', async () => {
@@ -229,9 +227,9 @@ describe('push', () => {
     })
 
     // assert
-    expect(res).to.be.not.undefined
-    expect(res.ok).to.be.true
-    expect(res.refs['refs/heads/main'].ok).to.be.true
+    expect(res).toBeDefined()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/main'].ok).toBe(true)
   })
 
   it('throws an Error if no credentials supplied', async () => {
@@ -254,7 +252,7 @@ describe('push', () => {
     }
 
     // assert
-    expect(error).to.contain('401')
+    expect(error).toContain('401')
   })
 
   it('throws an Error if invalid credentials supplied', async () => {
@@ -278,7 +276,7 @@ describe('push', () => {
     }
 
     // assert
-    expect(error).to.contain('401')
+    expect(error).toContain('401')
   })
 
   it('onAuthSuccess', async () => {
@@ -312,7 +310,7 @@ describe('push', () => {
     })
 
     // assert
-    expect(onAuthArgs).to.eql([
+    expect(onAuthArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -320,7 +318,7 @@ describe('push', () => {
         },
       ],
     ])
-    expect(onAuthSuccessArgs).to.eql([
+    expect(onAuthSuccessArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -329,7 +327,7 @@ describe('push', () => {
         },
       ],
     ])
-    expect(onAuthFailureArgs).to.eql([])
+    expect(onAuthFailureArgs).toEqual([])
   })
 
   it('onAuthFailure', async () => {
@@ -382,10 +380,10 @@ describe('push', () => {
     }
 
     // assert
-    expect(err).to.be.not.undefined
-    expect(err.code).to.eq(Errors.HttpError.code)
-    expect(err.data.response).to.be.not.undefined
-    expect(onAuthArgs).to.eql([
+    expect(err).toBeDefined()
+    expect(err.code).toBe(Errors.HttpError.code)
+    expect(err.data.response).toBeDefined()
+    expect(onAuthArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -393,8 +391,8 @@ describe('push', () => {
         },
       ],
     ])
-    expect(onAuthSuccessArgs).to.eql([])
-    expect(onAuthFailureArgs).to.eql([
+    expect(onAuthSuccessArgs).toEqual([])
+    expect(onAuthFailureArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -470,7 +468,7 @@ describe('push', () => {
     })
 
     // assert
-    expect(onAuthArgs).to.eql([
+    expect(onAuthArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -478,7 +476,7 @@ describe('push', () => {
         },
       ],
     ])
-    expect(onAuthSuccessArgs).to.eql([
+    expect(onAuthSuccessArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -487,7 +485,7 @@ describe('push', () => {
         },
       ],
     ])
-    expect(onAuthFailureArgs).to.eql([
+    expect(onAuthFailureArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -546,9 +544,9 @@ describe('push', () => {
     }
 
     // assert
-    expect(err).to.be.not.undefined
-    expect(err.code).to.eq('UserCanceledError')
-    expect(onAuthArgs).to.eql([
+    expect(err).toBeDefined()
+    expect(err.code).toBe('UserCanceledError')
+    expect(onAuthArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
         {
@@ -556,7 +554,7 @@ describe('push', () => {
         },
       ],
     ])
-    expect(onAuthSuccessArgs).to.eql([])
-    expect(onAuthFailureArgs).to.eql([])
+    expect(onAuthSuccessArgs).toEqual([])
+    expect(onAuthFailureArgs).toEqual([])
   })
 })

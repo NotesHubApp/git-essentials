@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { Errors, readCommit } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -12,7 +10,7 @@ describe('readCommit', () => {
     const { fs, dir } = await makeFsFixture(readCommitFsFixtureData as FsFixtureData)
 
     // act
-    let error = null
+    let error
     try {
       await readCommit({ fs, dir, oid: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' })
     } catch (err: any) {
@@ -20,8 +18,8 @@ describe('readCommit', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).be.eq(Errors.NotFoundError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.NotFoundError.code)
   })
 
   it('parsed', async () => {
@@ -32,7 +30,7 @@ describe('readCommit', () => {
     const result = await readCommit({ fs, dir, oid: 'e10ebb90d03eaacca84de1af0a59b444232da99e' })
 
     // assert
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       commit: {
         author: {
           email: "wmhilton@gmail.com",
@@ -87,7 +85,7 @@ Improve resolveRef to handle more kinds of refs. Add tests\n`
     const result = await readCommit({ fs, dir, oid: '0b8faa11b353db846b40eb064dfb299816542a46' })
 
     // assert
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
         commit: {
           author: {
             email: "wmhilton@gmail.com",
@@ -124,6 +122,6 @@ index on master: fbd56b4 Add 'unpkg' key to package.json\n`
     const result = await readCommit({ fs, dir, oid: '587d3f8290b513e2ee85ecd317e6efecd545aee6' })
 
     // assert
-    expect(result.oid).to.eq('033417ae18b174f078f2f44232cb7a374f4c60ce')
+    expect(result.oid).toBe('033417ae18b174f078f2f44232cb7a374f4c60ce')
   })
 })

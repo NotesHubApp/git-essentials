@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { Errors, merge, resolveRef, log } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -22,11 +20,11 @@ describe('merge', () => {
     const m = await merge({ fs, dir, ours: 'main', theirs: 'main', fastForwardOnly: true })
 
     // assert
-    expect(m.oid).to.eq(desiredOid)
-    expect(m.alreadyMerged).to.be.true
-    expect(m.fastForward).to.be.oneOf([false, undefined])
+    expect(m.oid).toBe(desiredOid)
+    expect(m.alreadyMerged).toBe(true)
+    expect(m.fastForward).toBeFalsy()
     const oid = await resolveRef({ fs, dir, ref: 'main' })
-    expect(oid).to.eq(desiredOid)
+    expect(oid).toBe(desiredOid)
   })
 
   it('merge medium into main', async () => {
@@ -38,11 +36,11 @@ describe('merge', () => {
     const m = await merge({ fs, dir, ours: 'main', theirs: 'medium', fastForwardOnly: true })
 
     // assert
-    expect(m.oid).to.eq(desiredOid)
-    expect(m.alreadyMerged).to.be.true
-    expect(m.fastForward).to.be.oneOf([false, undefined])
+    expect(m.oid).toBe(desiredOid)
+    expect(m.alreadyMerged).toBe(true)
+    expect(m.fastForward).toBeFalsy()
     const oid = await resolveRef({ fs, dir, ref: 'main' })
-    expect(oid).to.eq(desiredOid)
+    expect(oid).toBe(desiredOid)
   })
 
   it('merge oldest into main', async () => {
@@ -54,11 +52,11 @@ describe('merge', () => {
     const m = await merge({ fs, dir, ours: 'main', theirs: 'oldest', fastForwardOnly: true })
 
     // assert
-    expect(m.oid).to.eq(desiredOid)
-    expect(m.alreadyMerged).to.be.true
-    expect(m.fastForward).to.be.oneOf([false, undefined])
+    expect(m.oid).toBe(desiredOid)
+    expect(m.alreadyMerged).toBe(true)
+    expect(m.fastForward).toBeFalsy()
     const oid = await resolveRef({ fs, dir, ref: 'main' })
-    expect(oid).to.eq(desiredOid)
+    expect(oid).toBe(desiredOid)
   })
 
   it('merge newest into main', async () => {
@@ -70,11 +68,11 @@ describe('merge', () => {
     const m = await merge({ fs, dir, ours: 'main', theirs: 'newest', fastForwardOnly: true })
 
     // assert
-    expect(m.oid).to.eq(desiredOid)
-    expect(m.alreadyMerged).to.be.oneOf([false, undefined])
-    expect(m.fastForward).to.be.true
+    expect(m.oid).toBe(desiredOid)
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.fastForward).toBe(true)
     const oid = await resolveRef({ fs, dir, ref: 'main' })
-    expect(oid).to.eq(desiredOid)
+    expect(oid).toBe(desiredOid)
   })
 
   it('merge newest into main --dryRun (no author needed since fastForward)', async () => {
@@ -87,11 +85,11 @@ describe('merge', () => {
     const m = await merge({ fs, dir, ours: 'main', theirs: 'newest', fastForwardOnly: true, dryRun: true })
 
     // assert
-    expect(m.oid).to.eq(desiredOid)
-    expect(m.alreadyMerged).to.be.oneOf([false, undefined])
-    expect(m.fastForward).to.be.true
+    expect(m.oid).toBe(desiredOid)
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.fastForward).toBe(true)
     const oid = await resolveRef({ fs, dir, ref: 'main' })
-    expect(oid).to.eq(originalOid)
+    expect(oid).toBe(originalOid)
   })
 
   it('merge newest into main --noUpdateBranch', async () => {
@@ -104,11 +102,11 @@ describe('merge', () => {
     const m = await merge({ fs, dir, ours: 'main', theirs: 'newest', fastForwardOnly: true, dryRun: true })
 
     // assert
-    expect(m.oid).to.eq(desiredOid)
-    expect(m.alreadyMerged).to.be.oneOf([false, undefined])
-    expect(m.fastForward).to.be.true
+    expect(m.oid).toBe(desiredOid)
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.fastForward).toBe(true)
     const oid = await resolveRef({ fs, dir, ref: 'main' })
-    expect(oid).to.eq(originalOid)
+    expect(oid).toBe(originalOid)
   })
 
   it("merge 'add-files' and 'remove-files'", async () => {
@@ -121,10 +119,10 @@ describe('merge', () => {
 
     // assert
     const mergeCommit = (await log({fs, dir, ref: 'add-files', depth: 1, }))[0].commit
-    expect(report.tree).to.eq(commit.tree)
-    expect(mergeCommit.tree).to.eq(commit.tree)
-    expect(mergeCommit.message).to.eq(commit.message)
-    expect(mergeCommit.parent).to.eql(commit.parent)
+    expect(report.tree).toBe(commit.tree)
+    expect(mergeCommit.tree).toBe(commit.tree)
+    expect(mergeCommit.message).toBe(commit.message)
+    expect(mergeCommit.parent).toEqual(commit.parent)
   })
 
   it("merge 'remove-files' and 'add-files'", async () => {
@@ -137,10 +135,10 @@ describe('merge', () => {
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'remove-files', depth: 1, }))[0].commit
-    expect(report.tree).to.eq(commit.tree)
-    expect(mergeCommit.tree).to.eq(commit.tree)
-    expect(mergeCommit.message).to.eq(commit.message)
-    expect(mergeCommit.parent).to.eql(commit.parent)
+    expect(report.tree).toBe(commit.tree)
+    expect(mergeCommit.tree).toBe(commit.tree)
+    expect(mergeCommit.message).toBe(commit.message)
+    expect(mergeCommit.parent).toEqual(commit.parent)
   })
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun, missing author)", async () => {
@@ -148,7 +146,7 @@ describe('merge', () => {
     const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
 
     // act
-    let error = null
+    let error
     try {
       await merge({ fs, dir, ours: 'delete-first-half', theirs: 'delete-second-half', dryRun: true })
     } catch (e: any) {
@@ -156,8 +154,8 @@ describe('merge', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.MissingNameError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.MissingNameError.code)
   })
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun)", async () => {
@@ -170,13 +168,13 @@ describe('merge', () => {
     const report = await merge({ fs, dir, ours: 'delete-first-half', theirs: 'delete-second-half', author, dryRun: true })
 
     // assert
-    expect(report.tree).to.eq(commit.commit.tree)
+    expect(report.tree).toBe(commit.commit.tree)
     // make sure branch hasn't been moved
     const notMergeCommit = (await log({ fs, dir, ref: 'delete-first-half', depth: 1 }))[0]
-    expect(notMergeCommit.oid).to.eq(originalCommit.oid)
+    expect(notMergeCommit.oid).toBe(originalCommit.oid)
     if (!report.oid) throw new Error('type error')
     // make sure no commit object was created
-    expect(await fs.exists(`${dir}/.git/objects/${report.oid.slice(0, 2)}/${report.oid.slice(2)}`)).to.be.false
+    expect(await fs.exists(`${dir}/.git/objects/${report.oid.slice(0, 2)}/${report.oid.slice(2)}`)).toBe(false)
   })
 
   it("merge 'delete-first-half' and 'delete-second-half' (noUpdateBranch)", async () => {
@@ -196,13 +194,13 @@ describe('merge', () => {
     })
 
     // assert
-    expect(report.tree).to.eq(commit.commit.tree)
+    expect(report.tree).toBe(commit.commit.tree)
     // make sure branch hasn't been moved
     const notMergeCommit = (await log({ fs, dir, ref: 'delete-first-half', depth: 1 }))[0]
-    expect(notMergeCommit.oid).to.eq(originalCommit.oid)
+    expect(notMergeCommit.oid).toBe(originalCommit.oid)
     if (!report.oid) throw new Error('type error')
     // but make sure the commit object exists
-    expect(await fs.exists(`${dir}/.git/objects/${report.oid.slice(0, 2)}/${report.oid.slice(2)}`)).to.eq(true)
+    expect(await fs.exists(`${dir}/.git/objects/${report.oid.slice(0, 2)}/${report.oid.slice(2)}`)).toBe(true)
   })
 
   it("merge 'delete-first-half' and 'delete-second-half'", async () => {
@@ -215,10 +213,10 @@ describe('merge', () => {
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'delete-first-half', depth: 1 }))[0].commit
-    expect(report.tree).to.eq(commit.tree)
-    expect(mergeCommit.tree).to.eq(commit.tree)
-    expect(mergeCommit.message).to.eq(commit.message)
-    expect(mergeCommit.parent).to.eql(commit.parent)
+    expect(report.tree).toBe(commit.tree)
+    expect(mergeCommit.tree).toBe(commit.tree)
+    expect(mergeCommit.message).toBe(commit.message)
+    expect(mergeCommit.parent).toEqual(commit.parent)
   })
 
   it("merge 'a-file' and 'a-folder'", async () => {
@@ -226,7 +224,7 @@ describe('merge', () => {
     const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
 
     // act
-    let error = null
+    let error
     try {
       await merge({ fs, dir, ours: 'a-file', theirs: 'a-folder', author })
     } catch (e: any) {
@@ -234,8 +232,8 @@ describe('merge', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.MergeNotSupportedError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.MergeNotSupportedError.code)
   })
 
   it("merge two branches that modified the same file (no conflict)'", async () => {
@@ -248,10 +246,10 @@ describe('merge', () => {
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'a', depth: 1 }))[0].commit
-    expect(report.tree).to.eq(commit.tree)
-    expect(mergeCommit.tree).to.eq(commit.tree)
-    expect(mergeCommit.message).to.eq(commit.message)
-    expect(mergeCommit.parent).to.eql(commit.parent)
+    expect(report.tree).toBe(commit.tree)
+    expect(mergeCommit.tree).toBe(commit.tree)
+    expect(mergeCommit.message).toBe(commit.message)
+    expect(mergeCommit.parent).toEqual(commit.parent)
   })
 
   it("merge two branches where one modified file and the other modified file mode'", async () => {
@@ -264,10 +262,10 @@ describe('merge', () => {
 
     // assert
     const mergeCommit = (await log({ fs, dir, ref: 'a', depth: 1, }))[0].commit
-    expect(report.tree).to.eq(commit.tree)
-    expect(mergeCommit.tree).to.eq(commit.tree)
-    expect(mergeCommit.message).to.eq(commit.message)
-    expect(mergeCommit.parent).to.eql(commit.parent)
+    expect(report.tree).toBe(commit.tree)
+    expect(mergeCommit.tree).toBe(commit.tree)
+    expect(mergeCommit.message).toBe(commit.message)
+    expect(mergeCommit.parent).toEqual(commit.parent)
   })
 
   it("merge two branches that modified the same file (should conflict)'", async () => {
@@ -275,7 +273,7 @@ describe('merge', () => {
     const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
 
     // act
-    let error = null
+    let error
     try {
       await merge({ fs, dir, ours: 'a', theirs: 'c', author })
     } catch (e: any) {
@@ -283,7 +281,7 @@ describe('merge', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.MergeNotSupportedError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.MergeNotSupportedError.code)
   })
 })

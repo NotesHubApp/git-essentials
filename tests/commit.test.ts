@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { Errors, readCommit, commit, log } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { PgpMock } from './helpers/pgpMock'
@@ -26,12 +24,12 @@ describe('commit', () => {
     })
 
     // assert
-    expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
+    expect(sha).toBe('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // updates branch pointer
     const { oid: currentOid, commit: { parent } } = (await log({ fs, dir, depth: 1 }))[0]
-    expect(parent).to.eql([originalOid])
-    expect(currentOid).not.to.eq(originalOid)
-    expect(currentOid).to.eq(sha)
+    expect(parent).toEqual([originalOid])
+    expect(currentOid).not.toBe(originalOid)
+    expect(currentOid).toBe(sha)
   })
 
   it('without updating branch', async () => {
@@ -54,13 +52,13 @@ describe('commit', () => {
     })
 
     // assert
-    expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
+    expect(sha).toBe('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // does NOT update branch pointer
     const { oid: currentOid } = (await log({ fs, dir, depth: 1 }))[0]
-    expect(currentOid).to.eq(originalOid)
-    expect(currentOid).not.to.eq(sha)
+    expect(currentOid).toBe(originalOid)
+    expect(currentOid).not.toBe(sha)
     // but DID create commit object
-    expect(await fs.exists(`${dir}/.git/objects/7a/51c0b1181d738198ff21c4679d3aa32eb52fe0`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/objects/7a/51c0b1181d738198ff21c4679d3aa32eb52fe0`)).toBe(true)
   })
 
   it('dry run', async () => {
@@ -83,13 +81,13 @@ describe('commit', () => {
     })
 
     // assert
-    expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
+    expect(sha).toBe('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // does NOT update branch pointer
     const { oid: currentOid } = (await log({ fs, dir, depth: 1 }))[0]
-    expect(currentOid).to.eq(originalOid)
-    expect(currentOid).not.to.eq(sha)
+    expect(currentOid).toBe(originalOid)
+    expect(currentOid).not.toBe(sha)
     // and did NOT create commit object
-    expect(await fs.exists(`${dir}.git/objects/7a/51c0b1181d738198ff21c4679d3aa32eb52fe0`)).to.be.false
+    expect(await fs.exists(`${dir}.git/objects/7a/51c0b1181d738198ff21c4679d3aa32eb52fe0`)).toBe(false)
   })
 
   it('custom ref', async () => {
@@ -112,14 +110,14 @@ describe('commit', () => {
     })
 
     // assert
-    expect(sha).to.eq('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
+    expect(sha).toBe('7a51c0b1181d738198ff21c4679d3aa32eb52fe0')
     // does NOT update main branch pointer
     const { oid: currentOid } = (await log({ fs, dir, depth: 1 }))[0]
-    expect(currentOid).to.eq(originalOid)
-    expect(currentOid).not.to.eq(sha)
+    expect(currentOid).toBe(originalOid)
+    expect(currentOid).not.toBe(sha)
     // but DOES update main-copy
     const { oid: copyOid } = (await log({ fs, dir, depth: 1, ref: 'main-copy' }))[0]
-    expect(sha).to.eq(copyOid)
+    expect(sha).toBe(copyOid)
   })
 
   it('custom parents and tree', async () => {
@@ -149,12 +147,12 @@ describe('commit', () => {
     })
 
     // assert
-    expect(sha).to.eq('43fbc94f2c1db655a833e08c72d005954ff32f32')
+    expect(sha).toBe('43fbc94f2c1db655a833e08c72d005954ff32f32')
     // does NOT update main branch pointer
     const { parent: parents, tree: _tree } = (await log({ fs, dir, depth: 1 }))[0].commit
-    expect(parents).not.to.eql([originalOid])
-    expect(parents).to.eql(parent)
-    expect(_tree).to.eq(tree)
+    expect(parents).not.toEqual([originalOid])
+    expect(parents).toEqual(parent)
+    expect(_tree).toBe(tree)
   })
 
   it('throw error if missing author', async () => {
@@ -162,7 +160,7 @@ describe('commit', () => {
     const { fs, dir } = await makeFsFixture(commitFsFixtureData as FsFixtureData)
 
     // act
-    let error = null
+    let error
     try {
       await commit({
         fs,
@@ -180,8 +178,8 @@ describe('commit', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.MissingNameError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.MissingNameError.code)
   })
 
   it('create signed commit', async () => {
@@ -210,8 +208,8 @@ describe('commit', () => {
     // assert
     const { commit: commitObject, payload } = await readCommit({ fs, dir, oid })
     const { valid, invalid } = await pgp.verify({ payload, publicKey, signature: commitObject.gpgsig })
-    expect(invalid).to.eql([])
-    expect(valid).to.eql([keyId])
+    expect(invalid).toEqual([])
+    expect(valid).toEqual([keyId])
   })
 
   it('with timezone', async () => {
@@ -233,7 +231,7 @@ describe('commit', () => {
 
     // assert
     let commits = await log({ fs, dir, depth: 1 })
-    expect(Object.is(commits[0].commit.author.timezoneOffset, -0)).to.be.true
+    expect(Object.is(commits[0].commit.author.timezoneOffset, -0)).toBe(true)
 
     // act
     await commit({
@@ -250,7 +248,7 @@ describe('commit', () => {
 
     // assert
     commits = await log({ fs, dir, depth: 1 })
-    expect(Object.is(commits[0].commit.author.timezoneOffset, 0)).to.be.true
+    expect(Object.is(commits[0].commit.author.timezoneOffset, 0)).toBe(true)
 
     // act
     await commit({
@@ -267,7 +265,7 @@ describe('commit', () => {
 
     // assert
     commits = await log({ fs, dir, depth: 1 })
-    expect(Object.is(commits[0].commit.author.timezoneOffset, 240)).to.be.true
+    expect(Object.is(commits[0].commit.author.timezoneOffset, 240)).toBe(true)
 
     // act
     await commit({
@@ -284,6 +282,6 @@ describe('commit', () => {
 
     // assert
     commits = await log({ fs, dir, depth: 1 })
-    expect(Object.is(commits[0].commit.author.timezoneOffset, -240)).to.be.true
+    expect(Object.is(commits[0].commit.author.timezoneOffset, -240)).toBe(true)
   })
 })

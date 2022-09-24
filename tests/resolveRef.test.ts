@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { resolveRef } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -15,7 +13,7 @@ describe('resolveRef', () => {
     const ref = await resolveRef({ fs, dir, ref: '1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9' })
 
     // assert
-    expect(ref).to.eq('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9')
+    expect(ref).toBe('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9')
   })
 
   it('test-branch', async () => {
@@ -26,7 +24,7 @@ describe('resolveRef', () => {
     const ref = await resolveRef({ fs, dir, ref: 'origin/test-branch' })
 
     // assert
-    expect(ref).to.eq('e10ebb90d03eaacca84de1af0a59b444232da99e')
+    expect(ref).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
 
   it('config', async () => {
@@ -37,7 +35,7 @@ describe('resolveRef', () => {
     const ref = await resolveRef({ fs, dir, ref: 'config' })
 
     // assert
-    expect(ref).to.eq('e10ebb90d03eaacca84de1af0a59b444232da99e')
+    expect(ref).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
 
   it('test-tag', async () => {
@@ -48,7 +46,7 @@ describe('resolveRef', () => {
     const ref = await resolveRef({ fs, dir, ref: 'test-tag' })
 
     // assert
-    expect(ref).to.eq('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9')
+    expect(ref).toBe('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9')
   })
 
   it('HEAD', async () => {
@@ -59,7 +57,7 @@ describe('resolveRef', () => {
     const ref = await resolveRef({ fs, dir, ref: 'HEAD' })
 
     // assert
-    expect(ref).to.eq('033417ae18b174f078f2f44232cb7a374f4c60ce')
+    expect(ref).toBe('033417ae18b174f078f2f44232cb7a374f4c60ce')
   })
 
   it('HEAD depth', async () => {
@@ -70,7 +68,7 @@ describe('resolveRef', () => {
     const ref = await resolveRef({ fs, dir, ref: 'HEAD', depth: 2 })
 
     // assert
-    expect(ref).to.eq('refs/heads/main')
+    expect(ref).toBe('refs/heads/main')
   })
 
   it('packed-refs', async () => {
@@ -81,7 +79,7 @@ describe('resolveRef', () => {
     const ref = await resolveRef({ fs, dir, ref: 'v0.0.1' })
 
     // assert
-    expect(ref).to.eq('1a2149e96a9767b281a8f10fd014835322da2d14')
+    expect(ref).toBe('1a2149e96a9767b281a8f10fd014835322da2d14')
   })
 
   it('non-existant refs', async () => {
@@ -97,7 +95,7 @@ describe('resolveRef', () => {
     }
 
     // assert
-    expect(error.message).not.to.be.undefined
-    expect(error.caller).to.eq('git.resolveRef')
+    expect(error.message).toBeDefined()
+    expect(error.caller).toBe('git.resolveRef')
   })
 })

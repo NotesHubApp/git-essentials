@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { Errors, branch, init, currentBranch } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import * as path from './helpers/path'
@@ -16,8 +14,8 @@ describe('branch', () => {
     const files = await fs.readdir(path.resolve(dir, '.git', 'refs', 'heads'))
 
     // assert
-    expect(files).to.eql(['main', 'test-branch'])
-    expect(await currentBranch({ fs, dir })).to.eq('main')
+    expect(files).toEqual(['main', 'test-branch'])
+    expect(await currentBranch({ fs, dir })).toBe('main')
   })
 
   it('branch --checkout', async () => {
@@ -28,13 +26,13 @@ describe('branch', () => {
     await branch({ fs, dir, ref: 'test-branch', checkout: true })
 
     // assert
-    expect(await currentBranch({ fs, dir })).to.eq('test-branch')
+    expect(await currentBranch({ fs, dir })).toBe('test-branch')
   })
 
   it('invalid branch name', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
-    let error = null
+    let error
 
     // act
     try {
@@ -44,14 +42,14 @@ describe('branch', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.InvalidRefNameError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.InvalidRefNameError.code)
   })
 
   it('missing ref argument', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
-    let error = null
+    let error
 
     // act
     try {
@@ -62,8 +60,8 @@ describe('branch', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.MissingParameterError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.MissingParameterError.code)
   })
 
   it('empty repo', async () => {
@@ -80,9 +78,9 @@ describe('branch', () => {
     }
 
     // assert
-    expect(error).to.be.null
+    expect(error).toBeFalsy()
     const file = await fs.readFile(path.resolve(dir, '.git', 'HEAD'), { encoding: 'utf8' })
-    expect(file).to.eq(`ref: refs/heads/test-branch\n`)
+    expect(file).toBe(`ref: refs/heads/test-branch\n`)
   })
 
   it('create branch with same name as a remote', async () => {
@@ -98,8 +96,8 @@ describe('branch', () => {
     }
 
     // assert
-    expect(error).to.be.null
-    expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/origin'))).to.be.true
+    expect(error).toBeFalsy()
+    expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/origin'))).toBe(true)
   })
 
   it('create branch named "HEAD"', async () => {
@@ -115,7 +113,7 @@ describe('branch', () => {
     }
 
     // assert
-    expect(error).to.be.null
-    expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/HEAD'))).to.be.true
+    expect(error).toBeFalsy()
+    expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/HEAD'))).toBe(true)
   })
 })

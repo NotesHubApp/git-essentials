@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { remove, listFiles } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -14,7 +12,7 @@ describe('remove', () => {
     const before = await listFiles({ fs, dir })
 
     // assert
-    expect(before).to.have.members([
+    expect(before).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -46,7 +44,7 @@ describe('remove', () => {
     const after = await listFiles({ fs, dir })
 
     // assert
-    expect(after).to.have.members([
+    expect(after).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -72,7 +70,7 @@ describe('remove', () => {
       "src/utils/write.js",
     ])
 
-    expect(before.length === after.length + 1).to.be.true
+    expect(before.length === after.length + 1).toBe(true)
   })
 
   it('dir', async () => {
@@ -83,7 +81,7 @@ describe('remove', () => {
     const before = await listFiles({ fs, dir })
 
     // assert
-    expect(before).to.have.members([
+    expect(before).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -115,7 +113,7 @@ describe('remove', () => {
     const after = await listFiles({ fs, dir })
 
     // assert
-    expect(after).to.have.members([
+    expect(after).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -137,6 +135,6 @@ describe('remove', () => {
       "src/utils/write.js",
     ])
 
-    expect(before.length === after.length + 5).to.be.true
+    expect(before.length === after.length + 5).toBe(true)
   })
 })

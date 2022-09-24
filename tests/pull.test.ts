@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { pull, log, add, commit, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
@@ -24,7 +22,7 @@ describe('pull', () => {
     let logs = await log({ fs, dir, ref: 'refs/heads/main' })
 
     // assert
-    expect(logs.map(({ commit }) => commit.message)).to.eql([
+    expect(logs.map(({ commit }) => commit.message)).toEqual([
       'Initial commit\n',
     ])
 
@@ -46,7 +44,7 @@ describe('pull', () => {
     logs = await log({ fs, dir, ref: 'refs/heads/main' })
 
     // assert
-    expect(logs.map(({ commit }) => commit.message)).to.eql([
+    expect(logs.map(({ commit }) => commit.message)).toEqual([
       'Added c.txt\n',
       'Added b.txt\n',
       'Initial commit\n',
@@ -72,13 +70,13 @@ describe('pull', () => {
     const logs = await log({ fs, dir, ref: 'refs/heads/main' })
 
     // assert
-    expect(logs.map(({ commit }) => commit.message)).to.eql([
+    expect(logs.map(({ commit }) => commit.message)).toEqual([
       'Added z.txt\n',
       'Initial commit\n',
     ])
 
     // act
-    let err = null
+    let err
     try {
       await pull({
         fs,
@@ -99,7 +97,7 @@ describe('pull', () => {
     }
 
     // assert
-    expect(err.caller).to.eq('git.pull')
-    expect(err.code).to.eq(Errors.FastForwardError.code)
+    expect(err.caller).toBe('git.pull')
+    expect(err.code).toBe(Errors.FastForwardError.code)
   })
 })

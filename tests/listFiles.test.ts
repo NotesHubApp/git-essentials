@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { listFiles } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -15,7 +13,7 @@ describe('listFiles', () => {
     const files = await listFiles({ fs, dir })
 
     // assert
-    expect(files).to.have.members([
+    expect(files).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -59,7 +57,7 @@ describe('listFiles', () => {
     const files = await listFiles({ fs, dir, ref: 'test-branch' })
 
     // assert
-    expect(files).to.have.members([
+    expect(files).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",

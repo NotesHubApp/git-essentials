@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { log } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { PgpMock } from './helpers/pgpMock'
@@ -16,8 +14,8 @@ describe('log', () => {
     const commits = await log({ fs, dir, ref: 'HEAD' })
 
     // assert
-    expect(commits.length).to.eq(5)
-    expect(commits).to.deep.eq(
+    expect(commits.length).toBe(5)
+    expect(commits).toEqual(
       [
         {
           "commit": {
@@ -262,7 +260,7 @@ Initial commit\n`,
     const commits = await log({ fs, dir, ref: 'HEAD', depth: 1 })
 
     // assert
-    expect(commits.length).to.eq(1)
+    expect(commits.length).toBe(1)
   })
 
   it('HEAD since', async () => {
@@ -273,7 +271,7 @@ Initial commit\n`,
     const commits = await log({ fs, dir, ref: 'HEAD', since: new Date(1501462174000) })
 
     // assert
-    expect(commits.length).to.eq(2)
+    expect(commits.length).toBe(2)
   })
 
   it('shallow branch', async () => {
@@ -284,7 +282,7 @@ Initial commit\n`,
     const commits = await log({ fs, dir, ref: 'origin/shallow-branch' })
 
     // assert
-    expect(commits).to.deep.eq(
+    expect(commits).toEqual(
       [
         {
           "commit": {
@@ -344,7 +342,7 @@ Improve resolveRef to handle more kinds of refs. Add tests\n`,
     const commits = await log({ fs, dir, ref: 'HEAD' })
 
     // assert
-    expect(commits.length).to.eq(5)
+    expect(commits.length).toBe(5)
   })
 
   it('with complex merging history', async () => {
@@ -355,7 +353,7 @@ Improve resolveRef to handle more kinds of refs. Add tests\n`,
     const commits = await log({ fs, dir, ref: 'main' })
 
     // assert
-    expect(commits).to.deep.eq(
+    expect(commits).toEqual(
       [
         {
           "commit": {

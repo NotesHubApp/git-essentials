@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { listBranches } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -15,7 +13,7 @@ describe('listBranches', () => {
     const commits = await listBranches({ fs, dir })
 
     // assert
-    expect(commits).to.have.members([
+    expect(commits).toEqual([
       "feature/supercool",
       "greenkeeper/initial",
       "main",
@@ -31,7 +29,7 @@ describe('listBranches', () => {
     const commits = await listBranches({ fs, dir, remote: 'origin' })
 
     // assert
-    expect(commits).to.have.members([
+    expect(commits).toEqual([
       "HEAD",
       "main",
     ])

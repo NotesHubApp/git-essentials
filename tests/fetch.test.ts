@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { Errors, fetch, setConfig } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
@@ -33,8 +31,8 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/test`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).to.be.false
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/test`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).toBe(false)
   })
 
   it('shallow fetch', async () => {
@@ -42,7 +40,7 @@ describe('fetch', () => {
     const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
     const output: string[] = []
-    const progress = []
+    const progress: any[] = []
 
     // act
     await fetch({
@@ -62,10 +60,10 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
-    expect(output[output.length - 1].split(' ')[1]).to.eq('5')
+    expect(await fs.exists(`${dir}/.git/shallow`)).toBe(true)
+    expect(output[output.length - 1].split(' ')[1]).toBe('5')
     let shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-    expect(shallow).to.eq('97c024f73eaab2781bf3691597bc7c833cb0e22f\n')
+    expect(shallow).toBe('97c024f73eaab2781bf3691597bc7c833cb0e22f\n')
 
     // act
     await fetch({
@@ -80,7 +78,7 @@ describe('fetch', () => {
 
     // assert
     shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
-    expect(shallow).to.eq('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
+    expect(shallow).toBe('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
   })
 
   it('throws UnknownTransportError if using shorter scp-like syntax', async () => {
@@ -105,8 +103,8 @@ describe('fetch', () => {
     }
 
     // assert
-    expect(err).to.be.not.undefined
-    expect(err.code).to.eq(Errors.UnknownTransportError.code)
+    expect(err).toBeDefined()
+    expect(err.code).toBe(Errors.UnknownTransportError.code)
   })
 
   it('the SSH -> HTTPS UnknownTransportError suggestion feature', async () => {
@@ -131,9 +129,9 @@ describe('fetch', () => {
     }
 
     // assert
-    expect(err).to.be.not.undefined
-    expect(err.code).to.eq(Errors.UnknownTransportError.code)
-    expect(err.data.suggestion).to.eq(
+    expect(err).toBeDefined()
+    expect(err.code).toBe(Errors.UnknownTransportError.code)
+    expect(err.data.suggestion).toBe(
       'https://localhost/fetch-server.git'
     )
   })
@@ -155,9 +153,9 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/shallow`)).toBe(true)
     const shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-    expect(shallow).to.eq('5a8905a02e181fe1821068b8c0f48cb6633d5b81\n')
+    expect(shallow).toBe('5a8905a02e181fe1821068b8c0f48cb6633d5b81\n')
   })
 
   it('shallow fetch since', async () => {
@@ -178,9 +176,9 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/shallow`)).toBe(true)
     const shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-    expect(shallow).to.eq('76eb4d63a0f172b5d4a0e46daadedd8b3e144773\n')
+    expect(shallow).toBe('76eb4d63a0f172b5d4a0e46daadedd8b3e144773\n')
   })
 
   it('shallow fetch exclude', async () => {
@@ -200,9 +198,9 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/shallow`)).toBe(true)
     const shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
-    expect(shallow).to.eq('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
+    expect(shallow).toBe('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
   })
 
   it('shallow fetch relative', async () => {
@@ -222,9 +220,9 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}/.git/shallow`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/shallow`)).toBe(true)
     let shallow = await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' })
-    expect(shallow).to.eq('97c024f73eaab2781bf3691597bc7c833cb0e22f\n')
+    expect(shallow).toBe('97c024f73eaab2781bf3691597bc7c833cb0e22f\n')
 
     // act (now test deepen)
     await fetch({
@@ -240,7 +238,7 @@ describe('fetch', () => {
 
     // assert
     shallow = (await fs.readFile(`${dir}/.git/shallow`, { encoding: 'utf8' }))
-    expect(shallow).to.eq('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
+    expect(shallow).toBe('c82587c97be8f9a10088590e06c9d0f767ed5c4a\n')
   })
 
   it('errors if missing refspec', async () => {
@@ -265,8 +263,8 @@ describe('fetch', () => {
     }
 
     // assert
-    expect(err).not.to.be.undefined
-    expect(err.code).to.eq(Errors.NoRefspecError.code)
+    expect(err).toBeDefined()
+    expect(err.code).toBe(Errors.NoRefspecError.code)
   })
 
 
@@ -285,19 +283,19 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/HEAD`)).to.be.true
-    expect((<string>await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })).trim()).to.eq(
+    expect(await fs.exists(`${dir}`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/HEAD`)).toBe(true)
+    expect((<string>await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })).trim()).toBe(
       'ref: refs/heads/main'
     )
-    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).to.be.false
+    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).toBe(false)
   })
 
   it('fetch --prune', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(fetchFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
-    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/test-prune`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/test-prune`)).toBe(true)
 
     // act
     const { pruned } = await fetch({
@@ -309,15 +307,15 @@ describe('fetch', () => {
     })
 
     // assert
-    expect(pruned).to.eql(['refs/remotes/origin/test-prune'])
-    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/test-prune`)).to.be.false
+    expect(pruned).toEqual(['refs/remotes/origin/test-prune'])
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/test-prune`)).toBe(false)
   })
 
   it('fetch --prune-tags', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(fetchFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
-    expect(await fs.exists(`${dir}/.git/refs/tags/v1.0.0-beta1`)).to.be.true
+    expect(await fs.exists(`${dir}/.git/refs/tags/v1.0.0-beta1`)).toBe(true)
     const oldValue = await fs.readFile(`${dir}/.git/refs/tags/v1.0.0`, { encoding: 'utf8' })
 
     // act
@@ -331,9 +329,9 @@ describe('fetch', () => {
     })
 
     // assert that tag was deleted
-    expect(await fs.exists(`${dir}/.git/refs/tags/v1.0.0-beta1`)).to.be.false
+    expect(await fs.exists(`${dir}/.git/refs/tags/v1.0.0-beta1`)).toBe(false)
     // assert that tags was force-updated
     const newValue = await fs.readFile(`${dir}/.git/refs/tags/v1.0.0`, { encoding: 'utf8' })
-    expect(oldValue).not.to.eq(newValue)
+    expect(oldValue).not.toBe(newValue)
   })
 })

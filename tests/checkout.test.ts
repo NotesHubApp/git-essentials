@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { Errors, checkout, listFiles, add, commit, branch } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -15,11 +13,11 @@ describe('checkout', () => {
 
     // assert
     const files = await fs.readdir(dir)
-    expect(files).to.have.members([
-      ".git",
+    expect(files.sort()).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
+      ".git",
       ".gitignore",
       "LICENSE.md",
       "README.md",
@@ -30,7 +28,7 @@ describe('checkout', () => {
     ])
 
     const index = await listFiles({ fs, dir })
-    expect(index).to.have.members([
+    expect(index).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -64,7 +62,7 @@ describe('checkout', () => {
     ])
 
     const sha = await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
-    expect(sha).to.eq('ref: refs/heads/test-branch\n')
+    expect(sha).toBe('ref: refs/heads/test-branch\n')
   })
 
   it('checkout by tag', async () => {
@@ -76,11 +74,11 @@ describe('checkout', () => {
 
     // assert
     const files = await fs.readdir(dir)
-    expect(files).to.have.members([
-      ".git",
+    expect(files.sort()).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
+      ".git",
       ".gitignore",
       "LICENSE.md",
       "README.md",
@@ -91,7 +89,7 @@ describe('checkout', () => {
     ])
 
     const index = await listFiles({ fs, dir })
-    expect(index).to.have.members([
+    expect(index).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -125,7 +123,7 @@ describe('checkout', () => {
     ])
 
     const sha = await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
-    expect(sha).to.eq('e10ebb90d03eaacca84de1af0a59b444232da99e\n')
+    expect(sha).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e\n')
   })
 
   it('checkout by SHA', async () => {
@@ -137,11 +135,11 @@ describe('checkout', () => {
 
     // assert
     const files = await fs.readdir(dir)
-    expect(files).to.have.members([
-      ".git",
+    expect(files.sort()).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
+      ".git",
       ".gitignore",
       "LICENSE.md",
       "README.md",
@@ -152,7 +150,7 @@ describe('checkout', () => {
     ])
 
     const index = await listFiles({ fs, dir })
-    expect(index).to.have.members([
+    expect(index).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -186,7 +184,7 @@ describe('checkout', () => {
     ])
 
     const sha = await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
-    expect(sha).to.eq('e10ebb90d03eaacca84de1af0a59b444232da99e\n')
+    expect(sha).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e\n')
   })
 
   it('checkout unfetched branch', async () => {
@@ -194,7 +192,7 @@ describe('checkout', () => {
     const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
-    let error = null
+    let error
     try {
       await checkout({ fs, dir, ref: 'missing-branch' })
       throw new Error('Checkout should have failed.')
@@ -203,10 +201,10 @@ describe('checkout', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.caller).to.eq('git.checkout')
-    expect(error.code).to.eq(Errors.CommitNotFetchedError.code)
-    expect(error.data).to.eql({
+    expect(error).toBeDefined()
+    expect(error.caller).toBe('git.checkout')
+    expect(error.code).toBe(Errors.CommitNotFetchedError.code)
+    expect(error.data).toEqual({
       oid: "033417ae18b174f078f2f44232cb7a374f4c60ce",
       ref: "missing-branch"
     })
@@ -235,8 +233,8 @@ describe('checkout', () => {
     const actualRegularFileMode = (await fs.lstat(dir + '/regular-file.txt')).mode
     const actualExecutableFileMode = (await fs.lstat(dir + '/executable-file.sh')).mode
 
-    expect(actualRegularFileMode).to.eq(expectedRegularFileMode)
-    expect(actualExecutableFileMode).to.eq(expectedExecutableFileMode)
+    expect(actualRegularFileMode).toBe(expectedRegularFileMode)
+    expect(actualExecutableFileMode).toBe(expectedExecutableFileMode)
   })
 
   it('checkout changing file permissions', async () => {
@@ -256,13 +254,13 @@ describe('checkout', () => {
     await checkout({ fs, dir, ref: 'regular-file' })
     // assert
     const { mode: actualRegularFileMode } = await fs.lstat(dir + '/hello.sh')
-    expect(actualRegularFileMode).to.eq(expectedRegularFileMode)
+    expect(actualRegularFileMode).toBe(expectedRegularFileMode)
 
     // act
     await checkout({ fs, dir, ref: 'executable-file' })
     // assert
     const { mode: actualExecutableFileMode } = await fs.lstat(dir + '/hello.sh')
-    expect(actualExecutableFileMode).to.eq(expectedExecutableFileMode)
+    expect(actualExecutableFileMode).toBe(expectedExecutableFileMode)
   })
 
   it('checkout directories using filepaths', async () => {
@@ -274,10 +272,10 @@ describe('checkout', () => {
 
     // assert
     const files = await fs.readdir(dir)
-    expect(files).to.have.members([ ".git", "src", "test" ])
+    expect(files).toEqual([ ".git", "src", "test" ])
 
     const index = await listFiles({ fs, dir })
-    expect(index).to.have.members([
+    expect(index).toEqual([
       "src/models/GitBlob.js",
       "src/models/GitCommit.js",
       "src/models/GitConfig.js",
@@ -298,10 +296,10 @@ describe('checkout', () => {
 
     // assert
     const files = await fs.readdir(dir)
-    expect(files).to.have.members([ ".git", "src" ])
+    expect(files).toEqual([ ".git", "src" ])
 
     const index = await listFiles({ fs, dir })
-    expect(index).to.have.members([
+    expect(index).toEqual([
       "src/models/GitBlob.js",
       "src/utils/write.js",
     ])
@@ -313,7 +311,7 @@ describe('checkout', () => {
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
-    let error = null
+    let error
     try {
       await checkout({ fs, dir, ref: 'test-branch' })
     } catch (e: any) {
@@ -321,9 +319,9 @@ describe('checkout', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.CheckoutConflictError.code)
-    expect(error.data.filepaths).to.eql(['README.md'])
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.CheckoutConflictError.code)
+    expect(error.data.filepaths).toEqual(['README.md'])
   })
 
   it('checkout files ignoring conflicts dry run', async () => {
@@ -340,8 +338,8 @@ describe('checkout', () => {
     }
 
     // assert
-    expect(error).to.be.null
-    expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).to.eq('Hello world')
+    expect(error).toBeFalsy()
+    expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).toBe('Hello world')
   })
 
   it('checkout files ignoring conflicts', async () => {
@@ -358,8 +356,8 @@ describe('checkout', () => {
     }
 
     // assert
-    expect(error).to.be.null
-    expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).not.to.eq('Hello world')
+    expect(error).toBeFalsy()
+    expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).not.toBe('Hello world')
   })
 
   it('restore files to HEAD state by not providing a ref', async () => {
@@ -377,8 +375,8 @@ describe('checkout', () => {
     }
 
     // assert
-    expect(error).to.be.null
-    expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).not.to.eq('Hello world')
+    expect(error).toBeFalsy()
+    expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).not.toBe('Hello world')
   })
 
   it('checkout files should not delete other files', async () => {
@@ -391,6 +389,6 @@ describe('checkout', () => {
 
     // assert
     const files = await fs.readdir(dir)
-    expect(files).to.contain('README.md')
+    expect(files).toContain('README.md')
   })
 })

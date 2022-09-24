@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { addRemote, Errors, listRemotes } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -18,7 +16,7 @@ describe('addRemote', () => {
 
     // assert
     const actual = await listRemotes({ fs, dir })
-    expect(actual).to.eql([
+    expect(actual).toEqual([
       { remote: 'foo', url: 'git@github.com:foo/foo.git' },
       { remote: 'bar', url: 'git@github.com:bar/bar.git' },
       { remote: 'baz', url: 'git@github.com:baz/baz.git' },
@@ -32,7 +30,7 @@ describe('addRemote', () => {
     const url = undefined as any
 
     // act
-    let error = null
+    let error
     try {
       await addRemote({ fs, dir, remote, url })
     } catch (err: any) {
@@ -40,8 +38,8 @@ describe('addRemote', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code).to.eq(Errors.MissingParameterError.code)
+    expect(error).toBeDefined()
+    expect(error.code).toBe(Errors.MissingParameterError.code)
   })
 
   it('invalid remote name', async () => {
@@ -51,7 +49,7 @@ describe('addRemote', () => {
     const url = 'git@github.com:baz/baz.git'
 
     // act
-    let error = null
+    let error
     try {
       await addRemote({ fs, dir, remote, url })
     } catch (err: any) {
@@ -59,7 +57,7 @@ describe('addRemote', () => {
     }
 
     // assert
-    expect(error).not.to.be.null
-    expect(error.code as any).to.eq(Errors.InvalidRefNameError.code)
+    expect(error).toBeDefined()
+    expect(error.code as any).toBe(Errors.InvalidRefNameError.code)
   })
 })

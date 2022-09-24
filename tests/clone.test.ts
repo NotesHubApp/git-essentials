@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { clone, currentBranch } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { makeFsFixture } from './helpers/makeFsFixture'
@@ -31,11 +29,11 @@ describe('clone', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}/.git`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/objects`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).to.be.true
-    expect(await fs.exists(`${dir}/Welcome note.md`)).to.be.true
+    expect(await fs.exists(`${dir}/.git`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/objects`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).toBe(true)
+    expect(await fs.exists(`${dir}/Welcome note.md`)).toBe(true)
   })
 
   it('clone with noCheckout', async () => {
@@ -57,11 +55,11 @@ describe('clone', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/objects`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).to.be.true
-    expect(await fs.exists(`${dir}/Welcome note.md`)).to.be.false
+    expect(await fs.exists(`${dir}`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/objects`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).toBe(true)
+    expect(await fs.exists(`${dir}/Welcome note.md`)).toBe(false)
   })
 
   it('clone a tag', async () => {
@@ -81,12 +79,12 @@ describe('clone', () => {
     })
 
     // assert
-    expect(await fs.exists(`${dir}`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/objects`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/v2.0`)).to.be.false
-    expect(await fs.exists(`${dir}/.git/refs/heads/v2.0`)).to.be.false
-    expect(await fs.exists(`${dir}/.git/refs/tags/v2.0`)).to.be.true
-    expect(await fs.exists(`${dir}/Welcome note.md`)).to.be.true
+    expect(await fs.exists(`${dir}`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/objects`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/refs/remotes/origin/v2.0`)).toBe(false)
+    expect(await fs.exists(`${dir}/.git/refs/heads/v2.0`)).toBe(false)
+    expect(await fs.exists(`${dir}/.git/refs/tags/v2.0`)).toBe(true)
+    expect(await fs.exists(`${dir}/Welcome note.md`)).toBe(true)
   })
 
   it('clone default branch with --singleBranch', async () => {
@@ -105,7 +103,7 @@ describe('clone', () => {
     })
 
     // assert
-    expect(await currentBranch({ fs, dir })).to.eq('i-am-not-main')
+    expect(await currentBranch({ fs, dir })).toBe('i-am-not-main')
   })
 
   it('clone with an unregistered protocol', async () => {
@@ -113,7 +111,7 @@ describe('clone', () => {
     const { fs, dir } = await makeFsFixture()
     const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
     const url = `foobar://github.com/NotesHubApp/Welcome`
-    let error = null
+    let error
 
     // act
     try {
@@ -131,8 +129,8 @@ describe('clone', () => {
     }
 
     // assert
-    expect(error.message).to.eq(`Git remote "${url}" uses an unrecognized transport protocol: "foobar"`)
-    expect(error.caller).to.eq('git.clone')
+    expect(error.message).toBe(`Git remote "${url}" uses an unrecognized transport protocol: "foobar"`)
+    expect(error.caller).toBe('git.clone')
   })
 
   it('clone empty repository', async () => {
@@ -144,10 +142,10 @@ describe('clone', () => {
     await clone({ fs, http, dir, url: `http://localhost/empty.git` })
 
     // assert
-    expect(await fs.exists(`${dir}`)).to.be.true
-    expect(await fs.exists(`${dir}/.git/HEAD`)).to.be.true
+    expect(await fs.exists(`${dir}`)).toBe(true)
+    expect(await fs.exists(`${dir}/.git/HEAD`)).toBe(true)
     const headFile = <string>await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
-    expect(headFile.trim()).to.eq('ref: refs/heads/main')
-    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).to.be.false
+    expect(headFile.trim()).toBe('ref: refs/heads/main')
+    expect(await fs.exists(`${dir}/.git/refs/heads/main`)).toBe(false)
   })
 })
