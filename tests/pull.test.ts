@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { setConfig, pull, log, add, commit, Errors } from '../src'
+import { pull, log, add, commit, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
