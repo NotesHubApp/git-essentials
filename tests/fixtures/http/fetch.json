@@ -1,5 +1,6 @@
 [
   {
+    "comment": "tests: all tests for NotesHubApp/Welcome.git repo",
     "request": {
       "url": "https://github.com/NotesHubApp/Welcome.git/info/refs?service=git-upload-pack",
       "method": "GET"
@@ -28,6 +29,7 @@
   },
 
   {
+    "comment": "tests: all tests for fetch-server.git repo",
     "request": {
       "url": "http://localhost/fetch-server.git/info/refs?service=git-upload-pack",
       "method": "GET"
