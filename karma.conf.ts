@@ -2,6 +2,12 @@ module.exports = (config: any) => {
   config.set({
     basePath: '',
     frameworks: ['jasmine', 'karma-typescript'],
+    plugins: [
+      'karma-jasmine',
+      'karma-typescript',
+      'karma-jasmine-html-reporter',
+      'karma-chrome-launcher'
+    ],
     client: {
       clearContext: false // will show the results in browser once all the testcases are loaded
     },
@@ -28,6 +34,6 @@ module.exports = (config: any) => {
       }
     },
     reporters: ['kjhtml'],
-    browsers: ['ChromeHeadless']
+    browsers: []
   })
 }

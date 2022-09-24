@@ -10,7 +10,7 @@
     "test": "jest",
     "browser-tests": "karma start",
     "test:electron": "cypress run --browser electron",
-    "test:chrome": "karma start --single-run --browser ChromeHeadless",
+    "test:chrome": "karma start --single-run --browsers ChromeHeadless",
     "test:webkit": "cypress run --browser webkit",
     "gen-fs-fixture": "node ./scripts/gen-fs-fixture.js",
     "gen-http-fixture": "node ./scripts/gen-http-fixture.js"
