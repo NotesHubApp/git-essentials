@@ -7,6 +7,7 @@ module.exports = (config: any) => {
       'karma-typescript',
       'karma-jasmine-html-reporter',
       'karma-chrome-launcher',
+      'karma-webkit-launcher',
       'karma-safari-launcher'
     ],
     client: {
