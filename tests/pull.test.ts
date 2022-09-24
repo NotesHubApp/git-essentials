@@ -20,15 +20,8 @@ describe('pull', () => {
     const { fs, dir } = await makeFsFixture(pullFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pullHttpFixtureData as HttpFixtureData)
 
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.origin.url',
-      value: `http://localhost/pull-server.git`,
-    })
-
     // act
-    let logs = await log({ fs, dir, ref: 'refs/heads/master' })
+    let logs = await log({ fs, dir, ref: 'refs/heads/main' })
 
     // assert
     expect(logs.map(({ commit }) => commit.message)).to.eql([
@@ -41,7 +34,7 @@ describe('pull', () => {
       http,
       dir,
       remote: 'origin',
-      ref: 'refs/heads/master',
+      ref: 'refs/heads/main',
       author: {
         name: 'Mr. Test',
         email: 'mrtest@example.com',
@@ -50,7 +43,7 @@ describe('pull', () => {
       },
     })
 
-    logs = await log({ fs, dir, ref: 'refs/heads/master' })
+    logs = await log({ fs, dir, ref: 'refs/heads/main' })
 
     // assert
     expect(logs.map(({ commit }) => commit.message)).to.eql([
@@ -72,18 +65,11 @@ describe('pull', () => {
     const { fs, dir } = await makeFsFixture(pullNoFfFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pullHttpFixtureData as HttpFixtureData)
 
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.origin.url',
-      value: `http://localhost/pull-server.git`,
-    })
-
     // act
     await fs.writeFile(`${dir}/z.txt`, 'Hi')
     await add({ fs, dir, filepath: 'z.txt' })
     await commit({ fs, dir, message: 'Added z.txt', author })
-    const logs = await log({ fs, dir, ref: 'refs/heads/master' })
+    const logs = await log({ fs, dir, ref: 'refs/heads/main' })
 
     // assert
     expect(logs.map(({ commit }) => commit.message)).to.eql([
@@ -99,7 +85,7 @@ describe('pull', () => {
         http,
         dir,
         remote: 'origin',
-        ref: 'refs/heads/master',
+        ref: 'refs/heads/main',
         fastForwardOnly: true,
         author: {
           name: 'Mr. Test',
@@ -123,15 +109,8 @@ describe('pull', () => {
     const { fs, dir } = await makeFsFixture(pullNoFfFsFixtureData as FsFixtureData)
     const http = makeHttpFixture(pullHttpFixtureData as HttpFixtureData)
 
-    await setConfig({
-      fs,
-      dir,
-      path: 'remote.origin.url',
-      value: `http://localhost/pull-server.git`,
-    })
-
     // act
-    let logs = await log({ fs, dir, ref: 'refs/heads/master' })
+    let logs = await log({ fs, dir, ref: 'refs/heads/main' })
 
     // assert
     expect(logs.map(({ commit }) => commit.message)).to.eql([
@@ -144,7 +123,7 @@ describe('pull', () => {
       http,
       dir,
       remote: 'origin',
-      ref: 'refs/heads/master',
+      ref: 'refs/heads/main',
       fastForward: false,
       author: {
         name: 'Mr. Test',
@@ -154,14 +133,14 @@ describe('pull', () => {
       },
     })
 
-    logs = await log({ fs, dir, ref: 'refs/heads/master' })
+    logs = await log({ fs, dir, ref: 'refs/heads/main' })
     const formattedLogs = logs.map(
       ({ commit }) => `${commit.message} (${commit.parent.join(' ')})`
     )
 
     // assert
     expect(formattedLogs).to.eql([
-      "Merge branch 'master' of http://localhost:8888/test-pull-server.git\n (5a8905a02e181fe1821068b8c0f48cb6633d5b81 97c024f73eaab2781bf3691597bc7c833cb0e22f)",
+      "Merge branch 'main' of http://localhost:8888/test-pull-server.git\n (5a8905a02e181fe1821068b8c0f48cb6633d5b81 97c024f73eaab2781bf3691597bc7c833cb0e22f)",
       'Added c.txt\n (c82587c97be8f9a10088590e06c9d0f767ed5c4a)',
       'Added b.txt\n (5a8905a02e181fe1821068b8c0f48cb6633d5b81)',
       'Initial commit\n ()',

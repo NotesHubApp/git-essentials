@@ -138,7 +138,7 @@
             "type": "dir",
             "children": [
               {
-                "name": "master",
+                "name": "main",
                 "type": "file",
                 "encoding": "utf8",
                 "content": "5a8905a02e181fe1821068b8c0f48cb6633d5b81\n"
@@ -151,13 +151,13 @@
         "name": "HEAD",
         "type": "file",
         "encoding": "utf8",
-        "content": "ref: refs/heads/master\n"
+        "content": "ref: refs/heads/main\n"
       },
       {
         "name": "config",
         "type": "file",
         "encoding": "utf8",
-        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"origin\"]\n\turl = https://github.com/wmhilton/test.empty\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n"
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tsymlinks = false\n\tignorecase = true\n[remote \"origin\"]\n\turl = http://localhost/pull-server.git\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n"
       },
       {
         "name": "description",
@@ -175,7 +175,7 @@
         "name": "packed-refs",
         "type": "file",
         "encoding": "utf8",
-        "content": "# pack-refs with: peeled fully-peeled \n97c024f73eaab2781bf3691597bc7c833cb0e22f refs/heads/master\n5a8905a02e181fe1821068b8c0f48cb6633d5b81 refs/heads/test\n"
+        "content": "# pack-refs with: peeled fully-peeled \n97c024f73eaab2781bf3691597bc7c833cb0e22f refs/heads/main\n5a8905a02e181fe1821068b8c0f48cb6633d5b81 refs/heads/test\n"
       }
     ]
   }
