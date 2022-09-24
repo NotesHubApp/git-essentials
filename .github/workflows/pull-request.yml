@@ -29,9 +29,6 @@ jobs:
       - name: Test (Node.js)
         run: npm run test
 
-      - name: Test (Electron)
-        run: npm run test:electron
-
       - name: Test (Chrome)
         run: npm run test:chrome
 

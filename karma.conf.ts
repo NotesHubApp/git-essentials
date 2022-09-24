@@ -6,7 +6,8 @@ module.exports = (config: any) => {
       'karma-jasmine',
       'karma-typescript',
       'karma-jasmine-html-reporter',
-      'karma-chrome-launcher'
+      'karma-chrome-launcher',
+      'karma-safari-launcher'
     ],
     client: {
       clearContext: false // will show the results in browser once all the testcases are loaded
