@@ -1,5 +1,6 @@
 [
   {
+    "comment": "tests: clone --no-tags --signle-branch --depth 1, clone with noCheckout, clone a tag",
     "request": {
       "url": "https://github.com/NotesHubApp/Welcome.git/info/refs?service=git-upload-pack",
       "method": "GET"
@@ -12,6 +13,7 @@
   },
 
   {
+    "comment": "tests: clone --no-tags --signle-branch --depth 1, clone with noCheckout, clone a tag",
     "request": {
       "url": "https://github.com/NotesHubApp/Welcome.git/git-upload-pack",
       "method": "POST",
@@ -27,6 +29,7 @@
   },
 
   {
+    "comment": "test: clone default branch with --singleBranch",
     "request": {
       "url": "http://localhost/clone-no-main.git/info/refs?service=git-upload-pack",
       "method": "GET"
@@ -39,6 +42,7 @@
   },
 
   {
+    "comment": "test: clone default branch with --singleBranch",
     "request": {
       "url": "http://localhost/clone-no-main.git/git-upload-pack",
       "method": "POST",
@@ -54,6 +58,7 @@
   },
 
   {
+    "comment": "test: clone empty repository",
     "request": {
       "url": "http://localhost/empty.git/info/refs?service=git-upload-pack",
       "method": "GET"

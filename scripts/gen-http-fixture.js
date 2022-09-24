@@ -170,6 +170,7 @@ function generateFixture(responseBody) {
   const responseContentType = `application/x-${service}-${ infoRequest ? 'advertisement' : 'result' }`
 
   return {
+    comment: '<SOME-COMMENT-HERE>',
     request: {
       url: url,
       method: method,
