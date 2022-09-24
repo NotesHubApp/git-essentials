@@ -1,4 +1,5 @@
-import diff3Merge from 'diff3'
+//import diff3Merge from 'diff3'
+import diff3Merge from './diff3' // TODO: Double check
 
 const LINEBREAKS = /^.*(\r?\n|$)/gm
 
@@ -28,7 +29,7 @@ export function mergeFile({
   const theirs = theirContent.match(LINEBREAKS)
 
   // Here we let the diff3 library do the heavy lifting.
-  const result = diff3Merge(ours, base, theirs)
+  const result = diff3Merge(ours!, base!, theirs!)
 
   // Here we note whether there are conflicts and format the results
   let mergedText = ''

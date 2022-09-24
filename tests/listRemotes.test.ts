@@ -1,5 +1,3 @@
-import { expect } from 'chai'
-
 import { listRemotes } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
@@ -15,7 +13,7 @@ describe('listRemotes', () => {
     const a = await listRemotes({ fs, dir })
 
     // assert
-    expect(a).to.eql([
+    expect(a).toEqual([
       { remote: 'foo', url: 'git@github.com:foo/foo.git' },
       { remote: 'bar', url: 'git@github.com:bar/bar.git' },
     ])
