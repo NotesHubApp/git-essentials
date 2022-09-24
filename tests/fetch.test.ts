@@ -169,7 +169,7 @@ describe('fetch', () => {
       fs,
       http,
       dir,
-      since: new Date(2022, 7, 25, 18, 52, 7),
+      since: new Date(2022, 7, 25, 18, 52, 7, 0),
       singleBranch: true,
       remote: 'origin',
       ref: 'main'
