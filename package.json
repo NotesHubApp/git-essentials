@@ -10,7 +10,7 @@
     "test": "jest",
     "browser-tests": "karma start",
     "test:electron": "cypress run --browser electron",
-    "test:chrome": "cypress run --browser chrome",
+    "test:chrome": "karma start --single-run --browser ChromeHeadless",
     "test:webkit": "cypress run --browser webkit",
     "gen-fs-fixture": "node ./scripts/gen-fs-fixture.js",
     "gen-http-fixture": "node ./scripts/gen-http-fixture.js"
@@ -52,6 +52,7 @@
     "@types/sha.js": "^2.4.0",
     "jest": "^29.0.3",
     "karma": "^6.4.1",
+    "karma-chrome-launcher": "^3.1.1",
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",
     "karma-typescript": "^5.5.3",

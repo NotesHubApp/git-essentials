@@ -27,6 +27,7 @@ module.exports = (config: any) => {
         addNodeGlobals: true
       }
     },
-    reporters: ['kjhtml']
+    reporters: ['kjhtml'],
+    browsers: ['ChromeHeadless']
   })
 }
