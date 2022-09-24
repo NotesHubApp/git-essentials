@@ -166,7 +166,7 @@ export class InMemoryFsClient implements FsClient {
     return content
   }
 
-  public async writeFile(filepath: string, data: string | Uint8Array, opts: WriteOpts): Promise<void> {
+  public async writeFile(filepath: string, data: string | Uint8Array, opts?: WriteOpts): Promise<void> {
     const { folder, entry, entryName } = this.parsePath(filepath)
 
     if ((entry && entry.type !== 'file') || !entryName) {
