@@ -29,9 +29,6 @@ jobs:
       - name: Test (Node.js)
         run: npm run test
 
-      - name: Test (Chrome)
-        run: npm run test:chrome
-
-      - name: Test (Webkit)
-        run: npm run test:webkit
+      - name: Test (Browsers)
+        run: npm run test:ci
 

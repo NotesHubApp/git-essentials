@@ -1,3 +1,6 @@
+const playwright = require('playwright')
+process.env.WEBKIT_HEADLESS_BIN = playwright.webkit.executablePath()
+
 module.exports = (config: any) => {
   config.set({
     basePath: '',
@@ -6,6 +9,7 @@ module.exports = (config: any) => {
       'karma-jasmine',
       'karma-typescript',
       'karma-jasmine-html-reporter',
+      'karma-electron-launcher',
       'karma-chrome-launcher',
       'karma-webkit-launcher',
       'karma-safari-launcher'
