@@ -1,6 +1,7 @@
 const playwright = require('playwright')
+process.env.CHROME_BIN = playwright.chromium.executablePath()
 process.env.WEBKIT_HEADLESS_BIN = playwright.webkit.executablePath()
-process.env.FIREFOX_BIN = require('playwright').firefox.executablePath()
+process.env.FIREFOX_BIN = playwright.firefox.executablePath()
 
 module.exports = (config: any) => {
   config.set({
@@ -10,13 +11,12 @@ module.exports = (config: any) => {
       'karma-jasmine',
       'karma-typescript',
       'karma-jasmine-html-reporter',
-      'karma-electron-launcher',
       'karma-chrome-launcher',
       'karma-webkit-launcher',
-      'karma-safari-launcher',
       'karma-firefox-launcher'
     ],
     client: {
+      captureConsole: true,
       clearContext: false // will show the results in browser once all the testcases are loaded
     },
     files: [

@@ -10,7 +10,17 @@ type AuthCallbackParams = [url: string, auth: GitAuth]
 
 describe('push', () => {
   beforeEach(() => {
+    // The default agent string is version depended.
+    // We need to set version independent variant to make sure HttpFixtures will work.
     setGitClientAgent('git/git-essentials')
+
+    // Newest Safari uses a different native implementation of CompressionStream.
+    // We need this to make sure that tests will not fail and will resolve correct HttpFixture.
+    ;(globalThis as any).__USE_PAKO_DEFLATE__ = true
+  })
+
+  afterEach(() => {
+    delete (globalThis as any).__USE_PAKO_DEFLATE__
   })
 
   it('push', async () => {

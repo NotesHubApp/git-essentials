@@ -15,7 +15,7 @@ export async function deflate(buffer: string | pako.Data) {
     supportsCompressionStream = testCompressionStream()
   }
 
-  return supportsCompressionStream
+  return supportsCompressionStream && !('__USE_PAKO_DEFLATE__' in globalThis)
     ? browserDeflate(buffer)
     : pako.deflate(buffer)
 }

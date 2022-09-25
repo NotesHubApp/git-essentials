@@ -12,6 +12,8 @@ import fetchHttpFixtureData from './fixtures/http/fetch.json'
 
 describe('fetch', () => {
   beforeEach(() => {
+    // The default agent string is version depended.
+    // We need to set version independent variant to make sure HttpFixtures will work.
     setGitClientAgent('git/git-essentials')
   })
 

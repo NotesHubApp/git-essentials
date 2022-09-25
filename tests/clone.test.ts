@@ -8,6 +8,8 @@ import cloneHttpFixtureData from './fixtures/http/clone.json'
 
 describe('clone', () => {
   beforeEach(() => {
+    // The default agent string is version depended.
+    // We need to set version independent variant to make sure HttpFixtures will work.
     setGitClientAgent('git/git-essentials')
   })
 
