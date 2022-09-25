@@ -1,0 +1,14 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "config",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "[core]\nrepositoryformatversion = 0\nfilemode = false\nbare = false\nlogallrefupdates = true\nsymlinks = false\nignorecase = true\n\n[remote \"origin\"]\nurl = https://github.com/isomorphic-git/isomorphic-git\nfetch = +refs/heads/*:refs/remotes/origin/*\n\n[branch \"main\"]\nremote = origin\nmerge = refs/heads/main\n\n[branch \"dist\"]\nremote = origin\nmerge = refs/heads/dist\n\n[remote \"upstream\"]\nurl = https://github.com/isomorphic-git/isomorphic-git\nfetch = +refs/heads/main:refs/remotes/upstream/main\nfetch = refs/heads/develop:refs/remotes/upstream/develop\nfetch = refs/heads/qa/*:refs/remotes/upstream/qa/*\n"
+      }
+    ]
+  }
+]

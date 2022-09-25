@@ -1,20 +1,18 @@
-import { expect } from 'chai'
-
 import { remove, listFiles } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import remoteDataFixture from './fixtures/data/remove.json'
+import remoteFsFixtureData from './fixtures/fs/remove.json'
 
 describe('remove', () => {
   it('file', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(remoteDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(remoteFsFixtureData as FsFixtureData)
 
     // act
     const before = await listFiles({ fs, dir })
 
     // assert
-    expect(before).to.have.members([
+    expect(before).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -46,7 +44,7 @@ describe('remove', () => {
     const after = await listFiles({ fs, dir })
 
     // assert
-    expect(after).to.have.members([
+    expect(after).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -72,18 +70,18 @@ describe('remove', () => {
       "src/utils/write.js",
     ])
 
-    expect(before.length === after.length + 1).to.be.true
+    expect(before.length === after.length + 1).toBe(true)
   })
 
   it('dir', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(remoteDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(remoteFsFixtureData as FsFixtureData)
 
     // act
     const before = await listFiles({ fs, dir })
 
     // assert
-    expect(before).to.have.members([
+    expect(before).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -115,7 +113,7 @@ describe('remove', () => {
     const after = await listFiles({ fs, dir })
 
     // assert
-    expect(after).to.have.members([
+    expect(after).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -137,6 +135,6 @@ describe('remove', () => {
       "src/utils/write.js",
     ])
 
-    expect(before.length === after.length + 5).to.be.true
+    expect(before.length === after.length + 5).toBe(true)
   })
 })

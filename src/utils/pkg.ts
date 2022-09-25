@@ -1,8 +1,13 @@
-const name = 'git-essentials'
-const version = '0.1.0'
+const pkg = require('../../package.json')
 
-export const pkg = {
-  name: name,
-  version: version,
-  agent: `git/${name}@${version}`,
+const name = pkg.name
+const version = pkg.version
+let customAgent: string | undefined
+
+export function setGitClientAgent(agent: string) {
+  customAgent = agent
+}
+
+export function getGitClientAgent() {
+  return customAgent || `git/${name}@${version}`
 }

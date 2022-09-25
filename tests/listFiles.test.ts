@@ -1,21 +1,19 @@
-import { expect } from 'chai'
-
 import { listFiles } from '../src'
-import { makeFsFixture, DataFixture } from './helpers/makeFsFixture'
+import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
-import listFilesDataFixture from './fixtures/data/listFiles.json'
-import checkoutDataFixture from './fixtures/data/checkout.json'
+import listFilesFsFixtureData from './fixtures/fs/listFiles.json'
+import checkoutFsFixtureData from './fixtures/fs/checkout.json'
 
 describe('listFiles', () => {
   it('index', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(listFilesDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(listFilesFsFixtureData as FsFixtureData)
 
     // Test
     const files = await listFiles({ fs, dir })
 
     // assert
-    expect(files).to.have.members([
+    expect(files).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",
@@ -53,13 +51,13 @@ describe('listFiles', () => {
 
   it('ref', async () => {
     // arrange
-    const { fs, dir } = await makeFsFixture(checkoutDataFixture as DataFixture)
+    const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
     const files = await listFiles({ fs, dir, ref: 'test-branch' })
 
     // assert
-    expect(files).to.have.members([
+    expect(files).toEqual([
       ".babelrc",
       ".editorconfig",
       ".flowconfig",

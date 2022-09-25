@@ -345,7 +345,7 @@ export class GitRefManager {
 
   static async listBranches(
     { fs, gitdir, remote }:
-    { fs: FileSystem, gitdir: string, remote: string }) {
+    { fs: FileSystem, gitdir: string, remote?: string }) {
     if (remote) {
       return GitRefManager.listRefs({
         fs,

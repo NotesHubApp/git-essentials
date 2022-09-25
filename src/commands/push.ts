@@ -15,7 +15,7 @@ import { GitRemoteManager } from '../managers/GitRemoteManager'
 import { GitSideBand } from '../models/GitSideBand'
 import { filterCapabilities } from '../utils/filterCapabilities'
 import { forAwait } from '../utils/forAwait'
-import { pkg } from '../utils/pkg'
+import { getGitClientAgent } from '../utils/pkg'
 import { splitLines } from '../utils/splitLines'
 import { parseReceivePackResponse, PushResult } from '../wire/parseReceivePackResponse'
 import { writeReceivePackRequest } from '../wire/writeReceivePackRequest'
@@ -234,11 +234,12 @@ export async function _push({
       }
     }
   }
+
   // We can only safely use capabilities that the server also understands.
   // For instance, AWS CodeCommit aborts a push if you include the `agent`!!!
   const capabilities = filterCapabilities(
     [...httpRemote.capabilities],
-    ['report-status', 'side-band-64k', `agent=${pkg.agent}`]
+    ['report-status', 'side-band-64k', `agent=${getGitClientAgent()}`]
   )
   const packstream1 = await writeReceivePackRequest({
     capabilities,

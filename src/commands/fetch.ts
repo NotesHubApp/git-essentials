@@ -18,7 +18,7 @@ import { collect } from '../utils/collect'
 import { emptyPackfile } from '../utils/emptyPackfile'
 import { filterCapabilities } from '../utils/filterCapabilities'
 import { join } from '../utils/join'
-import { pkg } from '../utils/pkg'
+import { getGitClientAgent } from '../utils/pkg'
 import { splitLines } from '../utils/splitLines'
 import { parseUploadPackResponse } from '../wire/parseUploadPackResponse'
 import { writeUploadPackRequest } from '../wire/writeUploadPackRequest'
@@ -192,7 +192,7 @@ export async function _fetch({
       // isomorphic-git is perfectly happy with thin packfiles in .git/objects/pack but
       // canonical git it turns out is NOT.
       'ofs-delta',
-      `agent=${pkg.agent}`,
+      `agent=${getGitClientAgent()}`,
     ]
   )
   if (relative) capabilities.push('deepen-relative')
@@ -280,10 +280,10 @@ export async function _fetch({
 
   // Update local remote refs
   if (singleBranch) {
-    const refs = new Map([[fullref, oid]])
+    const refs = new Map<string, string>([[fullref, oid]])
     // But wait, maybe it was a symref, like 'HEAD'!
     // We need to save all the refs in the symref chain (sigh).
-    const symrefs = new Map()
+    const symrefs = new Map<string, string>()
     let bail = 10
     let key = fullref
     while (bail--) {

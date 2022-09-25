@@ -1,20 +1,30 @@
-var path = require('path');
+const path = require('path');
 const fs = require('fs')
 
-const [folderPath] = process.argv.slice(2)
+const scriptArgs = process.argv.slice(2)
+const [folderPath] = scriptArgs
 
-let dataObj = []
-readFolder(folderPath, dataObj)
+if (!folderPath) {
+  throw new Error('Source folder path is required as first unnamed parameter.')
+}
 
-const dataStr = JSON.stringify(dataObj, null, 2);
-fs.writeFileSync(path.join(path.dirname(folderPath), `${path.basename(folderPath)}.json`), dataStr)
+const fixture = []
+readFolder(folderPath, fixture)
+
+const jsonFixture = JSON.stringify(fixture, null, 2)
+const targetFilepath = `tests/fixtures/fs/${path.basename(folderPath)}.json`
+if (fs.existsSync(targetFilepath)) {
+  throw new Error(`Fixture by the path '${targetFilepath}' already exists.`)
+}
+
+fs.writeFileSync(targetFilepath, jsonFixture)
 
 /**
  *
  * @param {string} folderPath
- * @param {Array} obj
+ * @param {Array} fixture
  */
-function readFolder(folderPath, obj) {
+function readFolder(folderPath, fixture) {
   const treeEntries = fs.readdirSync(folderPath).map(x => ({
       treeEntryName: x,
       treeEntryPath: path.join(folderPath, x),
@@ -39,12 +49,12 @@ function readFolder(folderPath, obj) {
       const data = fs.readFileSync(treeEntryPath)
       const encoding = isBinary(data) ? 'base64' : 'utf8'
       const content = data.toString(encoding)
-      obj.push({ name: treeEntryName, type: 'file', encoding, content })
+      fixture.push({ name: treeEntryName, type: 'file', encoding, content })
     } else if (treeEntryStat.isSymbolicLink()) {
-      obj.push({ name: treeEntryName, type: 'symlink', target: fs.readlinkSync(treeEntryPath) })
+      fixture.push({ name: treeEntryName, type: 'symlink', target: fs.readlinkSync(treeEntryPath) })
     } else if (treeEntryStat.isDirectory()) {
       const children = []
-      obj.push({ name: treeEntryName, type: 'dir', children })
+      fixture.push({ name: treeEntryName, type: 'dir', children })
       readFolder(treeEntryPath, children)
     }
   }

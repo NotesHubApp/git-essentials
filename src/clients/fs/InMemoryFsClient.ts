@@ -7,7 +7,6 @@ import {
   ENOTDIR,
   ENOTEMPTY,
   FsClient,
-  ReadLinkOptions,
   RMDirOptions,
   StatLike,
   WriteOpts
@@ -132,7 +131,7 @@ function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
 function makeSymlink(name: string, target: string): SymlinkTreeEntry {
   const now = new Date()
   const stat: Stat = { mode: FileMode.LINK, size: 0, ctime: now, mtime: now }
-  return { type: 'symlink', name, target: target, stat }
+  return { type: 'symlink', name, target, stat }
 }
 
 function makeEmptyFolder(name: string): FolderTreeEntry {
@@ -153,7 +152,7 @@ export class InMemoryFsClient implements FsClient {
     this.root = makeEmptyFolder('/')
   }
 
-  public async readFile(filepath: string, opts: EncodingOpts): Promise<string | Uint8Array> {
+  public async readFile(filepath: string, opts?: EncodingOpts): Promise<string | Uint8Array> {
     const { entry } = this.parsePath(filepath)
 
     if (!entry || entry.type !== 'file') {
@@ -167,7 +166,7 @@ export class InMemoryFsClient implements FsClient {
     return content
   }
 
-  public async writeFile(filepath: string, data: string | Uint8Array, opts: WriteOpts): Promise<void> {
+  public async writeFile(filepath: string, data: string | Uint8Array, opts?: WriteOpts): Promise<void> {
     const { folder, entry, entryName } = this.parsePath(filepath)
 
     if ((entry && entry.type !== 'file') || !entryName) {
@@ -268,15 +267,51 @@ export class InMemoryFsClient implements FsClient {
   }
 
   public async rename(oldFilepath: string, newFilepath: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    const { folder: oldFolder, entry: oldEntry, entryName: oldEntryName } = this.parsePath(oldFilepath)
+    const { folder: newFolder, entry: newEntry, entryName: newEntryName } = this.parsePath(newFilepath)
+
+    if (oldFilepath === newFilepath) {
+      return
+    }
+
+    if (!oldEntry) {
+      throw new ENOENT(oldFilepath)
+    }
+
+    if (newEntry) {
+      throw new EEXIST(newFilepath)
+    }
+
+    if (!newEntryName) {
+      throw new ENOENT(newFilepath)
+    }
+
+    newFolder.children.push({ ...oldEntry, name: newEntryName })
+    oldFolder.children = oldFolder.children.filter(x => x.name !== oldEntryName)
   }
 
-  public async readlink(filepath: string, opts: ReadLinkOptions): Promise<string | Buffer> {
-    throw new Error('Method not implemented.');
+  public async readlink(filepath: string): Promise<string> {
+    const { entry } = this.parsePath(filepath)
+
+    if (!entry || entry.type !== 'symlink') {
+      throw new ENOENT(filepath)
+    }
+
+    return entry.target
   }
 
   public async symlink(target: string, filepath: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    const { folder, entry, entryName } = this.parsePath(filepath)
+
+    if (!entryName) {
+      throw new ENOENT(filepath)
+    }
+
+    if (entry) {
+      throw new EEXIST(filepath)
+    }
+
+    folder.children.push(makeSymlink(entryName, target))
   }
 
   /**

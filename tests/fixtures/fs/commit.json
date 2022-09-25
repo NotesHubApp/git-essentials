@@ -1,0 +1,68 @@
+[
+  {
+    "name": ".git",
+    "type": "dir",
+    "children": [
+      {
+        "name": "objects",
+        "type": "dir",
+        "children": [
+          {
+            "name": "13",
+            "type": "dir",
+            "children": [
+              {
+                "name": "86e77b0a7afa8333663a9e4cbf8e6158e625c1",
+                "type": "file",
+                "encoding": "base64",
+                "content": "eAGdk8vOo0YUhLPmKXpvTWigaSDKRAGD8Q8GczHGsMNc2+ZmDBjz9OPMbLOasyqVVCodlb60axoyAgYy0h/jkOcAXUWWz1KM2PSK86uUQAxzHl0LMcMSK4rFNc+RBBGVTGPVDSAkdQ32pB67Fvz9aqqf6t+ySUj9Z9o1/wCGh0hkBU4UwDeIIKQ+7qdyzH8nW/blk5Tg23+naPqXDRzdAf6XbsunwNN++hQ458OTdO1fQG8nRwczQwEKEPcrVWRZkUtZV1wjfmaFKMudoRmRMZmhT3DCj6zrysZua3fMvNsZoxdfWnmJnfFsShQwNf5RrtG1C+hoSpbpbibJI6DrcXjujvW4eH7+Nax3JiqqruDD+GFkxItrizf49nGpaAr4N8FkhN6L9FsfoT3NGwFXaalnnfa66NgHnCCOSXi10YwjlF5yH4vx+a1uYfaYmrQtKLChh/W2bFVat1iewf1FmLxlqg15vU3L2Xo2ccQqDGy1ULhc9kIieH57clUUE37E93yhQHdolXn1PE6DfkT7Fo7so74Q4W7IF9xsH8/t6NZDbGCy02cGddzU7IWDLduHwNp758Pnizc8lU9ryvSzAblcDU9hIRibVpEDvDfoyj6RZvHlPYIdes08b5uVXq8MFjO6z/TdlQKnrl1suCyTMtNYoC9WdRqnrq0fpHK5wlBk1bATZ16GwVoRHWlqIXnKbuOtJBL9ABMKNHqkIHhR1xbbuieEBSfIdnV3wq4wjfGtmtaG6yMrRXgSHEayd/UbvYUe3gJ6waowUyBPSWxmqXibw3JleUsitIkCsWFOvigd/KFntY49wFU/snFyLcPLdr9atsnScs8lWbulgP2sj3bdu+pOyN9ZulmfelFKlWiRskFbppu9udJI4SS6s57fBVT8GxL95JhcjufXPH+2qF03ySGKIoyrcNuRIRVZpZyZw0mumOMwwTIWNmvyenz2CLiz0KZeuFvdPDh7I1bhjQKBjzu02XTsTYR3tpJNX0kp8F15lz71CxPNVv8PEkpr+vENfsFI/QDVEEHI"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "refs",
+        "type": "dir",
+        "children": [
+          {
+            "name": "heads",
+            "type": "dir",
+            "children": [
+              {
+                "name": "main",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "1386e77b0a7afa8333663a9e4cbf8e6158e625c1\n"
+              },
+              {
+                "name": "main-copy",
+                "type": "file",
+                "encoding": "utf8",
+                "content": "1386e77b0a7afa8333663a9e4cbf8e6158e625c1\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HEAD",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "ref: refs/heads/main\n"
+      },
+      {
+        "name": "config",
+        "type": "file",
+        "encoding": "utf8",
+        "content": "[core]\n\trepositoryformatversion = 0\n\tfilemode = false\n\tbare = true\n\tlogallrefupdates = true\n\tsymlinks = false\n\tignorecase = true\n"
+      },
+      {
+        "name": "index",
+        "type": "file",
+        "encoding": "base64",
+        "content": "RElSQwAAAAIAAAABWbHV0QG82HhZsdXRAdthRAAAAAAAAAAAAACBpAAAAAAAAAAAAAAABullBHrXxXhlgjx9mSsdBG6mbt94AAVhLnR4dAAAAAAAs1J1T0k1hmOMIiADQnIqjnSZPsU="
+      }
+    ]
+  }
+]
