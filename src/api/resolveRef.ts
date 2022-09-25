@@ -1,4 +1,3 @@
-// @ts-check
 import { GitRefManager } from '../managers/GitRefManager'
 import { FsClient } from '../models'
 import { FileSystem } from '../models/FileSystem'

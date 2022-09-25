@@ -107,9 +107,9 @@ export async function _checkout({
         force,
         filepaths,
       })
-    } catch (err: any) {
+    } catch (err) {
       // Throw a more helpful error message for this common mistake.
-      if (err.code === NotFoundError.code && (<NotFoundError>err).data.what === oid) {
+      if (err instanceof NotFoundError && err.data.what === oid) {
         throw new CommitNotFetchedError(ref, oid)
       } else {
         throw err

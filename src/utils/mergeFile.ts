@@ -1,5 +1,5 @@
 //import diff3Merge from 'diff3'
-import diff3Merge from './diff3' // TODO: Double check
+import diff3Merge from './diff3' // TODO: TAlex Double check
 
 const LINEBREAKS = /^.*(\r?\n|$)/gm
 
