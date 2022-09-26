@@ -1,5 +1,5 @@
-//import diff3Merge from 'diff3'
-import diff3Merge from './diff3' // TODO: TAlex Double check
+import diff3Merge from 'diff3'
+
 
 const LINEBREAKS = /^.*(\r?\n|$)/gm
 
@@ -24,12 +24,12 @@ export function mergeFile({
   format = 'diff',
   markerSize = 7,
 }: MergeFileParams) {
-  const ours = ourContent.match(LINEBREAKS)
-  const base = baseContent.match(LINEBREAKS)
-  const theirs = theirContent.match(LINEBREAKS)
+  const ours = ourContent.match(LINEBREAKS)!
+  const base = baseContent.match(LINEBREAKS)!
+  const theirs = theirContent.match(LINEBREAKS)!
 
   // Here we let the diff3 library do the heavy lifting.
-  const result = diff3Merge(ours!, base!, theirs!)
+  const result = diff3Merge(ours, base, theirs)
 
   // Here we note whether there are conflicts and format the results
   let mergedText = ''
@@ -51,5 +51,6 @@ export function mergeFile({
       mergedText += `${'>'.repeat(markerSize)} ${theirName}\n`
     }
   }
+
   return { cleanMerge, mergedText }
 }
