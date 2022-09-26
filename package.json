@@ -1,6 +1,6 @@
 {
   "name": "git-essentials",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The essential GIT commands",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,12 +41,13 @@
     "crc-32": "^1.2.2",
     "diff3": "^0.0.4",
     "ignore": "^5.2.0",
-    "pako": "^1.0.10",
+    "pako": "^1.0.11",
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
     "@types/async-lock": "^1.1.5",
     "@types/clean-git-ref": "^2.0.0",
+    "@types/diff3": "^0.0.0",
     "@types/jasmine": "^4.3.0",
     "@types/karma": "^6.3.3",
     "@types/pako": "^2.0.0",
