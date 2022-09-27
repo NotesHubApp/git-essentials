@@ -1,5 +1,6 @@
-import { clone, currentBranch } from '../src'
+import { clone, currentBranch, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
+import { expectToFailAsync, expectToFailWithErrorAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
@@ -113,10 +114,9 @@ describe('clone', () => {
     const { fs, dir } = await makeFsFixture()
     const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
     const url = `foobar://github.com/NotesHubApp/Welcome`
-    let error
 
     // act
-    try {
+    const action = async () => {
       await clone({
         fs,
         http,
@@ -126,13 +126,10 @@ describe('clone', () => {
         ref: 'test-tag',
         url,
       })
-    } catch (err: any) {
-      error = err
     }
 
     // assert
-    expect(error.message).toBe(`Git remote "${url}" uses an unrecognized transport protocol: "foobar"`)
-    expect(error.caller).toBe('git.clone')
+    await expectToFailWithErrorAsync(action, new Errors.UnknownTransportError(url, 'foobar'))
   })
 
   it('clone empty repository', async () => {
@@ -149,5 +146,27 @@ describe('clone', () => {
     const headFile = <string>await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
     expect(headFile.trim()).toBe('ref: refs/heads/main')
     expect(await fs.exists(`${dir}/.git/refs/heads/main`)).toBe(false)
+  })
+
+  it('clone with incomplete response may hang the request', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+
+    // act
+    const action = async () => {
+      await clone({
+        fs,
+        http,
+        dir,
+        noTags: true,
+        singleBranch: true,
+        depth: 1,
+        url: 'http://localhost/clone-with-incomplete-response' })
+    }
+
+    // assert
+    await expectToFailAsync(action, (err) =>
+      err instanceof Errors.InternalError && err.data.message.includes('Pako error'))
   })
 })

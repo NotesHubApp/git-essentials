@@ -87,7 +87,7 @@ export class GitPktLine {
         if (length === 0) return null
         if (length === 1) return null // delim packets
         const buffer = await reader.read(length - 4)
-        if (buffer == null) return true
+        if (buffer == null || buffer.byteLength === 0) return true
         return buffer
       } catch (err) {
         console.log('error', err)

@@ -1,7 +1,9 @@
 import { Errors, merge, resolveRef, log } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import { expectToFailAsync } from './helpers/assertionHelper'
 
 import mergeFsFixtureData from './fixtures/fs/merge.json'
+
 
 const author = {
   name: 'Mr. Test',
@@ -146,16 +148,12 @@ describe('merge', () => {
     const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
 
     // act
-    let error
-    try {
+    const action = async () => {
       await merge({ fs, dir, ours: 'delete-first-half', theirs: 'delete-second-half', dryRun: true })
-    } catch (e: any) {
-      error = e
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.code).toBe(Errors.MissingNameError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.MissingNameError)
   })
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun)", async () => {
@@ -224,16 +222,12 @@ describe('merge', () => {
     const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
 
     // act
-    let error
-    try {
+    const action = async () => {
       await merge({ fs, dir, ours: 'a-file', theirs: 'a-folder', author })
-    } catch (e: any) {
-      error = e
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.code).toBe(Errors.MergeNotSupportedError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.MergeNotSupportedError)
   })
 
   it("merge two branches that modified the same file (no conflict)'", async () => {
@@ -273,15 +267,11 @@ describe('merge', () => {
     const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
 
     // act
-    let error
-    try {
+    const action = async () => {
       await merge({ fs, dir, ours: 'a', theirs: 'c', author })
-    } catch (e: any) {
-      error = e
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.code).toBe(Errors.MergeNotSupportedError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.MergeNotSupportedError)
   })
 })

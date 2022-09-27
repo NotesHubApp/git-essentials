@@ -2,6 +2,7 @@ import { Errors, setConfig, push, listBranches, GitAuth } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
+import { expectToFailAsync } from './helpers/assertionHelper'
 
 import pushFsFixtureData from './fixtures/fs/push.json'
 import pushHttpFixtureData from './fixtures/http/push.json'
@@ -183,8 +184,7 @@ describe('push', () => {
     await setConfig({ fs, dir, path: 'remote.ssh.url', value: `git@localhost/push-server.git` })
 
     // act
-    let err
-    try {
+    const action = async () => {
       await push({
         fs,
         http,
@@ -192,13 +192,10 @@ describe('push', () => {
         remote: 'ssh',
         ref: 'main',
       })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err).toBeDefined()
-    expect(err.code).toBe(Errors.UnknownTransportError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.UnknownTransportError)
   })
 
   it('push with Basic Auth', async () => {
@@ -248,8 +245,7 @@ describe('push', () => {
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
 
     // act
-    let error = null
-    try {
+    const action = async () => {
       await push({
         fs,
         http,
@@ -257,12 +253,10 @@ describe('push', () => {
         remote: 'auth',
         ref: 'main',
       })
-    } catch (err: any) {
-      error = err.message
     }
 
     // assert
-    expect(error).toContain('401')
+    await expectToFailAsync(action, (err) => (<string>err.message).includes('401'))
   })
 
   it('throws an Error if invalid credentials supplied', async () => {
@@ -271,8 +265,7 @@ describe('push', () => {
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
 
     // act
-    let error = null
-    try {
+    const action = async () => {
       await push({
         fs,
         http,
@@ -281,12 +274,10 @@ describe('push', () => {
         ref: 'main',
         onAuth: () => ({ username: 'test', password: 'test' }),
       })
-    } catch (err: any) {
-      error = err.message
     }
 
     // assert
-    expect(error).toContain('401')
+    await expectToFailAsync(action, (err) => (<string>err.message).includes('401'))
   })
 
   it('onAuthSuccess', async () => {
@@ -346,11 +337,10 @@ describe('push', () => {
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
 
     // act
-    let err
     const onAuthArgs: AuthCallbackParams[] = []
     const onAuthSuccessArgs: AuthCallbackParams[] = []
     const onAuthFailureArgs: AuthCallbackParams[] = []
-    try {
+    const action = async () => {
       await push({
         fs,
         http,
@@ -385,14 +375,13 @@ describe('push', () => {
           }
         },
       })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err).toBeDefined()
-    expect(err.code).toBe(Errors.HttpError.code)
-    expect(err.data.response).toBeDefined()
+    await expectToFailAsync(action, (err) =>
+      err instanceof Errors.HttpError && Boolean(err.data.response)
+    )
+
     expect(onAuthArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
@@ -525,11 +514,10 @@ describe('push', () => {
     const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
 
     // act
-    let err
     const onAuthArgs: AuthCallbackParams[] = []
     const onAuthSuccessArgs: AuthCallbackParams[] = []
     const onAuthFailureArgs: AuthCallbackParams[] = []
-    try {
+    const action = async () => {
       await push({
         fs,
         http,
@@ -549,13 +537,11 @@ describe('push', () => {
           onAuthFailureArgs.push(args)
         },
       })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err).toBeDefined()
-    expect(err.code).toBe('UserCanceledError')
+    await expectToFailAsync(action, (err) => err instanceof Errors.UserCanceledError)
+
     expect(onAuthArgs).toEqual([
       [
         `http://localhost/push-server-auth.git`,
