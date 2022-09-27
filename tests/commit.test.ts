@@ -1,8 +1,10 @@
 import { Errors, readCommit, commit, log } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import { expectToFailAsync } from './helpers/assertionHelper'
 import { PgpMock } from './helpers/pgpMock'
 
 import commitFsFixtureData from './fixtures/fs/commit.json'
+
 
 describe('commit', () => {
   it('commit', async () => {
@@ -160,8 +162,7 @@ describe('commit', () => {
     const { fs, dir } = await makeFsFixture(commitFsFixtureData as FsFixtureData)
 
     // act
-    let error
-    try {
+    const action = async () => {
       await commit({
         fs,
         dir,
@@ -173,13 +174,10 @@ describe('commit', () => {
         },
         message: 'Initial commit',
       })
-    } catch (err: any) {
-      error = err
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.code).toBe(Errors.MissingNameError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.MissingNameError)
   })
 
   it('create signed commit', async () => {

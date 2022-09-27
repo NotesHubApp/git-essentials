@@ -1,5 +1,6 @@
 import { addRemote, Errors, listRemotes } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import { expectToFailAsync } from './helpers/assertionHelper'
 
 import addRemoteFsFixtureData from './fixtures/fs/addRemote.json'
 
@@ -30,16 +31,12 @@ describe('addRemote', () => {
     const url = undefined as any
 
     // act
-    let error
-    try {
+    const action = async () => {
       await addRemote({ fs, dir, remote, url })
-    } catch (err: any) {
-      error = err
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.code).toBe(Errors.MissingParameterError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.MissingParameterError)
   })
 
   it('invalid remote name', async () => {
@@ -49,15 +46,11 @@ describe('addRemote', () => {
     const url = 'git@github.com:baz/baz.git'
 
     // act
-    let error
-    try {
+    const action = async () => {
       await addRemote({ fs, dir, remote, url })
-    } catch (err: any) {
-      error = err
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.code as any).toBe(Errors.InvalidRefNameError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.InvalidRefNameError)
   })
 })

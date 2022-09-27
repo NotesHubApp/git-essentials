@@ -1,6 +1,6 @@
 import { clone, currentBranch, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailAsync, expectToFailWithErrorAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
@@ -114,10 +114,9 @@ describe('clone', () => {
     const { fs, dir } = await makeFsFixture()
     const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
     const url = `foobar://github.com/NotesHubApp/Welcome`
-    let error
 
     // act
-    try {
+    const action = async () => {
       await clone({
         fs,
         http,
@@ -127,13 +126,10 @@ describe('clone', () => {
         ref: 'test-tag',
         url,
       })
-    } catch (err: any) {
-      error = err
     }
 
     // assert
-    expect(error.message).toBe(`Git remote "${url}" uses an unrecognized transport protocol: "foobar"`)
-    expect(error.caller).toBe('git.clone')
+    await expectToFailWithErrorAsync(action, new Errors.UnknownTransportError(url, 'foobar'))
   })
 
   it('clone empty repository', async () => {

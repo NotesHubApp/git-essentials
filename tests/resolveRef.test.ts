@@ -1,5 +1,6 @@
-import { resolveRef } from '../src'
+import { Errors, resolveRef } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import { expectToFailAsync } from './helpers/assertionHelper'
 
 import resolveRefFsFixtureData from './fixtures/fs/resolveRef.json'
 
@@ -87,15 +88,11 @@ describe('resolveRef', () => {
     const { fs, dir } = await makeFsFixture(resolveRefFsFixtureData as FsFixtureData)
 
     // act
-    let error: { message?: string, caller?: string } = {}
-    try {
+    const action = async () => {
       await resolveRef({ fs, dir, ref: 'this-is-not-a-ref' })
-    } catch (err: any) {
-      error = err
     }
 
     // assert
-    expect(error.message).toBeDefined()
-    expect(error.caller).toBe('git.resolveRef')
+    await expectToFailAsync(action, (err) => err instanceof Errors.NotFoundError)
   })
 })

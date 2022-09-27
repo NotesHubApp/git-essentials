@@ -2,6 +2,7 @@ import { pull, log, add, commit, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
+import { expectToFailAsync } from './helpers/assertionHelper'
 
 import pullFsFixtureData from './fixtures/fs/pull.json'
 import pullNoFfFsFixtureData from './fixtures/fs/pull-no-ff.json'
@@ -78,8 +79,7 @@ describe('pull', () => {
     ])
 
     // act
-    let err
-    try {
+    const action = async () => {
       await pull({
         fs,
         http,
@@ -94,12 +94,9 @@ describe('pull', () => {
           timezoneOffset: -0,
         },
       })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err.caller).toBe('git.pull')
-    expect(err.code).toBe(Errors.FastForwardError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.FastForwardError)
   })
 })

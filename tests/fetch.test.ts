@@ -2,12 +2,14 @@ import { Errors, fetch, setConfig } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
+import { expectToFailAsync, expectToFailWithErrorAsync } from './helpers/assertionHelper'
 
 import emptyFsFixtureData from './fixtures/fs/empty.json'
 import fetchFsFixtureData from './fixtures/fs/fetch.json'
 import fetchEmptyRepoFsFixtureData from './fixtures/fs/fetch-empty-repo.json'
 import fetchMissingRefspecFsFixtureData from './fixtures/fs/fetch-missing-refspec.json'
 import fetchHttpFixtureData from './fixtures/http/fetch.json'
+import { UnknownTransportError } from '../src/errors'
 
 
 describe('fetch', () => {
@@ -89,8 +91,7 @@ describe('fetch', () => {
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
-    let err
-    try {
+    const action = async () => {
       await fetch({
         fs,
         http,
@@ -100,13 +101,10 @@ describe('fetch', () => {
         remote: 'ssh',
         ref: 'main',
       })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err).toBeDefined()
-    expect(err.code).toBe(Errors.UnknownTransportError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.UnknownTransportError)
   })
 
   it('the SSH -> HTTPS UnknownTransportError suggestion feature', async () => {
@@ -115,8 +113,7 @@ describe('fetch', () => {
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
-    let err
-    try {
+    const action = async () => {
       await fetch({
         fs,
         http,
@@ -126,15 +123,12 @@ describe('fetch', () => {
         remote: 'ssh',
         ref: 'main',
       })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err).toBeDefined()
-    expect(err.code).toBe(Errors.UnknownTransportError.code)
-    expect(err.data.suggestion).toBe(
-      'https://localhost/fetch-server.git'
+    await expectToFailAsync(action, (err) =>
+      err instanceof Errors.UnknownTransportError &&
+      err.data.suggestion === 'https://localhost/fetch-server.git'
     )
   })
 
@@ -249,8 +243,7 @@ describe('fetch', () => {
     const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
 
     // act
-    let err
-    try {
+    const action = async () => {
       await fetch({
         fs,
         http,
@@ -260,13 +253,10 @@ describe('fetch', () => {
         remote: 'origin',
         ref: 'main',
       })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err).toBeDefined()
-    expect(err.code).toBe(Errors.NoRefspecError.code)
+    await expectToFailAsync(action, (err) => err instanceof Errors.NoRefspecError)
   })
 
 

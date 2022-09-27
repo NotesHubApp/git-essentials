@@ -1,7 +1,9 @@
 import { Errors, checkout, listFiles, add, commit, branch } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import { expectToFailWithErrorAsync } from './helpers/assertionHelper'
 
 import checkoutFsFixtureData from './fixtures/fs/checkout.json'
+
 
 describe('checkout', () => {
   it('checkout', async () => {
@@ -192,22 +194,19 @@ describe('checkout', () => {
     const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
 
     // act
-    let error
-    try {
+    const action = async () => {
       await checkout({ fs, dir, ref: 'missing-branch' })
       throw new Error('Checkout should have failed.')
-    } catch (err: any) {
-      error = err
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.caller).toBe('git.checkout')
-    expect(error.code).toBe(Errors.CommitNotFetchedError.code)
-    expect(error.data).toEqual({
-      oid: "033417ae18b174f078f2f44232cb7a374f4c60ce",
-      ref: "missing-branch"
-    })
+    await expectToFailWithErrorAsync(
+      action,
+      new Errors.CommitNotFetchedError(
+        'missing-branch',
+        '033417ae18b174f078f2f44232cb7a374f4c60ce'
+      )
+    )
   })
 
   it('checkout file permissions', async () => {
@@ -311,17 +310,12 @@ describe('checkout', () => {
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
-    let error
-    try {
+    const action = async () => {
       await checkout({ fs, dir, ref: 'test-branch' })
-    } catch (e: any) {
-      error = e
     }
 
     // assert
-    expect(error).toBeDefined()
-    expect(error.code).toBe(Errors.CheckoutConflictError.code)
-    expect(error.data.filepaths).toEqual(['README.md'])
+    await expectToFailWithErrorAsync(action, new Errors.CheckoutConflictError(['README.md']))
   })
 
   it('checkout files ignoring conflicts dry run', async () => {
@@ -330,15 +324,9 @@ describe('checkout', () => {
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
-    let error = null
-    try {
-      await checkout({ fs, dir, ref: 'test-branch', force: true, dryRun: true })
-    } catch (e) {
-      error = e
-    }
+    await checkout({ fs, dir, ref: 'test-branch', force: true, dryRun: true })
 
     // assert
-    expect(error).toBeFalsy()
     expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).toBe('Hello world')
   })
 
@@ -348,15 +336,9 @@ describe('checkout', () => {
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
-    let error = null
-    try {
-      await checkout({ fs, dir, ref: 'test-branch', force: true })
-    } catch (e) {
-      error = e
-    }
+    await checkout({ fs, dir, ref: 'test-branch', force: true })
 
     // assert
-    expect(error).toBeFalsy()
     expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).not.toBe('Hello world')
   })
 
@@ -367,15 +349,9 @@ describe('checkout', () => {
     await fs.writeFile(`${dir}/README.md`, 'Hello world', { encoding: 'utf8' })
 
     // act
-    let error = null
-    try {
-      await checkout({ fs, dir, force: true })
-    } catch (e) {
-      error = e
-    }
+    await checkout({ fs, dir, force: true })
 
     // assert
-    expect(error).toBeFalsy()
     expect(await fs.readFile(`${dir}/README.md`, { encoding: 'utf8' })).not.toBe('Hello world')
   })
 
