@@ -68,5 +68,34 @@
       "encoding": "utf8",
       "body": "001e# service=git-upload-pack\n00000000"
     }
+  },
+
+  {
+    "comment": "test: clone with incomplete response may hang the request",
+    "request": {
+      "url": "http://localhost/clone-with-incomplete-response/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-advertisement",
+      "encoding": "utf8",
+      "body": "001e# service=git-upload-pack\n000001541e6647a8288ebbebf6a8569d142622ea4ddd5c7c HEAD\u0000multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed allow-tip-sha1-in-want allow-reachable-sha1-in-want no-done symref=HEAD:refs/heads/main filter object-format=sha1 agent=git/github-g228317e47f25\n003d1e6647a8288ebbebf6a8569d142622ea4ddd5c7c refs/heads/main\n003c1e6647a8288ebbebf6a8569d142622ea4ddd5c7c refs/tags/v2.0\n0000"
+    }
+  },
+
+  {
+    "comment": "test: clone with incomplete response may hang the request",
+    "request": {
+      "url": "http://localhost/clone-with-incomplete-response/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 1e6647a8288ebbebf6a8569d142622ea4ddd5c7c multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n000ddeepen 1\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAzNHNoYWxsb3cgMWU2NjQ3YTgyODhlYmJlYmY2YTg1NjlkMTQyNjIyZWE0ZGRkNWM3YzAwMDAwMDA4TkFLCjAwMjMCRW51bWVyYXRpbmcgb2JqZWN0czogMywgZG9uZS4KMDAyMgJDb3VudGluZyBvYmplY3RzOiAgMzMlICgxLzMpCjAwM2YCQ291bnRpbmcgb2JqZWN0czogIDY2JSAoMi8zKQpDb3VudGluZyBvYmplY3RzOiAxMDAlICgzLzMpCjAwMjkCQ291bnRpbmcgb2JqZWN0czogMTAwJSAoMy8zKSwgZG9uZS4KMDAyNQJDb21wcmVzc2luZyBvYmplY3RzOiAgNTAlICgxLzIpCjAwMjUCQ29tcHJlc3Npbmcgb2JqZWN0czogMTAwJSAoMi8yKQowMDJjAkNvbXByZXNzaW5nIG9iamVjdHM6IDEwMCUgKDIvMiksIGRvbmUuCjAzNDEBUEFDSwAAAAIAAAAD77+9D3jvv73vv73vv71NCu+/vTAQRu+/vTnvv73vv71cWe+/vTR/77+977+9Ljzvv73vv73vv70077+977+9Ymrvv73vv73vv73vv73vv70uPO+/ve+/vW3vv70H77+977+9TATvv73vv73ImAJTThzvv71Y07vvv70sB++/ve+/vTnvv73vv73Sou+/vV7vv71x77+977+9QMuhZ++/vQfvv73vv73vv71g77+977+9MCM5Kj55E++/ve+/vTYxeu+/ve+/vSPvv71p77+9S++/vQXvv71BNu+/vTnvv70R77+977+977+9D++/ve+/vRHvv73vv73vv71pPO+/ve+/vWpJ77+9aGHvv73vv73vv71qfe+/vUHvv73vv71p77+9Qu+/ve+/vWDvv71db10z77+9He+/vVDvv70L77+977+9TWPvv70CeO+/vTM0MDAzMVEIT++/vUnvv73vv71NVe+/ve+/vS9J77+977+9TWF4IlM177+977+977+977+977+977+9d++/vVzvv73vv70477+9T++/vRsARxsRce+/vUF477+9bVNBbhsxDO+/ve+/vRUEfDNi77+9Ie+/ve+/vUbRoEARFD3vv70S77+9Zu+/vRUF77+9a2fvv73vv73vv73vv71N77+9Au+/vXgtUhwO77+977+977+9Bg5F77+977+9FO+/ve+/ve+/ve+/vQHvv70kPe+/vXbvv73Miu+/ve+/vXTvv71uYe+/vUnvv73vv70ZVO+/vTzvv70RM++/vRMoewpCSe+/vQXvv73vv71ZPRjvv70MNe+/vVLvv71yEO+/vWJJLHt477+9GXhY77+9Uu+/vQDUoCkLJu+/vQJP77+9IFjvv73vv73vv70I77+9Pe+/vQU+77+9Au+/ve+/vSHvv70Z77+977+9bQwl77+9EHjvv71G77+977+9IdS6d++/vS8K77+977+9Cu+/vVt9C3JJfCtOamAZ77+9fu+/ve+/vR7vv71gUCsP77+977+977+9TE3vv71D77+9Ye+/vRc177+977+9Iu+/ve+/vdifMVfHuiDvv73Pqhh977+977+977+9aD86Z++/vUlOQe+/ve+/vVpyWO+/ve+/vUo277+977+977+9IDzvv70KKu+/vVJQ77+9BW5iWEvvv71FCRrvv71d77+977+9MO+/vUbvv71oGFDvv71YNRfvv70KITpJ77+9D++/vX7vv71xOO+/ve+/ve+/vcKTQTp+CUrvv70u77+9Lu+/vQUB77+9Ku+/ve+/vSXvv70KZGseOVl/77+977+9JzHvv71+77+977+9R++/ve+/vSkGd++/vXLvv71IRB7vv73vv71ICu+/vXBQGDEU77+977+9ee+/ve+/vS9pah/vv73vv73vv73vv71kA++/vWzvv73vv73vv73vv70i4ZWiQe+/vVrvv73vv70077+9PO+/ve+/vXcAHu+/vUzvv71rE++/vXVqCu+/vTkjM++/ve+/vV0gYu+/vU/vv73vv73Dsu+/ve+/ve+/ve+/ve+/vUxxIRFLF++/vV/vv71YXnnvv73vv73vv71OR3QF77+9E++/vWLvv71v77+977+977+9OMOj77+9YzJhPO+/vQV7Gizvv73vv71Oce+/vT3vv71qcO+/vRwvOypr77+977+9Cc2JIhxD77+977+977+9J2vvv73vv70S3Zfvv73vv73vv73vv73vv73vv73vv71E77+977+9djUHde+/ve+/ve+/ve+/vRRqX++/ve+/vWHvv73vv73vv71qZe+/vWYAcu+/ve+/ve+/vcWHT++/ve+/ve+/vXhb77+9Zu+/vWnvv71t77+9MSdlewZGa0Tvv70nFO+/ve+/vTDvv70gbUzOk2vvv70He0Jr77+977+977+9ERwS77+977+9fH7vv71wORPvv73vv73vv70t77+9CTAwM2ECVG90YWwgMyAoZGVsdGEgMCksIHJldXNlZCAxIChkZWx0YSAwKSwgcGFjay1yZXVzZWQgMAowMDA2ATowMDAw"
+    }
   }
 ]

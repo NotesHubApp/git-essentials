@@ -1,5 +1,6 @@
 import { init, add, listFiles } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import { expectToFailAsync } from './helpers/assertionHelper'
 
 import addFsFixtureData from './fixtures/fs/add.json'
 
@@ -49,16 +50,13 @@ describe('add', () => {
 
     // act
     await init({ fs, dir })
-    let err
 
-    try {
+    const action = async () => {
       await add({ fs, dir, filepath: 'asdf.txt' })
-    } catch (e: any) {
-      err = e
     }
 
     // assert
-    expect(err.caller).toBe('git.add')
+    await expectToFailAsync(action, (err) => err.caller === 'git.add')
   })
 
   it('folder', async () => {

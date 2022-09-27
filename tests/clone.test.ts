@@ -1,5 +1,6 @@
-import { clone, currentBranch } from '../src'
+import { clone, currentBranch, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
+import { expectToFailAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
@@ -149,5 +150,27 @@ describe('clone', () => {
     const headFile = <string>await fs.readFile(`${dir}/.git/HEAD`, { encoding: 'utf8' })
     expect(headFile.trim()).toBe('ref: refs/heads/main')
     expect(await fs.exists(`${dir}/.git/refs/heads/main`)).toBe(false)
+  })
+
+  it('clone with incomplete response may hang the request', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+
+    // act
+    const action = async () => {
+      await clone({
+        fs,
+        http,
+        dir,
+        noTags: true,
+        singleBranch: true,
+        depth: 1,
+        url: 'http://localhost/clone-with-incomplete-response' })
+    }
+
+    // assert
+    await expectToFailAsync(action, (err) =>
+      err instanceof Errors.InternalError && err.data.message.includes('Pako error'))
   })
 })
