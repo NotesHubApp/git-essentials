@@ -166,6 +166,13 @@ export class FileSystem {
   }
 
   /**
+   * Return the Stats of a file following symlink
+   */
+  async stat(filename: string) {
+    return await this.fs.stat(filename)
+  }
+
+  /**
    * Reads the contents of a symlink if it exists, otherwise returns null.
    * Rethrows errors that aren't related to file existance.
    */

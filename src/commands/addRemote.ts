@@ -26,17 +26,17 @@ export async function _addRemote({ fs, gitdir, remote, url, force }: AddRemotePa
   const config = await GitConfigManager.get({ fs, gitdir })
   if (!force) {
     // Check that setting it wouldn't overwrite.
-    const remoteNames = await config.getSubsections('remote')
+    const remoteNames = config.getSubsections('remote')
     if (remoteNames.includes(remote)) {
       // Throw an error if it would overwrite an existing remote,
       // but not if it's simply setting the same value again.
-      if (url !== (await config.get(`remote.${remote}.url`))) {
+      if (url !== config.get(`remote.${remote}.url`)) {
         throw new AlreadyExistsError('remote', remote)
       }
     }
   }
-  await config.set(`remote.${remote}.url`, url)
-  await config.set(
+  config.set(`remote.${remote}.url`, url)
+  config.set(
     `remote.${remote}.fetch`,
     `+refs/heads/*:refs/remotes/${remote}/*`
   )

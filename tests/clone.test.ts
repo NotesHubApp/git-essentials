@@ -1,6 +1,6 @@
-import { clone, currentBranch, Errors } from '../src'
+import { clone, currentBranch, Errors, init } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
-import { expectToFailAsync, expectToFailWithErrorAsync } from './helpers/assertionHelper'
+import { expectToFailAsync, expectToFailWithErrorAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 
@@ -168,5 +168,61 @@ describe('clone', () => {
     // assert
     await expectToFailAsync(action, (err) =>
       err instanceof Errors.InternalError && err.data.message.includes('Pako error'))
+  })
+
+  it('removes the .git directory when clone fails', async () => {
+    // assert
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+
+    // act
+    const action = async () => {
+      await clone({
+        fs,
+        http,
+        dir,
+        depth: 1,
+        singleBranch: true,
+        ref: 'test-tag',
+        url: 'https://github.com/NotesHubApp/Welcome.git'
+      })
+    }
+
+    // assert
+    await expectToFailWithTypeAsync(action, Errors.NotFoundError)
+    expect(await fs.exists(`${dir}/.git`)).toBe(false)
+  })
+
+  it('should not remove .git directory on failure when previously cloned another repo to the same directory', async () => {
+    // assert
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+
+    // act
+    await clone({
+      fs,
+      http,
+      dir,
+      depth: 1,
+      singleBranch: true,
+      url: `http://localhost/clone-no-main.git`,
+    })
+
+    const action = async () => {
+      await clone({
+        fs,
+        http,
+        dir,
+        depth: 1,
+        noTags: true,
+        singleBranch: true,
+        url: 'https://github.com/NotesHubApp/Welcome.git'
+      })
+    }
+
+    // assert
+    await expectToFailWithTypeAsync(action, Errors.AlreadyExistsError)
+    expect(await fs.exists(`${dir}/.git`)).toBe(true)
+    expect(await currentBranch({ fs, dir })).toBe('i-am-not-main')
   })
 })
