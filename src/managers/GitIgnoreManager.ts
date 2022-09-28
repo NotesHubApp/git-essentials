@@ -7,9 +7,6 @@ import { join } from '../utils/join'
 
 // I'm putting this in a Manager because I reckon it could benefit
 // from a LOT of cacheing.
-
-// TODO: Implement .git/info/exclude
-
 type GitIgnoreManagerParams = {
   fs: FileSystem
   dir: string
@@ -23,6 +20,12 @@ export class GitIgnoreManager {
     if (basename(filepath) === '.git') return true
     // '.' is not a valid gitignore entry, so '.' is never ignored
     if (filepath === '.') return false
+    // Check and load exclusion rules from project exclude file (.git/info/exclude)
+    let excludes = ''
+    const excludesFile = join(gitdir, 'info', 'exclude')
+    if (await fs.exists(excludesFile)) {
+      excludes = <string>await fs.read(excludesFile, { encoding: 'utf8' })
+    }
     // Find all the .gitignore files that could affect this file
     const pairs = [
       {
@@ -46,7 +49,8 @@ export class GitIgnoreManager {
       try {
         const file = <string>await fs.read(p.gitignore, { encoding: 'utf8'})
 
-        const ign = ignore().add(file)
+        const ign = ignore().add(excludes)
+        ign.add(file)
         // If the parent directory is excluded, we are done.
         // "It is not possible to re-include a file if a parent directory of that file is excluded. Git doesn’t list excluded directories for performance reasons, so any patterns on contained files have no effect, no matter where they are defined."
         // source: https://git-scm.com/docs/gitignore
