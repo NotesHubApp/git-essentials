@@ -33,7 +33,7 @@ export async function _log({ fs, cache, gitdir, ref, depth, since }: LogParams):
   const oid = await GitRefManager.resolve({ fs, gitdir, ref })
   const tips = [await _readCommit({ fs, cache, gitdir, oid })]
 
-  while (true) {
+  while (tips.length > 0) {
     const commit = tips.pop()!
 
     // Stop the log if we've hit the age limit
