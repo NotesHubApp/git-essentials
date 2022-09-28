@@ -2,7 +2,7 @@ import { pull, log, add, commit, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import pullFsFixtureData from './fixtures/fs/pull.json'
 import pullNoFfFsFixtureData from './fixtures/fs/pull-no-ff.json'
@@ -97,6 +97,6 @@ describe('pull', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.FastForwardError)
+    await expectToFailWithTypeAsync(action, Errors.FastForwardError)
   })
 })

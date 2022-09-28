@@ -1,6 +1,6 @@
 import { Errors, readCommit } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import readCommitFsFixtureData from './fixtures/fs/readCommit.json'
 
@@ -16,7 +16,7 @@ describe('readCommit', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.NotFoundError)
+    await expectToFailWithTypeAsync(action, Errors.NotFoundError)
   })
 
   it('parsed', async () => {

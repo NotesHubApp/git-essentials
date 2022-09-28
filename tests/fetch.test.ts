@@ -2,7 +2,7 @@ import { Errors, fetch, setConfig } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
-import { expectToFailAsync, expectToFailWithErrorAsync } from './helpers/assertionHelper'
+import { expectToFailAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import emptyFsFixtureData from './fixtures/fs/empty.json'
 import fetchFsFixtureData from './fixtures/fs/fetch.json'
@@ -104,7 +104,7 @@ describe('fetch', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.UnknownTransportError)
+    await expectToFailWithTypeAsync(action, Errors.UnknownTransportError)
   })
 
   it('the SSH -> HTTPS UnknownTransportError suggestion feature', async () => {
@@ -256,7 +256,7 @@ describe('fetch', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.NoRefspecError)
+    await expectToFailWithTypeAsync(action, Errors.NoRefspecError)
   })
 
 

@@ -13,6 +13,19 @@ export async function expectToFailAsync(action: () => Promise<void>, predicate?:
   }
 }
 
+export async function expectToFailWithTypeAsync(action: () => Promise<void>, type: any) {
+  let error: any
+
+  try {
+    await action()
+  } catch (e: any) {
+    error = e
+  }
+
+  expect(error).toBeDefined()
+  expect(error).toBeInstanceOf(type)
+}
+
 export async function expectToFailWithErrorAsync(action: () => Promise<void>, err: Error) {
   let error: any
 

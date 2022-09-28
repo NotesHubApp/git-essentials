@@ -1,6 +1,6 @@
 import { Errors, branch, init, currentBranch } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import * as path from './helpers/path'
 
 import branchFsFixtureData from './fixtures/fs/branch.json'
@@ -40,7 +40,7 @@ describe('branch', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.InvalidRefNameError)
+    await expectToFailWithTypeAsync(action, Errors.InvalidRefNameError)
   })
 
   it('missing ref argument', async () => {
@@ -54,7 +54,7 @@ describe('branch', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.MissingParameterError)
+    await expectToFailWithTypeAsync(action, Errors.MissingParameterError)
   })
 
   it('empty repo', async () => {

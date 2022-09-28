@@ -1,6 +1,6 @@
 import { Errors, readCommit, commit, log } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import { PgpMock } from './helpers/pgpMock'
 
 import commitFsFixtureData from './fixtures/fs/commit.json'
@@ -177,7 +177,7 @@ describe('commit', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.MissingNameError)
+    await expectToFailWithTypeAsync(action, Errors.MissingNameError)
   })
 
   it('create signed commit', async () => {

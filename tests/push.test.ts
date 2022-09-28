@@ -2,7 +2,7 @@ import { Errors, setConfig, push, listBranches, GitAuth } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import pushFsFixtureData from './fixtures/fs/push.json'
 import pushHttpFixtureData from './fixtures/http/push.json'
@@ -195,7 +195,7 @@ describe('push', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.UnknownTransportError)
+    await expectToFailWithTypeAsync(action, Errors.UnknownTransportError)
   })
 
   it('push with Basic Auth', async () => {
@@ -540,7 +540,7 @@ describe('push', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.UserCanceledError)
+    await expectToFailWithTypeAsync(action, Errors.UserCanceledError)
 
     expect(onAuthArgs).toEqual([
       [

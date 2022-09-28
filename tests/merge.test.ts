@@ -1,6 +1,6 @@
 import { Errors, merge, resolveRef, log } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import mergeFsFixtureData from './fixtures/fs/merge.json'
 
@@ -153,7 +153,7 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.MissingNameError)
+    await expectToFailWithTypeAsync(action, Errors.MissingNameError)
   })
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun)", async () => {
@@ -227,7 +227,7 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.MergeNotSupportedError)
+    await expectToFailWithTypeAsync(action, Errors.MergeNotSupportedError)
   })
 
   it("merge two branches that modified the same file (no conflict)'", async () => {
@@ -272,6 +272,6 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.MergeNotSupportedError)
+    await expectToFailWithTypeAsync(action, Errors.MergeNotSupportedError)
   })
 })

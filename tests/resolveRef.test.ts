@@ -1,6 +1,6 @@
 import { Errors, resolveRef } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import resolveRefFsFixtureData from './fixtures/fs/resolveRef.json'
 
@@ -93,6 +93,6 @@ describe('resolveRef', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.NotFoundError)
+    await expectToFailWithTypeAsync(action, Errors.NotFoundError)
   })
 })

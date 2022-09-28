@@ -1,6 +1,6 @@
 import { addRemote, Errors, listRemotes } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { expectToFailAsync } from './helpers/assertionHelper'
+import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import addRemoteFsFixtureData from './fixtures/fs/addRemote.json'
 
@@ -36,7 +36,7 @@ describe('addRemote', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.MissingParameterError)
+    await expectToFailWithTypeAsync(action, Errors.MissingParameterError)
   })
 
   it('invalid remote name', async () => {
@@ -51,6 +51,6 @@ describe('addRemote', () => {
     }
 
     // assert
-    await expectToFailAsync(action, (err) => err instanceof Errors.InvalidRefNameError)
+    await expectToFailWithTypeAsync(action, Errors.InvalidRefNameError)
   })
 })
