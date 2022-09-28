@@ -1,6 +1,7 @@
 import { Buffer } from 'buffer'
 
 import { InternalError } from '../errors/InternalError'
+import { UnsafeFilepathError } from '../errors'
 import { comparePath } from '../utils/comparePath'
 import { compareTreeEntryPath } from '../utils/compareTreeEntryPath'
 
@@ -44,6 +45,12 @@ function parseBuffer(buffer: Buffer): TreeEntry[] {
     if (mode === '40000') mode = '040000' // makes it line up neater in printed output
     const type = mode2type(mode)
     const path = buffer.slice(space + 1, nullchar).toString('utf8')
+
+    // Prevent malicious git repos from writing to "..\foo" on clone etc
+    if (path.includes('\\') || path.includes('/')) {
+      throw new UnsafeFilepathError(path)
+    }
+
     const oid = buffer.slice(nullchar + 1, nullchar + 21).toString('hex')
     cursor = nullchar + 21
     _entries.push({ mode, path, oid, type })

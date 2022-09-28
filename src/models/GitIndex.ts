@@ -1,6 +1,7 @@
 import { Buffer } from 'buffer'
 
 import { InternalError } from '../errors/InternalError'
+import { UnsafeFilepathError } from '../errors'
 import { BufferCursor } from '../utils/BufferCursor'
 import { comparePath } from '../utils/comparePath'
 import { normalizeStats } from '../utils/normalizeStats'
@@ -98,6 +99,12 @@ export class GitIndex {
       }
       // TODO: handle pathnames larger than 12 bits
       const path = reader.toString('utf8', pathlength)
+
+      // Prevent malicious paths like "..\foo"
+      if (path.includes('..\\') || path.includes('../')) {
+        throw new UnsafeFilepathError(path)
+      }
+
       const entry: IndexEntry = {
         ctimeSeconds, ctimeNanoseconds, mtimeSeconds, mtimeNanoseconds, dev, ino, mode, uid, gid, size, oid, flags, path
       }
