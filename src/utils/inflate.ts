@@ -13,7 +13,7 @@ export async function inflate(buffer: pako.Data) {
 
 async function browserInflate(buffer: pako.Data) {
   const ds = new DecompressionStream('deflate')
-  const d = (new Blob([buffer]).stream() as any).pipeThrough(ds)
+  const d = (<ReadableStream><unknown>new Blob([buffer]).stream()).pipeThrough(ds)
   return new Uint8Array(await new Response(d).arrayBuffer())
 }
 

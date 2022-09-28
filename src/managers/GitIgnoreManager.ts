@@ -44,9 +44,9 @@ export class GitIgnoreManager {
 
     for (const p of pairs) {
       try {
-        const file = await fs.read(p.gitignore, { encoding: 'utf8'})
+        const file = <string>await fs.read(p.gitignore, { encoding: 'utf8'})
 
-        const ign = ignore().add(file as string)
+        const ign = ignore().add(file)
         // If the parent directory is excluded, we are done.
         // "It is not possible to re-include a file if a parent directory of that file is excluded. Git doesn’t list excluded directories for performance reasons, so any patterns on contained files have no effect, no matter where they are defined."
         // source: https://git-scm.com/docs/gitignore
@@ -59,7 +59,8 @@ export class GitIgnoreManager {
           ignoredStatus = ign.test(p.filepath).ignored
         }
       } catch (err: any) {
-        if (err.code === 'NOENT') continue // TODO: TAlex What to do here?
+        if (err.code === 'NOENT') continue
+        throw err
       }
     }
 

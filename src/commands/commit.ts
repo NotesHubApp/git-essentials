@@ -101,7 +101,7 @@ async function constructTree({ fs, gitdir, inode, dryRun }: ConstructTreeParams)
   const children = inode.children
   for (const inode of children) {
     if (inode.type === 'tree') {
-      inode.metadata.mode = '040000'
+      inode.metadata.mode = 0o040000
       inode.metadata.oid = await constructTree({ fs, gitdir, inode, dryRun })
     }
   }

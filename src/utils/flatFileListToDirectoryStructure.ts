@@ -1,10 +1,11 @@
+import { Stat } from '../models'
 import { IndexEntry } from '../models/IndexEntry'
 import { basename } from '../utils/basename'
 import { dirname } from '../utils/dirname'
 
-type Metadata = {
+
+type Metadata = Partial<Stat> & {
   oid?: string
-  mode?: string | number
 }
 
 export type Node = {

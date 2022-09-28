@@ -14,7 +14,7 @@ export async function deflate(buffer: string | pako.Data) {
 
 async function browserDeflate(buffer: string | pako.Data) {
   const cs = new CompressionStream('deflate')
-  const c = (new Blob([buffer]).stream() as any).pipeThrough(cs)
+  const c = (<ReadableStream><unknown>new Blob([buffer]).stream()).pipeThrough(cs)
   return new Uint8Array(await new Response(c).arrayBuffer())
 }
 

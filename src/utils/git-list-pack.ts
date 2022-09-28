@@ -57,7 +57,7 @@ export async function listpack(stream: Buffer[], onData: (data: Data) => Promise
 
         // Backtrack parser to where deflated data ends
         await reader.undo()
-        await reader.read(chunk.length - (inflator as any).strm.avail_in) // TODO: TAlex looks like typing library does not define this
+        await reader.read(chunk.length - inflator.strm.avail_in)
         const end = reader.tell()
         await onData({
           data: inflator.result,
