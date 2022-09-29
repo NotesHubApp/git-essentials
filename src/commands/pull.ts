@@ -34,6 +34,7 @@ type PullParams = {
   url?: string
   remote?: string
   remoteRef?: string
+  fastForward: boolean
   fastForwardOnly: boolean
   singleBranch?: boolean
   headers: HttpHeaders
@@ -64,6 +65,7 @@ export async function _pull({
   url,
   remote,
   remoteRef,
+  fastForward,
   fastForwardOnly,
   singleBranch,
   headers,
@@ -107,6 +109,7 @@ export async function _pull({
       gitdir,
       ours: ref,
       theirs: fetchHead!,
+      fastForward,
       fastForwardOnly,
       message: `Merge ${fetchHeadDescription}`,
       author,

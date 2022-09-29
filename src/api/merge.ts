@@ -27,6 +27,9 @@ type MergeParams = {
   /** The branch to be merged. */
   theirs: string
 
+  /** If false, create a merge commit in all cases (default: `true`). */
+  fastForward?: boolean
+
   /** If true, then non-fast-forward merges will throw an Error instead of performing a merge. */
   fastForwardOnly?: boolean
 
@@ -106,6 +109,7 @@ export async function merge({
   gitdir = join(dir, '.git'),
   ours,
   theirs,
+  fastForward = true,
   fastForwardOnly = false,
   dryRun = false,
   noUpdateBranch = false,
@@ -124,7 +128,9 @@ export async function merge({
     const fs = new FileSystem(_fs)
 
     const author = await normalizeAuthorObject({ fs, gitdir, author: _author })
-    if (!author && !fastForwardOnly) throw new MissingNameError('author')
+    if (!author && (!fastForwardOnly || !fastForward)) {
+      throw new MissingNameError('author')
+    }
 
     const committer = await normalizeCommitterObject({
       fs,
@@ -132,7 +138,8 @@ export async function merge({
       author: author!,
       committer: _committer,
     })
-    if (!committer && !fastForwardOnly) {
+
+    if (!committer && (!fastForwardOnly || !fastForward)) {
       throw new MissingNameError('committer')
     }
 
@@ -143,6 +150,7 @@ export async function merge({
       gitdir,
       ours,
       theirs,
+      fastForward,
       fastForwardOnly,
       dryRun,
       noUpdateBranch,

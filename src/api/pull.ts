@@ -63,6 +63,9 @@ type PullParams = {
   /** The name of the branch on the remote to fetch. By default this is the configured remote tracking branch. */
   remoteRef?: string
 
+  /** If false, only create merge commits (default: `true`). */
+  fastForward?: boolean
+
   /** Only perform simple fast-forward merges (don't create merge commits). */
   fastForwardOnly?: boolean
 
@@ -118,6 +121,7 @@ export async function pull({
   url,
   remote,
   remoteRef,
+  fastForward = true,
   fastForwardOnly = false,
   singleBranch,
   headers = {},
@@ -159,6 +163,7 @@ export async function pull({
       url,
       remote,
       remoteRef,
+      fastForward,
       fastForwardOnly,
       singleBranch,
       headers,

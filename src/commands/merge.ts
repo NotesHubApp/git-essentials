@@ -17,6 +17,7 @@ type MergeParams = {
   gitdir: string
   ours?: string
   theirs: string
+  fastForward?: boolean
   fastForwardOnly?: boolean
   dryRun: boolean
   noUpdateBranch: boolean
@@ -41,6 +42,7 @@ export async function _merge({
   gitdir,
   ours,
   theirs,
+  fastForward = true,
   fastForwardOnly = false,
   dryRun = false,
   noUpdateBranch = false,
@@ -92,7 +94,8 @@ export async function _merge({
       alreadyMerged: true,
     }
   }
-  if (baseOid === ourOid) {
+
+  if (fastForward && baseOid === ourOid) {
     if (!dryRun && !noUpdateBranch) {
       await GitRefManager.writeRef({ fs, gitdir, ref: ours, value: theirOid })
     }

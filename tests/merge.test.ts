@@ -3,6 +3,7 @@ import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 
 import mergeFsFixtureData from './fixtures/fs/merge.json'
+import mergeNoFastForwardFsFixtureData from './fixtures/fs/merge-no-ff.json'
 
 
 const author = {
@@ -75,6 +76,33 @@ describe('merge', () => {
     expect(m.fastForward).toBe(true)
     const oid = await resolveRef({ fs, dir, ref: 'main' })
     expect(oid).toBe(desiredOid)
+  })
+
+  it('merge no fast-forward', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(mergeNoFastForwardFsFixtureData as FsFixtureData)
+
+    // act
+    const m = await merge({
+      fs,
+      dir,
+      ours: 'main',
+      theirs: 'add-files',
+      fastForward: false,
+      author: {
+        name: 'Mr. Test',
+        email: 'mrtest@example.com',
+        timestamp: 1262356920,
+        timezoneOffset: -0,
+      },
+    })
+
+    // assert
+    expect(m.oid).toBeTruthy()
+    expect(m.tree).toBeTruthy()
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.fastForward).toBeFalsy()
+    expect(m.mergeCommit).toBeTruthy()
   })
 
   it('merge newest into main --dryRun (no author needed since fastForward)', async () => {
