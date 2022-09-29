@@ -19,11 +19,11 @@ module.exports = (config: any) => {
       captureConsole: true,
       clearContext: false // will show the results in browser once all the testcases are loaded
     },
-    // to avoid DISCONNECTED messages
-    browserDisconnectTimeout: 10000, // default 2000
-    browserDisconnectTolerance: 1, // default 0
-    browserNoActivityTimeout: 4*60*1000, //default 10000
-    captureTimeout: 4*60*1000, //default 60000
+    // To avoid DISCONNECTED messages
+    browserDisconnectTimeout: 10000,          // default 2000
+    browserDisconnectTolerance: 2,            // default 0
+    browserNoActivityTimeout: 4 * 60 * 1000,  // default 10000
+    captureTimeout: 4 * 60 * 1000,            // default 60000
     files: [
       "src/**/*.ts",
       "tests/**/*.ts",
