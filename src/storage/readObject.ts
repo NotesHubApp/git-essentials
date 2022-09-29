@@ -64,36 +64,32 @@ export async function _readObject({ fs, cache, gitdir, oid }: ReadObjectParams):
     throw new NotFoundError(oid)
   }
 
-  // BEHOLD! THE ONLY TIME I'VE EVER WANTED TO USE A CASE STATEMENT WITH FOLLOWTHROUGH!
-  switch (result.format) {
-    // @ts-ignore
-    case 'deflated': {
-      result.object = Buffer.from(await inflate(result.object))
-      result.format = 'wrapped'
+  if (result.format === 'deflated') {
+    result.object = Buffer.from(await inflate(result.object))
+    result.format = 'wrapped'
+  }
+
+  if (result.format === 'wrapped') {
+    const sha = await shasum(result.object)
+    if (sha !== oid) {
+      throw new InternalError(
+        `SHA check failed! Expected ${oid}, computed ${sha}`
+      )
     }
-    // @ts-ignore
-    case 'wrapped': {
-      const sha = await shasum(result.object)
-      if (sha !== oid) {
-        throw new InternalError(
-          `SHA check failed! Expected ${oid}, computed ${sha}`
-        )
-      }
-      const { object, type } = GitObject.unwrap(result.object)
-      result.type = type
-      result.object = object
-      result.format = 'content'
-    }
-    case 'content': {
-      return {
-        type: result.type!,
-        object: result.object,
-        format: result.format,
-        source: result.source
-      }
-    }
-    default: {
-      throw new InternalError(`invalid format "${result.format}"`)
+    const { object, type } = GitObject.unwrap(result.object)
+    result.type = type
+    result.object = object
+    result.format = 'content'
+  }
+
+  if (result.format === 'content') {
+    return {
+      type: result.type!,
+      object: result.object,
+      format: result.format,
+      source: result.source
     }
   }
+
+  throw new InternalError(`invalid format "${result.format}"`)
 }
