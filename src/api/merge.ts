@@ -150,6 +150,7 @@ export async function merge({
       author: author!,
       committer,
       signingKey,
+      onSign,
       onBlobMerge,
     })
   } catch (err: any) {

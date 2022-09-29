@@ -1,5 +1,5 @@
 import { FileSystem } from '../models/FileSystem'
-import { BlobMergeCallback, Cache, NormalizedAuthor } from '../models'
+import { BlobMergeCallback, Cache, NormalizedAuthor, SignCallback } from '../models'
 import { _commit } from '../commands/commit'
 import { _currentBranch } from '../commands/currentBranch'
 import { _findMergeBase } from '../commands/findMergeBase'
@@ -24,6 +24,7 @@ type MergeParams = {
   author: NormalizedAuthor
   committer: NormalizedAuthor
   signingKey?: string
+  onSign?: SignCallback
   onBlobMerge?: BlobMergeCallback
 }
 
@@ -47,6 +48,7 @@ export async function _merge({
   author,
   committer,
   signingKey,
+  onSign,
   onBlobMerge,
 }: MergeParams) {
   if (ours === undefined) {
@@ -132,6 +134,7 @@ export async function _merge({
       author,
       committer,
       signingKey,
+      onSign,
       dryRun,
       noUpdateBranch,
     })
