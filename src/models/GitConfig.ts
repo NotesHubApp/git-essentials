@@ -186,7 +186,7 @@ export class GitConfig {
       .map(config => config.subsection)
   }
 
-  deleteSection(section: string, subsection: string) {
+  deleteSection(section: string, subsection?: string) {
     this.parsedConfig = this.parsedConfig.filter(
       config => !(config.section === section && config.subsection === subsection)
     )
@@ -196,7 +196,7 @@ export class GitConfig {
     return this.set(path, value, true)
   }
 
-  set<T extends ConfigPath>(path: T, value: ConfigValue<T> | undefined, append: boolean = false) {
+  set<T extends ConfigPath>(path: T, value?: ConfigValue<T>, append: boolean = false) {
     const configIndex = findLastIndex(
       this.parsedConfig,
       config => config.path === path.toLowerCase()
@@ -219,16 +219,18 @@ export class GitConfig {
           this.parsedConfig[configIndex] = modifiedConfig
         }
       } else {
-        const sectionPath = path
-          .split('.')
-          .slice(0, -1)
-          .join('.')
-          .toLowerCase()
+        const pathSegments = path.split('.')
+        const section = pathSegments.shift()!.toLowerCase()
+        const name = pathSegments.pop()
+        const subsection = pathSegments.length
+          ? pathSegments.join('.').toLowerCase()
+          : undefined
+        const sectionPath = subsection ? section + '.' + subsection : section
+
         const sectionIndex = this.parsedConfig.findIndex(
           config => config.path === sectionPath
         )
-        const [section, subsection] = sectionPath.split('.')
-        const name = path.split('.').pop()
+
         const newConfig: ConfigEntry = {
           isSection: false,
           section,
