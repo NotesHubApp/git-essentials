@@ -12,7 +12,7 @@ export class UnknownTransportError extends BaseError<UnknownTransportErrorData> 
   /**
    * @param {string} url
    * @param {string} transport
-   * @param {string} suggestion
+   * @param {string} [suggestion]
    */
   constructor(url: string, transport: string, suggestion?: string) {
     super(
