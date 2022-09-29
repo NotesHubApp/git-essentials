@@ -33,6 +33,11 @@ export async function parseRefsAdResponse(
 
   if (lineOne === true) throw new EmptyServerResponseError()
 
+  // Handle protocol v2 responses (Bitbucket Server doesn't include a `# service=` line)
+  if (lineOne.includes('version 2')) {
+    return parseCapabilitiesV2(read)
+  }
+
   // Clients MUST ignore an LF at the end of the line.
   if (lineOne.toString('utf8').replace(/\n$/, '') !== `# service=${service}`) {
     throw new ParseError(`# service=${service}\\n`, lineOne.toString('utf8'))
