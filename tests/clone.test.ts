@@ -1,4 +1,4 @@
-import { clone, currentBranch, Errors, init } from '../src'
+import { checkout, clone, currentBranch, Errors } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { expectToFailAsync, expectToFailWithErrorAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
@@ -107,6 +107,28 @@ describe('clone', () => {
 
     // assert
     expect(await currentBranch({ fs, dir })).toBe('i-am-not-main')
+  })
+
+  it('checkout of branch name that contains a dot', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+
+    // act
+    await clone({
+      fs,
+      http,
+      dir,
+      url: `http://localhost/clone-branch-with-dot.git`,
+    })
+
+    await checkout({ fs, dir, ref: 'v1.0.x' })
+    const config = await fs.readFile(`${dir}/.git/config`, { encoding: 'utf8' })
+
+    // assert
+    expect(config).toContain(
+      '\n[branch "v1.0.x"]\n\tmerge = refs/heads/v1.0.x\n\tremote = origin'
+    )
   })
 
   it('clone with an unregistered protocol', async () => {
