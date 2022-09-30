@@ -57,9 +57,9 @@ type GitPackIndexParams = {
 
 export class GitPackIndex {
   public pack: Promise<Buffer> | null
-  private hashes: string[]
+  public hashes: string[]
   public offsets: Map<string, number>
-  private packfileSha: string
+  public packfileSha: string
   private getExternalRefDelta?: GetExternalRefDelta
 
   private crcs: {[key: string]: number}
@@ -78,7 +78,7 @@ export class GitPackIndex {
     this.offsetCache = {}
   }
 
-  static async fromIdx({ idx, getExternalRefDelta }: { idx: Buffer, getExternalRefDelta: GetExternalRefDelta }) {
+  static async fromIdx({ idx, getExternalRefDelta }: { idx: Buffer, getExternalRefDelta?: GetExternalRefDelta }) {
     const reader = new BufferCursor(idx)
     const magic = reader.slice(4).toString('hex')
     // Check for IDX v2 magic number
@@ -125,7 +125,7 @@ export class GitPackIndex {
 
   static async fromPack(
     { pack, getExternalRefDelta, onProgress }:
-    { pack: Buffer, getExternalRefDelta: GetExternalRefDelta, onProgress?: ProgressCallback }) {
+    { pack: Buffer, getExternalRefDelta?: GetExternalRefDelta, onProgress?: ProgressCallback }) {
     const listpackTypes: {[key: number]: string} = {
       1: 'commit',
       2: 'tree',
