@@ -1,11 +1,21 @@
-import { Errors, checkout, listFiles, add, commit, branch } from '../src'
+import { Errors, checkout, fetch, listFiles, add, commit, branch, getConfig } from '../src'
+import { setGitClientAgent } from '../src/utils/pkg'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 import { expectToFailWithErrorAsync } from './helpers/assertionHelper'
 
 import checkoutFsFixtureData from './fixtures/fs/checkout.json'
+import fetchEmptyRepoFsFixtureData from './fixtures/fs/fetch-empty-repo.json'
+import fetchHttpFixtureData from './fixtures/http/fetch.json'
 
 
 describe('checkout', () => {
+  beforeEach(() => {
+    // The default agent string is version depended.
+    // We need to set version independent variant to make sure HttpFixtures will work.
+    setGitClientAgent('git/git-essentials')
+  })
+
   it('checkout', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(checkoutFsFixtureData as FsFixtureData)
@@ -366,5 +376,103 @@ describe('checkout', () => {
     // assert
     const files = await fs.readdir(dir)
     expect(files).toContain('README.md')
+  })
+
+  it('should setup the remote tracking branch by default', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+
+    // fetch `test-branch` so `refs/remotes/test-branch` exists but `refs/heads/test-branch` does not
+    await fetch({
+      fs,
+      dir,
+      http,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'test',
+    })
+
+    // act
+    await checkout({ fs, dir, ref: 'test' })
+
+    const [merge, remote] = await Promise.all([
+      getConfig({ fs, dir, path: 'branch.test.merge' }),
+      getConfig({ fs, dir, path: 'branch.test.remote' }),
+    ])
+
+    // assert
+    expect(merge).toContain('refs/heads/test')
+    expect(remote).toContain('origin')
+  })
+
+  it('should setup the remote tracking branch with `track: true`', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+
+    // fetch `test-branch` so `refs/remotes/test-branch` exists but `refs/heads/test-branch` does not
+    await fetch({
+      fs,
+      dir,
+      http,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'test'
+    })
+
+    // act
+    // checking the test-branch with `track: true` should setup the remote tracking branch
+    await checkout({
+      fs,
+      dir,
+      ref: 'test',
+      track: true
+    })
+
+    const f = await fs.readFile(`${dir}/.git/config`, { encoding: 'utf8' })
+
+    const [merge, remote] = await Promise.all([
+      getConfig({ fs, dir, path: 'branch.test.merge' }),
+      getConfig({ fs, dir, path: 'branch.test.remote' }),
+    ])
+
+    // assert
+    expect(merge).toContain('refs/heads/test')
+    expect(remote).toContain('origin')
+  })
+
+  it('should not setup the remote tracking branch with `track: false`', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+
+    // fetch `test-branch` so `refs/remotes/test-branch` exists but `refs/heads/test-branch` does not
+    await fetch({
+      fs,
+      dir,
+      http,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'test',
+    })
+
+    // act
+    // checking the test-branch with `track: false` should not setup the remote tracking branch
+    await checkout({
+      fs,
+      dir,
+      ref: 'test',
+      track: false,
+    })
+
+    const [merge, remote] = await Promise.all([
+      getConfig({ fs, dir, path: 'branch.test.merge' }),
+      getConfig({ fs, dir, path: 'branch.test.remote' }),
+    ])
+
+    // assert
+    expect(merge).toBeUndefined()
+    expect(remote).toBeUndefined()
   })
 })

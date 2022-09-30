@@ -42,6 +42,9 @@ type CheckoutParams = {
 
   /** A cache object. */
   cache?: Cache
+
+  /** If false, will not set the remote branch tracking information (default `true`). */
+  track?: boolean
 }
 
 /**
@@ -97,6 +100,7 @@ export async function checkout({
   dryRun = false,
   force = false,
   cache = {},
+  track = true
 }: CheckoutParams): Promise<void> {
   try {
     assertParameter('fs', fs)
@@ -117,6 +121,7 @@ export async function checkout({
       noUpdateHead,
       dryRun,
       force,
+      track
     })
   } catch (err: any) {
     err.caller = 'git.checkout'

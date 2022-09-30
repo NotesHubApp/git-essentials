@@ -1,4 +1,4 @@
-import { checkout, clone, currentBranch, Errors } from '../src'
+import { checkout, clone, currentBranch, Errors, getConfig } from '../src'
 import { setGitClientAgent } from '../src/utils/pkg'
 import { expectToFailAsync, expectToFailWithErrorAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
@@ -18,14 +18,13 @@ describe('clone', () => {
     // arrange
     const { fs, dir } = await makeFsFixture()
     const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
-    const url = 'https://github.com/NotesHubApp/Welcome.git'
 
     // act
     await clone({
       fs,
       http,
       dir,
-      url,
+      url: 'https://github.com/NotesHubApp/Welcome.git',
       noTags: true,
       singleBranch: true,
       depth: 1
@@ -246,5 +245,31 @@ describe('clone', () => {
     await expectToFailWithTypeAsync(action, Errors.AlreadyExistsError)
     expect(await fs.exists(`${dir}/.git`)).toBe(true)
     expect(await currentBranch({ fs, dir })).toBe('i-am-not-main')
+  }),
+
+  it('should set up the remote tracking branch by default', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(cloneHttpFixtureData as HttpFixtureData)
+
+    // act
+    await clone({
+      fs,
+      http,
+      dir,
+      url: 'https://github.com/NotesHubApp/Welcome.git',
+      noTags: true,
+      singleBranch: true,
+      depth: 1
+    })
+
+    const [merge, remote] = await Promise.all([
+      await getConfig({ fs, dir, path: 'branch.main.merge' }),
+      await getConfig({ fs, dir, path: 'branch.main.remote' })
+    ])
+
+    // assert
+    expect(merge).toBe('refs/heads/main')
+    expect(remote).toBe('origin')
   })
 })

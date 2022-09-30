@@ -29,6 +29,7 @@ type CheckoutParams = {
   noUpdateHead?: boolean
   dryRun?: boolean
   force?: boolean
+  track?: boolean
 }
 
 type AnalyzeParams = {
@@ -61,6 +62,7 @@ export async function _checkout({
   noUpdateHead,
   dryRun,
   force,
+  track = true
 }: CheckoutParams): Promise<void> {
   // Get tree oid
   let oid: string
@@ -78,11 +80,15 @@ export async function _checkout({
       gitdir,
       ref: remoteRef,
     })
-    // Set up remote tracking branch
-    const config = await GitConfigManager.get({ fs, gitdir })
-    config.set(`branch.${ref}.remote`, remote!)
-    config.set(`branch.${ref}.merge`, `refs/heads/${ref}`)
-    await GitConfigManager.save({ fs, gitdir, config })
+
+    if (track) {
+      // Set up remote tracking branch
+      const config = await GitConfigManager.get({ fs, gitdir })
+      config.set(`branch.${ref}.remote`, remote!)
+      config.set(`branch.${ref}.merge`, `refs/heads/${ref}`)
+      await GitConfigManager.save({ fs, gitdir, config })
+    }
+
     // Create a new branch that points at that same commit
     await GitRefManager.writeRef({
       fs,
