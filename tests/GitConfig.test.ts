@@ -57,6 +57,22 @@ describe('GitConfig', () => {
       expect(a).toEqual('valaaa')
     })
 
+    it('subsection case sensitive', async () => {
+      // arrange
+      const config = GitConfig.from(`[Foo "BAR"]
+      keyaaa = valaaa`)
+
+      // act
+      const a = config.get('Foo.bar.keyaaa')
+      // assert
+      expect(a).toBeUndefined()
+
+      // act
+      const b = config.get('Foo.BAR.keyaaa')
+      // assert
+      expect(b).toBe('valaaa')
+    })
+
     it('variable name insensitive', () => {
       // arrange
       const config = GitConfig.from(`[foo]
@@ -95,6 +111,24 @@ describe('GitConfig', () => {
 
       // assert
       expect(a).toEqual(['valbbb', 'valBBB'])
+    })
+
+    it('multiple (case insensitive)', async () => {
+      // arrange
+      const config = GitConfig.from(`[foo]
+      keyaaa = valaaa
+      keybbb = valbbb
+      KEYBBB = valBBB`)
+
+      // act
+      const a = config.getall('foo.keybbb')
+      // assert
+      expect(a).toEqual(['valbbb', 'valBBB'])
+
+      // act
+      const b = config.getall('foo.KEYBBB')
+      // assert
+      expect(b).toEqual(['valbbb', 'valBBB'])
     })
 
     it('subsection', () => {
@@ -476,6 +510,34 @@ describe('GitConfig', () => {
 [remote "bar.baz"]
 \turl = https://bar.com/project.git`)
     })
+
+    it('new value with #', async () => {
+      // arrange
+      const config = GitConfig.from(`[remote "foo"]
+      url = https://foo.com/project.git`)
+
+      // act
+      config.set('remote.foo.bar', 'hello#world')
+
+      // assert
+      expect(config.toString()).toEqual(`[remote "foo"]
+\tbar = "hello#world"
+      url = https://foo.com/project.git`)
+    })
+
+    it('new value with ;', async () => {
+      // arrange
+      const config = GitConfig.from(`[remote "foo"]
+      url = https://foo.com/project.git`)
+
+      // act
+      config.set('remote.foo.bar', 'hello;world')
+
+      // assert
+      expect(config.toString()).toEqual(`[remote "foo"]
+\tbar = "hello;world"
+      url = https://foo.com/project.git`)
+    })
   })
 
   describe('replace value', () => {
@@ -514,6 +576,25 @@ describe('GitConfig', () => {
       keyaaa = valfoo
       [bar]
 \tkeyaaa = newvalbar
+      keybbb = valbbb`)
+    })
+
+    it('simple (case sensitive key)', async () => {
+      // arrange
+      const config = GitConfig.from(`[foo]
+      keyaaa = valfoo
+      [bar]
+      keyaaa = valbar
+      keybbb = valbbb`)
+
+      // act
+      config.set('BAR.KEYAAA', 'newvalbar')
+
+      // assert
+      expect(config.toString()).toEqual(`[foo]
+      keyaaa = valfoo
+      [bar]
+\tKEYAAA = newvalbar
       keybbb = valbbb`)
     })
 
@@ -570,6 +651,26 @@ describe('GitConfig', () => {
       [bar]
       keyaaa = valbar
 \tkeyaaa = newvalbar
+      keybbb = valbbb`)
+    })
+
+    it('simple (case insensitive)', async () => {
+      // arrange
+      const config = GitConfig.from(`[foo]
+      keyaaa = valfoo
+      [bar]
+      keyaaa = valbar
+      keybbb = valbbb`)
+
+      // act
+      config.append('bar.KEYAAA', 'newvalbar')
+
+      // assert
+      expect(config.toString()).toEqual(`[foo]
+      keyaaa = valfoo
+      [bar]
+      keyaaa = valbar
+\tKEYAAA = newvalbar
       keybbb = valbbb`)
     })
 

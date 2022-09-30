@@ -115,6 +115,21 @@ const getPath = (section?: string, subsection?: string, name?: string) => {
     .join('.')
 }
 
+const normalizePath = (path: string) => {
+  const pathSegments = path.split('.')
+  const section = pathSegments.shift()!
+  const name = pathSegments.pop()
+  const subsection = pathSegments.length ? pathSegments.join('.') : undefined
+
+  return {
+    section,
+    subsection,
+    name,
+    path: getPath(section, subsection, name),
+    sectionPath: getPath(section, subsection, undefined),
+  }
+}
+
 const findLastIndex = <T>(array: T[], callback: (item: T) => boolean): number => {
   return array.reduce((lastIndex, item, index) => {
     return callback(item) ? index : lastIndex
@@ -168,8 +183,9 @@ export class GitConfig {
   }
 
   getall<T extends ConfigPath>(path: T): (ConfigValue<T> | undefined)[] {
+    const normalizedPath = normalizePath(path).path
     return this.parsedConfig
-      .filter(config => config.path === path.toLowerCase())
+      .filter(config => config.path === normalizedPath)
       .map(({ section, name, value }) => {
         const fn = schema.get(section)?.get(name)
         return (fn && value ? fn(value) : value) as ConfigValue<T>
@@ -197,9 +213,17 @@ export class GitConfig {
   }
 
   set<T extends ConfigPath>(path: T, value?: ConfigValue<T>, append: boolean = false) {
+    const {
+      section,
+      subsection,
+      name,
+      path: normalizedPath,
+      sectionPath,
+    } = normalizePath(path)
+
     const configIndex = findLastIndex(
       this.parsedConfig,
-      config => config.path === path.toLowerCase()
+      config => config.path === normalizedPath
     )
 
     if (value == null) {
@@ -209,24 +233,19 @@ export class GitConfig {
     } else {
       if (configIndex !== -1) {
         const config = this.parsedConfig[configIndex]
+        // Name should be overwritten in case the casing changed
         const modifiedConfig = Object.assign({}, config, {
+          name,
           value: String(value),
           modified: true,
         })
+
         if (append) {
           this.parsedConfig.splice(configIndex + 1, 0, modifiedConfig)
         } else {
           this.parsedConfig[configIndex] = modifiedConfig
         }
       } else {
-        const pathSegments = path.split('.')
-        const section = pathSegments.shift()!.toLowerCase()
-        const name = pathSegments.pop()
-        const subsection = pathSegments.length
-          ? pathSegments.join('.').toLowerCase()
-          : undefined
-        const sectionPath = subsection ? section + '.' + subsection : section
-
         const sectionIndex = this.parsedConfig.findIndex(
           config => config.path === sectionPath
         )
@@ -238,7 +257,7 @@ export class GitConfig {
           name,
           value: String(value),
           modified: true,
-          path: getPath(section, subsection, name),
+          path: normalizedPath,
         }
 
         if (SECTION_REGEX.test(section) && name && VARIABLE_NAME_REGEX.test(name)) {
@@ -254,7 +273,7 @@ export class GitConfig {
               name: undefined,
               value: undefined,
               modified: true,
-              path: getPath(section, subsection, undefined),
+              path: sectionPath,
             }
             this.parsedConfig.push(newSection, newConfig)
           }
@@ -269,12 +288,19 @@ export class GitConfig {
         if (!modified) {
           return line
         }
+
         if (name != null && value != null) {
+          if (typeof value === 'string' && /[#;]/.test(value)) {
+            // A `#` or `;` symbol denotes a comment, so we have to wrap it in double quotes
+            return `\t${name} = "${value}"`
+          }
           return `\t${name} = ${value}`
         }
+
         if (subsection != null) {
           return `[${section} "${subsection}"]`
         }
+
         return `[${section}]`
       })
       .join('\n')
