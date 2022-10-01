@@ -16,7 +16,8 @@ import {
   HttpClient,
   HttpHeaders,
   MessageCallback,
-  ProgressCallback
+  ProgressCallback,
+  SignCallback
 } from '../models'
 
 
@@ -41,6 +42,9 @@ type PullParams = {
 
   /** Optional auth rejected callback. */
   onAuthFailure?: AuthFailureCallback
+
+  /** A PGP signing implementation. */
+  onSign?: SignCallback
 
   /** Optional blob merge callback. */
   onBlobMerge?: BlobMergeCallback
@@ -120,6 +124,7 @@ export async function pull({
   onAuth,
   onAuthSuccess,
   onAuthFailure,
+  onSign,
   onBlobMerge,
   dir,
   gitdir = join(dir, '.git'),
@@ -164,6 +169,7 @@ export async function pull({
       onAuth,
       onAuthSuccess,
       onAuthFailure,
+      onSign,
       onBlobMerge,
       dir,
       gitdir,

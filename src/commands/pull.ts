@@ -14,7 +14,8 @@ import {
   HttpHeaders,
   MessageCallback,
   NormalizedAuthor,
-  ProgressCallback
+  ProgressCallback,
+  SignCallback
 } from '../models'
 
 
@@ -27,6 +28,7 @@ type PullParams = {
   onAuth?: AuthCallback
   onAuthSuccess?: AuthSuccessCallback
   onAuthFailure?: AuthFailureCallback
+  onSign?: SignCallback
   onBlobMerge?: BlobMergeCallback
   dir: string
   gitdir: string
@@ -60,6 +62,7 @@ export async function _pull({
   onAuth,
   onAuthSuccess,
   onAuthFailure,
+  onSign,
   onBlobMerge,
   dir,
   gitdir,
@@ -123,6 +126,7 @@ export async function _pull({
       signingKey,
       dryRun: false,
       noUpdateBranch: false,
+      onSign,
       onBlobMerge,
     })
     await _checkout({
