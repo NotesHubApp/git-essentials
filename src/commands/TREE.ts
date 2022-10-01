@@ -9,7 +9,7 @@ import { Walker, GitWalkSymbol } from '../models/Walker'
  * @param {string} [args.ref='HEAD']
  * @returns {Walker}
  */
-export function TREE({ ref = 'HEAD' }: { ref?: string }): Walker {
+export function TREE({ ref = 'HEAD' }: { ref?: string } = {}): Walker {
   const o = Object.create(null)
   Object.defineProperty(o, GitWalkSymbol, {
     value: function({ fs, gitdir, cache }: { fs: FileSystem, gitdir: string, cache: Cache }) {
