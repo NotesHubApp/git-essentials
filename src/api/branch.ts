@@ -18,6 +18,9 @@ type BranchParams = {
   /** What to name the branch. */
   ref: string
 
+  /** What oid to use as the start point. Accepts a symbolic ref (default: `HEAD`). */
+  startPoint?: string
+
   /** Update `HEAD` to point at the newly created branch. */
   checkout?: boolean
 
@@ -42,6 +45,7 @@ export async function branch({
   dir,
   gitdir = join(dir, '.git'),
   ref,
+  startPoint = 'HEAD',
   checkout = false,
   force = false,
 }: BranchParams): Promise<void> {
@@ -54,6 +58,7 @@ export async function branch({
       gitdir,
       ref,
       checkout,
+      startPoint,
       force
     })
   } catch (err: any) {

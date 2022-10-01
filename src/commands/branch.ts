@@ -9,6 +9,7 @@ type BranchParams = {
   fs: FileSystem
   gitdir: string
   ref: string
+  startPoint?: string
   checkout?: boolean
   force?: boolean
 }
@@ -26,7 +27,14 @@ type BranchParams = {
  *
  */
 export async function _branch(
-  { fs, gitdir, ref, checkout = false, force = false }: BranchParams): Promise<void> {
+  {
+    fs,
+    gitdir,
+    ref,
+    startPoint = 'HEAD',
+    checkout = false,
+    force = false
+  }: BranchParams): Promise<void> {
   if (ref !== cleanGitRef.clean(ref)) {
     throw new InvalidRefNameError(ref, cleanGitRef.clean(ref))
   }
@@ -40,10 +48,10 @@ export async function _branch(
     }
   }
 
-  // Get current HEAD tree oid
+  // Get start point tree oid
   let oid: string | undefined
   try {
-    oid = await GitRefManager.resolve({ fs, gitdir, ref: 'HEAD' })
+    oid = await GitRefManager.resolve({ fs, gitdir, ref: startPoint })
   } catch (e) {
     // Probably an empty repo
   }
