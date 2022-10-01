@@ -63,6 +63,12 @@ type PullParams = {
   /** The name of the branch on the remote to fetch. By default this is the configured remote tracking branch. */
   remoteRef?: string
 
+  /** Delete local remote-tracking branches that are not present on the remote. */
+  prune?: boolean
+
+  /** Prune local tags that don’t exist on the remote, and force-update those tags that differ. */
+  pruneTags?: boolean
+
   /** If false, only create merge commits (default: `true`). */
   fastForward?: boolean
 
@@ -121,6 +127,8 @@ export async function pull({
   url,
   remote,
   remoteRef,
+  prune = false,
+  pruneTags = false,
   fastForward = true,
   fastForwardOnly = false,
   singleBranch,
@@ -163,13 +171,15 @@ export async function pull({
       url,
       remote,
       remoteRef,
+      prune,
+      pruneTags,
       fastForward,
       fastForwardOnly,
       singleBranch,
       headers,
       author,
       committer,
-      signingKey,
+      signingKey
     })
   } catch (err: any) {
     err.caller = 'git.pull'

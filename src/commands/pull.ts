@@ -34,6 +34,8 @@ type PullParams = {
   url?: string
   remote?: string
   remoteRef?: string
+  prune?: boolean
+  pruneTags?: boolean
   fastForward: boolean
   fastForwardOnly: boolean
   singleBranch?: boolean
@@ -65,6 +67,8 @@ export async function _pull({
   url,
   remote,
   remoteRef,
+  prune = false,
+  pruneTags = false,
   fastForward,
   fastForwardOnly,
   singleBranch,
@@ -100,6 +104,8 @@ export async function _pull({
       remoteRef,
       singleBranch,
       headers,
+      prune,
+      pruneTags
     })
     // Merge the remote tracking branch into the local one.
     await _merge({
