@@ -1,6 +1,6 @@
-import { Errors, branch, init, currentBranch } from '../src'
+import { Errors, branch, init, currentBranch, listFiles } from '../src'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
+import { expectNotToFailAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import * as path from './helpers/path'
 
 import branchFsFixtureData from './fixtures/fs/branch.json'
@@ -18,6 +18,89 @@ describe('branch', () => {
     expect(files).toEqual(['main', 'test-branch'])
     expect(await currentBranch({ fs, dir })).toBe('main')
   })
+
+  it('branch force=false', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
+
+    // act
+    await branch({ fs, dir, ref: 'test-branch' })
+
+    // assert
+    expect(await currentBranch({ fs, dir })).toEqual('main')
+    expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/test-branch'))).toBeTruthy()
+
+    // act
+    const action = async () => {
+      await branch({ fs, dir, ref: 'test-branch' })
+    }
+
+    // assert
+    await expectToFailWithTypeAsync(action, Errors.AlreadyExistsError)
+  })
+
+  it('branch force=false', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
+
+    // act
+    await branch({ fs, dir, ref: 'test-branch' })
+
+    // assert
+    expect(await currentBranch({ fs, dir })).toEqual('main')
+    expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/test-branch'))).toBeTruthy()
+
+    // act
+    const action = async () => {
+      await branch({ fs, dir, ref: 'test-branch', force: false })
+    }
+
+    // assert
+    await expectToFailWithTypeAsync(action, Errors.AlreadyExistsError)
+  })
+
+  it('branch force=true', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(branchFsFixtureData as FsFixtureData)
+
+    // act
+    await branch({ fs, dir, ref: 'test-branch' })
+
+    // assert
+    expect(await currentBranch({ fs, dir })).toEqual('main')
+    expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/test-branch'))).toBeTruthy()
+
+    // act
+    const action = async () => {
+      await branch({ fs, dir, ref: 'test-branch', force: true })
+    }
+
+    // assert
+    await expectNotToFailAsync(action)
+  })
+
+  // it('branch with start point force', async () => {
+  //   // arrange
+  //   const { fs, dir } = await makeFsFixture('test-branch-start-point')
+
+  //   // act
+  //   await branch({ fs, dir, ref: 'test-branch', startPoint: 'start-point' })
+
+  //   // assert
+  //   expect(await currentBranch({ fs, dir })).toEqual('main')
+  //   expect(await fs.exists(path.resolve(dir, '.git', 'refs/heads/test-branch'))).toBeTruthy()
+
+  //   // act
+  //   const action = async () => {
+  //     await branch({ fs, dir, ref: 'test-branch', force: true })
+  //   }
+
+  //   // assert
+  //   await expectNotToFailAsync(action)
+  //   expect(await listFiles({ fs, dir, ref: 'test-branch' })).toEqual([
+  //     'new-file.txt',
+  //   ])
+  // })
 
   it('branch --checkout', async () => {
     // arrange

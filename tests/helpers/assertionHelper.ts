@@ -39,3 +39,14 @@ export async function expectToFailWithErrorAsync(action: () => Promise<void>, er
   expect(error).toEqual(err)
 }
 
+export async function expectNotToFailAsync(action: () => Promise<void>) {
+  let error: any
+
+  try {
+    await action()
+  } catch (e: any) {
+    error = e
+  }
+
+  expect(error).toBeUndefined()
+}

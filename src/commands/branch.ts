@@ -10,6 +10,7 @@ type BranchParams = {
   gitdir: string
   ref: string
   checkout?: boolean
+  force?: boolean
 }
 
 /**
@@ -24,16 +25,19 @@ type BranchParams = {
  * console.log('done')
  *
  */
-export async function _branch({ fs, gitdir, ref, checkout = false }: BranchParams): Promise<void> {
+export async function _branch(
+  { fs, gitdir, ref, checkout = false, force = false }: BranchParams): Promise<void> {
   if (ref !== cleanGitRef.clean(ref)) {
     throw new InvalidRefNameError(ref, cleanGitRef.clean(ref))
   }
 
   const fullref = `refs/heads/${ref}`
 
-  const exist = await GitRefManager.exists({ fs, gitdir, ref: fullref })
-  if (exist) {
-    throw new AlreadyExistsError('branch', ref, false)
+  if (!force) {
+    const exist = await GitRefManager.exists({ fs, gitdir, ref: fullref })
+    if (exist) {
+      throw new AlreadyExistsError('branch', ref, false)
+    }
   }
 
   // Get current HEAD tree oid

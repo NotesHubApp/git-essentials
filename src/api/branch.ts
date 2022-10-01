@@ -20,6 +20,9 @@ type BranchParams = {
 
   /** Update `HEAD` to point at the newly created branch. */
   checkout?: boolean
+
+  /** Instead of throwing an error if a branched named `ref` already exists, overwrite the existing branch. */
+  force?: boolean
 }
 
 /**
@@ -40,6 +43,7 @@ export async function branch({
   gitdir = join(dir, '.git'),
   ref,
   checkout = false,
+  force = false,
 }: BranchParams): Promise<void> {
   try {
     assertParameter('fs', fs)
@@ -50,6 +54,7 @@ export async function branch({
       gitdir,
       ref,
       checkout,
+      force
     })
   } catch (err: any) {
     err.caller = 'git.branch'
