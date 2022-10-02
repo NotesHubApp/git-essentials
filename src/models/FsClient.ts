@@ -6,9 +6,7 @@ export type WriteOpts = EncodingOpts & {
   mode?: number
 }
 
-export interface RMDirOptions {
-  force?: boolean
-}
+export interface RMDirOptions {}
 
 export type Stat = {
   /** A bit-field describing the file type and mode. */
@@ -49,7 +47,6 @@ export type Stat = {
 }
 
 export type StatLike = Stat & {
-  type: 'file' | 'dir' | 'symlink';
   mtimeMs: number;
 
   /** Returns true if the <fs.Stats> object describes a regular file. */

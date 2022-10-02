@@ -224,7 +224,7 @@ export class InMemoryFsClient implements FsClient {
     folder.children.push(makeEmptyFolder(entryName))
   }
 
-  public async rmdir(filepath: string, opts?: RMDirOptions | undefined): Promise<void> {
+  public async rmdir(filepath: string, opts?: RMDirOptions): Promise<void> {
     const { folder, entry, entryName } = this.parsePath(filepath)
 
     if (!entry) {
@@ -235,7 +235,7 @@ export class InMemoryFsClient implements FsClient {
       throw new ENOTDIR(filepath)
     }
 
-    if (entry.children.length > 0 && !(opts && opts.force)) {
+    if (entry.children.length > 0) {
       throw new ENOTEMPTY(filepath)
     }
 
