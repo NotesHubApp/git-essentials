@@ -145,7 +145,7 @@ function printFixtureForLocalRepo() {
  * Generate random id
  * @param {number} length
  */
- function generateId(length) {
+function generateId(length) {
   let result = ''
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   const charactersLength = characters.length
