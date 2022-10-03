@@ -17,7 +17,7 @@
       "default": "./dist/esm/index.js"
     },
     "./clients/*": {
-      "types": "./dist/esm/clients/*.d.ts",
+      "types": "./dist/types/clients/*.d.ts",
       "default": "./dist/esm/clients/*.js"
     },
 
@@ -26,6 +26,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b ./src/tsconfig.json",
+    "postbuild": "cp package.json ./dist/package.json",
     "test": "jest",
     "test:browser": "karma start",
     "test:chrome": "karma start --single-run --browsers ChromeHeadless",
