@@ -41,6 +41,10 @@ module.exports = (config: any) => {
         "noFallthroughCasesInSwitch": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+          "git-essentials": ["./src/index"]
+        }
       },
       bundlerOptions: {
         addNodeGlobals: true

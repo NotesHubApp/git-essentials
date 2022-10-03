@@ -1,4 +1,7 @@
-import { FsClient, HttpClient, FsClients, HttpClients } from '../../src'
+import { FsClient, HttpClient } from '../../'
+import { InMemoryFsClient } from '../../src/clients/fs'
+import { makeWebHttpClient } from '../../src/clients/http/web'
+import { makeNodeHttpClient } from '../../src/clients/http/node'
 import { join } from '../../src/utils/join'
 
 const isBrowser = () => typeof window !== `undefined`
@@ -15,11 +18,11 @@ type IntegrationContext = {
 
 export async function integrationContext(action: (context: IntegrationContext) => Promise<void>) {
   const { fs, http } = isBrowser() ? {
-    fs: new FsClients.InMemoryFsClient(),
-    http: HttpClients.makeWebHttpClient({ transformRequestUrl: corsProxyUrlTransformer })
+    fs: new InMemoryFsClient(),
+    http: makeWebHttpClient({ transformRequestUrl: corsProxyUrlTransformer })
   } : {
     fs: (await import('fs')).promises,
-    http: HttpClients.makeNodeHttpClient()
+    http: makeNodeHttpClient()
   }
 
   const dir = generateId(20)

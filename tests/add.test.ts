@@ -1,4 +1,4 @@
-import { init, add, listFiles } from '../src'
+import { init, add, listFiles } from 'git-essentials'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailAsync } from './helpers/assertionHelper'
 

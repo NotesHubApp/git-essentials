@@ -1,4 +1,4 @@
-import { addRemote, Errors, listRemotes } from '../src'
+import { addRemote, Errors, listRemotes } from 'git-essentials'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 

@@ -1,9 +1,9 @@
 # Git-Essentials
 A collection of essential Git commands for your browser and Node.js.
 
-# Usage Examples
+## Usage Examples
 
-## Node.js
+### Node.js
 ```typescript
 import fs from 'fs/promises'
 import { clone, HttpClients } from 'git-essentials'
@@ -15,7 +15,7 @@ const url = 'https://github.com/NotesHubApp/Welcome.git'
 await clone({ fs, http, dir, url })
 ```
 
-## Browser
+### Browser
 ```typescript
 import { clone, FsClients, HttpClients } from 'git-essentials'
 

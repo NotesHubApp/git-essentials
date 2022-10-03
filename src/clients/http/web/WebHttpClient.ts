@@ -3,9 +3,9 @@ import {
   GitHttpResponse,
   HttpClient,
   HttpHeaders
-} from '../../models'
-import { collect } from '../../utils/collect'
-import { fromStream } from '../../utils/fromStream';
+} from '../../../'
+import { collect } from '../../../utils/collect'
+import { fromStream } from '../../../utils/fromStream'
 
 
 type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean) => string

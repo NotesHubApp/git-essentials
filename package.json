@@ -2,11 +2,30 @@
   "name": "git-essentials",
   "version": "0.3.30",
   "description": "The essential GIT commands",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/esm/index.js",
+  "types": "index.d.ts",
+  "typesVersions": {
+    ">=4.2": {
+      "*": [
+        "dist/types/*"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/esm/index.js"
+    },
+    "./clients/*": {
+      "types": "./dist/esm/clients/*.d.ts",
+      "default": "./dist/esm/clients/*.js"
+    },
+
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "check": "tsc --noEmit",
-    "build": "tsc",
+    "build": "tsc -b ./src/tsconfig.json",
     "test": "jest",
     "test:browser": "karma start",
     "test:chrome": "karma start --single-run --browsers ChromeHeadless",
@@ -17,8 +36,8 @@
     "gen-http-fixture": "node ./scripts/gen-http-fixture.js"
   },
   "files": [
-    "/dist",
-    "/src"
+    "dist",
+    "src"
   ],
   "repository": {
     "type": "git",

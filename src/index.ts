@@ -1,7 +1,5 @@
 export * from './models'
 export * as Errors from './errors'
-export * as FsClients from './clients/fs'
-export * as HttpClients from './clients/http'
 
 export { add } from './api/add'
 export { addRemote } from './api/addRemote'

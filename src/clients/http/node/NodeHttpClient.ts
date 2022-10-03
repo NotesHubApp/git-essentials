@@ -1,5 +1,5 @@
 import https, { RequestOptions } from 'https'
-import { GitHttpRequest, GitHttpResponse, HttpHeaders } from '../../models'
+import { GitHttpRequest, GitHttpResponse, HttpHeaders } from 'git-essentials'
 
 
 function request(req: GitHttpRequest): Promise<GitHttpResponse> {

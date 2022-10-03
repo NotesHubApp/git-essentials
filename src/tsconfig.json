@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "baseUrl": ".",
+    "paths": {
+      "git-essentials": ["./"],
+      "git-essentials/*": ["./*"]
+    }
+  },
+  "include": ["./**/*.ts"]
+}
