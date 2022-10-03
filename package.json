@@ -19,9 +19,7 @@
     "./clients/*": {
       "types": "./dist/types/clients/*.d.ts",
       "default": "./dist/esm/clients/*.js"
-    },
-
-    "./package.json": "./package.json"
+    }
   },
   "scripts": {
     "check": "tsc --noEmit",
