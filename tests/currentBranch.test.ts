@@ -1,8 +1,10 @@
-import { currentBranch } from '../src'
+import { currentBranch } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import resolveRefFsFixtureData from './fixtures/fs/resolveRef.json'
 import detachedHeadFsFixtureData from './fixtures/fs/detachedHead.json'
+
 
 describe('currentBranch', () => {
   it('resolve HEAD to main', async () => {

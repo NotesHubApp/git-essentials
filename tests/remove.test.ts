@@ -1,7 +1,9 @@
-import { remove, listFiles } from '../src'
+import { remove, listFiles } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import remoteFsFixtureData from './fixtures/fs/remove.json'
+
 
 describe('remove', () => {
   it('file', async () => {

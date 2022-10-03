@@ -1,4 +1,5 @@
-import { init, setConfig, getConfig } from '../src'
+import { init, setConfig, getConfig } from 'git-essentials'
+
 import { makeFsFixture } from './helpers/makeFsFixture'
 
 

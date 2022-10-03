@@ -1,9 +1,10 @@
-import { log } from '../src'
+import { log } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
-import { PgpMock } from './helpers/pgpMock'
 
 import logFsFixtureData from './fixtures/fs/log.json'
 import logComplexFsFixtureData from './fixtures/fs/log-complex.json'
+
 
 describe('log', () => {
   it('HEAD', async () => {

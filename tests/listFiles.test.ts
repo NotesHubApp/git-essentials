@@ -1,4 +1,5 @@
-import { listFiles } from '../src'
+import { listFiles } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import listFilesFsFixtureData from './fixtures/fs/listFiles.json'

@@ -1,4 +1,5 @@
-import { listBranches } from '../src'
+import { listBranches } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import listBranchesFsFixtureData from './fixtures/fs/listBranches.json'

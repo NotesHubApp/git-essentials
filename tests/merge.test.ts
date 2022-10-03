@@ -1,4 +1,5 @@
-import { Errors, merge, resolveRef, log } from '../src'
+import { Errors, merge, resolveRef, log } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
 

@@ -1,6 +1,7 @@
 import path from 'path'
 
-import { clone } from '../src'
+import { clone } from 'git-essentials'
+
 import { integrationContext } from './helpers/integrationContext'
 
 

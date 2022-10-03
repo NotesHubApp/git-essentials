@@ -1,5 +1,12 @@
-import { checkout, clone, currentBranch, Errors, getConfig } from '../src'
-import { setGitClientAgent } from '../src/utils/pkg'
+import {
+  checkout,
+  clone,
+  currentBranch,
+  Errors,
+  getConfig,
+  setGitClientAgent
+} from 'git-essentials'
+
 import { expectToFailAsync, expectToFailWithErrorAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'

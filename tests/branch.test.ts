@@ -1,10 +1,12 @@
-import { Errors, branch, init, currentBranch, listFiles } from '../src'
+import { Errors, branch, init, currentBranch, listFiles } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectNotToFailAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import * as path from './helpers/path'
 
 import branchFsFixtureData from './fixtures/fs/branch.json'
 import branchStartPointFsFixtureData from './fixtures/fs/branch-start-point.json'
+
 
 describe('branch', () => {
   it('branch', async () => {

@@ -1,7 +1,9 @@
-import { getConfig, getConfigAll, setConfig } from '../src'
+import { getConfig, getConfigAll, setConfig } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import configFsFixtureData from './fixtures/fs/config.json'
+
 
 describe('config', () => {
   it('getting', async () => {
