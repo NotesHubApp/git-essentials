@@ -14,9 +14,11 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
+    "stripInternal": true,
     "outDir": "./dist/esm",
     "sourceMap": true,
     "declaration": true,
+    "declarationMap": true,
     "declarationDir": "./dist/types",
     "baseUrl": ".",
     "paths": {
