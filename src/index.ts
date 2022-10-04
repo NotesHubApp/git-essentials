@@ -2,7 +2,7 @@ export * from './models'
 export * as Errors from './errors'
 export { setGitClientAgent } from './utils/pkg'
 
-export { add } from './api/add'
+export { add, AddParams } from './api/add'
 export { addRemote } from './api/addRemote'
 export { branch } from './api/branch'
 export { checkout } from './api/checkout'

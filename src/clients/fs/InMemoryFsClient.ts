@@ -2,16 +2,15 @@ import { Buffer } from 'buffer';
 
 import {
   EEXIST,
-  EncodingOpts,
   ENOENT,
   ENOTDIR,
   ENOTEMPTY,
+  EncodingOpts,
   FsClient,
   RMDirOptions,
   StatLike,
-  WriteOpts
+  WriteOpts,
 } from '../../';
-
 
 enum FileMode {
   NEW = 0,

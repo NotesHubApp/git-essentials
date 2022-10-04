@@ -9,3 +9,6 @@ dist/
 # npm pack
 package/
 *.tgz
+
+# typedoc
+docs

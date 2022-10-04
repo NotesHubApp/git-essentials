@@ -7,7 +7,8 @@ const publicApiTypeDeclarations = [
   "index.d.ts.map",
   "api",
   "clients",
-  "errors"
+  "errors",
+  "models"
 ]
 
 
