@@ -9,6 +9,7 @@ const config: Config = {
   moduleNameMapper: {
     '^git-essentials$': '<rootDir>/src',
     '^git-essentials/(.+)$': '<rootDir>/src/$1',
+    '^src/(.+)$': '<rootDir>/src/$1'
   },
 };
 

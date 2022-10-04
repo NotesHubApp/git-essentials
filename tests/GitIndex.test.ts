@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { GitIndex } from '../src/models/GitIndex'
+import { GitIndex } from 'src/models/GitIndex'
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import gitIndexFsFixtureData from './fixtures/fs/GitIndex.json'

@@ -1,4 +1,4 @@
-import { InMemoryFsClient, TreeEntriesDto as FsFixtureData } from '../../src/clients/fs/InMemoryFsClient'
+import { InMemoryFsClient, TreeEntriesDto as FsFixtureData } from 'src/clients/fs/InMemoryFsClient'
 export { FsFixtureData }
 
 export async function makeFsFixture(data?: FsFixtureData) {

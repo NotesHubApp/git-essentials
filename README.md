@@ -7,7 +7,7 @@ A collection of essential Git commands for your browser and Node.js.
 ```typescript
 import fs from 'fs/promises'
 import { clone } from 'git-essentials'
-import { makeNodeHttpClient } from 'git-essentials/clients/http/NodeHttpClient'
+import { makeNodeHttpClient } from 'git-essentials/clients/request/NodeHttpClient'
 
 const http = makeNodeHttpClient()
 const dir = 'repos/Welcome'
@@ -20,7 +20,7 @@ await clone({ fs, http, dir, url })
 ```typescript
 import { clone } from 'git-essentials'
 import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
-import { makeWebHttpClient } from 'git-essentials/clients/http/WebHttpClient'
+import { makeWebHttpClient } from 'git-essentials/clients/request/WebHttpClient'
 
 const corsProxyUrlTransformer = (originalUrl: string) => {
   return `https://www.noteshub.app/api/cors-proxy.ts?url=${encodeURIComponent(originalUrl)}`

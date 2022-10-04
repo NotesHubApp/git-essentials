@@ -32,6 +32,7 @@ module.exports = (config: any) => {
       "**/*.ts": "karma-typescript"
     },
     karmaTypescriptConfig: {
+      exclude: ["node_modules", "dist"],
       compilerOptions: {
         "target": "es6",
         "strict": true,

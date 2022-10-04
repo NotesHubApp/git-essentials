@@ -24,7 +24,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc -b ./src/tsconfig.json",
-    "postbuild": "cp package.json ./dist/package.json",
+    "postbuild": "node ./scripts/fix-build.js",
     "test": "jest",
     "test:browser": "karma start",
     "test:chrome": "karma start --single-run --browsers ChromeHeadless",

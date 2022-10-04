@@ -1,8 +1,8 @@
 import { FsClient, HttpClient } from 'git-essentials'
-import { InMemoryFsClient } from '../../src/clients/fs/InMemoryFsClient'
-import { makeWebHttpClient } from '../../src/clients/http/WebHttpClient'
-import { makeNodeHttpClient } from '../../src/clients/http/NodeHttpClient'
-import { join } from '../../src/utils/join'
+import { InMemoryFsClient } from 'src/clients/fs/InMemoryFsClient'
+import { makeWebHttpClient } from 'src/clients/request/WebHttpClient'
+import { makeNodeHttpClient } from 'src/clients/request/NodeHttpClient'
+import { join } from 'src/utils/join'
 
 const isBrowser = () => typeof window !== `undefined`
 

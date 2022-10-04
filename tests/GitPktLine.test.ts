@@ -1,4 +1,4 @@
-import { GitPktLine } from '../src/models/GitPktLine'
+import { GitPktLine } from 'src/models/GitPktLine'
 
 describe('GitPktLine', () => {
   it('read stream - simple', async () => {

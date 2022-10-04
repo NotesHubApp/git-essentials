@@ -1,4 +1,4 @@
-import { GitConfig } from '../src/models/GitConfig'
+import { GitConfig } from 'src/models/GitConfig'
 
 
 describe('GitConfig', () => {
