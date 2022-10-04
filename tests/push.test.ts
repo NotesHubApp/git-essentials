@@ -1,4 +1,4 @@
-import { Errors, setConfig, push, listBranches, GitAuth, setGitClientAgent } from 'git-essentials'
+import { Errors, setConfig, push, listBranches, Auth, setGitClientAgent } from 'git-essentials'
 
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
@@ -7,7 +7,7 @@ import { expectToFailAsync, expectToFailWithTypeAsync } from './helpers/assertio
 import pushFsFixtureData from './fixtures/fs/push.json'
 import pushHttpFixtureData from './fixtures/http/push.json'
 
-type AuthCallbackParams = [url: string, auth: GitAuth]
+type AuthCallbackParams = [url: string, auth: Auth]
 
 
 describe('push', () => {

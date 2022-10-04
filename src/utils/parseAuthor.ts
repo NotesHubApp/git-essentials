@@ -1,4 +1,4 @@
-import { NormalizedAuthor } from '../models'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 
 export function parseAuthor(author: string): NormalizedAuthor {
   const [, name, email, timestamp, offset] = author.match(/^(.*) <(.*)> (.*) (.*)$/) as string[]

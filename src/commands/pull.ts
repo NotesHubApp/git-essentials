@@ -4,6 +4,7 @@ import { _currentBranch } from '../commands/currentBranch'
 import { _fetch } from '../commands/fetch'
 import { _merge } from '../commands/merge'
 import { MissingParameterError } from '../errors/MissingParameterError'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 import {
   AuthCallback,
   AuthFailureCallback,
@@ -13,7 +14,6 @@ import {
   HttpClient,
   HttpHeaders,
   MessageCallback,
-  NormalizedAuthor,
   ProgressCallback,
   SignCallback
 } from '../models'

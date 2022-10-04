@@ -1,3 +1,5 @@
 export * from './_common'
+export * from './Author'
 export * from './Cache'
 export * from './FsClient'
+export * from './HttpClient'

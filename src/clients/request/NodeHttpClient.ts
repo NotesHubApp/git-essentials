@@ -1,10 +1,10 @@
 import http from 'http'
 import https, { RequestOptions } from 'https'
-import { GitHttpRequest, GitHttpResponse, HttpHeaders } from 'git-essentials'
+import { HttpRequest, HttpResponse, HttpHeaders } from 'git-essentials'
 
 
-function request(req: GitHttpRequest): Promise<GitHttpResponse> {
-  return new Promise<GitHttpResponse>((resolve, reject) => {
+function request(req: HttpRequest): Promise<HttpResponse> {
+  return new Promise<HttpResponse>((resolve, reject) => {
     const parsedRequestUrl = new URL(req.url)
     const requestOptions: RequestOptions = {
       host: parsedRequestUrl.host,

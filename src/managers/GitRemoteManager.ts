@@ -1,13 +1,13 @@
 import { UnknownTransportError } from '../errors/UnknownTransportError'
 import { UrlParseError } from '../errors/UrlParseError'
-import { GitHttpResponse } from '../models'
+import { HttpResponse } from '../models'
 import { translateSSHtoHTTP } from '../utils/translateSSHtoHTTP'
 import { ConnectParams, DiscoverParams, GitRemoteHTTP, RemoteHTTP } from './GitRemoteHTTP'
 
 
 type RemoteHelper = {
   discover: <T extends 1 | 2>(args: DiscoverParams<T>) => Promise<RemoteHTTP<T>>
-  connect: (args: ConnectParams) => Promise<GitHttpResponse>
+  connect: (args: ConnectParams) => Promise<HttpResponse>
 }
 
 function parseRemoteUrl({ url }: { url: string }) {

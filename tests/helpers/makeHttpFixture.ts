@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer'
 
-import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from 'git-essentials'
+import { HttpRequest, HttpResponse, HttpClient, HttpHeaders } from 'git-essentials'
 
 import { collect } from 'src/utils/collect'
 import { NoMatchingRequestFoundError } from './NoMatchingRequestFoundError'
@@ -39,7 +39,7 @@ function statusCodeToStatusMessage(code: HttpStatusCode): string {
   }
 }
 
-function findMatch(fixture: HttpFixtureData, request: GitHttpRequest, requestPayload?: Buffer):
+function findMatch(fixture: HttpFixtureData, request: HttpRequest, requestPayload?: Buffer):
   HttpFixtureEntry | undefined {
   function matchHeaders(contentType?: string) {
     if (request.headers) {
@@ -64,7 +64,7 @@ function findMatch(fixture: HttpFixtureData, request: GitHttpRequest, requestPay
     matchBody(x.request.body, x.request.encoding))
 }
 
-function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixtureResponse): GitHttpResponse {
+function toHttpResponse(sourceRequest: HttpRequest, fixtureResponse: HttpFixtureResponse): HttpResponse {
   const headers: HttpHeaders = {
     'content-type': fixtureResponse.contentType
   }
@@ -83,7 +83,7 @@ function toHttpResponse(sourceRequest: GitHttpRequest, fixtureResponse: HttpFixt
   }
 }
 
-function authorizationRequiredResponse(url: string, reason: string): GitHttpResponse {
+function authorizationRequiredResponse(url: string, reason: string): HttpResponse {
   return {
     url: url,
     statusCode: 401,
@@ -97,10 +97,10 @@ export function makeHttpFixture(fixtureData: HttpFixtureData): HttpClient {
   /**
    * HttpClient
    *
-   * @param {GitHttpRequest} httpRequest
-   * @returns {Promise<GitHttpResponse>}
+   * @param {HttpRequest} httpRequest
+   * @returns {Promise<HttpResponse>}
    */
-  async function request(httpRequest: GitHttpRequest): Promise<GitHttpResponse> {
+  async function request(httpRequest: HttpRequest): Promise<HttpResponse> {
     const payload = httpRequest.body ? Buffer.from(await collect(httpRequest.body)) : undefined
     const matchingEntry = findMatch(fixtureData, httpRequest, payload)
 

@@ -1,6 +1,6 @@
 import {
-  GitHttpRequest,
-  GitHttpResponse,
+  HttpRequest,
+  HttpResponse,
   HttpClient,
   HttpHeaders
 } from '../..'
@@ -24,12 +24,12 @@ export function makeWebHttpClient(options: WebHttpClientOptions = {}): HttpClien
   /**
    * HttpClient
    *
-   * @param {GitHttpRequest} request
-   * @returns {Promise<GitHttpResponse>}
+   * @param {HttpRequest} request
+   * @returns {Promise<HttpResponse>}
    */
   async function request(
-    {onProgress, url, method = 'GET', headers = {}, body }: GitHttpRequest):
-    Promise<GitHttpResponse> {
+    {onProgress, url, method = 'GET', headers = {}, body }: HttpRequest):
+    Promise<HttpResponse> {
 
     async function fetchWithRetry(url: string, options: RequestInit, n = 1): Promise<Response> {
       try {

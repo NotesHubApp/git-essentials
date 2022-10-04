@@ -6,7 +6,8 @@ import { GitCommit } from '../models/GitCommit'
 import { GitTree } from '../models/GitTree'
 import { _writeObject as writeObject } from '../storage/writeObject'
 import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToDirectoryStructure'
-import { NormalizedAuthor, SignCallback } from '../models'
+import { SignCallback } from '../models'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 import { GitIndex } from '../models/GitIndex'
 
 

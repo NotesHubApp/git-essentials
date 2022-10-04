@@ -1,4 +1,4 @@
-import { NormalizedAuthor } from '../models'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 
 
 export function formatAuthor({ name, email, timestamp, timezoneOffset }: NormalizedAuthor) {

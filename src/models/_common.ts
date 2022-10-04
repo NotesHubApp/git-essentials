@@ -1,28 +1,6 @@
 import { Stat } from './FsClient'
+import { HttpHeaders } from './HttpClient'
 
-/**
- * The details about the author.
- */
-export type Author = {
-  /** Default is `user.name` config. */
-  name: string
-
-  /** Default is `user.email` config. */
-  email?: string
-
-  /** Set the author timestamp field. This is the integer number of seconds since the Unix epoch (1970-01-01 00:00:00). */
-  timestamp?: number
-
-  /** Set the author timezone offset field. This is the difference, in minutes, from the current timezone to UTC. Default is `(new Date()).getTimezoneOffset()`. */
-  timezoneOffset?: number
-}
-
-export type NormalizedAuthor = {
-  name: string
-  email: string
-  timestamp: number
-  timezoneOffset: number
-}
 
 export type ConfigPath =
   | 'core.filemode'
@@ -54,17 +32,17 @@ type SignCallbackParams = {
 export type SignCallback =
   (args: SignCallbackParams) => { signature: string } | Promise<{ signature: string }>
 
-type GitProgressEvent = {
+type ProgressEvent = {
   phase: string
   loaded: number
   total?: number
 }
 
-export type ProgressCallback = (args: GitProgressEvent) => Promise<void>
+export type ProgressCallback = (args: ProgressEvent) => Promise<void>
 
 export type MessageCallback = (message: string) => void | Promise<void>
 
-export type GitAuth = {
+export type Auth = {
   username?: string
   password?: string
   headers?: HttpHeaders
@@ -72,13 +50,13 @@ export type GitAuth = {
   cancel?: boolean
 }
 
-export type AuthCallback = (url: string, auth: GitAuth) => GitAuth | void | Promise<GitAuth | void>
+export type AuthCallback = (url: string, auth: Auth) => Auth | void | Promise<Auth | void>
 
-export type AuthFailureCallback = (url: string, auth: GitAuth) => GitAuth | void | Promise<GitAuth | void>
+export type AuthFailureCallback = (url: string, auth: Auth) => Auth | void | Promise<Auth | void>
 
-export type AuthSuccessCallback = (url: string, auth: GitAuth) => void | Promise<void>
+export type AuthSuccessCallback = (url: string, auth: Auth) => void | Promise<void>
 
-export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
+type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
 
 /**
  * The `WalkerEntry` is an interface that abstracts computing many common tree / blob stats.
@@ -107,52 +85,3 @@ export type BlobMergeCallbackResult =
   | undefined
 
 export type BlobMergeCallback = (args: BlobMergeCallbackParams) => Promise<BlobMergeCallbackResult>
-
-
-// HTTP
-export type HttpHeaders = {
-  [ header: string ]: string
-}
-
-export type GitHttpRequest = {
-  /** The URL to request. */
-  url: string
-
-  /** The HTTP method to use. */
-  method?: string
-
-  /** Headers to include in the HTTP request. */
-  headers?: HttpHeaders
-
-  /** An async iterator of Uint8Arrays or array that make up the body of POST requests. */
-  body?: Uint8Array[] | AsyncIterableIterator<Uint8Array>
-
-  /** Reserved for future use (emitting `GitProgressEvent`s). */
-  onProgress?: ProgressCallback
-}
-
-export type GitHttpResponse = {
-  /** The final URL that was fetched after any redirects. */
-  url: string
-
-  /** The HTTP method that was used. */
-  method?: string
-
-  /** HTTP response headers. */
-  headers: HttpHeaders
-
-  /** An async iterator of Uint8Arrays or array that make up the body of the response. */
-  body?: Uint8Array[] | AsyncIterableIterator<Uint8Array>
-
-  /** The HTTP status code. */
-  statusCode: number
-
-  /** The HTTP status message. */
-  statusMessage: string
-}
-
-export type HttpFetch = (request: GitHttpRequest) => Promise<GitHttpResponse>
-
-export type HttpClient = {
-  request: HttpFetch
-}

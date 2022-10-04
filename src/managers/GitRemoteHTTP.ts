@@ -7,8 +7,8 @@ import {
   AuthCallback,
   AuthFailureCallback,
   AuthSuccessCallback,
-  GitAuth,
-  GitHttpResponse,
+  Auth,
+  HttpResponse,
   HttpClient,
   HttpHeaders,
   ProgressCallback
@@ -19,7 +19,7 @@ import { extractAuthFromUrl } from '../utils/extractAuthFromUrl'
 import { parseRefsAdResponse, RemoteHTTPV1, RemoteHTTPV2 } from '../wire/parseRefsAdResponse'
 
 
-const updateHeaders = (headers: HttpHeaders, auth: GitAuth) => {
+const updateHeaders = (headers: HttpHeaders, auth: Auth) => {
   // Update the basic auth header
   if (auth.username || auth.password) {
     headers.Authorization = calculateBasicAuthHeader(auth)
@@ -32,11 +32,11 @@ const updateHeaders = (headers: HttpHeaders, auth: GitAuth) => {
 }
 
 /**
- * @param {GitHttpResponse} res
+ * @param {HttpResponse} res
  *
  * @returns {{ preview: string, response: string, data: Buffer }}
  */
-const stringifyBody = async (res: GitHttpResponse) => {
+const stringifyBody = async (res: HttpResponse) => {
   try {
     // Some services provide a meaningful error message in the body of 403s like "token lacks the scopes necessary to perform this action"
     const data = Buffer.from(await collect(res.body!))
@@ -64,8 +64,8 @@ export type DiscoverParams<T> = {
 }
 
 export type RemoteHTTP<T> =
-  T extends 1 ? { auth: GitAuth } & RemoteHTTPV1 :
-  T extends 2 ? { auth: GitAuth } & RemoteHTTPV2 :
+  T extends 1 ? { auth: Auth } & RemoteHTTPV1 :
+  T extends 2 ? { auth: Auth } & RemoteHTTPV2 :
   never
 
 export type ConnectParams = {
@@ -73,7 +73,7 @@ export type ConnectParams = {
   onProgress?: ProgressCallback
   service: string
   url: string
-  auth: GitAuth
+  auth: Auth
   body: Uint8Array[] | AsyncIterableIterator<Uint8Array>
   headers: HttpHeaders
 }
@@ -116,7 +116,7 @@ export class GitRemoteHTTP {
       headers['Git-Protocol'] = 'version=2'
     }
 
-    let res: GitHttpResponse
+    let res: HttpResponse
     let tryAgain: boolean
     let providedAuthBefore = false
 

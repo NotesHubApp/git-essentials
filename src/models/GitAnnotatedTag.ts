@@ -4,7 +4,8 @@ import { InternalError } from '../errors/InternalError'
 import { formatAuthor } from '../utils/formatAuthor'
 import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { parseAuthor } from '../utils/parseAuthor'
-import { NormalizedAuthor, SignCallback } from './_common'
+import { SignCallback } from './_common'
+import { NormalizedAuthor } from './NormalizedAuthor'
 
 type TagHeaders = {
   tagger: NormalizedAuthor
