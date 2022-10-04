@@ -1,6 +1,7 @@
 import { Buffer } from 'buffer'
 
-import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from '../../src'
+import { GitHttpRequest, GitHttpResponse, HttpClient, HttpHeaders } from 'git-essentials'
+
 import { collect } from '../../src/utils/collect'
 import { NoMatchingRequestFoundError } from './NoMatchingRequestFoundError'
 
