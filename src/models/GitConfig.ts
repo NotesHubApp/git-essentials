@@ -147,8 +147,11 @@ type ConfigEntry = {
   modified?: boolean
 }
 
-// Note: there are a LOT of edge cases that aren't covered (e.g. keys in sections that also
-// have subsections, [include] directives, etc.
+/**
+ * Note: there are a LOT of edge cases that aren't covered (e.g. keys in sections that also
+ * have subsections, [include] directives, etc.
+ * @internal
+ */
 export class GitConfig {
   private parsedConfig: ConfigEntry[]
 

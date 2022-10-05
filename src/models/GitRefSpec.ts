@@ -1,5 +1,6 @@
 import { InternalError } from '../errors/InternalError'
 
+/** @internal */
 export class GitRefSpec {
   private readonly remotePath: string
   public readonly localPath: string

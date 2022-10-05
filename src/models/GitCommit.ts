@@ -17,10 +17,12 @@ type CommitHeaders = {
   gpgsig?: string
 }
 
+/** @internal */
 export type Commit = CommitHeaders & {
   message: string
 }
 
+/** @internal */
 export class GitCommit {
   private readonly _commit: string
 

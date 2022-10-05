@@ -20,6 +20,7 @@ type Tag = TagHeaders & {
   message: string
 }
 
+/** @internal */
 export class GitAnnotatedTag {
   private _tag: string
 

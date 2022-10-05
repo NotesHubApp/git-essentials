@@ -55,6 +55,7 @@ type GitPackIndexParams = {
   getExternalRefDelta?: GetExternalRefDelta
 }
 
+/** @internal */
 export class GitPackIndex {
   public pack: Promise<Buffer> | null
   public hashes: string[]

@@ -1,5 +1,6 @@
 import { NormalizedStat } from './NormalizedStat'
 
+/** @internal */
 export type IndexEntryFlags = {
   assumeValid: boolean
   extended: boolean
@@ -7,6 +8,7 @@ export type IndexEntryFlags = {
   nameLength: number
 }
 
+/** @internal */
 export type IndexEntry = NormalizedStat & {
   oid: string
   path: string
