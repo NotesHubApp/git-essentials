@@ -10,6 +10,7 @@ type ReadCommitParams = {
   oid: string
 }
 
+/** @internal */
 export type ReadCommitResult = {
   oid: string
   commit: Commit
