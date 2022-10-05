@@ -47,6 +47,7 @@ function parseRemoteUrl({ url }: { url: string }) {
   }
 }
 
+/** @internal */
 export class GitRemoteManager {
   static getRemoteHelperFor({ url }: { url: string }): RemoteHelper {
     // TODO: clean up the remoteHelper API and move into PluginCore

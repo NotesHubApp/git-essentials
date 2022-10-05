@@ -5,6 +5,7 @@ import { join } from '../utils/join'
 
 let lock: AsyncLock | null = null
 
+/** @internal */
 export class GitShallowManager {
   static async read({ fs, gitdir }: { fs: FileSystem, gitdir: string }) {
     if (lock === null) lock = new AsyncLock()

@@ -51,6 +51,7 @@ const stringifyBody = async (res: HttpResponse) => {
 
 type ProtocolVersion = 1 | 2
 
+/** @internal */
 export type DiscoverParams<T> = {
   http: HttpClient
   onProgress?: ProgressCallback
@@ -63,11 +64,13 @@ export type DiscoverParams<T> = {
   protocolVersion: T
 }
 
+/** @internal */
 export type RemoteHTTP<T> =
   T extends 1 ? { auth: Auth } & RemoteHTTPV1 :
   T extends 2 ? { auth: Auth } & RemoteHTTPV2 :
   never
 
+/** @internal */
 export type ConnectParams = {
   http: HttpClient
   onProgress?: ProgressCallback
@@ -78,23 +81,12 @@ export type ConnectParams = {
   headers: HttpHeaders
 }
 
+/** @internal */
 export class GitRemoteHTTP {
   static async capabilities() {
     return ['discover', 'connect']
   }
 
-  /**
-   * @param {Object} args
-   * @param {HttpClient} args.http
-   * @param {ProgressCallback} [args.onProgress]
-   * @param {AuthCallback} [args.onAuth]
-   * @param {AuthFailureCallback} [args.onAuthFailure]
-   * @param {AuthSuccessCallback} [args.onAuthSuccess]
-   * @param {string} args.service
-   * @param {string} args.url
-   * @param {Object<string, string>} args.headers
-   * @param {1 | 2} args.protocolVersion - Git Protocol Version
-   */
   static async discover<T extends ProtocolVersion>({
     http,
     onProgress,

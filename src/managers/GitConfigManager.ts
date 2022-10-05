@@ -1,6 +1,7 @@
 import { FileSystem } from '../models/FileSystem'
 import { GitConfig } from '../models/GitConfig'
 
+/** @internal */
 export class GitConfigManager {
   static async get({ fs, gitdir }: { fs: FileSystem, gitdir: string }) {
     // We can improve efficiency later if needed.

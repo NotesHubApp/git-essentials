@@ -1,14 +1,12 @@
-// import LockManager from 'travix-lock-manager'
 import AsyncLock from 'async-lock'
-import { Cache, IndexCacheObject, IndexCache } from '../models/Cache'
 
+import { Cache, IndexCacheObject, IndexCache } from '../models/Cache'
 import { FileSystem } from '../models/FileSystem'
 import { GitIndex } from '../models/GitIndex'
 import { StatLike } from '../models/FsClient'
 import { compareStats } from '../utils/compareStats'
 
 
-// const lm = new LockManager()
 let lock: AsyncLock | null = null
 
 function createCache() {
@@ -38,15 +36,8 @@ async function isIndexStale(fs: FileSystem, filepath: string, cache: IndexCacheO
   return compareStats(savedStats, currStats)
 }
 
+/** @internal */
 export class GitIndexManager {
-  /**
-   *
-   * @param {object} opts
-   * @param {import('../models/FileSystem').FileSystem} opts.fs
-   * @param {string} opts.gitdir
-   * @param {object} opts.cache
-   * @param {function(GitIndex): any} closure
-   */
   static async acquire<T>(
     { fs, gitdir, cache }: { fs: FileSystem, gitdir: string, cache: Cache },
     closure: (index: GitIndex) => Promise<T>) {
