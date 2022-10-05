@@ -9,7 +9,7 @@ import { parseAuthor } from '../utils/parseAuthor'
 import { SignCallback } from './_common'
 import { NormalizedAuthor } from './NormalizedAuthor'
 
-type CommitHeaders = {
+export type CommitHeaders = {
   author: NormalizedAuthor
   committer: NormalizedAuthor
   tree?: string

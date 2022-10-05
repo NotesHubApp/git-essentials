@@ -1,11 +1,16 @@
 import AsyncLock from 'async-lock'
 
-import { Cache, IndexCacheObject, IndexCache } from '../models/Cache'
+import { Cache, IndexCache } from '../models/Cache'
 import { FileSystem } from '../models/FileSystem'
 import { GitIndex } from '../models/GitIndex'
-import { StatLike } from '../models/FsClient'
+import { Stat, StatLike } from '../models/FsClient'
 import { compareStats } from '../utils/compareStats'
 
+
+type IndexCacheObject = {
+  map: Map<string, object>
+  stats: Map<string, Stat | null>
+}
 
 let lock: AsyncLock | null = null
 
@@ -55,7 +60,7 @@ export class GitIndexManager {
       if (await isIndexStale(fs, filepath, indexCache)) {
         await updateCachedIndexFile(fs, filepath, indexCache)
       }
-      const index = indexCache.map.get(filepath)!
+      const index = <GitIndex>indexCache.map.get(filepath)!
       result = await closure(index)
       if (index._dirty) {
         // Acquire a file lock while we're writing the index file
