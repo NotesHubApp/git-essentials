@@ -1,14 +1,21 @@
-import { FetchResult, _fetch } from '../commands/fetch'
-import { AuthCallback, AuthFailureCallback, AuthSuccessCallback, HttpClient, HttpHeaders, MessageCallback, ProgressCallback } from '../models'
+import { _fetch } from '../commands/fetch'
+import {
+  AuthCallback,
+  AuthFailureCallback,
+  AuthSuccessCallback,
+  HttpClient,
+  HttpHeaders,
+  MessageCallback,
+  ProgressCallback
+} from '../models'
 import { FileSystem } from '../models/FileSystem'
 import { FsClient } from '../models/FsClient'
 import { Cache } from '../models/Cache'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-export { FetchResult }
 
-type FetchParams = {
+export type FetchParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -80,15 +87,36 @@ type FetchParams = {
 }
 
 /**
+ * Fetch result object.
+ */
+ export type FetchResult = {
+  /** The branch that is cloned if no branch is specified. */
+  defaultBranch: string | null
+
+  /** The SHA-1 object id of the fetched head commit. */
+  fetchHead: string | null
+
+  /** A textual description of the branch that was fetched. */
+  fetchHeadDescription: string | null
+
+  /** The HTTP response headers returned by the git server. */
+  headers?: HttpHeaders
+
+  /** A list of branches that were pruned, if you provided the `prune` parameter. */
+  pruned?: string[]
+
+  packfile?: string
+}
+
+/**
  * Fetch commits from a remote repository.
  *
- * @param {FetchParams} args
+ * @param args
  *
- * @returns {Promise<FetchResult>} Resolves successfully when fetch completes
- * @see FetchResult
+ * @returns Resolves successfully when fetch completes
  *
  * @example
- * let result = await git.fetch({
+ * const result = await fetch({
  *   fs,
  *   http,
  *   dir: '/tutorial',

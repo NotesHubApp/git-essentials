@@ -62,7 +62,7 @@ type FetchParams = {
 /**
  * Fetch result object.
  */
-export type FetchResult = {
+type FetchResult = {
   /** The branch that is cloned if no branch is specified. */
   defaultBranch: string | null
 
@@ -81,12 +81,7 @@ export type FetchResult = {
   packfile?: string
 }
 
-/**
- * @param {FetchParams} args
- * @returns {Promise<FetchResult>}
- * @see FetchResult
- * @internal
- */
+/** @internal */
 export async function _fetch({
   fs,
   cache,

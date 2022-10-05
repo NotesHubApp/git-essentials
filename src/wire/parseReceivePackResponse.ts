@@ -3,6 +3,7 @@ import { HttpHeaders } from '../models'
 import { GitPktLine } from '../models/GitPktLine'
 import { FIFO } from '../utils/FIFO'
 
+/** @internal */
 export type PushResult = {
   ok: boolean
   error?: string

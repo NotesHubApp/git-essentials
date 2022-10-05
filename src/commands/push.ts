@@ -30,8 +30,6 @@ import {
   ProgressCallback
 } from '../models'
 
-export { PushResult }
-
 
 type PushParams = {
   fs: FileSystem
