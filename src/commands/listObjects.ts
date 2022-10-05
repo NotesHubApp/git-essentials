@@ -15,10 +15,7 @@ type ListObjectsParams = {
   oids: Iterable<string>
 }
 
-/**
- * @param {ListObjectsParams} args
- * @returns {Promise<Set<string>>}
- */
+/** @internal */
 export async function listObjects({
   fs,
   cache,

@@ -13,7 +13,7 @@ type InitParams = {
  * Initialize a new repository
  *
  * @param {InitParams} args
- * @returns {Promise<void>}
+ * @internal
  */
 export async function _init({
   fs,

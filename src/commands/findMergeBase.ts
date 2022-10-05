@@ -11,10 +11,7 @@ type FindMergeBaseParams = {
   oids: string[]
 }
 
-/**
- * @param {FindMergeBaseParams} args
- *
- */
+/** @internal */
 export async function _findMergeBase({ fs, cache, gitdir, oids }: FindMergeBaseParams) {
   // Note: right now, the tests are geared so that the output should match that of
   // `git merge-base --all --octopus`

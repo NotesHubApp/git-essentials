@@ -49,9 +49,8 @@ type PullParams = {
 
 /**
  * @param {PullParams} args
- *
  * @returns {Promise<void>} Resolves successfully when pull operation completes
- *
+ * @internal
  */
 export async function _pull({
   fs,

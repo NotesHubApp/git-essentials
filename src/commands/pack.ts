@@ -18,9 +18,7 @@ type PackParams = {
   oids: string[]
 }
 
-/**
- * @param {PackParams} args
- */
+/** @internal */
 export async function _pack({
   fs,
   cache,

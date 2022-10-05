@@ -8,12 +8,7 @@ type GetConfigAllParams<T> = {
   path: T
 }
 
-/**
- * @param {GetConfigAllParams} args
- *
- * @returns {Promise<Array<any>>} Resolves with an array of the config value
- *
- */
+/** @internal */
 export async function _getConfigAll<T extends ConfigPath>({ fs, gitdir, path }: GetConfigAllParams<T>) {
   const config = await GitConfigManager.get({ fs, gitdir })
   return config.getall(path)

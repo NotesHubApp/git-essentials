@@ -24,11 +24,9 @@ type WalkParams = {
 
 /**
  * @param {WalkParams} args
- *
  * @returns {Promise<any>} The finished tree-walking result
- *
  * @see {WalkerMap}
- *
+ * @internal
  */
 export async function _walk({
   fs,

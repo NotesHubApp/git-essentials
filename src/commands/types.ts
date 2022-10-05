@@ -1,6 +1,4 @@
-/**
- * @enum {number}
- */
+/** @internal */
  export const types: { [key: string]: number } = {
   commit: 0b0010000,
   tree: 0b0100000,

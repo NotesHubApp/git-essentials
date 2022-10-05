@@ -45,9 +45,8 @@ type AnalyzeParams = {
 
 /**
  * @param {CheckoutParams} args
- *
  * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
- *
+ * @internal
  */
 export async function _checkout({
   fs,

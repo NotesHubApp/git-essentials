@@ -1,22 +1,41 @@
 const path = require('path')
 const fs = require('fs')
 
-const baseTypesFolder = path.join('dist', 'types')
-const publicApiTypeDeclarations = [
-  "index.d.ts",
-  "index.d.ts.map",
-  "api",
-  "clients",
-  "errors",
-  "models"
-]
 
+// Delete empty TypeScript declarations
+deleteEmptyTypeScriptDeclarations('dist/types')
 
-// We need to include only Public API TypeScript declarations
-const typeFoldersToDelete = fs.readdirSync(baseTypesFolder).filter(x => !publicApiTypeDeclarations.includes(x))
-for (const typeFolder of typeFoldersToDelete) {
-  fs.rmSync(path.join(baseTypesFolder, typeFolder), { recursive: true, force: true })
+/**
+ * Delete empty TypeScript declarations
+ * @param {string} folderPath
+ */
+function deleteEmptyTypeScriptDeclarations(folderPath) {
+  const folderItems = fs.readdirSync(folderPath)
+
+  for (const folderItem of folderItems) {
+    // if map file it could be already deleted, we need to skip
+    if (folderItem.endsWith('.d.ts.map')) {
+      continue
+    }
+
+    const itemPath = path.join(folderPath, folderItem)
+    const stat = fs.statSync(itemPath)
+
+    if (stat.isFile() && folderItem.endsWith('.d.ts')) {
+      if (fs.readFileSync(itemPath, { encoding: 'utf8' }).startsWith('export {};')) {
+        fs.unlinkSync(itemPath)
+        fs.unlinkSync(itemPath.replace('.d.ts', '.d.ts.map'))
+      }
+    } else if (stat.isDirectory()) {
+      deleteEmptyTypeScriptDeclarations(itemPath)
+    }
+  }
+
+  if (fs.readdirSync(folderPath).length === 0) {
+    fs.rmdirSync(folderPath)
+  }
 }
+
 
 // Copy package.json file
 fs.copyFileSync('package.json', 'dist/package.json')

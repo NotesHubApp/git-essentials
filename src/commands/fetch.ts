@@ -83,9 +83,9 @@ export type FetchResult = {
 
 /**
  * @param {FetchParams} args
- *
  * @returns {Promise<FetchResult>}
  * @see FetchResult
+ * @internal
  */
 export async function _fetch({
   fs,

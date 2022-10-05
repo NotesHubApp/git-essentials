@@ -41,9 +41,7 @@ export type AddParams = {
  * @example
  * ```ts
  * await fs.writeFile('/tutorial/README.md', '# TEST')
- * await git.add({ fs, dir: '/tutorial', filepath: 'README.md' })
- *
- * console.log('done')
+ * await add({ fs, dir: '/tutorial', filepath: 'README.md' })
  * ```
  *
  */

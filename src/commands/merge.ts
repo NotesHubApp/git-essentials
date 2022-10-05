@@ -32,9 +32,8 @@ type MergeParams = {
 
 /**
  * @param {MergeParams} args
- *
  * @returns {Promise<MergeResult>} Resolves to a description of the merge operation
- *
+ * @internal
  */
 export async function _merge({
   fs,

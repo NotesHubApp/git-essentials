@@ -11,4 +11,4 @@ package/
 *.tgz
 
 # typedoc
-docs
+docs/

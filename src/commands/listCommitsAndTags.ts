@@ -18,10 +18,7 @@ type ListCommitsAndTagsParams = {
   finish: Iterable<string>
 }
 
-/**
- * @param {ListCommitsAndTagsParams} args
- * @returns {Promise<Set<string>>}
- */
+/** @internal */
 export async function listCommitsAndTags({
   fs,
   cache,

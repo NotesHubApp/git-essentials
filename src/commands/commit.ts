@@ -28,10 +28,9 @@ type CommitParams = {
 }
 
 /**
- *
  * @param {CommitParams} args
- *
  * @returns {Promise<string>} Resolves successfully with the SHA-1 object id of the newly created commit.
+ * @internal
  */
 export async function _commit({
   fs,

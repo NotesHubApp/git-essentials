@@ -6,11 +6,7 @@ type ListRemotesParams = {
   gitdir: string
 }
 
-/**
- * @param {ListRemotesParams} args
- *
- * @returns {Promise<Array<{remote: string, url: string}>>}
- */
+/** @internal */
 export async function _listRemotes({ fs, gitdir }: ListRemotesParams): Promise<{ remote: string, url: string }[]> {
   const config = await GitConfigManager.get({ fs, gitdir })
   const remoteNames = await config.getSubsections('remote')

@@ -18,11 +18,7 @@ type IsDescendentParams = {
   depth: number
 }
 
-/**
- * @param {IsDescendentParams} args
- *
- * @returns {Promise<boolean>}
- */
+/** @internal */
 export async function _isDescendent({
   fs,
   cache,
