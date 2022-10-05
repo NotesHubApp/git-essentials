@@ -1,9 +1,15 @@
-import { ProgressCallback } from './_common'
+import { ProgressCallback } from './ProgressCallback'
 
+/**
+ * @group HttpClient
+ */
 export type HttpHeaders = {
   [ header: string ]: string
 }
 
+/**
+ * @group HttpClient
+ */
 export type HttpRequest = {
   /** The URL to request. */
   url: string
@@ -21,6 +27,9 @@ export type HttpRequest = {
   onProgress?: ProgressCallback
 }
 
+/**
+ * @group HttpClient
+ */
 export type HttpResponse = {
   /** The final URL that was fetched after any redirects. */
   url: string
@@ -41,6 +50,9 @@ export type HttpResponse = {
   statusMessage: string
 }
 
+/**
+ * @group HttpClient
+ */
 export type HttpClient = {
   request: (request: HttpRequest) => Promise<HttpResponse>
 }

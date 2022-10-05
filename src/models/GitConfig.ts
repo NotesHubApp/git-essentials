@@ -1,4 +1,22 @@
-import { ConfigPath, ConfigValue } from './_common'
+export type ConfigPath =
+  | 'core.filemode'
+  | 'core.bare'
+  | 'core.logallrefupdates'
+  | 'core.symlinks'
+  | 'core.ignorecase'
+  | 'core.bigFileThreshold'
+  | string
+
+export type ConfigValue<T> =
+  T extends 'core.filemode' ? boolean :
+  T extends 'core.bare' ? boolean :
+  T extends 'core.logallrefupdates' ? boolean :
+  T extends 'core.symlinks' ? boolean :
+  T extends 'core.ignorecase' ? boolean :
+  T extends 'core.bigFileThreshold' ? number :
+  T extends string ? string :
+  never;
+
 
 // This is straight from parse_unit_factor in config.c of canonical git
 const num = (val: string) => {
