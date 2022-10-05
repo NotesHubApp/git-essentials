@@ -11,6 +11,8 @@
  *
  *  9-bit unix permission. Only 0755 and 0644 are valid for regular files.
  *  Symbolic links and gitlinks have value 0 in this field.
+ *
+ * @internal
  */
  export function normalizeMode(mode: number) {
   // Note: BrowserFS will use -1 for "unknown"

@@ -6,6 +6,7 @@ import { RunningMinimum } from '../models/RunningMinimum'
 // and return an iterator of length max(Q_n) for all n
 //   of arrays of length N
 //     of string|null who all have the same string value
+/** @internal */
 export function* unionOfIterators(sets: IterableIterator<string>[]) {
   /* NOTE: We can assume all arrays are sorted.
    * Indexes are sorted because they are defined that way:

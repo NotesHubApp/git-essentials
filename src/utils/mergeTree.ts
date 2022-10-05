@@ -62,6 +62,7 @@ type MergeBlobsParams = {
  *
  * @returns {Promise<string>} - The SHA-1 object id of the merged tree
  *
+ * @internal
  */
 export async function mergeTree({
   fs,

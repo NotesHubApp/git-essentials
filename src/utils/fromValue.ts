@@ -1,5 +1,8 @@
-// Convert a value to an Async Iterator
-// This will be easier with async generator functions.
+/**
+ * Convert a value to an Async Iterator
+ * This will be easier with async generator functions.
+ * @internal
+ */
 export function fromValue<T>(value: T): AsyncIterableIterator<T> {
   let queue: T[] = [value]
   return {

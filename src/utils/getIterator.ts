@@ -15,6 +15,7 @@ function instanceOfAsyncIterator<T>(object: any): object is (Iterator<T, undefin
   return false;
 }
 
+/** @internal */
 export function getIterator<T>(iterable:
   | T[]
   | IterableIterator<T>

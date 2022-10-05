@@ -2,7 +2,10 @@ import { Buffer } from 'buffer'
 
 import { getIterator } from './getIterator'
 
-// inspired by 'gartal' but lighter-weight and more battle-tested.
+/**
+ * Inspired by 'gartal' but lighter-weight and more battle-tested.
+ * @internal
+ */
 export class StreamReader {
   private stream: Iterator<Uint8Array, undefined> | AsyncIterator<Uint8Array, undefined>
   private buffer: Buffer | null

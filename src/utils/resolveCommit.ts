@@ -17,6 +17,7 @@ type ResolveCommitResult = {
   commit: GitCommit
 }
 
+/** @internal */
 export async function resolveCommit({ fs, cache, gitdir, oid }: ResolveCommitParams): Promise<ResolveCommitResult> {
   const { type, object } = await readObject({ fs, cache, gitdir, oid })
 

@@ -1,7 +1,10 @@
 import { Buffer } from 'buffer'
 
-// Modeled after https://github.com/tjfontaine/node-buffercursor
-// but with the goal of being much lighter weight.
+/**
+ * Modeled after https://github.com/tjfontaine/node-buffercursor
+ * but with the goal of being much lighter weight.
+ * @internal
+ */
 export class BufferCursor {
   private _start: number;
 

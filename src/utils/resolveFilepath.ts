@@ -25,6 +25,7 @@ type ResolveFilepathInternalParams = {
   filepath: string
 }
 
+/** @internal */
 export async function resolveFilepath({ fs, cache, gitdir, oid, filepath }: ResolveFilepathParams) {
   // Ensure there are no leading or trailing directory separators.
   // I was going to do this automatically, but then found that the Git Terminal for Windows

@@ -6,6 +6,7 @@ import { toHex } from './toHex'
 
 let supportsSubtleSHA1: boolean | undefined = undefined
 
+/** @internal */
 export async function shasum(buffer: Buffer) {
   if (supportsSubtleSHA1 === undefined) {
     supportsSubtleSHA1 = await testSubtleSHA1()

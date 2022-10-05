@@ -16,6 +16,8 @@
  * }
  *
  * Yup, that's how git does it. We could try to be smarter
+ *
+ * @internal
  */
  export function isBinary(buffer: Uint8Array) {
   // in canonical git, this check happens in builtins/merge-file.c

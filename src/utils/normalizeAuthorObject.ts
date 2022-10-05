@@ -3,10 +3,8 @@ import { _getConfig } from '../commands/getConfig'
 import { Author } from '../models/Author'
 import { NormalizedAuthor } from '../models/NormalizedAuthor'
 
-/**
- *
- * @returns {Promise<NormalizedAuthor | undefined>}
- */
+
+/** @internal */
 export async function normalizeAuthorObject(
   { fs, gitdir, author = {} as any }:
   { fs: FileSystem, gitdir: string, author?: Author }): Promise<NormalizedAuthor | undefined> {

@@ -1,5 +1,6 @@
 type IteratorResolve<T> = ((value: IteratorResult<T, undefined> | PromiseLike<IteratorResult<T, undefined>>) => void)
 
+/** @internal */
 export class FIFO<T> implements AsyncIterableIterator<T>, AsyncIterator<T, undefined> {
   private readonly _queue: T[]
   private _ended: boolean

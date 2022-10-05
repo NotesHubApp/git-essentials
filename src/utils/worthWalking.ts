@@ -1,3 +1,4 @@
+/** @internal */
 export const worthWalking = (filepath: string, root: string) => {
   if (filepath === '.' || root == null || root.length === 0 || root === '.') {
     return true

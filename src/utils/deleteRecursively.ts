@@ -1,11 +1,7 @@
 import { FileSystem } from '../models/FileSystem'
 import { join } from './join'
 
- /**
-  * @param {object} args
-  * @param {FileSystem} args.fs
-  * @param {string} args.dirname
-  */
+/** @internal */
  export async function deleteRecursively({ fs, dirname }: { fs: FileSystem, dirname: string }) {
    const filesToDelete: string[] = []
    const directoriesToDelete: string[] = []

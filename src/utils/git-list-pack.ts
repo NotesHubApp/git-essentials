@@ -18,6 +18,7 @@ type Data = {
   ofs: number | undefined
 }
 
+/** @internal */
 export async function listpack(stream: Buffer[], onData: (data: Data) => Promise<void>) {
   const reader = new StreamReader(stream)
   const PACKBuff = (await reader.read(4))!

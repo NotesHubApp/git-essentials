@@ -1,6 +1,7 @@
 import { TreeEntry } from '../models/GitTree'
 import { compareStrings } from './compareStrings'
 
+/** @internal */
 export function compareTreeEntryPath(a: TreeEntry, b: TreeEntry) {
   // Git sorts tree entries as if there is a trailing slash on directory names.
   return compareStrings(appendSlashIfDir(a), appendSlashIfDir(b))

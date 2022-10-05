@@ -14,6 +14,7 @@ type MergeFileParams = {
   markerSize?: number
 }
 
+/** @internal */
 export function mergeFile({
   ourContent,
   baseContent,

@@ -1,3 +1,4 @@
+/** @internal */
 export function compareRefNames(a: string, b: string) {
   // https://stackoverflow.com/a/40355107/2168416
   const _a = a.replace(/\^\{\}$/, '')

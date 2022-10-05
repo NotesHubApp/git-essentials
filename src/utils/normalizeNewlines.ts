@@ -1,3 +1,4 @@
+/** @internal */
 export function normalizeNewlines(str: string) {
   // remove all <CR>
   str = str.replace(/\r/g, '')

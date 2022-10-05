@@ -1,6 +1,7 @@
 // @see https://git-scm.com/docs/git-rev-parse.html#_specifying_revisions
 const abbreviateRx = new RegExp('^refs/(heads/|tags/|remotes/)?(.*)')
 
+/** @internal */
 export function abbreviateRef(ref: string) {
   const match = abbreviateRx.exec(ref)
   if (match) {

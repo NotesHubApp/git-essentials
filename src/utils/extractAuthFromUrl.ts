@@ -1,5 +1,6 @@
 import { Auth } from '../models'
 
+/** @internal */
 export function extractAuthFromUrl(url: string): { url: string, auth: Auth } {
   // For whatever reason, the `fetch` API does not convert credentials embedded in the URL
   // into Basic Authentication headers automatically. Instead it throws an error!
