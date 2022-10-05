@@ -18,6 +18,7 @@ async function loadPackIndex({ fs, filename, getExternalRefDelta }: LoadPackInde
   return GitPackIndex.fromIdx({ idx, getExternalRefDelta })
 }
 
+/** @internal */
 export function readPackIndex({ fs, cache, filename, getExternalRefDelta }: ReadPackIndexParams) {
   // Try to get the packfile index from the in-memory cache
   if (!cache[PackfileCache]) cache[PackfileCache] = new Map<string, Promise<GitPackIndex>>()

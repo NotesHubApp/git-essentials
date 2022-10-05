@@ -10,6 +10,7 @@ export type PushResult = {
   headers?: HttpHeaders
 }
 
+/** @internal */
 export async function parseReceivePackResponse(packfile: FIFO<Buffer>): Promise<PushResult> {
   let response = ''
   const read = GitPktLine.streamReader(packfile)

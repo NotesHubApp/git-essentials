@@ -10,6 +10,7 @@ type WriteUploadPackRequestParams = {
   exclude?: string[],
 }
 
+/** @internal */
 export function writeUploadPackRequest({
   capabilities = [],
   wants = [],

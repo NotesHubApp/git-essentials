@@ -24,14 +24,7 @@ type ReadObjectResult = {
   source?: string
 }
 
-/**
- * @param {object} args
- * @param {FileSystem} args.fs
- * @param {any} args.cache
- * @param {string} args.gitdir
- * @param {string} args.oid
- * @param {string} [args.format]
- */
+/** @internal */
 export async function _readObject({ fs, cache, gitdir, oid }: ReadObjectParams): Promise<ReadObjectResult> {
   // Curry the current read method so that the packfile un-deltification
   // process can acquire external ref-deltas.

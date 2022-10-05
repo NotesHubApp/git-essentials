@@ -11,6 +11,7 @@ type HasObjectPackedParams = {
   getExternalRefDelta: (oid: string) => Promise<{ type: string, object: Buffer }>
 }
 
+/** @internal */
 export async function hasObjectPacked({
   fs,
   cache,

@@ -10,6 +10,7 @@ type WriteObjectLooseParams = {
   oid: string
 }
 
+/** @internal */
 export async function writeObjectLoose({ fs, gitdir, object, format, oid }: WriteObjectLooseParams) {
   if (format !== 'deflated') {
     throw new InternalError(

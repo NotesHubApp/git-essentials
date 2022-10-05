@@ -14,6 +14,7 @@ type WriteObjectParams = {
   dryRun?: boolean
 }
 
+/** @internal */
 export async function _writeObject({ fs, gitdir, type, object, dryRun = false }: WriteObjectParams) {
 
   object = GitObject.wrap({ type, object })
