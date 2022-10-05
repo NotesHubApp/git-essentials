@@ -1,11 +1,11 @@
 import { _readCommit } from '../commands/readCommit'
-import { FsClient, Cache } from '../models'
+import { FsClient, Cache, Commit } from '../models'
 import { FileSystem } from '../models/FileSystem'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 
-type ReadCommitParams = {
+export type ReadCommitParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -22,20 +22,24 @@ type ReadCommitParams = {
   cache?: Cache
 }
 
+export type ReadCommitResult = {
+  oid: string
+  commit: Commit
+  payload: string
+}
+
 /**
  * Read a commit object directly.
  *
- * @param {ReadCommitParams} args
+ * @param args
  *
- * @returns {Promise<ReadCommitResult>} Resolves successfully with a git commit object
- * @see ReadCommitResult
- * @see CommitObject
+ * @returns Resolves successfully with a git commit object
  *
  * @example
  * // Read a commit object
- * let sha = await git.resolveRef({ fs, dir: '/tutorial', ref: 'main' })
+ * let sha = await resolveRef({ fs, dir: '/tutorial', ref: 'main' })
  * console.log(sha)
- * let commit = await git.readCommit({ fs, dir: '/tutorial', oid: sha })
+ * let commit = await readCommit({ fs, dir: '/tutorial', oid: sha })
  * console.log(commit)
  *
  */
@@ -45,7 +49,7 @@ export async function readCommit({
   gitdir = join(dir, '.git'),
   oid,
   cache = {},
-}: ReadCommitParams) {
+}: ReadCommitParams): Promise<ReadCommitResult> {
   try {
     assertParameter('fs', fs)
     assertParameter('gitdir', gitdir)

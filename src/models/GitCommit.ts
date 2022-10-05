@@ -17,7 +17,6 @@ type CommitHeaders = {
   gpgsig?: string
 }
 
-/** @internal */
 export type Commit = CommitHeaders & {
   message: string
 }

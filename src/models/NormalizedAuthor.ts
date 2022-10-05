@@ -1,4 +1,3 @@
-/** @internal */
 export type NormalizedAuthor = {
   name: string
   email: string
