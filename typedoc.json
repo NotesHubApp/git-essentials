@@ -2,5 +2,11 @@
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["src/index.ts", "src/clients/*"],
   "excludeInternal": true,
-  "includeVersion": true
+  "includeVersion": true,
+  "sort": [
+    "required-first",
+    "kind",
+    "instance-first",
+    "alphabetical"
+  ]
 }
