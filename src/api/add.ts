@@ -11,6 +11,7 @@ import { _writeObject } from '../storage/writeObject'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
+
 export type AddParams = {
   /** A file system implementation. */
   fs: FsClient
@@ -43,7 +44,6 @@ export type AddParams = {
  * await fs.writeFile('/tutorial/README.md', '# TEST')
  * await add({ fs, dir: '/tutorial', filepath: 'README.md' })
  * ```
- *
  */
 export async function add({
   fs: _fs,

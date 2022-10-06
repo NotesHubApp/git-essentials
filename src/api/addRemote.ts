@@ -4,7 +4,8 @@ import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-type AddRemoteParams = {
+
+export type AddRemoteParams = {
   /** A file system implementation. */
   fs: FsClient
 
@@ -27,18 +28,17 @@ type AddRemoteParams = {
 /**
  * Add or update a remote.
  *
- * @param {AddRemoteParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
+ * @returns Resolves successfully when filesystem operations are complete
  *
  * @example
- * await git.addRemote({
+ * await addRemote({
  *   fs,
  *   dir: '/tutorial',
  *   remote: 'upstream',
- *   url: 'https://github.com/isomorphic-git/isomorphic-git'
+ *   url: 'https://github.com/NotesHubApp/git-essentials'
  * })
- * console.log('done')
  *
  */
 export async function addRemote({

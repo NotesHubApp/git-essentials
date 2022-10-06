@@ -6,7 +6,8 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 import { ReadCommitResult } from '../api/readCommit'
 
-type LogParams = {
+
+export type LogParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -32,13 +33,13 @@ type LogParams = {
 /**
  * Get commit descriptions from the git history.
  *
- * @param {LogParams} args
+ * @param args
  *
- * @returns {Promise<Array<ReadCommitResult>>} Resolves to an array of ReadCommitResult objects
+ * @returns Resolves to an array of ReadCommitResult objects
  * @see ReadCommitResult
  *
  * @example
- * let commits = await log({
+ * const commits = await log({
  *   fs,
  *   dir: '/tutorial',
  *   depth: 5,

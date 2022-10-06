@@ -5,7 +5,7 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 
-type ListBranchesParams = {
+export type ListBranchesParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -28,14 +28,14 @@ type ListBranchesParams = {
  * If you want an up-to-date list, first do a `fetch` to that remote.
  * (Which branch you fetch doesn't matter - the list of branches available on the remote is updated during the fetch handshake.)
  *
- * @param {ListBranchesParams} args
+ * @param args
  *
- * @returns {Promise<Array<string>>} Resolves successfully with an array of branch names
+ * @returns Resolves successfully with an array of branch names
  *
  * @example
- * let branches = await git.listBranches({ fs, dir: '/tutorial' })
+ * const branches = await listBranches({ fs, dir: '/tutorial' })
  * console.log(branches)
- * let remoteBranches = await git.listBranches({ fs, dir: '/tutorial', remote: 'origin' })
+ * const remoteBranches = await listBranches({ fs, dir: '/tutorial', remote: 'origin' })
  * console.log(remoteBranches)
  *
  */

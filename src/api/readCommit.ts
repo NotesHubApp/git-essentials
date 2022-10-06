@@ -37,9 +37,9 @@ export type ReadCommitResult = {
  *
  * @example
  * // Read a commit object
- * let sha = await resolveRef({ fs, dir: '/tutorial', ref: 'main' })
+ * const sha = await resolveRef({ fs, dir: '/tutorial', ref: 'main' })
  * console.log(sha)
- * let commit = await readCommit({ fs, dir: '/tutorial', oid: sha })
+ * const commit = await readCommit({ fs, dir: '/tutorial', oid: sha })
  * console.log(commit)
  *
  */

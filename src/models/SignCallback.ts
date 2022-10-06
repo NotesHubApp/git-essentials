@@ -1,4 +1,4 @@
-type SignCallbackParams = {
+export type SignCallbackParams = {
   /** A plaintext message. */
   payload: string
 

@@ -5,7 +5,8 @@ import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-type ListFilesParams = {
+
+export type ListFilesParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -28,16 +29,16 @@ type ListFilesParams = {
  * > Note: This function is efficient for listing the files in the staging area, but listing all the files in a commit requires recursively walking through the git object store.
  * > If you do not require a complete list of every file, better performance can be achieved by using [walk](./walk) and ignoring subdirectories you don't care about.
  *
- * @param {ListFilesParams} args
+ * @param args
  *
- * @returns {Promise<Array<string>>} Resolves successfully with an array of filepaths
+ * @returns Resolves successfully with an array of filepaths
  *
  * @example
  * // All the files in the previous commit
- * let files = await git.listFiles({ fs, dir: '/tutorial', ref: 'HEAD' })
+ * let files = await listFiles({ fs, dir: '/tutorial', ref: 'HEAD' })
  * console.log(files)
  * // All the files in the current staging area
- * files = await git.listFiles({ fs, dir: '/tutorial' })
+ * files = await listFiles({ fs, dir: '/tutorial' })
  * console.log(files)
  *
  */

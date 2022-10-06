@@ -6,7 +6,7 @@ import { join } from '../utils/join'
 import { FsClient } from '../models/FsClient'
 
 
-type RemoveParams = {
+export type RemoveParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -28,13 +28,12 @@ type RemoveParams = {
  *
  * Note that this does NOT delete the file in the working directory.
  *
- * @param {RemoveParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully once the git index has been updated
+ * @returns Resolves successfully once the git index has been updated
  *
  * @example
- * await git.remove({ fs, dir: '/tutorial', filepath: 'README.md' })
- * console.log('done')
+ * await remove({ fs, dir: '/tutorial', filepath: 'README.md' })
  *
  */
 export async function remove({

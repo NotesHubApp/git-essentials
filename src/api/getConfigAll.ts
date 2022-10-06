@@ -4,7 +4,8 @@ import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-type GetConfigAllParams = {
+
+export type GetConfigAllParams = {
   /** A file system implementation. */
   fs: FsClient
 
@@ -25,9 +26,9 @@ type GetConfigAllParams = {
  * - Currently only the local `$GIT_DIR/config` file can be read or written. However support for the global `~/.gitconfig` and system `$(prefix)/etc/gitconfig` will be added in the future.
  * - The current parser does not support the more exotic features of the git-config file format such as `[include]` and `[includeIf]`.
  *
- * @param {GetConfigAllParams} args
+ * @param args
  *
- * @returns {Promise<Array<any>>} Resolves with the config value
+ * @returns Resolves with the config value
  *
  */
 export async function getConfigAll({
@@ -35,7 +36,7 @@ export async function getConfigAll({
   dir,
   gitdir = join(dir, '.git'),
   path,
-}: GetConfigAllParams) {
+}: GetConfigAllParams): Promise<(string | undefined)[]> {
   try {
     assertParameter('fs', fs)
     assertParameter('gitdir', gitdir)
