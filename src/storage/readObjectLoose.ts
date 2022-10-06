@@ -2,6 +2,7 @@ import { Buffer } from 'buffer'
 
 import { FileSystem } from '../models/FileSystem'
 
+/** @internal */
 export async function readObjectLoose(
   { fs, gitdir, oid }:
   { fs: FileSystem, gitdir: string,oid: string }) {

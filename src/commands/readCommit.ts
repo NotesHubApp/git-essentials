@@ -10,6 +10,7 @@ type ReadCommitParams = {
   oid: string
 }
 
+/** @internal */
 export type ReadCommitResult = {
   oid: string
   commit: Commit
@@ -18,11 +19,8 @@ export type ReadCommitResult = {
 
 /**
  * @param {ReadCommitParams} args
- *
  * @returns {Promise<ReadCommitResult>} Resolves successfully with a git commit object
- * @see ReadCommitResult
- * @see CommitObject
- *
+ * @internal
  */
 export async function _readCommit({ fs, cache, gitdir, oid }: ReadCommitParams): Promise<ReadCommitResult> {
   const { commit, oid: commitOid } = await resolveCommit({ fs, cache, gitdir, oid })

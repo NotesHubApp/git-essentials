@@ -1,9 +1,10 @@
+import http from 'http'
 import https, { RequestOptions } from 'https'
-import { GitHttpRequest, GitHttpResponse, HttpHeaders } from '../../models'
+import { HttpRequest, HttpResponse, HttpHeaders } from 'git-essentials'
 
 
-function request(req: GitHttpRequest): Promise<GitHttpResponse> {
-  return new Promise<GitHttpResponse>((resolve, reject) => {
+function request(req: HttpRequest): Promise<HttpResponse> {
+  return new Promise<HttpResponse>((resolve, reject) => {
     const parsedRequestUrl = new URL(req.url)
     const requestOptions: RequestOptions = {
       host: parsedRequestUrl.host,
@@ -12,7 +13,8 @@ function request(req: GitHttpRequest): Promise<GitHttpResponse> {
       headers: req.headers
     }
 
-    const nodeRequest = https.request(requestOptions, async (res) => {
+    const r = (parsedRequestUrl.protocol === 'https:' ? https : http).request
+    const clientRequest = r(requestOptions, async (res) => {
       let chunks: Buffer[] = []
 
       res.on('data', (chunk) => {
@@ -41,10 +43,10 @@ function request(req: GitHttpRequest): Promise<GitHttpResponse> {
     })
 
     if (req.body) {
-      nodeRequest.write(Buffer.concat(req.body as Uint8Array[]))
+      clientRequest.write(Buffer.concat(req.body as Uint8Array[]))
     }
 
-    nodeRequest.end()
+    clientRequest.end()
   })
 }
 

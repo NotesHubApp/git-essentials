@@ -11,14 +11,17 @@ import { _writeObject } from '../storage/writeObject'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-type AddParams = {
+export type AddParams = {
   /** A file system implementation. */
   fs: FsClient
 
   /** A directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /**
+   * The git directory path.
+   * @defaultValue `join(dir, '.git')`
+   */
   gitdir?: string
 
   /** The path to the file to add to the index. */
@@ -31,14 +34,15 @@ type AddParams = {
 /**
  * Add a file to the git index (aka staging area).
  *
- * @param {AddParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully once the git index has been updated
+ * @returns Resolves successfully once the git index has been updated
  *
  * @example
- * await fs.promises.writeFile('/tutorial/README.md', `# TEST`)
- * await git.add({ fs, dir: '/tutorial', filepath: 'README.md' })
- * console.log('done')
+ * ```ts
+ * await fs.writeFile('/tutorial/README.md', '# TEST')
+ * await add({ fs, dir: '/tutorial', filepath: 'README.md' })
+ * ```
  *
  */
 export async function add({

@@ -1,6 +1,4 @@
 {
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es6",
     "module": "esnext",
@@ -8,6 +6,7 @@
       "esnext",
       "dom"
     ],
+    "noEmit": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -15,9 +14,10 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
     "sourceMap": true,
-    "declaration": true
+    "baseUrl": ".",
+    "paths": {
+      "git-essentials": ["./src/index"]
+    }
   }
 }

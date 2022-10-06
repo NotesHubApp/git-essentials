@@ -14,6 +14,7 @@ type GitIgnoreManagerParams = {
   filepath: string
 }
 
+/** @internal */
 export class GitIgnoreManager {
   static async isIgnored({ fs, dir, gitdir = join(dir, '.git'), filepath }: GitIgnoreManagerParams): Promise<boolean> {
     // ALWAYS ignore ".git" folders.

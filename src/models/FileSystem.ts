@@ -6,6 +6,7 @@ import { EncodingOpts, FsClient, WriteOpts } from './FsClient'
 
 /**
  * This is just a collection of helper functions really. At least that's how it started.
+ * @internal
  */
 export class FileSystem {
   constructor(private readonly fs: FsClient) { }

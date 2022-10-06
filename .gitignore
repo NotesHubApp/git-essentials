@@ -5,3 +5,10 @@ node_modules
 
 # Distribution folder
 dist/
+
+# npm pack
+package/
+*.tgz
+
+# typedoc
+docs/

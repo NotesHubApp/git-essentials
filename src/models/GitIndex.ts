@@ -34,6 +34,7 @@ function renderCacheEntryFlags(entry: IndexEntry) {
   )
 }
 
+/** @internal */
 export class GitIndex {
   public _dirty: boolean
   private readonly _entries: Map<string, IndexEntry>

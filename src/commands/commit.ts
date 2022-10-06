@@ -6,7 +6,8 @@ import { GitCommit } from '../models/GitCommit'
 import { GitTree } from '../models/GitTree'
 import { _writeObject as writeObject } from '../storage/writeObject'
 import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToDirectoryStructure'
-import { NormalizedAuthor, SignCallback } from '../models'
+import { SignCallback } from '../models'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 import { GitIndex } from '../models/GitIndex'
 
 
@@ -27,10 +28,9 @@ type CommitParams = {
 }
 
 /**
- *
  * @param {CommitParams} args
- *
  * @returns {Promise<string>} Resolves successfully with the SHA-1 object id of the newly created commit.
+ * @internal
  */
 export async function _commit({
   fs,

@@ -1,13 +1,25 @@
+/**
+ * @group FsClient
+ */
 export type EncodingOpts = {
   encoding?: 'utf8';
 }
 
+/**
+ * @group FsClient
+ */
 export type WriteOpts = EncodingOpts & {
   mode?: number
 }
 
-export interface RMDirOptions {}
+/**
+ * @group FsClient
+ */
+export type RMDirOptions = {}
 
+/**
+ * @group FsClient
+ */
 export type Stat = {
   /** A bit-field describing the file type and mode. */
   mode: number;
@@ -46,6 +58,9 @@ export type Stat = {
   mtimeNanoseconds?: number;
 }
 
+/**
+ * @group FsClient
+ */
 export type StatLike = Stat & {
   mtimeMs: number;
 
@@ -59,23 +74,80 @@ export type StatLike = Stat & {
   isSymbolicLink(): boolean;
 }
 
+/**
+ * @group FsClient
+ */
 export interface FsClient {
   // highly recommended - usually necessary for apps to work
-  readFile(filepath: string, opts?: EncodingOpts): Promise<Uint8Array | string>; // throws ENOENT
-  writeFile(filepath: string, data: Uint8Array | string, opts?: WriteOpts): Promise<void>; // throws ENOENT
-  unlink(filepath: string): Promise<void>; // throws ENOENT
-  readdir(filepath: string): Promise<string[]>; // throws ENOENT, ENOTDIR
-  mkdir(filepath: string): Promise<void>; // throws ENOENT, EEXIST
-  rmdir(filepath: string, opts?: RMDirOptions): Promise<void>; // throws ENOENT, ENOTDIR, ENOTEMPTY
+
+  /**
+   * @throws {@link ENOENT}
+   */
+  readFile(filepath: string, opts?: EncodingOpts): Promise<Uint8Array | string>
+
+  /**
+   * @throws {@link ENOENT}
+   */
+  writeFile(filepath: string, data: Uint8Array | string, opts?: WriteOpts): Promise<void>
+
+  /**
+   * @throws {@link ENOENT}
+   */
+  unlink(filepath: string): Promise<void>
+
+  /**
+   *
+   * @throws {@link ENOENT}
+   * @throws {@link ENOTDIR}
+   */
+  readdir(filepath: string): Promise<string[]>
+
+  /**
+   *
+   * @throws {@link ENOENT}
+   * @throws {@link EEXIST}
+   */
+  mkdir(filepath: string): Promise<void>
+
+  /**
+   *
+   * @throws {@link ENOENT}
+   * @throws {@link ENOTDIR}
+   * @throws {@link ENOTEMPTY}
+   */
+  rmdir(filepath: string, opts?: RMDirOptions): Promise<void>
 
   // recommended - often necessary for apps to work
-  stat(filepath: string): Promise<StatLike>; // throws ENOENT
-  lstat(filepath: string): Promise<StatLike>; // throws ENOENT
+  /**
+   *
+   * @throws {@link ENOENT}
+   */
+  stat(filepath: string): Promise<StatLike>
+
+  /**
+   *
+   * @throws {@link ENOENT}
+   */
+  lstat(filepath: string): Promise<StatLike>
 
   // suggested - used occasionally by apps
-  rename(oldFilepath: string, newFilepath: string): Promise<void>; // throws ENOENT
-  readlink(filepath: string): Promise<string>; // throws ENOENT
-  symlink(target: string, filepath: string): Promise<void>; // throws ENOENT
+  /**
+   *
+   * @throws {@link ENOENT}
+   */
+  rename(oldFilepath: string, newFilepath: string): Promise<void>
+
+  /**
+   *
+   * @throws {@link ENOENT}
+   */
+  readlink(filepath: string): Promise<string>
+
+  /**
+   *
+   * @throws {@link ENOENT}
+   */
+  symlink(target: string, filepath: string): Promise<void>
 }
 
 function Err(name: string, no: number, defaultMessage: string) {
@@ -89,10 +161,30 @@ function Err(name: string, no: number, defaultMessage: string) {
       super(defaultMessage);
       this.path = path;
     }
-  };
+  }
 }
 
-export const EEXIST = Err('EEXIST', 47, 'file already exists');
-export const ENOENT = Err('ENOENT', 34, 'no such file or directory');
-export const ENOTDIR = Err('ENOTDIR', 27, 'not a directory');
-export const ENOTEMPTY = Err('ENOTEMPTY', 53, 'directory not empty');
+/**
+ * File already exists.
+ * @group FsClient
+ */
+export const EEXIST = Err('EEXIST', 47, 'file already exists')
+
+/**
+ * No such file or directory.
+ * @group FsClient
+ */
+export const ENOENT = Err('ENOENT', 34, 'no such file or directory')
+
+/**
+ * Not a directory.
+ * @group FsClient
+ */
+export const ENOTDIR = Err('ENOTDIR', 27, 'not a directory')
+
+/**
+ * Directory not empty.
+ * @group FsClient
+ */
+export const ENOTEMPTY = Err('ENOTEMPTY', 53, 'directory not empty')
+

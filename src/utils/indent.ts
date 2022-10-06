@@ -1,3 +1,4 @@
+/** @internal */
 export function indent(str: string) {
   return (
     str

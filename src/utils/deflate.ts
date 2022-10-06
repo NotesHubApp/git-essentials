@@ -2,6 +2,7 @@ import pako from 'pako'
 
 let supportsCompressionStream: boolean | undefined = undefined
 
+/** @internal */
 export async function deflate(buffer: string | pako.Data) {
   if (supportsCompressionStream === undefined) {
     supportsCompressionStream = testCompressionStream()

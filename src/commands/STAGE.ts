@@ -3,9 +3,8 @@ import { Cache } from '../models/Cache'
 import { GitWalkerIndex } from '../models/GitWalkerIndex'
 import { Walker, GitWalkSymbol } from '../models/Walker'
 
-/**
- * @returns {Walker}
- */
+
+/** @internal */
 export function STAGE(): Walker {
   const o = Object.create(null)
   Object.defineProperty(o, GitWalkSymbol, {

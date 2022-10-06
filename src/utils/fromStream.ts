@@ -2,8 +2,11 @@ function instanceOfAsyncIterableIterator<T>(object: any): object is AsyncIterabl
   return Symbol.asyncIterator in object;
 }
 
-// Convert a web ReadableStream (not Node stream!) to an Async Iterator
-// adapted from https://jakearchibald.com/2017/async-iterators-and-generators/
+/**
+ * Convert a web ReadableStream (not Node stream!) to an Async Iterator
+ * adapted from https://jakearchibald.com/2017/async-iterators-and-generators/
+ * @internal
+ */
 export function fromStream<T>(stream: ReadableStream<T>): AsyncIterableIterator<T> {
   // Use native async iteration if it's available.
   if (instanceOfAsyncIterableIterator<T>(stream)) {

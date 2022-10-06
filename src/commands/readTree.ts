@@ -20,11 +20,7 @@ type ReadTreeResult = {
   tree: TreeEntry[]
 }
 
-/**
- * @param {ReadTreeParams} args
- *
- * @returns {Promise<ReadTreeResult>}
- */
+/** @internal */
 export async function _readTree(
   { fs, cache, gitdir, oid, filepath = undefined }: ReadTreeParams): Promise<ReadTreeResult> {
 

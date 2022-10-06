@@ -6,10 +6,11 @@ import { join } from '../utils/join'
 import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
 import { GitObject } from './GitObject'
-import { GitWalkder, WalkerEntryInternal, WalkerEntryConstructor, WalkerEntryType } from './Walker'
+import { GitWalker, WalkerEntryInternal, WalkerEntryConstructor, WalkerEntryType } from './Walker'
 import { NormalizedStat } from './NormalizedStat'
 
-export class GitWalkerFs implements GitWalkder {
+/** @internal */
+export class GitWalkerFs implements GitWalker {
   private readonly fs: FileSystem
   private readonly cache: Cache
   private readonly dir: string

@@ -1,16 +1,29 @@
-import { GitIndex } from './GitIndex'
-import { GitPackIndex } from './GitPackIndex'
 import { Stat } from './FsClient'
 
+/**
+ * @group Cache
+ */
 export const IndexCache = Symbol('IndexCache')
+
+/**
+ * @group Cache
+ */
 export const PackfileCache = Symbol('PackfileCache')
 
-export type Cache = {
-  [IndexCache]?: IndexCacheObject
-  [PackfileCache]?: Map<string, Promise<GitPackIndex | undefined>>
-}
+/**
+ * @group Cache
+ */
+export type GitPackIndex = object
 
-export type IndexCacheObject = {
-  map: Map<string, GitIndex>
-  stats: Map<string, Stat | null>
+/**
+ * @group Cache
+ */
+export type GitIndex = object
+
+/**
+ * @group Cache
+ */
+export type Cache = {
+  [IndexCache]?: { map: Map<string, GitIndex>, stats: Map<string, Stat | null>}
+  [PackfileCache]?: Map<string, Promise<GitPackIndex | undefined>>
 }

@@ -4,7 +4,7 @@ import { FsClient } from '../models/FsClient'
 import { Cache } from '../models/Cache'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
-import { ReadCommitResult } from '../commands/readCommit'
+import { ReadCommitResult } from '../api/readCommit'
 
 type LogParams = {
   /** A file system client. */
@@ -36,10 +36,9 @@ type LogParams = {
  *
  * @returns {Promise<Array<ReadCommitResult>>} Resolves to an array of ReadCommitResult objects
  * @see ReadCommitResult
- * @see CommitObject
  *
  * @example
- * let commits = await git.log({
+ * let commits = await log({
  *   fs,
  *   dir: '/tutorial',
  *   depth: 5,

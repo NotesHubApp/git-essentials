@@ -3,6 +3,7 @@ import { EmptyServerResponseError } from '../errors/EmptyServerResponseError'
 import { ParseError } from '../errors/ParseError'
 import { GitPktLine } from '../models/GitPktLine'
 
+/** @internal */
 export type RemoteHTTPV1 = {
   protocolVersion?: 1
   capabilities: Set<string>
@@ -10,11 +11,13 @@ export type RemoteHTTPV1 = {
   symrefs: Map<string, string>
 }
 
+/** @internal */
 export type RemoteHTTPV2 = {
   protocolVersion: 2
   capabilities2: { [key: string]: string | true }
 }
 
+/** @internal */
 export async function parseRefsAdResponse(
   stream: Uint8Array[] | AsyncIterableIterator<Uint8Array>,
   { service }: { service: string }): Promise<RemoteHTTPV1 | RemoteHTTPV2> {

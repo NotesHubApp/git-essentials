@@ -5,6 +5,7 @@ import { UnsafeFilepathError } from '../errors'
 import { comparePath } from '../utils/comparePath'
 import { compareTreeEntryPath } from '../utils/compareTreeEntryPath'
 
+/** @internal */
 export type TreeEntry = {
   mode: string | number // the 6 digit hexadecimal mode
   path: string // the name of the file or directory
@@ -82,6 +83,7 @@ function nudgeIntoShape(entry: TreeEntry) {
   return entry
 }
 
+/** @internal */
 export class GitTree {
   private readonly _entries: TreeEntry[]
 

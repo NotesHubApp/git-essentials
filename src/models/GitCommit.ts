@@ -6,9 +6,10 @@ import { indent } from '../utils/indent'
 import { normalizeNewlines } from '../utils/normalizeNewlines'
 import { outdent } from '../utils/outdent'
 import { parseAuthor } from '../utils/parseAuthor'
-import { NormalizedAuthor, SignCallback } from './_common'
+import { SignCallback } from './SignCallback'
+import { NormalizedAuthor } from './NormalizedAuthor'
 
-type CommitHeaders = {
+export type CommitHeaders = {
   author: NormalizedAuthor
   committer: NormalizedAuthor
   tree?: string
@@ -20,6 +21,7 @@ export type Commit = CommitHeaders & {
   message: string
 }
 
+/** @internal */
 export class GitCommit {
   private readonly _commit: string
 

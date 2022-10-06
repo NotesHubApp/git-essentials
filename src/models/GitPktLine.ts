@@ -57,6 +57,7 @@ import { padHex } from '../utils/padHex'
 // I'm really using this more as a namespace.
 // There's not a lot of "state" in a pkt-line
 
+/** @internal */
 export class GitPktLine {
   static flush() {
     return Buffer.from('0000', 'utf8')

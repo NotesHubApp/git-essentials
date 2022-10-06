@@ -22,6 +22,7 @@ entire packfile without multiplexing.
 import { FIFO } from '../utils/FIFO'
 import { GitPktLine } from './GitPktLine'
 
+/** @internal */
 export class GitSideBand {
   static demux(input: Uint8Array[] | AsyncIterableIterator<Uint8Array>) {
     const read = GitPktLine.streamReader(input)

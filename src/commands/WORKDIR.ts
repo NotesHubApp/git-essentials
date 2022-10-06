@@ -3,9 +3,8 @@ import { Cache } from '../models/Cache'
 import { GitWalkerFs } from '../models/GitWalkerFs'
 import { GitWalkSymbol, Walker } from '../models/Walker'
 
-/**
- * @returns {Walker}
- */
+
+/** @internal */
 export function WORKDIR(): Walker {
   const o = Object.create(null)
   Object.defineProperty(o, GitWalkSymbol, {

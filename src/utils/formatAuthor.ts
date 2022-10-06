@@ -1,6 +1,7 @@
-import { NormalizedAuthor } from '../models'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 
 
+/** @internal */
 export function formatAuthor({ name, email, timestamp, timezoneOffset }: NormalizedAuthor) {
   const timezoneOffsetStr = formatTimezoneOffset(timezoneOffset)
   return `${name} <${email}> ${timestamp} ${timezoneOffsetStr}`

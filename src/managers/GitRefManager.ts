@@ -23,6 +23,7 @@ const refpaths = (ref: string) => [
 // @see https://git-scm.com/docs/gitrepository-layout
 const GIT_FILES = ['config', 'description', 'index', 'shallow', 'commondir']
 
+/** @internal */
 export class GitRefManager {
   static async updateRemoteRefs({
     fs,
@@ -205,7 +206,7 @@ export class GitRefManager {
         return ref
       }
     }
-    let sha
+    let sha: string | undefined
     // Is it a ref pointer?
     if (ref.startsWith('ref: ')) {
       ref = ref.slice('ref: '.length)

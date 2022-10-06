@@ -21,11 +21,7 @@ type AccumulateFilesFromOidParams = {
   prefix: string
 }
 
-/**
- * @param {ListFilesParams} args
- *
- * @returns {Promise<Array<string>>}
- */
+/** @internal */
 export async function _listFiles({ fs, gitdir, ref, cache }: ListFilesParams): Promise<string[]> {
   if (ref) {
     const oid = await GitRefManager.resolve({ gitdir, fs, ref })

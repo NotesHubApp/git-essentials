@@ -4,6 +4,7 @@ import { hasObjectLoose } from '../storage/hasObjectLoose'
 import { hasObjectPacked } from '../storage/hasObjectPacked'
 import { _readObject as readObject } from '../storage/readObject'
 
+/** @internal */
 export async function hasObject(
   { fs, cache, gitdir, oid }:
   { fs: FileSystem, cache: Cache, gitdir: string, oid: string }) {

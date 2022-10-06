@@ -32,7 +32,7 @@ module.exports = (config: any) => {
       "**/*.ts": "karma-typescript"
     },
     karmaTypescriptConfig: {
-      exclude: ["node_modules"],
+      exclude: ["node_modules", "dist"],
       compilerOptions: {
         "target": "es6",
         "strict": true,
@@ -41,6 +41,10 @@ module.exports = (config: any) => {
         "noFallthroughCasesInSwitch": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+          "git-essentials": ["./src/index"]
+        }
       },
       bundlerOptions: {
         addNodeGlobals: true

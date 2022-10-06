@@ -2,6 +2,7 @@ import { Buffer } from 'buffer'
 
 import { InternalError } from '../errors/InternalError'
 
+/** @internal */
 export class GitObject {
   static wrap({ type, object }: { type: string, object: Uint8Array }) {
     return Buffer.concat([

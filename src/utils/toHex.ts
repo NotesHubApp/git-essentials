@@ -1,3 +1,4 @@
+/** @internal */
 export function toHex(buffer: ArrayBuffer) {
   let hex = ''
   for (const byte of new Uint8Array(buffer)) {

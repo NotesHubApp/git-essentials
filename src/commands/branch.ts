@@ -25,6 +25,7 @@ type BranchParams = {
  * await git.branch({ dir: '$input((/))', ref: '$input((develop))' })
  * console.log('done')
  *
+ *  @internal
  */
 export async function _branch(
   {

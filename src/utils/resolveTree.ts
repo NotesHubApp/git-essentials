@@ -7,6 +7,7 @@ import { GitTree } from '../models/GitTree'
 import { _readObject } from '../storage/readObject'
 
 
+/** @internal */
 export async function resolveTree(
   { fs, cache, gitdir, oid }:
   { fs: FileSystem, cache: Cache, gitdir: string, oid: string }): Promise<{ tree: GitTree, oid: string }> {

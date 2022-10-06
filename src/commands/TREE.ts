@@ -4,11 +4,7 @@ import { GitWalkerRepo } from '../models/GitWalkerRepo'
 import { Walker, GitWalkSymbol } from '../models/Walker'
 
 
-/**
- * @param {object} args
- * @param {string} [args.ref='HEAD']
- * @returns {Walker}
- */
+/** @internal */
 export function TREE({ ref = 'HEAD' }: { ref?: string } = {}): Walker {
   const o = Object.create(null)
   Object.defineProperty(o, GitWalkSymbol, {

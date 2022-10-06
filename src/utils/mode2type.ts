@@ -1,9 +1,6 @@
 import { InternalError } from '../errors/InternalError'
 
-/**
- *
- * @param {number} mode
- */
+/** @internal */
 export function mode2type(mode: number) {
   // prettier-ignore
   switch (mode) {

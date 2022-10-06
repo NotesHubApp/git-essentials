@@ -8,6 +8,7 @@ type Metadata = Partial<Stat> & {
   oid?: string
 }
 
+/** @internal */
 export type Node = {
   type: 'blob' | 'tree',
   fullpath: string,
@@ -17,6 +18,7 @@ export type Node = {
   children: Array<Node>
 }
 
+/** @internal */
 export function flatFileListToDirectoryStructure(files: IndexEntry[]) {
   const inodes = new Map<string, Node>()
 

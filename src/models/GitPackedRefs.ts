@@ -6,6 +6,7 @@ type GitPackedConfigEntry = {
   oid?: string
 }
 
+/** @internal */
 export class GitPackedRefs {
   public readonly refs: Map<string, string>
   private parsedConfig: GitPackedConfigEntry[]

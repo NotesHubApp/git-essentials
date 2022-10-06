@@ -1,4 +1,7 @@
-// This is convenient for computing unions/joins of sorted lists.
+/**
+ * This is convenient for computing unions/joins of sorted lists.
+ * @internal
+ */
 export class RunningMinimum {
   public value: string | null
 

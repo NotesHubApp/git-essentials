@@ -30,8 +30,6 @@ import {
   ProgressCallback
 } from '../models'
 
-export { PushResult }
-
 
 type PushParams = {
   fs: FileSystem
@@ -53,11 +51,7 @@ type PushParams = {
   headers?: HttpHeaders
 }
 
-/**
- * @param {PushParams} args
- *
- * @returns {Promise<PushResult>}
- */
+/** @internal */
 export async function _push({
   fs,
   cache,

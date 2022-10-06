@@ -21,6 +21,7 @@ type GetConfigParams<T> = {
  * })
  * console.log(value)
  *
+ * @internal
  */
 export async function _getConfig<T extends ConfigPath>({ fs, gitdir, path }: GetConfigParams<T>) {
   const config = await GitConfigManager.get({ fs, gitdir })

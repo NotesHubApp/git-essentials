@@ -1,5 +1,6 @@
 import { FileSystem } from '../models/FileSystem'
-import { BlobMergeCallback, Cache, NormalizedAuthor, SignCallback } from '../models'
+import { BlobMergeCallback, Cache, SignCallback } from '../models'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 import { _commit } from '../commands/commit'
 import { _currentBranch } from '../commands/currentBranch'
 import { _findMergeBase } from '../commands/findMergeBase'
@@ -31,9 +32,8 @@ type MergeParams = {
 
 /**
  * @param {MergeParams} args
- *
  * @returns {Promise<MergeResult>} Resolves to a description of the merge operation
- *
+ * @internal
  */
 export async function _merge({
   fs,

@@ -17,9 +17,7 @@ type LogParams = {
 /**
  * Get commit descriptions from the git history.
  *
- * @param {LogParams} args
- *
- * @returns {Promise<Array<ReadCommitResult>>}
+ * @internal
  */
 export async function _log({ fs, cache, gitdir, ref, depth, since }: LogParams): Promise<Array<ReadCommitResult>> {
   const sinceTimestamp =

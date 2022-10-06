@@ -1,3 +1,4 @@
+/** @internal */
 export function outdent(str: string) {
   return str
     .split('\n')

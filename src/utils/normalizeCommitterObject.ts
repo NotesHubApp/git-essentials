@@ -1,11 +1,9 @@
-import { Author, NormalizedAuthor } from '../models/_common'
 import { FileSystem } from '../models/FileSystem'
 import { normalizeAuthorObject } from '../utils/normalizeAuthorObject'
+import { Author } from '../models/Author'
+import { NormalizedAuthor } from '../models/NormalizedAuthor'
 
-/**
- *
- * @returns {Promise<NormalizedAuthor>}
- */
+/** @internal */
 export async function normalizeCommitterObject(
   { fs, gitdir, author, committer }:
   { fs: FileSystem, gitdir: string, author: NormalizedAuthor, committer?: Author }): Promise<NormalizedAuthor> {

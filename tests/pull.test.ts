@@ -1,5 +1,5 @@
-import { pull, log, add, commit, Errors } from '../src'
-import { setGitClientAgent } from '../src/utils/pkg'
+import { Errors, pull, log, add, commit, setGitClientAgent } from 'git-essentials'
+
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'

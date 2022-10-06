@@ -2,24 +2,35 @@ import { FileSystem } from './FileSystem'
 import { Cache } from './Cache'
 import { Stat } from './FsClient'
 
-// This is part of an elaborate system to facilitate code-splitting / tree-shaking.
-// commands/walk.ts can depend on only this, and the actual Walker classes exported
-// can be opaque - only having a single property (this symbol) that is not enumerable,
-// and thus the constructor can be passed as an argument to walk while being "unusable"
-// outside of it.
+/**
+ * This is part of an elaborate system to facilitate code-splitting / tree-shaking.
+ * commands/walk.ts can depend on only this, and the actual Walker classes exported
+ * can be opaque - only having a single property (this symbol) that is not enumerable,
+ * and thus the constructor can be passed as an argument to walk while being "unusable"
+ * outside of it.
+ *
+ * @internal
+ */
 export const GitWalkSymbol = Symbol('GitWalkSymbol')
 
-export interface GitWalkder {
+/** @internal */
+export interface GitWalker {
   readonly ConstructEntry: WalkerEntryConstructor
   readdir(entry: WalkerEntryInternal): Promise<string[] | null>
 }
 
 type WalkerParams = { fs: FileSystem, dir: string, gitdir: string, cache: Cache }
-export type Walker = { [GitWalkSymbol]: (args: WalkerParams) => GitWalkder }
 
+/** @internal */
+export type Walker = { [GitWalkSymbol]: (args: WalkerParams) => GitWalker }
+
+/** @internal */
 export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
+
+/** @internal */
 export type WalkerEntryConstructor = new(fullpath: string) => WalkerEntryInternal
 
+/** @internal */
 export interface WalkerEntryInternal {
   _fullpath: string
   _type: boolean | WalkerEntryType

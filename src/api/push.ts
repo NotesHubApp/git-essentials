@@ -1,4 +1,4 @@
-import { _push, PushResult } from '../commands/push'
+import { _push } from '../commands/push'
 import { FileSystem } from '../models/FileSystem'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
@@ -15,7 +15,7 @@ import {
 } from '../models'
 
 
-type PushParams = {
+export type PushParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -68,6 +68,13 @@ type PushParams = {
   cache?: Cache
 }
 
+export type PushResult = {
+  ok: boolean
+  error?: string
+  refs: { [key: string]: { ok: boolean, error?: string } }
+  headers?: HttpHeaders
+}
+
 /**
  * Push a branch or tag.
  *
@@ -79,14 +86,12 @@ type PushParams = {
  * | ok     | Array\<string\>  | The first item is "unpack" if the overall operation was successful. The remaining items are the names of refs that were updated successfully.                                                                    |
  * | errors | Array\<string\>  | If the overall operation threw and error, the first item will be "unpack {Overall error message}". The remaining items are individual refs that failed to be updated in the format "{ref name} {error message}". |
  *
- * @param {PushParams} args
+ * @param args
  *
- * @returns {Promise<PushResult>} Resolves successfully when push completes with a detailed description of the operation from the server.
- * @see PushResult
- * @see RefUpdateStatus
+ * @returns Resolves successfully when push completes with a detailed description of the operation from the server.
  *
  * @example
- * let pushResult = await git.push({
+ * const pushResult = await push({
  *   fs,
  *   http,
  *   dir: '/tutorial',

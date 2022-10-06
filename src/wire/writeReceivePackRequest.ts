@@ -6,6 +6,7 @@ type Trip = {
   fullRef: string
 }
 
+/** @internal */
 export async function writeReceivePackRequest(
   { capabilities = [], triplets = [] }:
   { capabilities: string[], triplets: Trip[] }): Promise<Buffer[]> {

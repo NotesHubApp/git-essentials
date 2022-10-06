@@ -3,6 +3,7 @@ import { HttpHeaders } from '../models'
 import { GitPktLine } from '../models/GitPktLine'
 import { FIFO } from '../utils/FIFO'
 
+/** @internal */
 export type PushResult = {
   ok: boolean
   error?: string
@@ -10,6 +11,7 @@ export type PushResult = {
   headers?: HttpHeaders
 }
 
+/** @internal */
 export async function parseReceivePackResponse(packfile: FIFO<Buffer>): Promise<PushResult> {
   let response = ''
   const read = GitPktLine.streamReader(packfile)

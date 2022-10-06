@@ -43,9 +43,8 @@ type CloneParams = {
 
 /**
  * @param {CloneParams} args
- *
  * @returns {Promise<void>} Resolves successfully when clone completes
- *
+ * @internal
  */
 export async function _clone({
   fs,

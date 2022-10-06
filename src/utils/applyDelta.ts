@@ -3,12 +3,8 @@ import { Buffer } from 'buffer'
 import { InternalError } from '../errors/InternalError'
 import { BufferCursor } from '../utils/BufferCursor'
 
-/**
- * @param {Buffer} delta
- * @param {Buffer} source
- * @returns {Buffer}
- */
-export function applyDelta(delta: Buffer, source: Buffer) {
+/** @internal */
+export function applyDelta(delta: Buffer, source: Buffer): Buffer {
   const reader = new BufferCursor(delta)
   const sourceSize = readVarIntLE(reader)
 

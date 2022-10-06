@@ -13,12 +13,7 @@ type AddRemoteParams = {
   force: boolean
 }
 
-/**
- * @param {AddRemoteParams} args
- *
- * @returns {Promise<void>}
- *
- */
+/** @internal */
 export async function _addRemote({ fs, gitdir, remote, url, force }: AddRemoteParams): Promise<void> {
   if (remote !== cleanGitRef.clean(remote)) {
     throw new InvalidRefNameError(remote, cleanGitRef.clean(remote))

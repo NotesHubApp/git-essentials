@@ -13,7 +13,7 @@ import { GitIndexManager } from '../managers/GitIndexManager'
 import { GitRefManager } from '../managers/GitRefManager'
 import { _readObject as readObject } from '../storage/readObject'
 import { worthWalking } from '../utils/worthWalking'
-import { ProgressCallback } from '../models/_common'
+import { ProgressCallback } from '../models/ProgressCallback'
 
 
 type CheckoutParams = {
@@ -45,9 +45,8 @@ type AnalyzeParams = {
 
 /**
  * @param {CheckoutParams} args
- *
  * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
- *
+ * @internal
  */
 export async function _checkout({
   fs,

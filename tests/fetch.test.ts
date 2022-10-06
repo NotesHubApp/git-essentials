@@ -1,5 +1,5 @@
-import { Errors, fetch, setConfig } from '../src'
-import { setGitClientAgent } from '../src/utils/pkg'
+import { Errors, fetch, setConfig, setGitClientAgent } from 'git-essentials'
+
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
 import { expectToFailAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
@@ -9,7 +9,6 @@ import fetchFsFixtureData from './fixtures/fs/fetch.json'
 import fetchEmptyRepoFsFixtureData from './fixtures/fs/fetch-empty-repo.json'
 import fetchMissingRefspecFsFixtureData from './fixtures/fs/fetch-missing-refspec.json'
 import fetchHttpFixtureData from './fixtures/http/fetch.json'
-import { UnknownTransportError } from '../src/errors'
 
 
 describe('fetch', () => {

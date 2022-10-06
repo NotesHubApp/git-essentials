@@ -1,5 +1,6 @@
 import { GitRefSpec } from './GitRefSpec'
 
+/** @internal */
 export class GitRefSpecSet {
   private rules: GitRefSpec[]
 

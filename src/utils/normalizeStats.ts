@@ -24,6 +24,7 @@ function SecondsNanoseconds(
   return [seconds, nanoseconds]
 }
 
+/** @internal */
 export function normalizeStats(e: Stat): NormalizedStat {
   const [ctimeSeconds, ctimeNanoseconds] = SecondsNanoseconds(
     e.ctimeSeconds,

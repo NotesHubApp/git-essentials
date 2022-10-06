@@ -1,3 +1,4 @@
+/** @internal */
 export type NormalizedStat = {
   ctimeSeconds: number
   ctimeNanoseconds: number

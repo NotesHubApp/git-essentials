@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "../dist/esm",
+    "stripInternal": true,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "../dist/types",
+    "baseUrl": ".",
+    "paths": {
+      "git-essentials": ["./"],
+      "git-essentials/*": ["./*"]
+    }
+  },
+  "include": ["./**/*.ts"]
+}

@@ -1,4 +1,5 @@
-import { listRemotes } from '../src'
+import { listRemotes } from 'git-essentials'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import listRemotesFsFixtureData from './fixtures/fs/listRemotes.json'

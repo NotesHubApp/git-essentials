@@ -17,9 +17,8 @@ type CurrentBranchParams = {
 
 /**
  * @param {CurrentBranchParams} args
- *
  * @returns {Promise<string|undefined>} The name of the current branch or undefined if the HEAD is detached.
- *
+ * @internal
  */
 export async function _currentBranch(
   { fs, gitdir, fullname = false, test = false }: CurrentBranchParams): Promise<string | undefined> {
