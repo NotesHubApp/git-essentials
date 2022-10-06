@@ -31,3 +31,6 @@ jobs:
 
       - name: Test (Browsers)
         run: npm run test:browsers
+
+      - name: Generate documentation
+        run: npm run gen-doc

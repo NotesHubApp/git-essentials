@@ -1,6 +1,10 @@
 # Git-Essentials
 A collection of essential Git commands for your browser and Node.js.
 
+## Documentation
+
+Visit [https://noteshubapp.github.io/git-essentials](https://noteshubapp.github.io/git-essentials) to view the full documentation.
+
 ## Usage Examples
 
 ### Node.js
