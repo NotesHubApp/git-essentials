@@ -1,9 +1,9 @@
 import { BaseError } from './BaseError'
 
-type Capability = 'shallow' | 'deepen-since' | 'deepen-not' | 'deepen-relative'
-type Parameter = 'depth' | 'since' | 'exclude' | 'relative'
+export type Capability = 'shallow' | 'deepen-since' | 'deepen-not' | 'deepen-relative'
+export type Parameter = 'depth' | 'since' | 'exclude' | 'relative'
 
-type RemoteCapabilityErrorData = {
+export type RemoteCapabilityErrorData = {
   capability: Capability
   parameter: Parameter
 }
@@ -11,10 +11,6 @@ type RemoteCapabilityErrorData = {
 export class RemoteCapabilityError extends BaseError<RemoteCapabilityErrorData> {
   public static readonly code = 'RemoteCapabilityError'
 
-  /**
-   * @param {'shallow'|'deepen-since'|'deepen-not'|'deepen-relative'} capability
-   * @param {'depth'|'since'|'exclude'|'relative'} parameter
-   */
   constructor(capability: Capability, parameter: Parameter) {
     super(
       `Remote does not support the "${capability}" so the "${parameter}" parameter cannot be used.`,

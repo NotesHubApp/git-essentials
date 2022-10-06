@@ -3,7 +3,7 @@
   "entryPoints": ["src/index.ts", "src/clients/*"],
   "excludeInternal": true,
   "includeVersion": true,
-  "treatWarningsAsErrors": true,
+  "treatWarningsAsErrors": false,
   "sort": [
     "required-first",
     "kind",
