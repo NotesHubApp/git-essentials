@@ -1,5 +1,4 @@
 import {
-  Errors,
   checkout,
   fetch,
   listFiles,
@@ -9,6 +8,10 @@ import {
   getConfig,
   setGitClientAgent
 } from 'git-essentials'
+import {
+  CommitNotFetchedError,
+  CheckoutConflictError
+} from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
@@ -222,7 +225,7 @@ describe('checkout', () => {
     // assert
     await expectToFailWithErrorAsync(
       action,
-      new Errors.CommitNotFetchedError(
+      new CommitNotFetchedError(
         'missing-branch',
         '033417ae18b174f078f2f44232cb7a374f4c60ce'
       )
@@ -335,7 +338,7 @@ describe('checkout', () => {
     }
 
     // assert
-    await expectToFailWithErrorAsync(action, new Errors.CheckoutConflictError(['README.md']))
+    await expectToFailWithErrorAsync(action, new CheckoutConflictError(['README.md']))
   })
 
   it('checkout files ignoring conflicts dry run', async () => {

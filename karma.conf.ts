@@ -43,7 +43,8 @@ module.exports = (config: any) => {
         "esModuleInterop": true,
         "baseUrl": ".",
         "paths": {
-          "git-essentials": ["./src/index"]
+          "git-essentials": ["./src/index"],
+          "git-essentials/*": ["./src/*"]
         }
       },
       bundlerOptions: {

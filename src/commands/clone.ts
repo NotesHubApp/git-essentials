@@ -14,7 +14,7 @@ import {
   MessageCallback,
   ProgressCallback
 } from '../models'
-import { Errors } from '..'
+import { AlreadyExistsError } from '../errors'
 
 
 type CloneParams = {
@@ -109,7 +109,7 @@ export async function _clone({
       noCheckout,
     })
   } catch (err: any) {
-    if (!(err instanceof Errors.AlreadyExistsError)) {
+    if (!(err instanceof AlreadyExistsError)) {
       // Remove partial local repository
       try {
         await deleteRecursively({ fs, dirname: gitdir })

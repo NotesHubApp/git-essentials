@@ -1,4 +1,5 @@
-import { Errors, setConfig, push, listBranches, Auth, setGitClientAgent } from 'git-essentials'
+import { setConfig, push, listBranches, Auth, setGitClientAgent } from 'git-essentials'
+import { UnknownTransportError, HttpError, UserCanceledError } from 'git-essentials/errors'
 
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
@@ -196,7 +197,7 @@ describe('push', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.UnknownTransportError)
+    await expectToFailWithTypeAsync(action, UnknownTransportError)
   })
 
   it('push with Basic Auth', async () => {
@@ -380,7 +381,7 @@ describe('push', () => {
 
     // assert
     await expectToFailAsync(action, (err) =>
-      err instanceof Errors.HttpError && Boolean(err.data.response)
+      err instanceof HttpError && Boolean(err.data.response)
     )
 
     expect(onAuthArgs).toEqual([
@@ -541,7 +542,7 @@ describe('push', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.UserCanceledError)
+    await expectToFailWithTypeAsync(action, UserCanceledError)
 
     expect(onAuthArgs).toEqual([
       [

@@ -1,8 +1,9 @@
 import path from 'path'
 
-import { GitPackIndex } from 'src/models/GitPackIndex'
-import { GitObject } from 'src/models/GitObject'
-import { shasum } from 'src/utils/shasum'
+import { GitPackIndex } from 'git-essentials/models/GitPackIndex'
+import { GitObject } from 'git-essentials/models/GitObject'
+import { shasum } from 'git-essentials/utils/shasum'
+
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 
 import gitPackIndexFsFixtureData from './fixtures/fs/GitPackIndex.json'

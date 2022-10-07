@@ -1,4 +1,5 @@
-import { Errors, merge, resolveRef, log } from 'git-essentials'
+import { merge, resolveRef, log } from 'git-essentials'
+import { MissingNameError, MergeNotSupportedError } from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
@@ -182,7 +183,7 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.MissingNameError)
+    await expectToFailWithTypeAsync(action, MissingNameError)
   })
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun)", async () => {
@@ -256,7 +257,7 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.MergeNotSupportedError)
+    await expectToFailWithTypeAsync(action, MergeNotSupportedError)
   })
 
   it("merge two branches that modified the same file (no conflict)'", async () => {
@@ -301,6 +302,6 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.MergeNotSupportedError)
+    await expectToFailWithTypeAsync(action, MergeNotSupportedError)
   })
 })

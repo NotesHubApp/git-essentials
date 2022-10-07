@@ -1,4 +1,4 @@
-# Git-Essentials
+# Git Essentials
 A collection of essential Git commands for your browser and Node.js.
 
 ## Documentation

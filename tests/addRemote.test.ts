@@ -1,4 +1,5 @@
-import { addRemote, Errors, listRemotes } from 'git-essentials'
+import { addRemote, listRemotes } from 'git-essentials'
+import { MissingParameterError, InvalidRefNameError } from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
@@ -37,7 +38,7 @@ describe('addRemote', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.MissingParameterError)
+    await expectToFailWithTypeAsync(action, MissingParameterError)
   })
 
   it('invalid remote name', async () => {
@@ -52,6 +53,6 @@ describe('addRemote', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.InvalidRefNameError)
+    await expectToFailWithTypeAsync(action, InvalidRefNameError)
   })
 })

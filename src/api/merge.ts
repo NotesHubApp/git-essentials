@@ -1,6 +1,5 @@
-import { Errors } from '../'
 import { _merge } from '../commands/merge'
-import { MissingNameError } from '../errors/MissingNameError'
+import { MissingNameError } from '../errors'
 import { FileSystem } from '../models/FileSystem'
 import { FsClient } from '../models/FsClient'
 import { Author, SignCallback, Cache, BlobMergeCallback } from '../models'

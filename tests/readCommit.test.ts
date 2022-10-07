@@ -1,4 +1,5 @@
-import { Errors, readCommit } from 'git-essentials'
+import { readCommit } from 'git-essentials'
+import { NotFoundError } from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
@@ -17,7 +18,7 @@ describe('readCommit', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.NotFoundError)
+    await expectToFailWithTypeAsync(action, NotFoundError)
   })
 
   it('parsed', async () => {

@@ -1,4 +1,5 @@
-import { Errors, branch, init, currentBranch, listFiles } from 'git-essentials'
+import { branch, init, currentBranch, listFiles } from 'git-essentials'
+import { AlreadyExistsError, InvalidRefNameError, MissingParameterError } from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectNotToFailAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
@@ -60,7 +61,7 @@ describe('branch', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.AlreadyExistsError)
+    await expectToFailWithTypeAsync(action, AlreadyExistsError)
   })
 
   it('branch force=false', async () => {
@@ -80,7 +81,7 @@ describe('branch', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.AlreadyExistsError)
+    await expectToFailWithTypeAsync(action, AlreadyExistsError)
   })
 
   it('branch force=true', async () => {
@@ -147,7 +148,7 @@ describe('branch', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.InvalidRefNameError)
+    await expectToFailWithTypeAsync(action, InvalidRefNameError)
   })
 
   it('missing ref argument', async () => {
@@ -161,7 +162,7 @@ describe('branch', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.MissingParameterError)
+    await expectToFailWithTypeAsync(action, MissingParameterError)
   })
 
   it('empty repo', async () => {

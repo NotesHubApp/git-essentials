@@ -12,7 +12,7 @@ import { collect } from '../../utils/collect'
 import { fromStream } from '../../utils/fromStream'
 
 
-type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean) => string
+export type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean) => string
 
 const DefaultTransformRequestUrl: TransformRequestUrl = (originalUrl) => originalUrl
 

@@ -81,71 +81,71 @@ export interface FsClient {
   // highly recommended - usually necessary for apps to work
 
   /**
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   readFile(filepath: string, opts?: EncodingOpts): Promise<Uint8Array | string>
 
   /**
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   writeFile(filepath: string, data: Uint8Array | string, opts?: WriteOpts): Promise<void>
 
   /**
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   unlink(filepath: string): Promise<void>
 
   /**
    *
-   * @throws {@link ENOENT}
-   * @throws {@link ENOTDIR}
+   * @throws {@link API.ENOENT}
+   * @throws {@link API.ENOTDIR}
    */
   readdir(filepath: string): Promise<string[]>
 
   /**
    *
-   * @throws {@link ENOENT}
-   * @throws {@link EEXIST}
+   * @throws {@link API.ENOENT}
+   * @throws {@link API.EEXIST}
    */
   mkdir(filepath: string): Promise<void>
 
   /**
    *
-   * @throws {@link ENOENT}
-   * @throws {@link ENOTDIR}
-   * @throws {@link ENOTEMPTY}
+   * @throws {@link API.ENOENT}
+   * @throws {@link API.ENOTDIR}
+   * @throws {@link API.ENOTEMPTY}
    */
   rmdir(filepath: string, opts?: RMDirOptions): Promise<void>
 
   // recommended - often necessary for apps to work
   /**
    *
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   stat(filepath: string): Promise<StatLike>
 
   /**
    *
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   lstat(filepath: string): Promise<StatLike>
 
   // suggested - used occasionally by apps
   /**
    *
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   rename(oldFilepath: string, newFilepath: string): Promise<void>
 
   /**
    *
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   readlink(filepath: string): Promise<string>
 
   /**
    *
-   * @throws {@link ENOENT}
+   * @throws {@link API.ENOENT}
    */
   symlink(target: string, filepath: string): Promise<void>
 }

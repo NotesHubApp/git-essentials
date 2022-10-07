@@ -96,26 +96,26 @@ type FolderTreeEntry = {
 
 type TreeEntry = FileTreeEntry | SymlinkTreeEntry | FolderTreeEntry
 
-type FolderTreeEntryDto = {
+export type FolderTreeEntryDto = {
   type: 'dir'
   name: string
   children: TreeEntriesDto
 }
 
-type FileTreeEntryDto = {
+export type FileTreeEntryDto = {
   type: 'file'
   name: string
   encoding?: 'base64' | 'utf8'
   content: string
 }
 
-type SymlinkTreeEntryDto = {
+export type SymlinkTreeEntryDto = {
   type: 'symlink'
   name: string
   target: string
 }
 
-type TreeEntryDto = FolderTreeEntryDto | FileTreeEntryDto | SymlinkTreeEntryDto
+export type TreeEntryDto = FolderTreeEntryDto | FileTreeEntryDto | SymlinkTreeEntryDto
 
 export type TreeEntriesDto = TreeEntryDto[]
 
