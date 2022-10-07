@@ -1,4 +1,4 @@
-import { WalkerEntry } from './WalkerEntry'
+import { WalkerEntry } from './Walker'
 
 
 export type BlobMergeCallbackParams = {

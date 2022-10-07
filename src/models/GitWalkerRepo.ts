@@ -136,7 +136,7 @@ export class GitWalkerRepo implements GitWalker {
     return entry._mode as number
   }
 
-  async stat(_entry: WalkerEntryInternal) {}
+  async stat(_entry: WalkerEntryInternal) { return undefined }
 
   async content(entry: WalkerEntryInternal) {
     if (entry._content === false) {

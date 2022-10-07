@@ -1,6 +1,6 @@
 import http from 'http'
 import https, { RequestOptions } from 'https'
-import { HttpRequest, HttpResponse, HttpHeaders } from 'git-essentials'
+import { HttpRequest, HttpResponse, HttpHeaders, HttpClient } from 'git-essentials'
 
 
 function request(req: HttpRequest): Promise<HttpResponse> {
@@ -52,6 +52,6 @@ function request(req: HttpRequest): Promise<HttpResponse> {
 
 export type NodeHttpClientOptions = {}
 
-export function makeNodeHttpClient(options: NodeHttpClientOptions = {}) {
+export function makeNodeHttpClient(options: NodeHttpClientOptions = {}): HttpClient {
   return { request }
 }

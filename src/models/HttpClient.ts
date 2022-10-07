@@ -53,6 +53,6 @@ export type HttpResponse = {
 /**
  * @group HttpClient
  */
-export type HttpClient = {
+export interface HttpClient {
   request: (request: HttpRequest) => Promise<HttpResponse>
 }

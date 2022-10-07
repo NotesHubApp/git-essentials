@@ -114,6 +114,7 @@ export class GitWalkerIndex implements GitWalker {
 
   async content(_entry: WalkerEntryInternal) {
     // Cannot get content for an index entry
+    return undefined
   }
 
   async oid(entry: WalkerEntryInternal) {

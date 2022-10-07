@@ -150,41 +150,53 @@ export interface FsClient {
   symlink(target: string, filepath: string): Promise<void>
 }
 
-function Err(name: string, no: number, defaultMessage: string) {
-  return class extends Error {
-    public readonly name = name;
-    public readonly code = name;
-    public readonly errno = no;
-    public readonly path?: string;
+/**
+ * Base FsClient error.
+ * @group FsClient
+ */
+export class EBASE extends Error {
+  public readonly name: string
+  public readonly code: string
+  public readonly errno: number
+  public readonly path?: string
 
-    constructor(path?: string) {
-      super(defaultMessage);
-      this.path = path;
-    }
+  constructor(name: string, no: number, defaultMessage: string, path?: string) {
+    super(defaultMessage)
+    this.name = name
+    this.code = name
+    this.errno = no
+    this.path = path
   }
 }
 
 /**
- * File already exists.
+ * File already exists error.
  * @group FsClient
  */
-export const EEXIST = Err('EEXIST', 47, 'file already exists')
+export class EEXIST extends EBASE {
+  constructor(path?: string) { super('EEXIST', 47, 'file already exists', path) }
+}
 
 /**
- * No such file or directory.
+ * No such file or directory error.
  * @group FsClient
  */
-export const ENOENT = Err('ENOENT', 34, 'no such file or directory')
+export class ENOENT extends EBASE {
+  constructor(path?: string) { super('ENOENT', 34, 'no such file or directory', path) }
+}
 
 /**
- * Not a directory.
+ * Not a directory error.
  * @group FsClient
  */
-export const ENOTDIR = Err('ENOTDIR', 27, 'not a directory')
+export class ENOTDIR extends EBASE {
+  constructor(path?: string) { super('ENOTDIR', 27, 'not a directory', path) }
+}
 
 /**
- * Directory not empty.
+ * Directory not empty error.
  * @group FsClient
  */
-export const ENOTEMPTY = Err('ENOTEMPTY', 53, 'directory not empty')
-
+export class ENOTEMPTY extends EBASE {
+  constructor(path?: string) { super('ENOTEMPTY', 53, 'directory not empty', path) }
+}
