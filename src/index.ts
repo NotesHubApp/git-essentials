@@ -3,7 +3,6 @@
  */
 
 export * from './models'
-export { setGitClientAgent } from './utils/pkg'
 
 export * from './api/add'
 export * from './api/addRemote'

@@ -78,14 +78,17 @@ export type StatLike = Stat & {
  * @group FsClient
  */
 export interface FsClient {
-  // highly recommended - usually necessary for apps to work
-
   /**
+   * Asynchronously reads the entire contents of a file.
+   * @returns Resolves with the contents of the file as an Uint8Array or (if the encoding is `utf8`) a string.
    * @throws {@link API.ENOENT}
    */
   readFile(filepath: string, opts?: EncodingOpts): Promise<Uint8Array | string>
 
   /**
+   * Asynchronously writes data to a file, replacing the file if it already exists.
+   * Data can be a string or an Uint8Array.
+   * The encoding option is ignored if data is an Uint8Array.
    * @throws {@link API.ENOENT}
    */
   writeFile(filepath: string, data: Uint8Array | string, opts?: WriteOpts): Promise<void>
@@ -117,7 +120,6 @@ export interface FsClient {
    */
   rmdir(filepath: string, opts?: RMDirOptions): Promise<void>
 
-  // recommended - often necessary for apps to work
   /**
    *
    * @throws {@link API.ENOENT}
@@ -130,7 +132,6 @@ export interface FsClient {
    */
   lstat(filepath: string): Promise<StatLike>
 
-  // suggested - used occasionally by apps
   /**
    *
    * @throws {@link API.ENOENT}

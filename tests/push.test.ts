@@ -1,4 +1,5 @@
-import { setConfig, push, listBranches, Auth, setGitClientAgent } from 'git-essentials'
+import { setConfig, push, listBranches, Auth } from 'git-essentials'
+import { setGitClientAgent } from 'git-essentials/utils/pkg'
 import { UnknownTransportError, HttpError, UserCanceledError } from 'git-essentials/errors'
 
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'

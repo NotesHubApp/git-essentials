@@ -3,7 +3,6 @@ import {
   clone,
   currentBranch,
   getConfig,
-  setGitClientAgent
 } from 'git-essentials'
 import {
   UnknownTransportError,
@@ -11,6 +10,7 @@ import {
   NotFoundError,
   AlreadyExistsError
 } from 'git-essentials/errors'
+import { setGitClientAgent } from 'git-essentials/utils/pkg'
 
 import { expectToFailAsync, expectToFailWithErrorAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'

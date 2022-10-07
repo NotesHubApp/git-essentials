@@ -6,12 +6,12 @@ import {
   commit,
   branch,
   getConfig,
-  setGitClientAgent
 } from 'git-essentials'
 import {
   CommitNotFetchedError,
   CheckoutConflictError
 } from 'git-essentials/errors'
+import { setGitClientAgent } from 'git-essentials/utils/pkg'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'

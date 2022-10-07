@@ -1,4 +1,5 @@
-import { fetch, setConfig, setGitClientAgent } from 'git-essentials'
+import { fetch, setConfig } from 'git-essentials'
+import { setGitClientAgent } from 'git-essentials/utils/pkg'
 import { UnknownTransportError, NoRefspecError } from 'git-essentials/errors'
 
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
