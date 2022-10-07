@@ -298,16 +298,6 @@ async function mergeBlobs({
   return { mode, path, oid, type }
 }
 
-/**
- * @param {string} filePath
- * @param {WalkerEntry | null} their
- * @param {WalkerEntry | null} base
- * @param {WalkerEntry | null} our
- * @param {string} theirName
- * @param {string} baseName
- * @param {string} ourName
- * @returns {Promise<{ mergedText: string, mode: number } | { oid: string, mode: number } | undefined>}
- */
 async function defaultBlobMergeCallback({
   filePath,
   theirBlob: their,

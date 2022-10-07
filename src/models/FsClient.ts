@@ -111,7 +111,7 @@ export interface FsClient {
   readdir(filepath: string): Promise<string[]>
 
   /**
-   *
+   * Asynchronously creates a directory.
    * @throws {@link API.ENOENT}
    * @throws {@link API.EEXIST}
    */
