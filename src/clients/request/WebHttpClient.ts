@@ -1,3 +1,7 @@
+/**
+ * @module WebHttpClient
+ */
+
 import {
   HttpRequest,
   HttpResponse,

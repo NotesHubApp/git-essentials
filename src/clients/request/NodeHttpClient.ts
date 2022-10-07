@@ -1,3 +1,7 @@
+/**
+ * @module NodeHttpClient
+ */
+
 import http from 'http'
 import https, { RequestOptions } from 'https'
 import { HttpRequest, HttpResponse, HttpHeaders, HttpClient } from 'git-essentials'

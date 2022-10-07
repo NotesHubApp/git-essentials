@@ -1,3 +1,7 @@
+/**
+ * @module InMemoryFsClient
+ */
+
 import { Buffer } from 'buffer';
 
 import {
