@@ -2,6 +2,7 @@
  * @group FsClient
  */
 export type EncodingOpts = {
+  /** Only supported value is `utf8` */
   encoding?: 'utf8';
 }
 
@@ -9,6 +10,7 @@ export type EncodingOpts = {
  * @group FsClient
  */
 export type WriteOpts = EncodingOpts & {
+  /** Posix mode permissions */
   mode?: number
 }
 
@@ -94,12 +96,15 @@ export interface FsClient {
   writeFile(filepath: string, data: Uint8Array | string, opts?: WriteOpts): Promise<void>
 
   /**
+   * If path refers to a symbolic link, then the link is removed
+   * without affecting the file or directory to which that link refers.
+   * If the path refers to a file path that is not a symbolic link, the file is deleted.
    * @throws {@link API.ENOENT}
    */
   unlink(filepath: string): Promise<void>
 
   /**
-   *
+   * Reads the contents of a directory.
    * @throws {@link API.ENOENT}
    * @throws {@link API.ENOTDIR}
    */
