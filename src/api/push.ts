@@ -40,7 +40,7 @@ export type PushParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Which branch to push. By default this is the currently checked out branch. */

@@ -12,7 +12,7 @@ export type AddRemoteParams = {
   /** The working tree directory path. */
   dir: string
 
-  /**  The git directory path (default: `join(dir, '.git')`). */
+  /**  The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The name of the remote. */

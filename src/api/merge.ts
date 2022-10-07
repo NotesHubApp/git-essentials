@@ -19,7 +19,7 @@ export type MergeParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The branch receiving the merge. If undefined, defaults to the current branch. */

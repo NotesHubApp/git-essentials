@@ -13,7 +13,7 @@ export type ListFilesParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Return a list of all the files in the commit at `ref` instead of the files currently in the git index (aka staging area). */

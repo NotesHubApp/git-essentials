@@ -40,7 +40,7 @@ export type FetchParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Which branch to fetch if `singleBranch` is true. By default this is the current branch or the remote's default branch. */

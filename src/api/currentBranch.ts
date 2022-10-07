@@ -12,7 +12,7 @@ export type CurrentBranchParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Return the full path (e.g. "refs/heads/main") instead of the abbreviated form. */

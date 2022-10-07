@@ -14,7 +14,7 @@ export type LogParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The commit to begin walking backwards through the history from (default: `HEAD`). */

@@ -19,10 +19,7 @@ export type AddParams = {
   /** A directory path. */
   dir: string
 
-  /**
-   * The git directory path.
-   * @defaultValue `join(dir, '.git')`
-   */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The path to the file to add to the index. */

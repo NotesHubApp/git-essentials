@@ -12,7 +12,7 @@ export type ReadCommitParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The SHA-1 object id to get. Annotated tags are peeled. */
