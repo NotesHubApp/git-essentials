@@ -17,6 +17,8 @@ export type BlobMergeCallbackResult =
   | undefined
 
 /**
+ * Provides a custom merge strategy when the default one is not sufficient.
+ * @throws {@link Errors.MergeNotSupportedError} when merge is not clean.
  * @group Callbacks
  */
 export type BlobMergeCallback = (args: BlobMergeCallbackParams) => Promise<BlobMergeCallbackResult>
