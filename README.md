@@ -26,6 +26,9 @@ import { clone } from 'git-essentials'
 import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
 import { makeWebHttpClient } from 'git-essentials/clients/request/WebHttpClient'
 
+// GitHub (like some other providers) does not return proper 'Access-Control-Allow-Origin' header
+// as a result the browser will refuse to serve the request.
+// To overcome this limitation CORS proxy server could be used.
 const corsProxyUrlTransformer = (originalUrl: string) => {
   return `https://www.noteshub.app/api/cors-proxy.ts?url=${encodeURIComponent(originalUrl)}`
 }
