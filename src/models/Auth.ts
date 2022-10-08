@@ -2,10 +2,16 @@ import { HttpHeaders } from './HttpClient'
 
 
 export type Auth = {
+  /** A user name. */
   username?: string
+
+  /** A password, personal access token, or OAuth2 token. */
   password?: string
+
+  /** An object where you can provide your custom authentication header. */
   headers?: HttpHeaders
-  /** Tells git to throw a `UserCanceledError` (instead of an `HttpError`). */
+
+  /** Tells git to throw a {@link Errors.UserCanceledError} (instead of an {@link Errors.HttpError}). */
   cancel?: boolean
 }
 
