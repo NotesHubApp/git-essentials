@@ -30,11 +30,12 @@ export type RemoveParams = {
  *
  * @param args
  *
- * @returns Resolves successfully once the git index has been updated
+ * @returns Resolves successfully once the git index has been updated.
  *
  * @example
  * await remove({ fs, dir: '/tutorial', filepath: 'README.md' })
  *
+ * @group Commands
  */
 export async function remove({
   fs: _fs,

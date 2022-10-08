@@ -103,7 +103,7 @@ export type PullParams = {
  *
  * @param args
  *
- * @returns Resolves successfully when pull operation completes
+ * @returns Resolves successfully when pull operation completes.
  *
  * @example
  * await pull({
@@ -114,6 +114,7 @@ export type PullParams = {
  *   singleBranch: true
  * })
  *
+ * @group Commands
  */
 export async function pull({
   fs: _fs,

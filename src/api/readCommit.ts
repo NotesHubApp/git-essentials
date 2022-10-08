@@ -23,8 +23,13 @@ export type ReadCommitParams = {
 }
 
 export type ReadCommitResult = {
+  /** SHA-1 object id of this commit. */
   oid: string
+
+  /** The parsed commit object. */
   commit: Commit
+
+  /** PGP signing payload. */
   payload: string
 }
 
@@ -33,7 +38,7 @@ export type ReadCommitResult = {
  *
  * @param args
  *
- * @returns Resolves successfully with a git commit object
+ * @returns Resolves successfully with a git commit object.
  *
  * @example
  * // Read a commit object
@@ -42,6 +47,7 @@ export type ReadCommitResult = {
  * const commit = await readCommit({ fs, dir: '/tutorial', oid: sha })
  * console.log(commit)
  *
+ * @group Commands
  */
 export async function readCommit({
   fs,

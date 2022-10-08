@@ -30,7 +30,7 @@ export type ListBranchesParams = {
  *
  * @param args
  *
- * @returns Resolves successfully with an array of branch names
+ * @returns Resolves successfully with an array of branch names.
  *
  * @example
  * const branches = await listBranches({ fs, dir: '/tutorial' })
@@ -38,6 +38,7 @@ export type ListBranchesParams = {
  * const remoteBranches = await listBranches({ fs, dir: '/tutorial', remote: 'origin' })
  * console.log(remoteBranches)
  *
+ * @group Commands
  */
 export async function listBranches({
   fs,

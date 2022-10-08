@@ -101,6 +101,7 @@ export type PushResult = {
  * })
  * console.log(pushResult)
  *
+ * @group Commands
  */
 export async function push({
   fs,

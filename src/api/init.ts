@@ -26,11 +26,12 @@ export type InitParams = {
  * Initialize a new repository.
  *
  * @param args
- * @returns Resolves successfully when filesystem operations are complete
+ * @returns Resolves successfully when filesystem operations are complete.
  *
  * @example
  * await init({ fs, dir: '/tutorial' })
  *
+ * @group Commands
  */
 export async function init({
   fs,

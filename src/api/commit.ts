@@ -73,6 +73,7 @@ export type CommitParams = {
  * })
  * console.log(sha)
  *
+ * @group Commands
  */
 export async function commit({
   fs: _fs,

@@ -21,12 +21,13 @@ export type ListRemotesParams = {
  *
  * @param args
  *
- * @returns Resolves successfully with an array of `{remote, url}` objects
+ * @returns Resolves successfully with an array of `{remote, url}` objects.
  *
  * @example
  * const remotes = await listRemotes({ fs, dir: '/tutorial' })
  * console.log(remotes)
  *
+ * @group Commands
  */
 export async function listRemotes({
   fs,

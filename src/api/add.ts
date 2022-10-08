@@ -34,13 +34,15 @@ export type AddParams = {
  *
  * @param args
  *
- * @returns Resolves successfully once the git index has been updated
+ * @returns Resolves successfully once the git index has been updated.
  *
  * @example
  * ```ts
  * await fs.writeFile('/tutorial/README.md', '# TEST')
  * await add({ fs, dir: '/tutorial', filepath: 'README.md' })
  * ```
+ *
+ * @group Commands
  */
 export async function add({
   fs: _fs,

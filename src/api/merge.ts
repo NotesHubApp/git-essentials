@@ -90,7 +90,7 @@ export type MergeResult = {
  *
  * @param args
  *
- * @returns Resolves to a description of the merge operation
+ * @returns Resolves to a description of the merge operation.
  *
  * @example
  * const m = await merge({
@@ -101,6 +101,7 @@ export type MergeResult = {
  * })
  * console.log(m)
  *
+ * @group Commands
  */
 export async function merge({
   fs: _fs,

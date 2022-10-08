@@ -85,7 +85,7 @@ export type CloneParams = {
  *
  * @param args
  *
- * @returns Resolves successfully when clone completes
+ * @returns Resolves successfully when clone completes.
  *
  * @example
  * await clone({
@@ -97,6 +97,7 @@ export type CloneParams = {
  *   depth: 1
  * })
  *
+ * @group Commands
  */
 export async function clone({
   fs,

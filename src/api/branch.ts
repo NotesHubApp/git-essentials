@@ -33,11 +33,12 @@ export type BranchParams = {
  *
  * @param args
  *
- * @returns Resolves successfully when filesystem operations are complete
+ * @returns Resolves successfully when filesystem operations are complete.
  *
  * @example
  * await branch({ fs, dir: '/tutorial', ref: 'develop' })
  *
+ * @group Commands
  */
 export async function branch({
   fs,

@@ -113,7 +113,7 @@ export type FetchParams = {
  *
  * @param args
  *
- * @returns Resolves successfully when fetch completes
+ * @returns Resolves successfully when fetch completes.
  *
  * @example
  * const result = await fetch({
@@ -128,6 +128,7 @@ export type FetchParams = {
  * })
  * console.log(result)
  *
+ * @group Commands
  */
 export async function fetch({
   fs,

@@ -31,7 +31,7 @@ export type ListFilesParams = {
  *
  * @param args
  *
- * @returns Resolves successfully with an array of filepaths
+ * @returns Resolves successfully with an array of filepaths.
  *
  * @example
  * // All the files in the previous commit
@@ -41,6 +41,7 @@ export type ListFilesParams = {
  * files = await listFiles({ fs, dir: '/tutorial' })
  * console.log(files)
  *
+ * @group Commands
  */
 export async function listFiles({
   fs,

@@ -27,7 +27,7 @@ export type ResolveRefParams = {
  *
  * @param args
  *
- * @returns Resolves successfully with a SHA-1 object id or the value of a symbolic ref
+ * @returns Resolves successfully with a SHA-1 object id or the value of a symbolic ref.
  *
  * @example
  * const currentCommit = await resolveRef({ fs, dir: '/tutorial', ref: 'HEAD' })
@@ -35,6 +35,7 @@ export type ResolveRefParams = {
  * const currentBranch = await resolveRef({ fs, dir: '/tutorial', ref: 'HEAD', depth: 2 })
  * console.log(currentBranch)
  *
+ * @group Commands
  */
 export async function resolveRef(
   { fs, dir, gitdir = join(dir, '.git'), ref, depth }: ResolveRefParams): Promise<string> {

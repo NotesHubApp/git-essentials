@@ -28,8 +28,9 @@ export type GetConfigAllParams = {
  *
  * @param args
  *
- * @returns Resolves with the config value
+ * @returns Resolves with the config value.
  *
+ * @group Commands
  */
 export async function getConfigAll({
   fs,

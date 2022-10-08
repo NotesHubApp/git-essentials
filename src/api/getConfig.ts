@@ -29,7 +29,7 @@ export type GetConfigParams<T> = {
  *
  * @param args
  *
- * @returns Resolves with the config value
+ * @returns Resolves with the config value.
  *
  * @example
  * // Read config value
@@ -40,6 +40,7 @@ export type GetConfigParams<T> = {
  * })
  * console.log(value)
  *
+ * @group Commands
  */
 export async function getConfig<T extends ConfigPath>({
   fs,

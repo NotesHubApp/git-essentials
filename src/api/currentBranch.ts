@@ -38,6 +38,7 @@ export type CurrentBranchParams = {
  * })
  * console.log(branch)
  *
+ * @group Commands
  */
 export async function currentBranch({
   fs,

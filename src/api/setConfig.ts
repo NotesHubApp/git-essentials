@@ -35,7 +35,7 @@ export type SetConfigParams<T> = {
  *
  * @param args
  *
- * @returns Resolves successfully when operation completed
+ * @returns Resolves successfully when operation completed.
  *
  * @example
  * // Write config value
@@ -61,6 +61,8 @@ export type SetConfigParams<T> = {
  * // Print out config file
  * file = await fs.readFile('/tutorial/.git/config', { encoding: 'utf8' })
  * console.log(file)
+ *
+ * @group Commands
  */
 export async function setConfig<T extends ConfigPath>({
   fs: _fs,

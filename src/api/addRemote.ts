@@ -30,7 +30,7 @@ export type AddRemoteParams = {
  *
  * @param args
  *
- * @returns Resolves successfully when filesystem operations are complete
+ * @returns Resolves successfully when filesystem operations are complete.
  *
  * @example
  * await addRemote({
@@ -40,6 +40,7 @@ export type AddRemoteParams = {
  *   url: 'https://github.com/NotesHubApp/git-essentials'
  * })
  *
+ * @group Commands
  */
 export async function addRemote({
   fs,

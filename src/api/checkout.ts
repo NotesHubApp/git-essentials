@@ -55,7 +55,7 @@ export type CheckoutParams = {
  *
  * @param args
  *
- * @returns Resolves successfully when filesystem operations are complete
+ * @returns Resolves successfully when filesystem operations are complete.
  *
  * @example
  * // switch to the main branch
@@ -84,6 +84,8 @@ export type CheckoutParams = {
  *   force: true,
  *   filepaths: ['docs', 'src/docs']
  * })
+ *
+ * @group Commands
  */
 export async function checkout({
   fs,

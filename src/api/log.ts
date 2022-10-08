@@ -35,8 +35,7 @@ export type LogParams = {
  *
  * @param args
  *
- * @returns Resolves to an array of ReadCommitResult objects
- * @see ReadCommitResult
+ * @returns Resolves to an array of {@link ReadCommitResult} objects.
  *
  * @example
  * const commits = await log({
@@ -47,6 +46,7 @@ export type LogParams = {
  * })
  * console.log(commits)
  *
+ * @group Commands
  */
 export async function log({
   fs,
