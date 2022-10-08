@@ -124,38 +124,46 @@ export interface FsClient {
   mkdir(path: string): Promise<void>
 
   /**
-   * Removes files and directories (modeled on the standard POSIX rm utility).
+   * Removes files and directories.
    * @throws {@link API.ENOENT}
    * @throws {@link API.ENOTEMPTY}
    */
   rm(path: string, options?: RmOptions): Promise<void>
 
   /**
+   * Returns information about the given file or directory.
    *
+   * @remarks
+   * The method follows symlinks.
+   * When given a path that is a symlink, it returns the stat of the target of the symlink.
    * @throws {@link API.ENOENT}
    */
   stat(path: string): Promise<StatLike>
 
   /**
+   * Returns information about the given file or directory.
    *
+   * @remarks
+   * The method is similar to the `stat` method except it doesn't follow symlinks.
+   * When given a path that is a symlink it returns the stat of the symlink and not its target.
    * @throws {@link API.ENOENT}
    */
   lstat(path: string): Promise<StatLike>
 
   /**
-   *
+   * Renames `oldPath` to `newPath`.
    * @throws {@link API.ENOENT}
    */
   rename(oldPath: string, newPath: string): Promise<void>
 
   /**
-   *
+   * Returns a symbolic link’s value, i.e. the path it is linked to.
    * @throws {@link API.ENOENT}
    */
   readlink(path: string): Promise<string>
 
   /**
-   *
+   * Creates a symbolic link.
    * @throws {@link API.ENOENT}
    */
   symlink(target: string, path: string): Promise<void>

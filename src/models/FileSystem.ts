@@ -98,7 +98,7 @@ export class FileSystem {
   }
 
   /**
-   * Delete a directory or file without throwing an error if it is already deleted.
+   * Delete a directory without throwing an error if it is already deleted.
    */
   async rmdir(path: string, options: RmOptions = {}) {
     try {
