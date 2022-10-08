@@ -1,8 +1,8 @@
-import { Stat } from '../models/FsClient'
+import { Stats } from '../models/FsClient'
 import { normalizeStats } from './normalizeStats'
 
 /** @internal */
-export function compareStats(entry: Stat, stats: Stat) {
+export function compareStats(entry: Stats, stats: Stats) {
   // Comparison based on the description in Paragraph 4 of
   // https://www.kernel.org/pub/software/scm/git/docs/technical/racy-git.txt
   const e = normalizeStats(entry)

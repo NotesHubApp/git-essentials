@@ -1,6 +1,6 @@
 import { FileSystem } from './FileSystem'
 import { Cache } from './Cache'
-import { Stat } from './FsClient'
+import { Stats } from './FsClient'
 
 
 export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
@@ -13,7 +13,7 @@ export type WalkerEntryType = 'blob' | 'tree' | 'commit' | 'special'
   type(): Promise<WalkerEntryType>
   mode(): Promise<number>
   oid(): Promise<string>
-  stat(): Promise<Stat | undefined>
+  stat(): Promise<Stats | undefined>
 }
 
 /** @internal */
@@ -21,7 +21,7 @@ export interface WalkerEntryInternal extends WalkerEntry {
   _fullpath: string
   _type: boolean | WalkerEntryType
   _mode: boolean | number
-  _stat: boolean | Stat | undefined
+  _stat: boolean | Stats | undefined
   _content: boolean | Uint8Array | undefined
   _oid: boolean | string
   _actualSize: number | undefined

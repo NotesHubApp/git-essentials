@@ -1,4 +1,4 @@
-import { Stat } from './FsClient'
+import { Stats } from './FsClient'
 
 /**
  * @group Cache
@@ -24,6 +24,6 @@ export type GitIndex = object
  * @group Cache
  */
 export type Cache = {
-  [IndexCache]?: { map: Map<string, GitIndex>, stats: Map<string, Stat | null>}
+  [IndexCache]?: { map: Map<string, GitIndex>, stats: Map<string, Stats | null>}
   [PackfileCache]?: Map<string, Promise<GitPackIndex | undefined>>
 }

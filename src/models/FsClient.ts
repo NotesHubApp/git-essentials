@@ -3,7 +3,7 @@
  */
 export type EncodingOptions = {
   /** Only supported value is `utf8`. */
-  encoding?: 'utf8';
+  encoding?: 'utf8'
 }
 
 /**
@@ -28,61 +28,66 @@ export type RmOptions = {
 /**
  * @group FsClient
  */
-export type Stat = {
+export type Stats = {
   /** A bit-field describing the file type and mode. */
-  mode: number;
+  mode: number
 
   /** The size of the file in bytes. */
-  size: number;
+  size: number
 
   /** The file system specific "Inode" number for the file. */
-  ino: number | BigInt;
-
-  /** The timestamp indicating the last time this file was modified expressed in milliseconds since the POSIX Epoch. */
-  mtimeMs?: number;
-
-  /** The timestamp indicating the last time the file status was changed expressed in milliseconds since the POSIX Epoch. */
-  ctimeMs?: number;
-
-  // Non-standard
+  ino: number
 
   /** The numeric user identifier of the user that owns the file (POSIX). */
-  uid: number;
+  uid: number
 
   /** The numeric group identifier of the group that owns the file (POSIX). */
-  gid: number;
+  gid: number
 
   /** The numeric identifier of the device containing the file. */
-  dev: number;
-
-  /** Change timestamp (ctime): which refers to the last time some metadata related to the file was changed. */
-  ctime?: Date;
-  ctimeSeconds?: number;
-  ctimeNanoseconds?: number;
+  dev: number
 
   /** Modified timestamp (mtime): which is the last time a file's contents were modified. */
-  mtime?: Date;
-  mtimeSeconds?: number;
-  mtimeNanoseconds?: number;
+  mtime?: Date
+
+  /** The timestamp indicating the last time this file was modified expressed in milliseconds since the POSIX Epoch. */
+  mtimeMs?: number
+
+  /** The timestamp indicating the last time this file was modified expressed in seconds since the POSIX Epoch. */
+  mtimeSeconds?: number
+
+  /** The timestamp indicating the last time this file was modified expressed in nanoseconds since the POSIX Epoch. */
+  mtimeNanoseconds?: number
+
+  /** Change timestamp (ctime): which refers to the last time some metadata related to the file was changed. */
+  ctime?: Date
+
+  /** The timestamp indicating the last time the file status was changed expressed in milliseconds since the POSIX Epoch. */
+  ctimeMs?: number
+
+  /** The timestamp indicating the last time the file status was changed expressed in seconds since the POSIX Epoch. */
+  ctimeSeconds?: number
+
+  /** The timestamp indicating the last time the file status was changed expressed in nanoseconds since the POSIX Epoch. */
+  ctimeNanoseconds?: number
 }
 
 /**
  * @group FsClient
  */
-export type StatLike = Stat & {
-  mtimeMs: number;
+export type StatsLike = Stats & {
+  /** Returns true if the object describes a regular file. */
+  isFile(): boolean
 
-  /** Returns true if the <fs.Stats> object describes a regular file. */
-  isFile(): boolean;
+  /** Returns true if the object describes a file system directory. */
+  isDirectory(): boolean
 
-  /** Returns true if the <fs.Stats> object describes a file system directory. */
-  isDirectory(): boolean;
-
-  /** Returns true if the <fs.Stats> object describes a symbolic link. */
-  isSymbolicLink(): boolean;
+  /** Returns true if the object describes a symbolic link. */
+  isSymbolicLink(): boolean
 }
 
 /**
+ * An interface that abstracts file system operations.
  * @group FsClient
  */
 export interface FsClient {
@@ -140,7 +145,7 @@ export interface FsClient {
    * When given a path that is a symlink, it returns the stat of the target of the symlink.
    * @throws {@link API.ENOENT}
    */
-  stat(path: string): Promise<StatLike>
+  stat(path: string): Promise<StatsLike>
 
   /**
    * Returns information about the given file or directory.
@@ -150,7 +155,7 @@ export interface FsClient {
    * When given a path that is a symlink it returns the stat of the symlink and not its target.
    * @throws {@link API.ENOENT}
    */
-  lstat(path: string): Promise<StatLike>
+  lstat(path: string): Promise<StatsLike>
 
   /**
    * Renames `oldPath` to `newPath`.

@@ -3,13 +3,13 @@ import AsyncLock from 'async-lock'
 import { Cache, IndexCache } from '../models/Cache'
 import { FileSystem } from '../models/FileSystem'
 import { GitIndex } from '../models/GitIndex'
-import { Stat, StatLike } from '../models/FsClient'
+import { Stats, StatsLike } from '../models/FsClient'
 import { compareStats } from '../utils/compareStats'
 
 
 type IndexCacheObject = {
   map: Map<string, object>
-  stats: Map<string, Stat | null>
+  stats: Map<string, Stats | null>
 }
 
 let lock: AsyncLock | null = null
@@ -17,7 +17,7 @@ let lock: AsyncLock | null = null
 function createCache() {
   return {
     map: new Map<string, GitIndex>(),
-    stats: new Map<string, StatLike>(),
+    stats: new Map<string, StatsLike>(),
   }
 }
 

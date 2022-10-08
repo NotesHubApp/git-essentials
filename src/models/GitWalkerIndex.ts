@@ -6,7 +6,7 @@ import { flatFileListToDirectoryStructure, Node } from '../utils/flatFileListToD
 import { mode2type } from '../utils/mode2type'
 import { normalizeStats } from '../utils/normalizeStats'
 import { GitWalker, WalkerEntryInternal, WalkerEntryConstructor, WalkerEntryType } from './Walker'
-import { Stat } from './FsClient'
+import { Stats } from './FsClient'
 
 
 /** @internal */
@@ -100,7 +100,7 @@ export class GitWalkerIndex implements GitWalker {
         )
       }
 
-      const stats = inode.type === 'tree' ? <Stat>{} : normalizeStats(<Stat>inode.metadata)
+      const stats = inode.type === 'tree' ? <Stats>{} : normalizeStats(<Stats>inode.metadata)
       entry._type = inode.type === 'tree' ? 'tree' : mode2type(stats.mode)
       entry._mode = stats.mode
       if (inode.type === 'tree') {
@@ -109,7 +109,7 @@ export class GitWalkerIndex implements GitWalker {
         entry._stat = stats
       }
     }
-    return entry._stat as Stat
+    return entry._stat as Stats
   }
 
   async content(_entry: WalkerEntryInternal) {
