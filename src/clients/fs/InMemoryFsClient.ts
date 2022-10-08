@@ -2,7 +2,7 @@
  * @module InMemoryFsClient
  */
 
-import { Buffer } from 'buffer';
+import { Buffer } from 'buffer'
 
 import {
   EEXIST,
@@ -14,7 +14,7 @@ import {
   RmOptions,
   StatsLike,
   WriteOptions,
-} from '../../';
+} from '../../'
 
 enum FileMode {
   NEW = 0,
@@ -147,7 +147,10 @@ function split(path: string): string[] {
   return (path ?? '').split('/').filter( x => x);
 }
 
-
+/**
+ * Represents {@link API.FsClient} implementation which keeps all data in memory.
+ * Could be useful for testing when data persistence is not required.
+ */
 export class InMemoryFsClient implements FsClient {
   private readonly root: FolderTreeEntry
 
@@ -335,6 +338,9 @@ export class InMemoryFsClient implements FsClient {
     }
   }
 
+  /**
+   * Imports TDO representing file system object into the target path.
+   */
   public import(path: string, data: TreeEntriesDto) {
     const { entry } = this.parsePath(path)
 

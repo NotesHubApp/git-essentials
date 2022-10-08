@@ -51,8 +51,12 @@ export type HttpResponse = {
 }
 
 /**
+ * An interface that abstracts HTTP request operations.
  * @group HttpClient
  */
 export interface HttpClient {
-  request: (request: HttpRequest) => Promise<HttpResponse>
+  /**
+   * Makes HTTP request.
+   */
+  request(request: HttpRequest): Promise<HttpResponse>
 }

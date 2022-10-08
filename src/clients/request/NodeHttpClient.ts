@@ -56,6 +56,9 @@ function request(req: HttpRequest): Promise<HttpResponse> {
 
 export type NodeHttpClientOptions = {}
 
+/**
+ * Makes HTTP client that works in Node.js environment.
+ */
 export function makeNodeHttpClient(options: NodeHttpClientOptions = {}): HttpClient {
   return { request }
 }

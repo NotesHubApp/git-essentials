@@ -17,10 +17,22 @@ export type TransformRequestUrl = (originalUrl: string, hasCredentials?: boolean
 const DefaultTransformRequestUrl: TransformRequestUrl = (originalUrl) => originalUrl
 
 export type WebHttpClientOptions = {
+  /**
+   * The transform request URL function, which could be useful in a browser environment
+   * when the host does not return the proper `Access-Control-Allow-Origin` header
+   * and CORS proxy is required to fulfill the request.
+   */
   transformRequestUrl?: TransformRequestUrl
+
+  /**
+   * The number of retries that the client attempt to do on failure.
+   */
   retriesCount?: number
 }
 
+/**
+ * Makes HTTP client that works in a browser environment.
+ */
 export function makeWebHttpClient(options: WebHttpClientOptions = {}): HttpClient {
   const transformRequestUrl = options.transformRequestUrl ?? DefaultTransformRequestUrl
   const retriesCount = options.retriesCount ?? 3
