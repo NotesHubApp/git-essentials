@@ -9,11 +9,11 @@ import {
   ENOENT,
   ENOTDIR,
   ENOTEMPTY,
-  EncodingOpts,
+  EncodingOptions,
   FsClient,
-  RMDirOptions,
+  RmOptions,
   StatLike,
-  WriteOpts,
+  WriteOptions,
 } from '../../';
 
 enum FileMode {
@@ -155,25 +155,25 @@ export class InMemoryFsClient implements FsClient {
     this.root = makeEmptyFolder('/')
   }
 
-  public async readFile(filepath: string, opts?: EncodingOpts): Promise<string | Uint8Array> {
-    const { entry } = this.parsePath(filepath)
+  public async readFile(path: string, options: EncodingOptions = {}): Promise<string | Uint8Array> {
+    const { entry } = this.parsePath(path)
 
     if (!entry || entry.type !== 'file') {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
-    const content = opts && opts.encoding === 'utf8' ?
+    const content = options.encoding === 'utf8' ?
       new TextDecoder().decode(entry.content) :
       entry.content
 
     return content
   }
 
-  public async writeFile(filepath: string, data: string | Uint8Array, opts?: WriteOpts): Promise<void> {
-    const { folder, entry, entryName } = this.parsePath(filepath)
+  public async writeFile(path: string, data: string | Uint8Array, options: WriteOptions = {}): Promise<void> {
+    const { folder, entry, entryName } = this.parsePath(path)
 
     if ((entry && entry.type !== 'file') || !entryName) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     const content = typeof data === 'string' ? new TextEncoder().encode(data) : data
@@ -185,71 +185,71 @@ export class InMemoryFsClient implements FsClient {
     }
   }
 
-  public async unlink(filepath: string): Promise<void> {
-    const { folder, entry, entryName } = this.parsePath(filepath)
+  public async unlink(path: string): Promise<void> {
+    const { folder, entry, entryName } = this.parsePath(path)
 
     if (!entry) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     if (entry.type === 'dir') {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     folder.children = folder.children.filter(x => x.name !== entryName)
   }
 
-  public async readdir(filepath: string): Promise<string[]> {
-    const { entry } = this.parsePath(filepath)
+  public async readdir(path: string): Promise<string[]> {
+    const { entry } = this.parsePath(path)
 
     if (!entry) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     if (entry.type !== 'dir') {
-      throw new ENOTDIR(filepath)
+      throw new ENOTDIR(path)
     }
 
     return entry.children.map(x => x.name)
   }
 
-  public async mkdir(filepath: string): Promise<void> {
-    const { folder, entry, entryName } = this.parsePath(filepath)
+  public async mkdir(path: string): Promise<void> {
+    const { folder, entry, entryName } = this.parsePath(path)
 
     if (!entryName) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     if (entry) {
-      throw new EEXIST(filepath)
+      throw new EEXIST(path)
     }
 
     folder.children.push(makeEmptyFolder(entryName))
   }
 
-  public async rmdir(filepath: string, opts?: RMDirOptions): Promise<void> {
-    const { folder, entry, entryName } = this.parsePath(filepath)
+  public async rm(path: string, options: RmOptions = {}): Promise<void> {
+    const { folder, entry, entryName } = this.parsePath(path)
 
     if (!entry) {
-      throw new ENOENT(filepath)
+      if (options.force) {
+        return
+      } else {
+        throw new ENOENT(path)
+      }
     }
 
-    if (entry.type !== 'dir') {
-      throw new ENOTDIR(filepath)
-    }
-
-    if (entry.children.length > 0) {
-      throw new ENOTEMPTY(filepath)
+    if (entry.type === 'dir' && entry.children.length > 0 && !options.recursive) {
+      throw new ENOTEMPTY(path)
     }
 
     folder.children = folder.children.filter(x => x.name !== entryName)
   }
 
-  public async stat(filepath: string): Promise<StatLike> {
-    const { entry } = this.parsePath(filepath)
+  public async stat(path: string): Promise<StatLike> {
+    const { entry } = this.parsePath(path)
 
     if (!entry) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     if (entry.type === 'symlink') {
@@ -259,59 +259,59 @@ export class InMemoryFsClient implements FsClient {
     return new StatImpl(entry.stat, entry.type)
   }
 
-  public async lstat(filepath: string): Promise<StatLike> {
-    const { entry } = this.parsePath(filepath)
+  public async lstat(path: string): Promise<StatLike> {
+    const { entry } = this.parsePath(path)
 
     if (!entry) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     return new StatImpl(entry.stat, entry.type)
   }
 
-  public async rename(oldFilepath: string, newFilepath: string): Promise<void> {
-    const { folder: oldFolder, entry: oldEntry, entryName: oldEntryName } = this.parsePath(oldFilepath)
-    const { folder: newFolder, entry: newEntry, entryName: newEntryName } = this.parsePath(newFilepath)
+  public async rename(oldPath: string, newPath: string): Promise<void> {
+    const { folder: oldFolder, entry: oldEntry, entryName: oldEntryName } = this.parsePath(oldPath)
+    const { folder: newFolder, entry: newEntry, entryName: newEntryName } = this.parsePath(newPath)
 
-    if (oldFilepath === newFilepath) {
+    if (oldPath === newPath) {
       return
     }
 
     if (!oldEntry) {
-      throw new ENOENT(oldFilepath)
+      throw new ENOENT(oldPath)
     }
 
     if (newEntry) {
-      throw new EEXIST(newFilepath)
+      throw new EEXIST(newPath)
     }
 
     if (!newEntryName) {
-      throw new ENOENT(newFilepath)
+      throw new ENOENT(newPath)
     }
 
     newFolder.children.push({ ...oldEntry, name: newEntryName })
     oldFolder.children = oldFolder.children.filter(x => x.name !== oldEntryName)
   }
 
-  public async readlink(filepath: string): Promise<string> {
-    const { entry } = this.parsePath(filepath)
+  public async readlink(path: string): Promise<string> {
+    const { entry } = this.parsePath(path)
 
     if (!entry || entry.type !== 'symlink') {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     return entry.target
   }
 
-  public async symlink(target: string, filepath: string): Promise<void> {
-    const { folder, entry, entryName } = this.parsePath(filepath)
+  public async symlink(target: string, path: string): Promise<void> {
+    const { folder, entry, entryName } = this.parsePath(path)
 
     if (!entryName) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     if (entry) {
-      throw new EEXIST(filepath)
+      throw new EEXIST(path)
     }
 
     folder.children.push(makeSymlink(entryName, target))
@@ -321,9 +321,9 @@ export class InMemoryFsClient implements FsClient {
    * Return true if a file exists, false if it doesn't exist.
    * Rethrows errors that aren't related to file existance.
   */
-  public async exists(filepath: string): Promise<boolean> {
+  public async exists(path: string): Promise<boolean> {
     try {
-      await this.stat(filepath)
+      await this.stat(path)
       return true
     } catch (err: any) {
       if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
@@ -335,19 +335,19 @@ export class InMemoryFsClient implements FsClient {
     }
   }
 
-  public import(filepath: string, data: TreeEntriesDto) {
-    const { entry } = this.parsePath(filepath)
+  public import(path: string, data: TreeEntriesDto) {
+    const { entry } = this.parsePath(path)
 
     if (!entry) {
-      throw new ENOENT(filepath)
+      throw new ENOENT(path)
     }
 
     if (entry.type !== 'dir') {
-      throw new ENOTDIR(filepath)
+      throw new ENOTDIR(path)
     }
 
     if (entry.children.length > 0) {
-      throw new ENOTEMPTY(filepath)
+      throw new ENOTEMPTY(path)
     }
 
     for (const importEntry of data) {
@@ -363,14 +363,14 @@ export class InMemoryFsClient implements FsClient {
 
         case 'dir':
           entry.children.push(makeEmptyFolder(importEntry.name))
-          this.import(`${filepath}/${importEntry.name}`, importEntry.children)
+          this.import(`${path}/${importEntry.name}`, importEntry.children)
           break;
       }
     }
   }
 
-  private parsePath(filepath: string) {
-    const segments = split(filepath);
+  private parsePath(path: string) {
+    const segments = split(path);
     const folders = segments.slice(0, -1)
 
     let targetFolder = this.root

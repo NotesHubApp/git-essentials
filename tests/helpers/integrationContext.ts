@@ -31,7 +31,7 @@ export async function integrationContext(action: (context: IntegrationContext) =
   try {
     await action({ fs, http, dir })
   } finally {
-    await deleteRecursively(fs, dir)
+    await fs.rm(dir, { recursive: true })
   }
 }
 
@@ -45,28 +45,3 @@ function generateId(length: number) {
  return result
 }
 
-async function deleteRecursively(fs: FsClient, dirname: string) {
-  const filesToDelete: string[] = []
-  const directoriesToDelete: string[] = []
-  const pathsToTraverse = [dirname]
-
-  while (pathsToTraverse.length > 0) {
-    const path = pathsToTraverse.pop()!
-
-    if ((await fs.stat(path)).isDirectory()) {
-      directoriesToDelete.push(path)
-      pathsToTraverse.push(
-        ...(await fs.readdir(path))!.map(subPath => join(path, subPath))
-      )
-    } else {
-      filesToDelete.push(path)
-    }
-  }
-
-  for (const path of filesToDelete) {
-    await fs.unlink(path)
-  }
-  for (const path of directoriesToDelete.reverse()) {
-    await fs.rmdir(path)
-  }
-}

@@ -1,23 +1,29 @@
 /**
  * @group FsClient
  */
-export type EncodingOpts = {
-  /** Only supported value is `utf8` */
+export type EncodingOptions = {
+  /** Only supported value is `utf8`. */
   encoding?: 'utf8';
 }
 
 /**
  * @group FsClient
  */
-export type WriteOpts = EncodingOpts & {
-  /** Posix mode permissions */
+export type WriteOptions = EncodingOptions & {
+  /** Posix mode permissions. */
   mode?: number
 }
 
 /**
  * @group FsClient
  */
-export type RMDirOptions = {}
+export type RmOptions = {
+  /** When `true`, exceptions will be ignored if path does not exist. */
+  force?: boolean
+
+  /** If `true`, perform a recursive directory removal. */
+  recursive?: boolean
+}
 
 /**
  * @group FsClient
@@ -85,7 +91,7 @@ export interface FsClient {
    * @returns Resolves with the contents of the file as an Uint8Array or (if the encoding is `utf8`) a string.
    * @throws {@link API.ENOENT}
    */
-  readFile(filepath: string, opts?: EncodingOpts): Promise<Uint8Array | string>
+  readFile(path: string, options?: EncodingOptions): Promise<Uint8Array | string>
 
   /**
    * Asynchronously writes data to a file, replacing the file if it already exists.
@@ -93,7 +99,7 @@ export interface FsClient {
    * The encoding option is ignored if data is an Uint8Array.
    * @throws {@link API.ENOENT}
    */
-  writeFile(filepath: string, data: Uint8Array | string, opts?: WriteOpts): Promise<void>
+  writeFile(path: string, data: Uint8Array | string, options?: WriteOptions): Promise<void>
 
   /**
    * If path refers to a symbolic link, then the link is removed
@@ -101,59 +107,58 @@ export interface FsClient {
    * If the path refers to a file path that is not a symbolic link, the file is deleted.
    * @throws {@link API.ENOENT}
    */
-  unlink(filepath: string): Promise<void>
+  unlink(path: string): Promise<void>
 
   /**
    * Reads the contents of a directory.
    * @throws {@link API.ENOENT}
    * @throws {@link API.ENOTDIR}
    */
-  readdir(filepath: string): Promise<string[]>
+  readdir(path: string): Promise<string[]>
 
   /**
    * Asynchronously creates a directory.
    * @throws {@link API.ENOENT}
    * @throws {@link API.EEXIST}
    */
-  mkdir(filepath: string): Promise<void>
+  mkdir(path: string): Promise<void>
 
   /**
-   *
+   * Removes files and directories (modeled on the standard POSIX rm utility).
    * @throws {@link API.ENOENT}
-   * @throws {@link API.ENOTDIR}
    * @throws {@link API.ENOTEMPTY}
    */
-  rmdir(filepath: string, opts?: RMDirOptions): Promise<void>
+  rm(path: string, options?: RmOptions): Promise<void>
 
   /**
    *
    * @throws {@link API.ENOENT}
    */
-  stat(filepath: string): Promise<StatLike>
+  stat(path: string): Promise<StatLike>
 
   /**
    *
    * @throws {@link API.ENOENT}
    */
-  lstat(filepath: string): Promise<StatLike>
+  lstat(path: string): Promise<StatLike>
 
   /**
    *
    * @throws {@link API.ENOENT}
    */
-  rename(oldFilepath: string, newFilepath: string): Promise<void>
+  rename(oldPath: string, newPath: string): Promise<void>
 
   /**
    *
    * @throws {@link API.ENOENT}
    */
-  readlink(filepath: string): Promise<string>
+  readlink(path: string): Promise<string>
 
   /**
    *
    * @throws {@link API.ENOENT}
    */
-  symlink(target: string, filepath: string): Promise<void>
+  symlink(target: string, path: string): Promise<void>
 }
 
 /**
