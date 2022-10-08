@@ -1,7 +1,7 @@
 {
   "name": "git-essentials",
   "version": "0.6.0",
-  "description": "The essential GIT commands",
+  "description": "A collection of essential Git commands for your browser and Node.js",
   "main": "dist/esm/index.js",
   "types": "index.d.ts",
   "typesVersions": {
@@ -45,7 +45,12 @@
   },
   "keywords": [
     "git",
-    "js"
+    "js",
+    "typescript",
+    "nodejs",
+    "browser",
+    "isomorphic",
+    "isomorphic-javascript"
   ],
   "author": "Alex Titarenko",
   "license": "MIT",
