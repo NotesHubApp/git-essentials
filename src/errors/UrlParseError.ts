@@ -4,6 +4,9 @@ export type UrlParseErrorData = {
   url: string
 }
 
+/**
+ * @group Errors
+ */
 export class UrlParseError extends BaseError<UrlParseErrorData> {
   public static readonly code = 'UrlParseError'
 

@@ -4,6 +4,9 @@ export type InvalidOidErrorData = {
   value: string
 }
 
+/**
+ * @group Errors
+ */
 export class InvalidOidError extends BaseError<InvalidOidErrorData> {
   public static readonly code = 'InvalidOidError'
 

@@ -5,6 +5,9 @@ export type InvalidRefNameErrorData = {
   suggestion: string
 }
 
+/**
+ * @group Errors
+ */
 export class InvalidRefNameError extends BaseError<InvalidRefNameErrorData> {
   public static readonly code = 'InvalidRefNameError'
 

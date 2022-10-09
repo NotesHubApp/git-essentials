@@ -1,6 +1,9 @@
 import { BaseError } from './BaseError'
 
 
+/**
+ * @group Errors
+ */
 export class MergeNotSupportedError extends BaseError<void> {
   public static readonly code = 'MergeNotSupportedError'
 

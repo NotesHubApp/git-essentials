@@ -4,6 +4,9 @@ export type MissingParameterErrorData = {
   parameter: string
 }
 
+/**
+ * @group Errors
+ */
 export class MissingParameterError extends BaseError<MissingParameterErrorData> {
   static readonly code = 'MissingParameterError'
 

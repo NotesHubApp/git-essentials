@@ -1,5 +1,8 @@
 import { BaseError } from './BaseError'
 
+/**
+ * @group Errors
+ */
 export class FastForwardError extends BaseError<void> {
   public static readonly code = 'FastForwardError'
 

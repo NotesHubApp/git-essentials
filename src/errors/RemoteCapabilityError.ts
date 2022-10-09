@@ -8,6 +8,9 @@ export type RemoteCapabilityErrorData = {
   parameter: RemoteParameter
 }
 
+/**
+ * @group Errors
+ */
 export class RemoteCapabilityError extends BaseError<RemoteCapabilityErrorData> {
   public static readonly code = 'RemoteCapabilityError'
 

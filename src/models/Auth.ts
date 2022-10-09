@@ -11,7 +11,7 @@ export type Auth = {
   /** An object where you can provide your custom authentication header. */
   headers?: HttpHeaders
 
-  /** Tells git to throw a {@link Errors.UserCanceledError} (instead of an {@link Errors.HttpError}). */
+  /** Tells git to throw a {@link UserCanceledError} (instead of an {@link HttpError}). */
   cancel?: boolean
 }
 

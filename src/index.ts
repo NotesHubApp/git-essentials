@@ -3,6 +3,7 @@
  */
 
 export * from './models'
+export * from './errors'
 
 export * from './api/add'
 export * from './api/addRemote'

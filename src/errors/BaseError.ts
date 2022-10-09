@@ -6,6 +6,9 @@ export type ErrorDto<T> = {
   stack?: string
 }
 
+/**
+ * @group Errors
+ */
 export class BaseError<T> extends Error {
   caller: string
 

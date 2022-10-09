@@ -6,6 +6,9 @@ export type HttpErrorData = {
   response?: string
 }
 
+/**
+ * @group Errors
+ */
 export class HttpError extends BaseError<HttpErrorData> {
   public static readonly code = 'HttpError'
 

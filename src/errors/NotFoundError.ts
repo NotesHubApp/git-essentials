@@ -4,6 +4,9 @@ export type NotFoundErrorData = {
   what: string
 }
 
+/**
+ * @group Errors
+ */
 export class NotFoundError extends BaseError<NotFoundErrorData> {
   static readonly code = 'NotFoundError'
 
