@@ -2,6 +2,7 @@ import { WalkerEntry } from './Walker'
 
 
 export type BlobMergeCallbackParams = {
+  /** Rrefers to the path of the conflicted file, relative to the root of the git repository. */
   filePath: string,
   theirBlob: WalkerEntry | null,
   baseBlob: WalkerEntry | null,

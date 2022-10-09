@@ -1,4 +1,4 @@
-import { merge, resolveRef, log } from 'git-essentials'
+import { merge, resolveRef, log, BlobMergeCallback, checkout } from 'git-essentials'
 import { MissingNameError, MergeNotSupportedError } from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
@@ -303,5 +303,85 @@ describe('merge', () => {
 
     // assert
     await expectToFailWithTypeAsync(action, MergeNotSupportedError)
+  })
+
+  it("merge two branches that modified the same file, custom conflict resolver (prefer our changes)", async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
+    const obBlobMerge: BlobMergeCallback = async ({ theirBlob, ourBlob }) => {
+      if (ourBlob && theirBlob) {
+        const ourContent = await ourBlob.content()
+        const theirContent = await theirBlob.content()
+
+        const decoder = new TextDecoder()
+        const ourText = decoder.decode(ourContent)
+        const theirText = decoder.decode(theirContent)
+
+        return { mergedText: ourText, mode: await ourBlob.mode() }
+      }
+
+      throw new MergeNotSupportedError()
+    }
+
+    // act
+    const actual = await merge({ fs, dir, ours: 'a', theirs: 'c', author, onBlobMerge: obBlobMerge })
+    await checkout({ fs, dir, ref: 'a' })
+
+    // assert
+    expect(actual).toBeDefined()
+    expect(actual.mergeCommit).toBe(true)
+    const conflictedFile = await fs.readFile(`${dir}/o.txt`, { encoding: 'utf8' })
+    expect(conflictedFile).toBe('modified\ntext\nfile\n')
+  })
+
+  it("merge two branches that modified the same file, custom conflict resolver (prefer their changes with mergedText)", async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
+    const obBlobMerge: BlobMergeCallback = async ({ theirBlob, ourBlob }) => {
+      if (ourBlob && theirBlob) {
+        const ourContent = await ourBlob.content()
+        const theirContent = await theirBlob.content()
+
+        const decoder = new TextDecoder()
+        const ourText = decoder.decode(ourContent)
+        const theirText = decoder.decode(theirContent)
+
+        return { mergedText: theirText, mode: await theirBlob.mode() }
+      }
+
+      throw new MergeNotSupportedError()
+    }
+
+    // act
+    const actual = await merge({ fs, dir, ours: 'a', theirs: 'c', author, onBlobMerge: obBlobMerge })
+    await checkout({ fs, dir, ref: 'a' })
+
+    // assert
+    expect(actual).toBeDefined()
+    expect(actual.mergeCommit).toBe(true)
+    const conflictedFile = await fs.readFile(`${dir}/o.txt`, { encoding: 'utf8' })
+    expect(conflictedFile).toBe('text\nfile\nwas\nmodified\n')
+  })
+
+  it("merge two branches that modified the same file, custom conflict resolver (prefer their changes with oid)", async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(mergeFsFixtureData as FsFixtureData)
+    const obBlobMerge: BlobMergeCallback = async ({ theirBlob, ourBlob }) => {
+      if (ourBlob && theirBlob) {
+        return { oid: await theirBlob.oid(), mode: await theirBlob.mode() }
+      }
+
+      throw new MergeNotSupportedError()
+    }
+
+    // act
+    const actual = await merge({ fs, dir, ours: 'a', theirs: 'c', author, onBlobMerge: obBlobMerge })
+    await checkout({ fs, dir, ref: 'a' })
+
+    // assert
+    expect(actual).toBeDefined()
+    expect(actual.mergeCommit).toBe(true)
+    const conflictedFile = await fs.readFile(`${dir}/o.txt`, { encoding: 'utf8' })
+    expect(conflictedFile).toBe('text\nfile\nwas\nmodified\n')
   })
 })
