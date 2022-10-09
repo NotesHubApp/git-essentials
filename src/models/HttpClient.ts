@@ -52,6 +52,11 @@ export type HttpResponse = {
 
 /**
  * An interface that abstracts HTTP request operations.
+ *
+ * You need to pass an HTTP client into Git commands that make HTTP requests.
+ * Both a node client {@link NodeHttpClient} and a browser client {@link WebHttpClient}
+ * are included in the package, but you have to pick which one to use. Or you can provide your own!
+ *
  * @group HttpClient
  */
 export interface HttpClient {
