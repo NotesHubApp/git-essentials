@@ -88,6 +88,14 @@ export type StatsLike = Stats & {
 
 /**
  * An interface that abstracts file system operations.
+ *
+ * You need to pass a file system client into Git commands that do anything that involves files
+ * (which is most things in Git).
+ *
+ * In Node.js, you can pass the builtin `fs/promises` module.
+ * In the browser it's more involved because there's no standard 'fs' module.
+ * But you can use any module that implements enough of the `fs` API.
+ *
  * @group FsClient
  */
 export interface FsClient {
