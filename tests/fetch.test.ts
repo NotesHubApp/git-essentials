@@ -1,4 +1,6 @@
-import { Errors, fetch, setConfig, setGitClientAgent } from 'git-essentials'
+import { fetch, setConfig } from 'git-essentials'
+import { setGitClientAgent } from 'git-essentials/utils/pkg'
+import { UnknownTransportError, NoRefspecError } from 'git-essentials/errors'
 
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
@@ -103,7 +105,7 @@ describe('fetch', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.UnknownTransportError)
+    await expectToFailWithTypeAsync(action, UnknownTransportError)
   })
 
   it('the SSH -> HTTPS UnknownTransportError suggestion feature', async () => {
@@ -126,7 +128,7 @@ describe('fetch', () => {
 
     // assert
     await expectToFailAsync(action, (err) =>
-      err instanceof Errors.UnknownTransportError &&
+      err instanceof UnknownTransportError &&
       err.data.suggestion === 'https://localhost/fetch-server.git'
     )
   })
@@ -255,7 +257,7 @@ describe('fetch', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.NoRefspecError)
+    await expectToFailWithTypeAsync(action, NoRefspecError)
   })
 
 

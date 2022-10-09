@@ -4,7 +4,8 @@ import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-type InitParams = {
+
+export type InitParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -24,13 +25,13 @@ type InitParams = {
 /**
  * Initialize a new repository.
  *
- * @param {InitParams} args
- * @returns {Promise<void>}  Resolves successfully when filesystem operations are complete
+ * @param args
+ * @returns Resolves successfully when filesystem operations are complete.
  *
  * @example
- * await git.init({ fs, dir: '/tutorial' })
- * console.log('done')
+ * await init({ fs, dir: '/tutorial' })
  *
+ * @group Commands
  */
 export async function init({
   fs,

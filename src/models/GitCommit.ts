@@ -10,14 +10,24 @@ import { SignCallback } from './SignCallback'
 import { NormalizedAuthor } from './NormalizedAuthor'
 
 export type CommitHeaders = {
+  /** Normalized author object. */
   author: NormalizedAuthor
+
+  /** Normalized committer object. */
   committer: NormalizedAuthor
+
+  /** SHA-1 object id of corresponding file tree. */
   tree?: string
+
+  /** An array of zero or more SHA-1 object ids. */
   parent: string[]
+
+  /** PGP signature (if present). */
   gpgsig?: string
 }
 
 export type Commit = CommitHeaders & {
+  /** Commit message. */
   message: string
 }
 

@@ -1,4 +1,4 @@
-type ErrorDto<T> = {
+export type ErrorDto<T> = {
   message: string
   code: string
   data: T

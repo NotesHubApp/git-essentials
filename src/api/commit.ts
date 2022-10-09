@@ -9,7 +9,8 @@ import { join } from '../utils/join'
 import { normalizeAuthorObject } from '../utils/normalizeAuthorObject'
 import { normalizeCommitterObject } from '../utils/normalizeCommitterObject'
 
-type CommitParams = {
+
+export type CommitParams = {
   /** A file system implementation. */
   fs: FsClient,
 
@@ -19,7 +20,7 @@ type CommitParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The commit message to use. */
@@ -56,12 +57,12 @@ type CommitParams = {
 /**
  * Create a new commit.
  *
- * @param {CommitParams} args
+ * @param args
  *
- * @returns {Promise<string>} Resolves successfully with the SHA-1 object id of the newly created commit.
+ * @returns Resolves successfully with the SHA-1 object id of the newly created commit.
  *
  * @example
- * let sha = await git.commit({
+ * const sha = await commit({
  *   fs,
  *   dir: '/tutorial',
  *   author: {
@@ -72,6 +73,7 @@ type CommitParams = {
  * })
  * console.log(sha)
  *
+ * @group Commands
  */
 export async function commit({
   fs: _fs,

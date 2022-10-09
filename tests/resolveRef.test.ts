@@ -1,4 +1,5 @@
-import { Errors, resolveRef } from 'git-essentials'
+import { resolveRef } from 'git-essentials'
+import { NotFoundError } from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
@@ -94,6 +95,6 @@ describe('resolveRef', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.NotFoundError)
+    await expectToFailWithTypeAsync(action, NotFoundError)
   })
 })

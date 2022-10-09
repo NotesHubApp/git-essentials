@@ -5,14 +5,14 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 
-type ResolveRefParams = {
+export type ResolveRefParams = {
   /** A file system client. */
   fs: FsClient
 
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The ref to resolve. */
@@ -25,16 +25,17 @@ type ResolveRefParams = {
 /**
  * Get the value of a symbolic ref or resolve a ref to its SHA-1 object id.
  *
- * @param {ResolveRefParams} args
+ * @param args
  *
- * @returns {Promise<string>} Resolves successfully with a SHA-1 object id or the value of a symbolic ref
+ * @returns Resolves successfully with a SHA-1 object id or the value of a symbolic ref.
  *
  * @example
- * let currentCommit = await git.resolveRef({ fs, dir: '/tutorial', ref: 'HEAD' })
+ * const currentCommit = await resolveRef({ fs, dir: '/tutorial', ref: 'HEAD' })
  * console.log(currentCommit)
- * let currentBranch = await git.resolveRef({ fs, dir: '/tutorial', ref: 'HEAD', depth: 2 })
+ * const currentBranch = await resolveRef({ fs, dir: '/tutorial', ref: 'HEAD', depth: 2 })
  * console.log(currentBranch)
  *
+ * @group Commands
  */
 export async function resolveRef(
   { fs, dir, gitdir = join(dir, '.git'), ref, depth }: ResolveRefParams): Promise<string> {

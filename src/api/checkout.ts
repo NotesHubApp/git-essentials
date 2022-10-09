@@ -6,7 +6,8 @@ import { join } from '../utils/join'
 import { FsClient } from '../models/FsClient'
 import { ProgressCallback } from '../models'
 
-type CheckoutParams = {
+
+export type CheckoutParams = {
   /** A file system implementation. */
   fs: FsClient
 
@@ -16,7 +17,7 @@ type CheckoutParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Which remote repository to use (default: `origin`). */
@@ -52,32 +53,30 @@ type CheckoutParams = {
  *
  * If the branch already exists it will check out that branch. Otherwise, it will create a new remote tracking branch set to track the remote branch of that name.
  *
- * @param {CheckoutParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
+ * @returns Resolves successfully when filesystem operations are complete.
  *
  * @example
  * // switch to the main branch
- * await git.checkout({
+ * await checkout({
  *   fs,
  *   dir: '/tutorial',
  *   ref: 'main'
  * })
- * console.log('done')
  *
  * @example
  * // restore the 'docs' and 'src/docs' folders to the way they were, overwriting any changes
- * await git.checkout({
+ * await checkout({
  *   fs,
  *   dir: '/tutorial',
  *   force: true,
  *   filepaths: ['docs', 'src/docs']
  * })
- * console.log('done')
  *
  * @example
  * // restore the 'docs' and 'src/docs' folders to the way they are in the 'develop' branch, overwriting any changes
- * await git.checkout({
+ * await checkout({
  *   fs,
  *   dir: '/tutorial',
  *   ref: 'develop',
@@ -85,7 +84,8 @@ type CheckoutParams = {
  *   force: true,
  *   filepaths: ['docs', 'src/docs']
  * })
- * console.log('done')
+ *
+ * @group Commands
  */
 export async function checkout({
   fs,

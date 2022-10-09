@@ -4,7 +4,6 @@ import { _addRemote } from '../commands/addRemote'
 import { _checkout } from '../commands/checkout'
 import { _fetch } from '../commands/fetch'
 import { _init } from '../commands/init'
-import { deleteRecursively } from '../utils/deleteRecursively'
 import {
   AuthCallback,
   AuthFailureCallback,
@@ -14,7 +13,7 @@ import {
   MessageCallback,
   ProgressCallback
 } from '../models'
-import { Errors } from '..'
+import { AlreadyExistsError } from '../errors'
 
 
 type CloneParams = {
@@ -109,15 +108,9 @@ export async function _clone({
       noCheckout,
     })
   } catch (err: any) {
-    if (!(err instanceof Errors.AlreadyExistsError)) {
+    if (!(err instanceof AlreadyExistsError)) {
       // Remove partial local repository
-      try {
-        await deleteRecursively({ fs, dirname: gitdir })
-      } catch (err) {
-        // Ignore this error, we are already failing.
-        // This try-catch is necessary so the original error is
-        // not masked by potential errors in deleteRecursively.
-      }
+      await fs.rmdir(gitdir, { recursive: true }).catch(() => undefined)
     }
 
     throw err

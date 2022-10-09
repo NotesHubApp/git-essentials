@@ -6,14 +6,15 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 import { ReadCommitResult } from '../api/readCommit'
 
-type LogParams = {
+
+export type LogParams = {
   /** A file system client. */
   fs: FsClient
 
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The commit to begin walking backwards through the history from (default: `HEAD`). */
@@ -32,13 +33,12 @@ type LogParams = {
 /**
  * Get commit descriptions from the git history.
  *
- * @param {LogParams} args
+ * @param args
  *
- * @returns {Promise<Array<ReadCommitResult>>} Resolves to an array of ReadCommitResult objects
- * @see ReadCommitResult
+ * @returns Resolves to an array of {@link ReadCommitResult} objects.
  *
  * @example
- * let commits = await log({
+ * const commits = await log({
  *   fs,
  *   dir: '/tutorial',
  *   depth: 5,
@@ -46,6 +46,7 @@ type LogParams = {
  * })
  * console.log(commits)
  *
+ * @group Commands
  */
 export async function log({
   fs,

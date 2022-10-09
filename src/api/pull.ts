@@ -21,7 +21,7 @@ import {
 } from '../models'
 
 
-type PullParams = {
+export type PullParams = {
   /** A file system client. */
   fs: FsClient
 
@@ -52,7 +52,7 @@ type PullParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Which branch to merge into. By default this is the currently checked out branch. */
@@ -91,7 +91,7 @@ type PullParams = {
   /** The details about the commit committer, in the same format as the author parameter. If not specified, the author details are used. */
   committer?: Author
 
-  /** passed to commit when creating a merge commit. */
+  /** Passed to commit when creating a merge commit. */
   signingKey?: string
 
   /** A cache object. */
@@ -101,20 +101,20 @@ type PullParams = {
 /**
  * Fetch and merge commits from a remote repository.
  *
- * @param {PullParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully when pull operation completes
+ * @returns Resolves successfully when pull operation completes.
  *
  * @example
- * await git.pull({
+ * await pull({
  *   fs,
  *   http,
  *   dir: '/tutorial',
  *   ref: 'main',
  *   singleBranch: true
  * })
- * console.log('done')
  *
+ * @group Commands
  */
 export async function pull({
   fs: _fs,

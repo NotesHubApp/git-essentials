@@ -5,31 +5,35 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 
-type ListRemotesParams = {
+export type ListRemotesParams = {
   /** A file system client. */
   fs: FsClient
 
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 }
 
 /**
  * List remotes.
  *
- * @param {ListRemotesParams} args
+ * @param args
  *
- * @returns {Promise<Array<{remote: string, url: string}>>} Resolves successfully with an array of `{remote, url}` objects
+ * @returns Resolves successfully with an array of `{remote, url}` objects.
  *
  * @example
- * let remotes = await git.listRemotes({ fs, dir: '/tutorial' })
+ * const remotes = await listRemotes({ fs, dir: '/tutorial' })
  * console.log(remotes)
  *
+ * @group Commands
  */
-export async function listRemotes(
-  { fs, dir, gitdir = join(dir, '.git') }: ListRemotesParams): Promise<{ remote: string, url: string }[]> {
+export async function listRemotes({
+  fs,
+  dir,
+  gitdir = join(dir, '.git')
+}: ListRemotesParams): Promise<{ remote: string, url: string }[]> {
   try {
     assertParameter('fs', fs)
     assertParameter('gitdir', gitdir)

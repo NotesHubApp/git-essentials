@@ -14,17 +14,40 @@ import { join } from './join'
 import { mergeFile } from './mergeFile'
 
 type MergeTreeParams = {
+  /** A file system helper. */
   fs: FileSystem
+
+  /** A cache object. */
   cache: Cache
+
+  /** The working tree directory path. */
   dir: string
+
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
+
+  /** The SHA-1 object id of our tree. */
   ourOid: string
+
+  /** The SHA-1 object id of the base tree. */
   baseOid: string
+
+  /** The SHA-1 object id of their tree. */
   theirOid: string
+
+  /** The name to use in conflicted files for our hunks. */
   ourName?: string
+
+  /** The name to use in conflicted files (in diff3 format) for the base hunks. */
   baseName?: string
+
+  /** The name to use in conflicted files for their hunks. */
   theirName?: string
+
+  /** If true, simulates a merge so you can test whether it would succeed. */
   dryRun?: boolean
+
+  /** Optional blob merge callback. */
   onBlobMerge?: BlobMergeCallback
 }
 
@@ -46,21 +69,9 @@ type MergeBlobsParams = {
 /**
  * Create a merged tree
  *
- * @param {Object} args
- * @param {FileSystem} args.fs
- * @param {object} args.cache
- * @param {string} [args.dir] - The [working tree](dir-vs-gitdir.md) directory path
- * @param {string} [args.gitdir=join(dir,'.git')] - [required] The [git directory](dir-vs-gitdir.md) path
- * @param {string} args.ourOid - The SHA-1 object id of our tree
- * @param {string} args.baseOid - The SHA-1 object id of the base tree
- * @param {string} args.theirOid - The SHA-1 object id of their tree
- * @param {string} [args.ourName='ours'] - The name to use in conflicted files for our hunks
- * @param {string} [args.baseName='base'] - The name to use in conflicted files (in diff3 format) for the base hunks
- * @param {string} [args.theirName='theirs'] - The name to use in conflicted files for their hunks
- * @param {boolean} [args.dryRun=false]
- * @param {BlobMergeCallback} [args.onBlobMerge]
+ * @param args
  *
- * @returns {Promise<string>} - The SHA-1 object id of the merged tree
+ * @returns - The SHA-1 object id of the merged tree
  *
  * @internal
  */
@@ -180,12 +191,6 @@ export async function mergeTree({
   return results.oid
 }
 
-/**
- *
- * @param {WalkerEntry} entry
- * @param {WalkerEntry} base
- *
- */
 async function modified(entry: WalkerEntry, base: WalkerEntry) {
   if (!entry && !base) return false
   if (entry && !base) return true
@@ -203,24 +208,6 @@ async function modified(entry: WalkerEntry, base: WalkerEntry) {
   return true
 }
 
-/**
- *
- * @param {Object} args
- * @param {import('../models/FileSystem').FileSystem} args.fs
- * @param {string} args.gitdir
- * @param {string} args.path
- * @param {string} args.filepath
- * @param {WalkerEntry | null} args.ours
- * @param {WalkerEntry | null} args.base
- * @param {WalkerEntry | null} args.theirs
- * @param {string} [args.ourName]
- * @param {string} [args.baseName]
- * @param {string} [args.theirName]
- * @param {string} [args.format]
- * @param {number} [args.markerSize]
- * @param {boolean} [args.dryRun = false]
- * @param {BlobMergeCallback} [args.onBlobMerge]
- */
 async function mergeBlobs({
   fs,
   gitdir,
@@ -298,16 +285,6 @@ async function mergeBlobs({
   return { mode, path, oid, type }
 }
 
-/**
- * @param {string} filePath
- * @param {WalkerEntry | null} their
- * @param {WalkerEntry | null} base
- * @param {WalkerEntry | null} our
- * @param {string} theirName
- * @param {string} baseName
- * @param {string} ourName
- * @returns {Promise<{ mergedText: string, mode: number } | { oid: string, mode: number } | undefined>}
- */
 async function defaultBlobMergeCallback({
   filePath,
   theirBlob: their,

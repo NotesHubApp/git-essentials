@@ -7,7 +7,7 @@ import { normalizeStats } from '../utils/normalizeStats'
 import { shasum } from '../utils/shasum'
 import { GitObject } from './GitObject'
 import { GitWalker, WalkerEntryInternal, WalkerEntryConstructor, WalkerEntryType } from './Walker'
-import { NormalizedStat } from './NormalizedStat'
+import { NormalizedStats } from './NormalizedStats'
 
 /** @internal */
 export class GitWalkerFs implements GitWalker {
@@ -112,7 +112,7 @@ export class GitWalkerFs implements GitWalker {
       entry._stat = normalizeStat
     }
 
-    return entry._stat as NormalizedStat
+    return entry._stat as NormalizedStats
   }
 
   async content(entry: WalkerEntryInternal) {
@@ -126,7 +126,7 @@ export class GitWalkerFs implements GitWalker {
         // workaround for a BrowserFS edge case
         entry._actualSize = content.length
 
-        const stat = entry._stat as NormalizedStat
+        const stat = entry._stat as NormalizedStats
         if (stat && stat.size === -1) {
           stat.size = entry._actualSize
         }

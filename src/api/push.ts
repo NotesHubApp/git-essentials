@@ -40,7 +40,7 @@ export type PushParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Which branch to push. By default this is the currently checked out branch. */
@@ -84,7 +84,7 @@ export type PushResult = {
  * | param  | type [= default] | description                                                                                                                                                                                                      |
  * | ------ | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
  * | ok     | Array\<string\>  | The first item is "unpack" if the overall operation was successful. The remaining items are the names of refs that were updated successfully.                                                                    |
- * | errors | Array\<string\>  | If the overall operation threw and error, the first item will be "unpack {Overall error message}". The remaining items are individual refs that failed to be updated in the format "{ref name} {error message}". |
+ * | errors | Array\<string\>  | If the overall operation threw and error, the first item will be "unpack \{Overall error message\}". The remaining items are individual refs that failed to be updated in the format "\{ref name\} \{error message\}". |
  *
  * @param args
  *
@@ -101,6 +101,7 @@ export type PushResult = {
  * })
  * console.log(pushResult)
  *
+ * @group Commands
  */
 export async function push({
   fs,

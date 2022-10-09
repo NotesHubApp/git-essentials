@@ -1,5 +1,5 @@
-import { Stat } from '../models/FsClient';
-import { NormalizedStat } from '../models/NormalizedStat';
+import { Stats } from '../models/FsClient';
+import { NormalizedStats } from '../models/NormalizedStats';
 import { normalizeMode } from './normalizeMode'
 
 const MAX_UINT32 = 2 ** 32
@@ -25,7 +25,7 @@ function SecondsNanoseconds(
 }
 
 /** @internal */
-export function normalizeStats(e: Stat): NormalizedStat {
+export function normalizeStats(e: Stats): NormalizedStats {
   const [ctimeSeconds, ctimeNanoseconds] = SecondsNanoseconds(
     e.ctimeSeconds,
     e.ctimeNanoseconds,
@@ -45,7 +45,7 @@ export function normalizeStats(e: Stat): NormalizedStat {
     mtimeSeconds: mtimeSeconds % MAX_UINT32,
     mtimeNanoseconds: mtimeNanoseconds % MAX_UINT32,
     dev: e.dev % MAX_UINT32,
-    ino: Number(e.ino) % MAX_UINT32,
+    ino: e.ino % MAX_UINT32,
     mode: normalizeMode(e.mode % MAX_UINT32),
     uid: e.uid % MAX_UINT32,
     gid: e.gid % MAX_UINT32,

@@ -40,7 +40,7 @@ export type FetchParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Which branch to fetch if `singleBranch` is true. By default this is the current branch or the remote's default branch. */
@@ -113,7 +113,7 @@ export type FetchParams = {
  *
  * @param args
  *
- * @returns Resolves successfully when fetch completes
+ * @returns Resolves successfully when fetch completes.
  *
  * @example
  * const result = await fetch({
@@ -128,6 +128,7 @@ export type FetchParams = {
  * })
  * console.log(result)
  *
+ * @group Commands
  */
 export async function fetch({
   fs,

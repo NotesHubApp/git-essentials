@@ -2,7 +2,7 @@ import { Buffer } from 'buffer'
 
 import { compareStrings } from '../utils/compareStrings'
 import { dirname } from '../utils/dirname'
-import { EncodingOpts, FsClient, WriteOpts } from './FsClient'
+import { EncodingOptions, FsClient, RmOptions, WriteOptions } from './FsClient'
 
 /**
  * This is just a collection of helper functions really. At least that's how it started.
@@ -15,9 +15,9 @@ export class FileSystem {
    * Return true if a file exists, false if it doesn't exist.
    * Rethrows errors that aren't related to file existance.
    */
-  async exists(filepath: string): Promise<boolean> {
+  async exists(path: string): Promise<boolean> {
     try {
-      await this.fs.stat(filepath)
+      await this.fs.stat(path)
       return true
     } catch (err: any) {
       if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
@@ -31,15 +31,10 @@ export class FileSystem {
 
   /**
    * Return the contents of a file if it exists, otherwise returns null.
-   *
-   * @param {string} filepath
-   * @param {object} [options]
-   *
-   * @returns {Promise<Buffer | string | null>}
    */
-  async read(filepath: string, options: EncodingOpts = {}): Promise<Buffer | string | null> {
+  async read(path: string, options: EncodingOptions = {}): Promise<Buffer | string | null> {
     try {
-      let buffer = await this.fs.readFile(filepath, options)
+      let buffer = await this.fs.readFile(path, options)
       // Convert plain ArrayBuffers to Buffers
       if (typeof buffer !== 'string') {
         return Buffer.from(buffer)
@@ -53,28 +48,24 @@ export class FileSystem {
 
   /**
    * Write a file (creating missing directories if need be) without throwing errors.
-   *
-   * @param {string} filepath
-   * @param {Buffer|Uint8Array|string} contents
-   * @param {object|string} [options]
    */
-  async write(filepath: string, contents: string | Uint8Array, options: WriteOpts = {}) {
+  async write(path: string, contents: string | Uint8Array, options: WriteOptions = {}) {
     try {
-      await this.fs.writeFile(filepath, contents, options)
+      await this.fs.writeFile(path, contents, options)
       return
     } catch (err) {
       // Hmm. Let's try mkdirp and try again.
-      await this.mkdir(dirname(filepath))
-      await this.fs.writeFile(filepath, contents, options)
+      await this.mkdir(dirname(path))
+      await this.fs.writeFile(path, contents, options)
     }
   }
 
   /**
    * Make a directory (or series of nested directories) without throwing an error if it already exists.
    */
-  async mkdir(filepath: string, _selfCall = false) {
+  async mkdir(path: string, _selfCall = false) {
     try {
-      await this.fs.mkdir(filepath)
+      await this.fs.mkdir(path)
       return
     } catch (err: any) {
       // If err is null then operation succeeded!
@@ -85,12 +76,12 @@ export class FileSystem {
       if (_selfCall) throw err
       // If we got a "no such file or directory error" backup and try again.
       if (err.code === 'ENOENT') {
-        const parent = dirname(filepath)
+        const parent = dirname(path)
         // Check to see if we've gone too far
-        if (parent === '.' || parent === '/' || parent === filepath) throw err
+        if (parent === '.' || parent === '/' || parent === path) throw err
         // Infinite recursion, what could go wrong?
         await this.mkdir(parent)
-        await this.mkdir(filepath, true)
+        await this.mkdir(path, true)
       }
     }
   }
@@ -98,9 +89,9 @@ export class FileSystem {
   /**
    * Delete a file without throwing an error if it is already deleted.
    */
-  async rm(filepath: string) {
+  async rm(path: string) {
     try {
-      await this.fs.unlink(filepath)
+      await this.fs.unlink(path)
     } catch (err: any) {
       if (err.code !== 'ENOENT') throw err
     }
@@ -109,9 +100,9 @@ export class FileSystem {
   /**
    * Delete a directory without throwing an error if it is already deleted.
    */
-  async rmdir(filepath: string) {
+  async rmdir(path: string, options: RmOptions = {}) {
     try {
-      await this.fs.rmdir(filepath)
+      await this.fs.rm(path, options)
     } catch (err: any) {
       if (err.code !== 'ENOENT') throw err
     }
@@ -120,9 +111,9 @@ export class FileSystem {
   /**
    * Read a directory without throwing an error is the directory doesn't exist
    */
-  async readdir(filepath: string) {
+  async readdir(path: string) {
     try {
-      const names = await this.fs.readdir(filepath)
+      const names = await this.fs.readdir(path)
       // Ordering is not guaranteed, and system specific (Windows vs Unix)
       // so we must sort them ourselves.
       names.sort(compareStrings)
@@ -139,10 +130,10 @@ export class FileSystem {
    * Based on an elegant concurrent recursive solution from SO
    * https://stackoverflow.com/a/45130990/2168416
    */
-  async readdirDeep(dir: string): Promise<string[]> {
-    const subdirs = await this.fs.readdir(dir)
+  async readdirDeep(path: string): Promise<string[]> {
+    const subdirs = await this.fs.readdir(path)
     const files = await Promise.all(subdirs.map(async subdir => {
-        const res = dir + '/' + subdir
+        const res = path + '/' + subdir
         return (await this.fs.stat(res)).isDirectory() ? this.readdirDeep(res) : res
       })
     )
@@ -154,9 +145,9 @@ export class FileSystem {
    * Return the Stats of a file/symlink if it exists, otherwise returns null.
    * Rethrows errors that aren't related to file existance.
    */
-  async lstat(filename: string) {
+  async lstat(path: string) {
     try {
-      const stats = await this.fs.lstat(filename)
+      const stats = await this.fs.lstat(path)
       return stats
     } catch (err: any) {
       if (err.code === 'ENOENT') {
@@ -167,19 +158,12 @@ export class FileSystem {
   }
 
   /**
-   * Return the Stats of a file following symlink
-   */
-  async stat(filename: string) {
-    return await this.fs.stat(filename)
-  }
-
-  /**
    * Reads the contents of a symlink if it exists, otherwise returns null.
    * Rethrows errors that aren't related to file existance.
    */
-  async readlink(filename: string): Promise<Buffer | null> {
+  async readlink(path: string): Promise<Buffer | null> {
     try {
-      return Buffer.from(await this.fs.readlink(filename))
+      return Buffer.from(await this.fs.readlink(path))
     } catch (err: any) {
       if (err.code === 'ENOENT') {
         return null
@@ -191,7 +175,7 @@ export class FileSystem {
   /**
    * Write the contents of buffer to a symlink.
    */
-  async writelink(filename: string, buffer: Buffer) {
-    return this.fs.symlink(buffer.toString('utf8'), filename)
+  async writelink(path: string, buffer: Buffer) {
+    return this.fs.symlink(buffer.toString('utf8'), path)
   }
 }

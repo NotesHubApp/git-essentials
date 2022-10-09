@@ -1,4 +1,4 @@
-import { NormalizedStat } from './NormalizedStat'
+import { NormalizedStats } from './NormalizedStats'
 
 /** @internal */
 export type IndexEntryFlags = {
@@ -9,7 +9,7 @@ export type IndexEntryFlags = {
 }
 
 /** @internal */
-export type IndexEntry = NormalizedStat & {
+export type IndexEntry = NormalizedStats & {
   oid: string
   path: string
   flags: IndexEntryFlags

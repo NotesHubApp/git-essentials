@@ -11,6 +11,7 @@ import { _writeObject } from '../storage/writeObject'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
+
 export type AddParams = {
   /** A file system implementation. */
   fs: FsClient
@@ -18,10 +19,7 @@ export type AddParams = {
   /** A directory path. */
   dir: string
 
-  /**
-   * The git directory path.
-   * @defaultValue `join(dir, '.git')`
-   */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The path to the file to add to the index. */
@@ -36,7 +34,7 @@ export type AddParams = {
  *
  * @param args
  *
- * @returns Resolves successfully once the git index has been updated
+ * @returns Resolves successfully once the git index has been updated.
  *
  * @example
  * ```ts
@@ -44,6 +42,7 @@ export type AddParams = {
  * await add({ fs, dir: '/tutorial', filepath: 'README.md' })
  * ```
  *
+ * @group Commands
  */
 export async function add({
   fs: _fs,

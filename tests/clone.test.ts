@@ -2,10 +2,15 @@ import {
   checkout,
   clone,
   currentBranch,
-  Errors,
   getConfig,
-  setGitClientAgent
 } from 'git-essentials'
+import {
+  UnknownTransportError,
+  InternalError,
+  NotFoundError,
+  AlreadyExistsError
+} from 'git-essentials/errors'
+import { setGitClientAgent } from 'git-essentials/utils/pkg'
 
 import { expectToFailAsync, expectToFailWithErrorAsync, expectToFailWithTypeAsync } from './helpers/assertionHelper'
 import { makeFsFixture } from './helpers/makeFsFixture'
@@ -157,7 +162,7 @@ describe('clone', () => {
     }
 
     // assert
-    await expectToFailWithErrorAsync(action, new Errors.UnknownTransportError(url, 'foobar'))
+    await expectToFailWithErrorAsync(action, new UnknownTransportError(url, 'foobar'))
   })
 
   it('clone empty repository', async () => {
@@ -195,7 +200,7 @@ describe('clone', () => {
 
     // assert
     await expectToFailAsync(action, (err) =>
-      err instanceof Errors.InternalError && err.data.message.includes('Pako error'))
+      err instanceof InternalError && err.data.message.includes('Pako error'))
   })
 
   it('removes the .git directory when clone fails', async () => {
@@ -217,7 +222,7 @@ describe('clone', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.NotFoundError)
+    await expectToFailWithTypeAsync(action, NotFoundError)
     expect(await fs.exists(`${dir}/.git`)).toBe(false)
   })
 
@@ -249,7 +254,7 @@ describe('clone', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.AlreadyExistsError)
+    await expectToFailWithTypeAsync(action, AlreadyExistsError)
     expect(await fs.exists(`${dir}/.git`)).toBe(true)
     expect(await currentBranch({ fs, dir })).toBe('i-am-not-main')
   }),

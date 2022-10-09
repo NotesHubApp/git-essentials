@@ -1,4 +1,5 @@
-import { Errors, readCommit, commit, log } from 'git-essentials'
+import { readCommit, commit, log } from 'git-essentials'
+import { MissingNameError } from 'git-essentials/errors'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
@@ -178,7 +179,7 @@ describe('commit', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.MissingNameError)
+    await expectToFailWithTypeAsync(action, MissingNameError)
   })
 
   it('create signed commit', async () => {

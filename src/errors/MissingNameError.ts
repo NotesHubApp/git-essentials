@@ -1,18 +1,15 @@
 import { BaseError } from './BaseError'
 
-type Role = 'author' | 'committer' | 'tagger'
+export type MissingNameRole = 'author' | 'committer' | 'tagger'
 
-type MissingNameErrorData = {
-  role: Role
+export type MissingNameErrorData = {
+  role: MissingNameRole
 }
 
 export class MissingNameError extends BaseError<MissingNameErrorData> {
   public static readonly code = 'MissingNameError'
 
-  /**
-   * @param {'author'|'committer'|'tagger'} role
-   */
-  constructor(role: Role) {
+  constructor(role: MissingNameRole) {
     super(
       `No name was provided for ${role} in the argument or in the .git/config file.`,
       MissingNameError.code,

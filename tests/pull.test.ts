@@ -1,4 +1,6 @@
-import { Errors, pull, log, add, commit, setGitClientAgent } from 'git-essentials'
+import { pull, log, add, commit } from 'git-essentials'
+import { setGitClientAgent } from 'git-essentials/utils/pkg'
+import { FastForwardError } from 'git-essentials/errors'
 
 import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
 import { makeHttpFixture, HttpFixtureData } from './helpers/makeHttpFixture'
@@ -97,7 +99,7 @@ describe('pull', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, Errors.FastForwardError)
+    await expectToFailWithTypeAsync(action, FastForwardError)
   })
 
   it('pull no fast-forward', async () => {

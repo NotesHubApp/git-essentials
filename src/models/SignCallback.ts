@@ -1,4 +1,4 @@
-type SignCallbackParams = {
+export type SignCallbackParams = {
   /** A plaintext message. */
   payload: string
 
@@ -7,6 +7,14 @@ type SignCallbackParams = {
 }
 
 /**
+ * In order to use the PGP signing feature of {@link commit}, you have to provide a PGP signing callback like so:
+ *
+ * ```typescript
+ * import { pgp } from '@isomorphic-git/pgp-plugin'
+ * commit({ ..., onSign: pgp.sign })
+ * ```
+ *
+ * @returns An 'ASCII armor' encoded "detached" signature.
  * @group Callbacks
  */
 export type SignCallback =

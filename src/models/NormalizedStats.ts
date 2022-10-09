@@ -1,5 +1,5 @@
 /** @internal */
-export type NormalizedStat = {
+export type NormalizedStats = {
   ctimeSeconds: number
   ctimeNanoseconds: number
   mtimeSeconds: number

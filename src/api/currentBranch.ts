@@ -4,14 +4,15 @@ import { FsClient } from '../models/FsClient'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
-type CurrentBranchParams = {
+
+export type CurrentBranchParams = {
   /** A file system implementation. */
   fs: FsClient
 
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** Return the full path (e.g. "refs/heads/main") instead of the abbreviated form. */
@@ -24,19 +25,20 @@ type CurrentBranchParams = {
 /**
  * Get the name of the branch currently pointed to by .git/HEAD.
  *
- * @param {CurrentBranchParams} args
+ * @param args
  *
- * @returns {Promise<string|void>} The name of the current branch or undefined if the HEAD is detached.
+ * @returns The name of the current branch or undefined if the HEAD is detached.
  *
  * @example
  * // Get the current branch name
- * let branch = await git.currentBranch({
+ * const branch = await currentBranch({
  *   fs,
  *   dir: '/tutorial',
  *   fullname: false
  * })
  * console.log(branch)
  *
+ * @group Commands
  */
 export async function currentBranch({
   fs,
@@ -44,7 +46,7 @@ export async function currentBranch({
   gitdir = join(dir, '.git'),
   fullname = false,
   test = false,
-}: CurrentBranchParams): Promise<string | void> {
+}: CurrentBranchParams): Promise<string | undefined> {
   try {
     assertParameter('fs', fs)
     assertParameter('gitdir', gitdir)

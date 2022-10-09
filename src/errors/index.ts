@@ -1,3 +1,8 @@
+/**
+ * @module Errors
+ */
+
+export * from './BaseError'
 export * from './AlreadyExistsError'
 export * from './CheckoutConflictError'
 export * from './CommitNotFetchedError'

@@ -5,14 +5,14 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 
-type BranchParams = {
+export type BranchParams = {
   /** A file system implementation. */
   fs: FsClient
 
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** What to name the branch. */
@@ -31,14 +31,14 @@ type BranchParams = {
 /**
  * Create a branch.
  *
- * @param {BranchParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully when filesystem operations are complete
+ * @returns Resolves successfully when filesystem operations are complete.
  *
  * @example
- * await git.branch({ fs, dir: '/tutorial', ref: 'develop' })
- * console.log('done')
+ * await branch({ fs, dir: '/tutorial', ref: 'develop' })
  *
+ * @group Commands
  */
 export async function branch({
   fs,

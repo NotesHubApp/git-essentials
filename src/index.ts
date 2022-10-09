@@ -1,6 +1,8 @@
+/**
+ * @module API
+ */
+
 export * from './models'
-export * as Errors from './errors'
-export { setGitClientAgent } from './utils/pkg'
 
 export * from './api/add'
 export * from './api/addRemote'

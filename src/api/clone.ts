@@ -14,7 +14,8 @@ import {
 } from '../models'
 import { Cache } from '../models/Cache'
 
-type CloneParams = {
+
+export type CloneParams = {
   /** A file system implementation. */
   fs: FsClient
 
@@ -39,7 +40,7 @@ type CloneParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The URL of the remote repository. */
@@ -82,12 +83,12 @@ type CloneParams = {
 /**
  * Clone a repository
  *
- * @param {CloneParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully when clone completes
+ * @returns Resolves successfully when clone completes.
  *
  * @example
- * await git.clone({
+ * await clone({
  *   fs,
  *   http,
  *   dir: '/tutorial',
@@ -95,8 +96,8 @@ type CloneParams = {
  *   singleBranch: true,
  *   depth: 1
  * })
- * console.log('done')
  *
+ * @group Commands
  */
 export async function clone({
   fs,

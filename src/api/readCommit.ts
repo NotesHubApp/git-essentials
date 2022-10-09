@@ -12,7 +12,7 @@ export type ReadCommitParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The SHA-1 object id to get. Annotated tags are peeled. */
@@ -23,8 +23,13 @@ export type ReadCommitParams = {
 }
 
 export type ReadCommitResult = {
+  /** SHA-1 object id of this commit. */
   oid: string
+
+  /** The parsed commit object. */
   commit: Commit
+
+  /** PGP signing payload. */
   payload: string
 }
 
@@ -33,15 +38,16 @@ export type ReadCommitResult = {
  *
  * @param args
  *
- * @returns Resolves successfully with a git commit object
+ * @returns Resolves successfully with a git commit object.
  *
  * @example
  * // Read a commit object
- * let sha = await resolveRef({ fs, dir: '/tutorial', ref: 'main' })
+ * const sha = await resolveRef({ fs, dir: '/tutorial', ref: 'main' })
  * console.log(sha)
- * let commit = await readCommit({ fs, dir: '/tutorial', oid: sha })
+ * const commit = await readCommit({ fs, dir: '/tutorial', oid: sha })
  * console.log(commit)
  *
+ * @group Commands
  */
 export async function readCommit({
   fs,

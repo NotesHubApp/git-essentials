@@ -6,14 +6,14 @@ import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
 
 
-type SetConfigParams<T> = {
+export type SetConfigParams<T> = {
   /** A file system implementation. */
   fs: FsClient
 
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The key of the git config entry. */
@@ -33,13 +33,13 @@ type SetConfigParams<T> = {
  * - Currently only the local `$GIT_DIR/config` file can be read or written. However support for the global `~/.gitconfig` and system `$(prefix)/etc/gitconfig` will be added in the future.
  * - The current parser does not support the more exotic features of the git-config file format such as `[include]` and `[includeIf]`.
  *
- * @param {SetConfigParams} args
+ * @param args
  *
- * @returns {Promise<void>} Resolves successfully when operation completed
+ * @returns Resolves successfully when operation completed.
  *
  * @example
  * // Write config value
- * await git.setConfig({
+ * await setConfig({
  *   fs,
  *   dir: '/tutorial',
  *   path: 'user.name',
@@ -47,11 +47,11 @@ type SetConfigParams<T> = {
  * })
  *
  * // Print out config file
- * let file = await fs.promises.readFile('/tutorial/.git/config', 'utf8')
+ * let file = await fs.readFile('/tutorial/.git/config', { encoding : 'utf8' })
  * console.log(file)
  *
  * // Delete a config entry
- * await git.setConfig({
+ * await setConfig({
  *   fs,
  *   dir: '/tutorial',
  *   path: 'user.name',
@@ -59,8 +59,10 @@ type SetConfigParams<T> = {
  * })
  *
  * // Print out config file
- * file = await fs.promises.readFile('/tutorial/.git/config', 'utf8')
+ * file = await fs.readFile('/tutorial/.git/config', { encoding: 'utf8' })
  * console.log(file)
+ *
+ * @group Commands
  */
 export async function setConfig<T extends ConfigPath>({
   fs: _fs,

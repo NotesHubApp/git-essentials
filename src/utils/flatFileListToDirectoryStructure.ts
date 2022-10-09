@@ -1,10 +1,10 @@
-import { Stat } from '../models'
+import { Stats } from '../models'
 import { IndexEntry } from '../models/IndexEntry'
 import { basename } from '../utils/basename'
 import { dirname } from '../utils/dirname'
 
 
-type Metadata = Partial<Stat> & {
+type Metadata = Partial<Stats> & {
   oid?: string
 }
 

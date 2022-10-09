@@ -1,5 +1,5 @@
 import { _merge } from '../commands/merge'
-import { MissingNameError } from '../errors/MissingNameError'
+import { MissingNameError } from '../errors'
 import { FileSystem } from '../models/FileSystem'
 import { FsClient } from '../models/FsClient'
 import { Author, SignCallback, Cache, BlobMergeCallback } from '../models'
@@ -8,7 +8,8 @@ import { join } from '../utils/join'
 import { normalizeAuthorObject } from '../utils/normalizeAuthorObject'
 import { normalizeCommitterObject } from '../utils/normalizeCommitterObject'
 
-type MergeParams = {
+
+export type MergeParams = {
   /** A file system client. */
   fs: FsClient,
 
@@ -18,7 +19,7 @@ type MergeParams = {
   /** The working tree directory path. */
   dir: string
 
-  /** The git directory path (default: `join(dir, '.git')`). */
+  /** The git directory path (default: `{dir}/.git`). */
   gitdir?: string
 
   /** The branch receiving the merge. If undefined, defaults to the current branch. */
@@ -58,7 +59,7 @@ type MergeParams = {
   cache?: Cache
 }
 
-type MergeResult = {
+export type MergeResult = {
   /** The SHA-1 object id that is now at the head of the branch. Absent only if `dryRun` was specified and `mergeCommit` is true. */
   oid?: string
 
@@ -81,19 +82,18 @@ type MergeResult = {
  * ## Limitations
  *
  * Currently it does not support incomplete merges. That is, if there are merge conflicts it cannot solve
- * with the built in diff3 algorithm it will not modify the working dir, and will throw a [`MergeNotSupportedError`](./errors.md#mergenotsupportedError) error.
+ * with the built in diff3 algorithm it will not modify the working dir, and will throw a {@link Errors.MergeNotSupportedError} error.
  *
  * Currently it will fail if multiple candidate merge bases are found. (It doesn't yet implement the recursive merge strategy.)
  *
- * You can use onBlobMerge callback to define your own merge stragegy.
+ * You can use {@link BlobMergeCallback onBlobMerge} callback to define your own merge stragegy.
  *
- * @param {MergeParams} args
+ * @param args
  *
- * @returns {Promise<MergeResult>} Resolves to a description of the merge operation
- * @see MergeResult
+ * @returns Resolves to a description of the merge operation.
  *
  * @example
- * let m = await git.merge({
+ * const m = await merge({
  *   fs,
  *   dir: '/tutorial',
  *   ours: 'main',
@@ -101,6 +101,7 @@ type MergeResult = {
  * })
  * console.log(m)
  *
+ * @group Commands
  */
 export async function merge({
   fs: _fs,
