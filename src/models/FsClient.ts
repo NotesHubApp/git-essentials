@@ -96,6 +96,30 @@ export type StatsLike = Stats & {
  * In the browser it's more involved because there's no standard 'fs' module.
  * But you can use any module that implements enough of the `fs` API.
  *
+ * ### Node.js
+ * If you're only using the library in Node.js, you can just use the native `fs/promises` module:
+ *
+ * ```typescript
+ * import fs from 'fs/promises'
+ * import { listFiles } from 'git-essentials'
+
+ * const files = await listFiles({ fs, dir: dirname })
+ * console.log(files)
+ * ```
+ *
+ * ### Browser
+ * For testing purposes, the library includes in-memory file system implementations
+ * which can be used on both Node.js and browser environments.
+ * For persistent production use, you will have to use 3rd party client or your own implementation.
+ * ```typescript
+ * import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
+ * import { listFiles } from 'git-essentials'
+ *
+ * const fs = new InMemoryFsClient()
+ * const files = await listFiles({ fs, dir: dirname })
+ * console.log(files)
+ * ```
+ *
  * @group FsClient
  */
 export interface FsClient {
