@@ -191,12 +191,6 @@ export async function mergeTree({
   return results.oid
 }
 
-/**
- *
- * @param {WalkerEntry} entry
- * @param {WalkerEntry} base
- *
- */
 async function modified(entry: WalkerEntry, base: WalkerEntry) {
   if (!entry && !base) return false
   if (entry && !base) return true
@@ -214,24 +208,6 @@ async function modified(entry: WalkerEntry, base: WalkerEntry) {
   return true
 }
 
-/**
- *
- * @param {Object} args
- * @param {import('../models/FileSystem').FileSystem} args.fs
- * @param {string} args.gitdir
- * @param {string} args.path
- * @param {string} args.filepath
- * @param {WalkerEntry | null} args.ours
- * @param {WalkerEntry | null} args.base
- * @param {WalkerEntry | null} args.theirs
- * @param {string} [args.ourName]
- * @param {string} [args.baseName]
- * @param {string} [args.theirName]
- * @param {string} [args.format]
- * @param {number} [args.markerSize]
- * @param {boolean} [args.dryRun = false]
- * @param {BlobMergeCallback} [args.onBlobMerge]
- */
 async function mergeBlobs({
   fs,
   gitdir,
