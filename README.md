@@ -1,11 +1,14 @@
 # Git Essentials
 A collection of essential Git commands for your browser and Node.js.
 
+[![Release](https://github.com/NotesHubApp/git-essentials/actions/workflows/release.yml/badge.svg)](https://github.com/NotesHubApp/git-essentials/actions/workflows/release.yml)
+[![NPM Version](https://img.shields.io/npm/v/git-essentials?color=33cd56&logo=npm)](https://www.npmjs.com/package/git-essentials)
+
 ## Documentation
 
 Visit [https://noteshubapp.github.io/git-essentials](https://noteshubapp.github.io/git-essentials) to view the full documentation.
 
-## Usage Examples
+## Examples
 
 ### Node.js
 ```typescript
