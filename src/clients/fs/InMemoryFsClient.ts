@@ -33,7 +33,7 @@ type Stats = {
 }
 
 class StatsImpl implements StatsLike {
-  type: 'file' | 'dir' | 'symlink'
+  private type: 'file' | 'dir' | 'symlink'
   mode: number
   size: number
   ino: number
@@ -186,20 +186,6 @@ export class InMemoryFsClient implements FsClient {
     } else {
       folder.children.push(makeFile(entryName, content))
     }
-  }
-
-  public async unlink(path: string): Promise<void> {
-    const { folder, entry, entryName } = this.parsePath(path)
-
-    if (!entry) {
-      throw new ENOENT(path)
-    }
-
-    if (entry.type === 'dir') {
-      throw new ENOENT(path)
-    }
-
-    folder.children = folder.children.filter(x => x.name !== entryName)
   }
 
   public async readdir(path: string): Promise<string[]> {

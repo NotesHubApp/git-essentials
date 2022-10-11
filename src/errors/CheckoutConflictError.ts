@@ -4,9 +4,6 @@ export type CheckoutConflictErrorData = {
   filepaths: string[]
 }
 
-/**
- * @group Errors
- */
 export class CheckoutConflictError extends BaseError<CheckoutConflictErrorData> {
   public static readonly code = 'CheckoutConflictError'
 

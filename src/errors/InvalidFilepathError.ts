@@ -6,9 +6,6 @@ export type InvalidFilepathErrorData = {
   reason: InvalidFilepathReason
 }
 
-/**
- * @group Errors
- */
 export class InvalidFilepathError extends BaseError<InvalidFilepathErrorData> {
   public static readonly code = 'InvalidFilepathError'
 

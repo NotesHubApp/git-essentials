@@ -8,9 +8,6 @@ export type AlreadyExistsErrorData = {
   canForce: boolean
 }
 
-/**
- * @group Errors
- */
 export class AlreadyExistsError extends BaseError<AlreadyExistsErrorData> {
   public static readonly code = 'AlreadyExistsError'
 

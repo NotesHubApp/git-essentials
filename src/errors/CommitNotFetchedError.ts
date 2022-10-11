@@ -5,9 +5,6 @@ export type CommitNotFetchedErrorData = {
   oid: string
 }
 
-/**
- * @group Errors
- */
 export class CommitNotFetchedError extends BaseError<CommitNotFetchedErrorData> {
   public static readonly code = 'CommitNotFetchedError'
 

@@ -9,9 +9,6 @@ export type ObjectTypeErrorData = {
   filepath?: string
 }
 
-/**
- * @group Errors
- */
 export class ObjectTypeError extends BaseError<ObjectTypeErrorData> {
   public static readonly code = 'ObjectTypeError'
 

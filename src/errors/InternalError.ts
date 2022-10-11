@@ -4,9 +4,6 @@ export type InternalErrorData = {
   message: string
 }
 
-/**
- * @group Errors
- */
 export class InternalError extends BaseError<InternalErrorData> {
   public static readonly code = 'InternalError'
 

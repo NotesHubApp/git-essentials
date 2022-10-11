@@ -4,9 +4,6 @@ export type MaxDepthErrorData = {
   depth: number
 }
 
-/**
- * @group Errors
- */
 export class MaxDepthError extends BaseError<MaxDepthErrorData> {
   public static readonly code = 'MaxDepthError'
 

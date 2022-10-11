@@ -181,7 +181,7 @@ export async function _checkout({
             if (method === 'rmdir-index') {
               index.delete({ filepath: fullpath })
             }
-            await fs.rmdir(filepath)
+            await fs.rm(filepath)
             if (onProgress) {
               await onProgress({
                 phase: 'Updating workdir',

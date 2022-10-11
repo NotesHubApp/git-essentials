@@ -87,20 +87,9 @@ export class FileSystem {
   }
 
   /**
-   * Delete a file without throwing an error if it is already deleted.
+   * Delete a file or a directory without throwing an error if it is already deleted.
    */
-  async rm(path: string) {
-    try {
-      await this.fs.unlink(path)
-    } catch (err: any) {
-      if (err.code !== 'ENOENT') throw err
-    }
-  }
-
-  /**
-   * Delete a directory without throwing an error if it is already deleted.
-   */
-  async rmdir(path: string, options: RmOptions = {}) {
+  async rm(path: string, options: RmOptions = {}) {
     try {
       await this.fs.rm(path, options)
     } catch (err: any) {

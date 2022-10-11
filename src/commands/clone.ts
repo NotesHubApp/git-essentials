@@ -110,7 +110,7 @@ export async function _clone({
   } catch (err: any) {
     if (!(err instanceof AlreadyExistsError)) {
       // Remove partial local repository
-      await fs.rmdir(gitdir, { recursive: true }).catch(() => undefined)
+      await fs.rm(gitdir, { recursive: true }).catch(() => undefined)
     }
 
     throw err

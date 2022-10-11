@@ -5,9 +5,6 @@ export type ParseErrorData = {
   actual: string
 }
 
-/**
- * @group Errors
- */
 export class ParseError extends BaseError<ParseErrorData> {
   public static readonly code = 'ParseError'
 

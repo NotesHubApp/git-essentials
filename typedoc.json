@@ -2,11 +2,12 @@
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
     "src/index.ts",
+    "src/errors/",
     "src/clients/**/*.ts"
   ],
   "excludeInternal": true,
   "excludePrivate": true,
-  "includeVersion": true,
+  "includeVersion": false,
   "treatWarningsAsErrors": true,
   "sort": [
     "required-first",

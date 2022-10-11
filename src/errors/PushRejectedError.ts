@@ -6,9 +6,6 @@ export type PushRejectedErrorData = {
   reason: PushRejectionReason
 }
 
-/**
- * @group Errors
- */
 export class PushRejectedError extends BaseError<PushRejectedErrorData> {
   public static readonly code = 'PushRejectedError'
 

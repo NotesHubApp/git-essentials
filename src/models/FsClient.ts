@@ -141,14 +141,6 @@ export interface FsClient {
   writeFile(path: string, data: Uint8Array | string, options?: WriteOptions): Promise<void>
 
   /**
-   * If path refers to a symbolic link, then the link is removed
-   * without affecting the file or directory to which that link refers.
-   * If the path refers to a file path that is not a symbolic link, the file is deleted.
-   * @throws {@link API.ENOENT}
-   */
-  unlink(path: string): Promise<void>
-
-  /**
    * Reads the contents of a directory.
    * @throws {@link API.ENOENT}
    * @throws {@link API.ENOTDIR}

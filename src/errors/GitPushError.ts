@@ -7,9 +7,6 @@ export type GitPushErrorData = {
   result: PushResult
 }
 
-/**
- * @group Errors
- */
 export class GitPushError extends BaseError<GitPushErrorData> {
   public static readonly code = 'GitPushError'
 

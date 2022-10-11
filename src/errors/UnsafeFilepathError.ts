@@ -4,9 +4,6 @@ export type UnsafeFilepathErrorData = {
   filepath: string
 }
 
-/**
- * @group Errors
- */
 export class UnsafeFilepathError extends BaseError<UnsafeFilepathErrorData> {
   public static readonly code = 'UnsafeFilepathError'
 

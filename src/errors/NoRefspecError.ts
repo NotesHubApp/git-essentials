@@ -4,9 +4,6 @@ export type NoRefspecErrorData = {
   remote: string
 }
 
-/**
- * @group Errors
- */
 export class NoRefspecError extends BaseError<NoRefspecErrorData> {
   public static readonly code = 'NoRefspecError'
 

@@ -63,7 +63,7 @@ describe('add', () => {
   it('folder', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
-    await fs.unlink(`${dir}/.gitignore`)
+    await fs.rm(`${dir}/.gitignore`)
 
     // act
     await init({ fs, dir })

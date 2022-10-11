@@ -64,12 +64,12 @@ export type BlobMergeCallbackResult =
  * Please note that those examples are very basic implementations.
  * The actual one could be much more complicated and could include following the logic:
  * * Detect if the blob has binary or text content:
- *    * If binary: decide which one to return or throw {@link MergeNotSupportedError}.
+ *    * If binary: decide which one to return or throw {@link Errors.MergeNotSupportedError}.
  *    * If text: apply [diff3](https://www.npmjs.com/package/diff3) merge algorithm to return merged text.
  * * Decide what to do if there is no base blob.
  * * Decide what to do if one of the blobs were deleted.
  *
- * @throws {@link MergeNotSupportedError} when merge is not clean.
+ * @throws {@link Errors.MergeNotSupportedError} when merge is not clean.
  * @group Callbacks
  */
 export type BlobMergeCallback = (args: BlobMergeCallbackParams) => Promise<BlobMergeCallbackResult>

@@ -82,7 +82,7 @@ export type MergeResult = {
  * ## Limitations
  *
  * Currently it does not support incomplete merges. That is, if there are merge conflicts it cannot solve
- * with the built in diff3 algorithm it will not modify the working dir, and will throw a {@link MergeNotSupportedError} error.
+ * with the built in diff3 algorithm it will not modify the working dir, and will throw a {@link Errors.MergeNotSupportedError} error.
  *
  * Currently it will fail if multiple candidate merge bases are found. (It doesn't yet implement the recursive merge strategy.)
  *

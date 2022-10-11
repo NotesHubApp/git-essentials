@@ -6,9 +6,6 @@ export type UnknownTransportErrorData = {
   suggestion?: string
 }
 
-/**
- * @group Errors
- */
 export class UnknownTransportError extends BaseError<UnknownTransportErrorData> {
   public static readonly code = 'UnknownTransportError'
 

@@ -6,9 +6,6 @@ export type MissingNameErrorData = {
   role: MissingNameRole
 }
 
-/**
- * @group Errors
- */
 export class MissingNameError extends BaseError<MissingNameErrorData> {
   public static readonly code = 'MissingNameError'
 
