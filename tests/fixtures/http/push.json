@@ -121,5 +121,50 @@
       "encoding": "base64",
       "body": "MDAyZQEwMDBldW5wYWNrIG9rCjAwMTdvayByZWZzL2hlYWRzL21haW4KMDAwMDAwMDA="
     }
+  },
+
+  {
+    "comment": "test: push empty",
+    "request": {
+      "url": "http://localhost/push-server.git/info/refs?service=git-upload-pack",
+      "method": "GET"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-advertisement",
+      "encoding": "utf8",
+      "body": "001e# service=git-upload-pack\n0000010b5a8905a02e181fe1821068b8c0f48cb6633d5b81 HEAD\u0000multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed no-done symref=HEAD:refs/heads/main object-format=sha1 agent=git/2.34.1\n003d5a8905a02e181fe1821068b8c0f48cb6633d5b81 refs/heads/main\n0000"
+    }
+  },
+
+  {
+    "comment": "test: push empty",
+    "request": {
+      "url": "http://localhost/push-server.git/git-upload-pack",
+      "method": "POST",
+      "contentType": "application/x-git-upload-pack-request",
+      "encoding": "utf8",
+      "body": "007ewant 5a8905a02e181fe1821068b8c0f48cb6633d5b81 multi_ack_detailed no-done side-band-64k ofs-delta agent=git/git-essentials\n00000009done\n"
+    },
+    "response": {
+      "contentType": "application/x-git-upload-pack-result",
+      "encoding": "base64",
+      "body": "MDAwOE5BSwowMDQwAkVudW1lcmF0aW5nIG9iamVjdHM6IDMsIGRvbmUuCkNvdW50aW5nIG9iamVjdHM6ICAzMyUgKDEvMykNMDAyMgJDb3VudGluZyBvYmplY3RzOiAgNjYlICgyLzMpDTAwNDYCQ291bnRpbmcgb2JqZWN0czogMTAwJSAoMy8zKQ1Db3VudGluZyBvYmplY3RzOiAxMDAlICgzLzMpLCBkb25lLgowMzYxAVBBQ0sAAAACAAAAA50/eJydk0sTqkYUhPf8itlTN7xfqSQVQJ4jL0VRdyAzOICACoj8+ph7t1nl9Karq3rRVecbnwiBXNYKHktCWShf5ZKGRQEhTsLSVeQ5WeY15Wtknsqn8dY/QUbaFrikHfsO/PG+3366v6t7Ttrfrv39L8BJrKRJqsIr4Acrsiz1Te9kHNH/6VZD9SIV+PHvGZbjhSB2YrD3nFBPDzvrZ06BI3q+SN/9Dpxuih0wcxSgAEm8q6Hrhl7pjpH4l/cyurre+5Z/9ieY7YmcSz4RY0a4XPmDCplkW37nO0N8Oy/rSigQ5/dGXsiuW4fusmrW7KHX1nMjMwmeJ9myN8QYGgNmWAn80XAL6/M0DmnWbI/vcSDrmQKndetgdR0Tu6zxcWcovKHh3WDW5RJ3s3ywAutTlvvDmvkSvrqdCemZHNMi4RDfcZeCAhveNmzh0VhGoeww8eDQTiEj9LQU6JOID5NOW8MBRid3C999eGP9xWIzsR2igSYrLClQXO/ZvJPOJmID5e0a13gy0kbwI4eWWimpUiTtq0DQg0UrBmhbnH1CdNhwN6vUuOYVUMAtxivyX3U1qML1yJYnVtyqqaOr8Ej0sfBleMy7133LjoJrVV26+4Q9Ux5V0SVnOsEsBSB6GkGEs5VZem+fmrU+p2+S8BfT++TiHF9oMi50qNTmjrNrmMjTo5FqpnVWRn3QGFEgqeZuTtb1wePgVCbMCh0HJb7j3VSGtK8avTfnm1pOmgvDGeGTnL3jO4QlOpB26e85BRq259rFVD0WJYm6PkJbdbjX2U1Dzx3ri9yakmheNvpjjCuo1PFp8luiMdcocSNoP1YKbHHh4ilS8yapDval2L0fex1nhRHSni9ki2A2WeTXBq/STBQxtuKu0A0V7RYcNjEKIAUUX8Op1XtiYqKdY9QGJ4VdHUiFPm4sJz/z2mik5zV+rtwUaUJeYdaOq0/OdraF4FGjAL33s41ps7X7TET9xnH49v32P6W0kKlfmFjh5r8gobyOjCRvwS8cqX8A2Es+lKECeJwzNDAwMzFRSNQrqShheJnKUnX9aEVqk03tTG1ZlrxlefcrALmrDH02eJzzSM3JyecCAAeLAf+7HWuHiIBZxFtbgrb4IeHuxku7MDAzYQJUb3RhbCAzIChkZWx0YSAwKSwgcmV1c2VkIDAgKGRlbHRhIDApLCBwYWNrLXJldXNlZCAwCjAwMDYBpjAwMDA="
+    }
+  },
+
+  {
+    "comment": "test: push empty",
+    "request": {
+      "url": "http://localhost/push-server.git/git-receive-pack",
+      "method": "POST",
+      "contentType": "application/x-git-receive-pack-request",
+      "encoding": "base64",
+      "body": "MDA5YzVhODkwNWEwMmUxODFmZTE4MjEwNjhiOGMwZjQ4Y2I2NjMzZDViODEgNWE4OTA1YTAyZTE4MWZlMTgyMTA2OGI4YzBmNDhjYjY2MzNkNWI4MSByZWZzL2hlYWRzL21haW4AIHJlcG9ydC1zdGF0dXMgc2lkZS1iYW5kLTY0ayBhZ2VudD1naXQvZ2l0LWVzc2VudGlhbHMKMDAwMFBBQ0sAAAACAAAAAAKdCII72KjqtRCtasdcgjz9PtMe"
+    },
+    "response": {
+      "contentType": "application/x-git-receive-pack-result",
+      "encoding": "base64",
+      "body": "MDAxNgJidWlsZCBzdGFydGVkLi4uCjAwMTgCYnVpbGQgY29tcGxldGVkLi4uCjAwMTYCdGVzdHMgc3RhcnRlZC4uLgowMDE4AnRlc3RzIGNvbXBsZXRlZC4uLgowMDE4AnN0YXJ0aW5nIHNlcnZlci4uLgowMDE0AnNlcnZlciBydW5uaW5nCjAwMmUBMDAwZXVucGFjayBvawowMDE3b2sgcmVmcy9oZWFkcy9tYWluCjAwMDAwMDMxAkhlcmUgaXMgYSBtZXNzYWdlIGZyb20gJ3Bvc3QtcmVjZWl2ZScgaG9vay4KMDAwMA=="
+    }
   }
 ]

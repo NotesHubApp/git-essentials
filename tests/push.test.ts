@@ -1,4 +1,4 @@
-import { setConfig, push, listBranches, Auth } from 'git-essentials'
+import { setConfig, push, listBranches, Auth, clone } from 'git-essentials'
 import { setGitClientAgent } from 'git-essentials/utils/pkg'
 import { UnknownTransportError, HttpError, UserCanceledError } from 'git-essentials/errors'
 
@@ -58,6 +58,21 @@ describe('push', () => {
       "server running\n",
       "Here is a message from 'post-receive' hook.\n",
     ])
+  })
+
+  it('push empty', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture()
+    const http = makeHttpFixture(pushHttpFixtureData as HttpFixtureData)
+    await clone({ fs, http, dir, url: `http://localhost/push-server.git` })
+
+    // act
+    const res = await push({ fs, http, dir })
+
+    // assert
+    expect(res).toBeTruthy()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/main'].ok).toBe(true)
   })
 
   it('push without ref', async () => {

@@ -32,7 +32,7 @@ type Stats = {
   mtime: Date
 }
 
-class StatsImpl implements StatsLike {
+class SimpleStats implements StatsLike {
   private type: 'file' | 'dir' | 'symlink'
   mode: number
   size: number
@@ -245,7 +245,7 @@ export class InMemoryFsClient implements FsClient {
       return await this.stat(entry.target)
     }
 
-    return new StatsImpl(entry.stat, entry.type)
+    return new SimpleStats(entry.stat, entry.type)
   }
 
   public async lstat(path: string): Promise<StatsLike> {
@@ -255,7 +255,7 @@ export class InMemoryFsClient implements FsClient {
       throw new ENOENT(path)
     }
 
-    return new StatsImpl(entry.stat, entry.type)
+    return new SimpleStats(entry.stat, entry.type)
   }
 
   public async rename(oldPath: string, newPath: string): Promise<void> {
