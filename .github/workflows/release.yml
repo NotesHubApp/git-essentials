@@ -49,18 +49,16 @@ jobs:
         with:
           path: docs/
 
-      - name: Set env IS_NEW_VERSION
+      - name: Check if new version
         run: |
           PACKAGE_VERSION="$(node -p -e "require('./package.json').version")"
           PACKAGE_NAME="$(node -p -e "require('./package.json').name")"
-          FOUND_VERSION=$(npm view $PACKAGE_NAME versions | grep \'$VERSION\')
+          FOUND_VERSION=$(npm view $PACKAGE_NAME versions | grep \'$PACKAGE_VERSION\')
 
-          if $FOUND_VERSION
+          if ! $FOUND_VERSION
           then
-            IS_NEW_VERSION=true
+            echo "IS_NEW_VERSION=true" >> $GITHUB_ENV
           fi
-
-          echo "IS_NEW_VERSION=$IS_NEW_VERSION" >> $GITHUB_ENV
 
       - name: Publish package
         if: env.IS_NEW_VERSION == 'true'
