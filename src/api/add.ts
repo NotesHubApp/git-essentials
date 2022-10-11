@@ -25,6 +25,9 @@ export type AddParams = {
   /** The path to the file to add to the index. */
   filepath: string
 
+  /** Allow adding otherwise ignored files. */
+  force?: boolean
+
   /** A cache object. */
   cache?: Cache
 }
@@ -49,6 +52,7 @@ export async function add({
   dir,
   gitdir = join(dir, '.git'),
   filepath,
+  force = false,
   cache = {}
 }: AddParams): Promise<void> {
   try {
@@ -59,7 +63,7 @@ export async function add({
 
     const fs = new FileSystem(_fs)
     await GitIndexManager.acquire({ fs, gitdir, cache }, async function(index) {
-      await addToIndex({ dir, gitdir, fs, filepath, index })
+      await addToIndex({ dir, gitdir, fs, filepath, index, force })
     })
   } catch (err: any) {
     err.caller = 'git.add'
@@ -68,17 +72,19 @@ export async function add({
 }
 
 async function addToIndex(
-  { dir, gitdir, fs, filepath, index }:
-  { dir: string, gitdir: string, fs: FileSystem, filepath: string, index: GitIndex }) {
+  { dir, gitdir, fs, filepath, index, force }:
+  { dir: string, gitdir: string, fs: FileSystem, filepath: string, index: GitIndex, force: boolean }) {
   // TODO: Should ignore UNLESS it's already in the index.
-  const ignored = await GitIgnoreManager.isIgnored({
-    fs,
-    dir,
-    gitdir,
-    filepath,
-  })
+  if (!force) {
+    const ignored = await GitIgnoreManager.isIgnored({
+      fs,
+      dir,
+      gitdir,
+      filepath,
+    })
 
-  if (ignored) return
+    if (ignored) return
+  }
 
   const stats = await fs.lstat(join(dir, filepath))
 
@@ -87,7 +93,7 @@ async function addToIndex(
   if (stats.isDirectory()) {
     const children = await fs.readdir(join(dir, filepath))
     const promises = (children || []).map(child =>
-      addToIndex({ dir, gitdir, fs, filepath: join(filepath, child), index })
+      addToIndex({ dir, gitdir, fs, filepath: join(filepath, child), index, force })
     )
 
     await Promise.all(promises)

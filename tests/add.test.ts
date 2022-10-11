@@ -45,6 +45,18 @@ describe('add', () => {
     expect((await listFiles({ fs, dir })).length).toBe(0)
   })
 
+  it('ignored file but with force=true', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
+
+    // act
+    await init({ fs, dir })
+    await add({ fs, dir, filepath: 'i.txt', force: true })
+
+    // assert
+    expect((await listFiles({ fs, dir })).length).toEqual(1)
+  })
+
   it('non-existant file', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
@@ -89,6 +101,21 @@ describe('add', () => {
     await add({ fs, dir, filepath: 'c' })
     // assert
     expect((await listFiles({ fs, dir })).length).toBe(3)
+  })
+
+  it('folder with .gitignore and force', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(addFsFixtureData as FsFixtureData)
+
+    // act
+    await init({ fs, dir })
+    // assert
+    expect((await listFiles({ fs, dir })).length).toEqual(0)
+
+    // act
+    await add({ fs, dir, filepath: 'c', force: true })
+    // assert
+    expect((await listFiles({ fs, dir })).length).toEqual(4)
   })
 
   it('git add .', async () => {
