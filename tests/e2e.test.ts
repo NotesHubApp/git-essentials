@@ -1,5 +1,3 @@
-import path from 'path'
-
 import { clone } from 'git-essentials'
 
 import { integrationContext } from './helpers/integrationContext'
@@ -23,7 +21,7 @@ describe('e2e', () => {
         })
 
         // assert
-        const fileStat = await fs.lstat(path.join(dir, 'Welcome note.md'))
+        const fileStat = await fs.lstat(`${dir}/Welcome note.md`)
         expect(fileStat.isFile()).toBe(true)
       })
     })

@@ -1,5 +1,3 @@
-import path from 'path'
-
 import { GitIndex } from 'git-essentials/models/GitIndex'
 
 import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
@@ -10,7 +8,7 @@ describe('GitIndex', () => {
   it('GitIndex.from(buffer) - Simple', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(gitIndexFsFixtureData as FsFixtureData)
-    const buffer = Buffer.from(await fs.readFile(path.join(dir, 'simple-index')))
+    const buffer = Buffer.from(await fs.readFile(`${dir}/simple-index`))
 
     // act
     const index = await GitIndex.from(buffer)
@@ -28,7 +26,7 @@ describe('GitIndex', () => {
   it('GitIndex.from(buffer)', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(gitIndexFsFixtureData as FsFixtureData)
-    const buffer = Buffer.from(await fs.readFile(path.join(dir, 'index')))
+    const buffer = Buffer.from(await fs.readFile(`${dir}/index`))
 
     // act
     const index = await GitIndex.from(buffer)
@@ -76,7 +74,7 @@ describe('GitIndex', () => {
   it('GitIndex round trip', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(gitIndexFsFixtureData as FsFixtureData)
-    const buffer = Buffer.from(await fs.readFile(path.join(dir, 'index')))
+    const buffer = Buffer.from(await fs.readFile(`${dir}/index`))
 
     // act
     const index = await GitIndex.from(buffer)

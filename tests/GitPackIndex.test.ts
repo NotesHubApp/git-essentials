@@ -1,5 +1,3 @@
-import path from 'path'
-
 import { GitPackIndex } from 'git-essentials/models/GitPackIndex'
 import { GitObject } from 'git-essentials/models/GitObject'
 import { shasum } from 'git-essentials/utils/shasum'
@@ -14,7 +12,7 @@ describe('GitPackIndex', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(gitPackIndexFsFixtureData as FsFixtureData)
     const idx = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx`
     ))
 
     // act
@@ -35,7 +33,7 @@ describe('GitPackIndex', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(gitPackIndexFsFixtureData as FsFixtureData)
     const pack = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack`
     ))
 
     // act
@@ -56,10 +54,10 @@ describe('GitPackIndex', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(gitPackIndexFsFixtureData as FsFixtureData)
     const idx = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx`
     ))
     const pack = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack`
     ))
 
     // act
@@ -75,10 +73,10 @@ describe('GitPackIndex', () => {
     // arrange
     const { fs, dir } = await makeFsFixture(gitPackIndexFsFixtureData as FsFixtureData)
     const idx = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx`
     ))
     const pack = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack`
     ))
 
     // act
@@ -107,10 +105,10 @@ WIP on master: fbd56b4 Add 'unpkg' key to package.json\n`)
     const { fs, dir } = await makeFsFixture(gitPackIndexFsFixtureData as FsFixtureData)
 
     const idx = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.idx`
     ))
     const pack = Buffer.from(await fs.readFile(
-      path.join(dir, '.git', 'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack')
+      `${dir}/.git/objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack`
     ))
 
     // act
