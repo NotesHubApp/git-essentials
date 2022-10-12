@@ -1,6 +1,6 @@
 {
   "name": "git-essentials",
-  "version": "0.6.6",
+  "version": "0.7.0",
   "description": "A collection of essential Git commands for your browser and Node.js",
   "main": "dist/esm/index.js",
   "types": "index.d.ts",

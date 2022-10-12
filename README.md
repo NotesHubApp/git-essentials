@@ -33,7 +33,9 @@ import { makeWebHttpClient } from 'git-essentials/clients/request/WebHttpClient'
 // as a result the browser will refuse to serve the request.
 // To overcome this limitation CORS proxy server could be used.
 const corsProxyUrlTransformer = (originalUrl: string) => {
-  return `https://www.noteshub.app/api/cors-proxy.ts?url=${encodeURIComponent(originalUrl)}`
+  // Please use this CORS proxy server only for testing and not production use.
+  // You can fork CORS proxy server from here https://github.com/alex-titarenko/gitcorsproxy
+  return `https://gitcorsproxy.vercel.app/api/cors?url=${encodeURIComponent(originalUrl)}`
 }
 
 const fs = new InMemoryFsClient()

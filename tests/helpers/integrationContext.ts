@@ -7,7 +7,7 @@ import { join } from 'src/utils/join'
 const isBrowser = () => typeof window !== `undefined`
 
 const corsProxyUrlTransformer = (originalUrl: string) => {
-  return `https://www.noteshub.app/api/cors-proxy.ts?url=${encodeURIComponent(originalUrl)}`
+  return `https://gitcorsproxy.vercel.app/api/cors?url=${encodeURIComponent(originalUrl)}`
 }
 
 type IntegrationContext = {
