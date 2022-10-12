@@ -49,15 +49,7 @@ jobs:
         with:
           path: docs/
 
-      - name: Check if new version
-        run: |
-          PACKAGE_VERSION="$(node -p -e "require('./package.json').version")"
-          PACKAGE_NAME="$(node -p -e "require('./package.json').name")"
-          FOUND_VERSION=$(npm view $PACKAGE_NAME versions | grep \'$PACKAGE_VERSION\')
-          if ! [[ $FOUND_VERSION ]]; then echo "IS_NEW_VERSION=true" >> $GITHUB_ENV; fi
-
       - name: Publish package
-        if: env.IS_NEW_VERSION == 'true'
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
