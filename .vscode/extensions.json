@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "Orta.vscode-jest"
+        "orta.vscode-jest",
+        "dbaeumer.vscode-eslint"
     ]
 }
