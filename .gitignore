@@ -12,3 +12,6 @@ package/
 
 # typedoc
 docs/
+
+# test temp folders
+temp_*
