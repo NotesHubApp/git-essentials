@@ -56,7 +56,7 @@ const url = 'https://github.com/NotesHubApp/Welcome.git'
 await clone({ fs, http, dir, url })
 ```
 ## Credits
-This project is based on [isomorphic-git](https://github.com/isomorphic-git/isomorphic-git) library and would not be possible without all of the contribution there.
+This project is based on [isomorphic-git](https://github.com/isomorphic-git/isomorphic-git) library and would not be possible without the pioneering work by @wmhilton and all other members of **isomorphic-git** community.
 
 ## License
-This work is released under [The MIT License](./LICENSE).
+This work is released under [The MIT License](./LICENSE.md).
