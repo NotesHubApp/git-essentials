@@ -25,7 +25,7 @@ export async function integrationContext(action: (context: IntegrationContext) =
     http: makeNodeHttpClient()
   }
 
-  const dir = generateId(20)
+  const dir = `temp_${generateId(20)}`
   await fs.mkdir(dir)
 
   try {
