@@ -1,6 +1,7 @@
 # Dependency directories
 node_modules
 
+# macOS Finder folder configuration file
 .DS_Store
 
 # Distribution folder
@@ -12,6 +13,9 @@ package/
 
 # typedoc
 docs/
+
+# unit tests
+coverage/
 
 # test temp folders
 temp_*
