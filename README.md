@@ -30,7 +30,7 @@ npm i git-essentials
 
 ## Examples
 
-### Node.js
+### Node.js (server side)
 ```typescript
 import fs from 'fs/promises'
 import { clone } from 'git-essentials'
@@ -43,7 +43,7 @@ const url = 'https://github.com/NotesHubApp/Welcome.git'
 await clone({ fs, http, dir, url })
 ```
 
-### Browser
+### Browser (client side)
 ```ts
 import { clone } from 'git-essentials'
 import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
