@@ -1,6 +1,6 @@
 {
   "name": "git-essentials",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "A collection of essential Git commands for your browser and Node.js",
   "main": "dist/esm/index.js",
   "types": "index.d.ts",
@@ -40,6 +40,7 @@
     "test": "jest",
     "test:browser": "karma start",
     "test:browsers": "karma start --single-run --browsers ChromeHeadless,WebkitHeadless,FirefoxHeadless",
+    "semantic-release": "semantic-release",
     "gen-doc": "npx typedoc",
     "gen-fs-fixture": "node ./scripts/gen-fs-fixture.js",
     "gen-http-fixture": "node ./scripts/gen-http-fixture.js"
@@ -50,7 +51,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NotesHubApp/git-essentials.git"
+    "url": "https://github.com/NotesHubApp/git-essentials.git"
   },
   "keywords": [
     "git",
@@ -97,6 +98,7 @@
     "ts-jest": "^29.0.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.16",
-    "typescript": "^4.8.2"
+    "typescript": "^4.8.2",
+    "semantic-release": "^19.0.5"
   }
 }
