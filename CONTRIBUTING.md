@@ -112,6 +112,7 @@ After cloning the project, run `npm install` to fetch its dependencies. Then, yo
 * `npm run test` - runs tests in Node.js environment
 * `npm run test:browser` - runs tests in browser of your choice
 * `npm run test:browsers` - runs tests in a browser environments (headless mode)
+* `npm run semantic-release` - starts semantic release (creates new npm package and GitHub release)
 * `npm run gen-doc` - generates the documentation from TypeScript source code and places the output into **docs** folder
 * `npm run gen-fs-fixture` - generates a JSON file which represents file system fixture for unit tests requiring file system access; you need to pass folder path as nameless parameter to the command, for example: *npm run gen-fs-fixture folder/path/to/repo*
 * `npm run gen-http-fixture` - generates a pair request/response which represents http fixture for unit tests requiring network conectivity; when you run a unit test which does not have coresponding http fixture it will throw an error with the npm command to run to generate a fixuture so you don't have to come up with all parameters by yourself

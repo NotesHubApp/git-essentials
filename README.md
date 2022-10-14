@@ -44,25 +44,21 @@ await clone({ fs, http, dir, url })
 ```
 
 ### Browser (client side)
+GitHub (like many other providers) does not return proper `Access-Control-Allow-Origin` header for non-API requests.
+As a result, the browser will refuse to serve those requests. To overcome this limitation you can use CORS proxy server.
+
+Please use the CORS proxy server from the example below only for testing purposes.
+You can fork this [CORS proxy server](https://github.com/alex-titarenko/gitcorsproxy) and host it by your own.
+
 ```ts
 import { clone } from 'git-essentials'
 import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
 import { makeWebHttpClient } from 'git-essentials/clients/http/WebHttpClient'
 
-// GitHub (like many other providers) does not return
-// proper 'Access-Control-Allow-Origin' header for non-API requests.
-// As a result, a browser will refuse to serve those requests.
-// To overcome this limitation you can use CORS proxy server.
-const corsProxyUrlTransformer = (originalUrl: string) => {
-  // Please use this CORS proxy server only for testing and not production use.
-  // You can fork this CORS proxy server from here:
-  // https://github.com/alex-titarenko/gitcorsproxy
-  // And host it by your own
-  return `https://gitcorsproxy.vercel.app/api/cors?url=${encodeURIComponent(originalUrl)}`
-}
-
 const fs = new InMemoryFsClient()
-const http = makeWebHttpClient({ transformRequestUrl: corsProxyUrlTransformer })
+const http = makeWebHttpClient({
+  transformRequestUrl: url => `https://gitcorsproxy.vercel.app/api/cors?url=${encodeURIComponent(url)}`
+})
 const dir = 'repos/Welcome'
 const url = 'https://github.com/NotesHubApp/Welcome.git'
 
