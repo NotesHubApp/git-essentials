@@ -3,39 +3,43 @@
 ## Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-- Search [GitHub](https://github.com/NotesHubApp/git-essentials/pulls) for an open or closed PR
+1. Search [GitHub](https://github.com/NotesHubApp/git-essentials/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
-- Make your changes in a new git branch:
+
+2. Be sure that an issue describes the problem you're fixing, or documents the design for the feature you'd like to add.
+   Discussing the design upfront helps to ensure that we're ready to accept your work.
+
+3. [Fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the *NotesHubApp/git-essentials* repo.
+
+4. In your forked repository, make your changes in a new git branch:
 
   ```shell
   git checkout -b my-fix-branch main
   ```
 
-- Create your patch, following [code style guidelines](#coding-style-guidelines), and **including appropriate test cases**.
-- Run the full test suite and ensure that all tests pass.
-- Commit your changes using a descriptive commit message that follows our
-  [commit message guidelines](#commit-message-guidelines). Adherence to these conventions
-  is necessary because release notes are automatically generated from these messages.
+5. Create your patch, following [code style guidelines](#coding-style-guidelines), and **including appropriate test cases**.
 
-- Push your branch to GitHub:
+6. Run the full test suite and ensure that all tests pass.
+
+7. Commit your changes using a descriptive commit message that follows our
+  [commit message guidelines](#commit-message-guidelines). Adherence to these conventions is necessary because release notes are automatically generated from these messages.
+
+8. Push your branch to GitHub:
 
   ```shell
   git push origin my-fix-branch
   ```
 
-- In GitHub, send a pull request to `git-essentials:main`.
-- If we suggest changes then:
+9. In GitHub, send a pull request to `git-essentials:main`.
 
-  - Make the required updates.
-  - Re-run the test suites to ensure tests are still passing.
-  - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
+10. If we suggest changes then:
+    1. Make the required updates.
 
-    ```shell
-    git rebase master -i
-    git push -f
-    ```
+    2. Re-run the test suites to ensure tests are still passing.
 
-  - When updating your feature branch with the requested changes, please do not overwrite the commit history, but rather contain the changes in new commits. This is for the sake of a clearer and easier review process.
+    3. Create a fixup commit and push to your GitHub repository (this will update your Pull Request)
+
+    4. When updating your feature branch with the requested changes, please do not overwrite the commit history, but rather contain the changes in new commits. This is for the sake of a clearer and easier review process.
 
 That's it! Thank you for your contribution!
 
@@ -62,7 +66,7 @@ from the main (upstream) repository:
   git branch -D my-fix-branch
   ```
 
-- Update your master with the latest upstream version:
+- Update your `main` with the latest upstream version:
 
   ```shell
   git pull --ff upstream main
@@ -77,7 +81,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 * 2 space indentation only
 * Favor readability over terseness
 
-(TBD): For now, try to follow the style that exists elsewhere in the source, and use your best judgment.
+For now, try to follow the style that exists elsewhere in the source, and use your best judgment.
 
 ## Development Workflow
 After cloning the project, run `npm install` to fetch its dependencies. Then, you can run several commands:
@@ -87,7 +91,7 @@ After cloning the project, run `npm install` to fetch its dependencies. Then, yo
 * `npm run test` - runs tests in Node.js environment
 * `npm run test:browser` - runs tests in browser of your choice
 * `npm run test:browsers` - runs tests in a browser environments (headless mode)
-* `npm run gen-doc` - generates documentation from TypeScript source code and places the output into **docs** folder
+* `npm run gen-doc` - generates the documentation from TypeScript source code and places the output into **docs** folder
 * `npm run gen-fs-fixture` - generates a json file which represents file system fixture for unit tests requiring file system access; you need to pass folderpath as nameless parameter to the command, for example: *npm run gen-fs-fixture folder/path/to/repo*
 * `npm run gen-http-fixture` - generates a pair request/response which represents http fixture for unit tests requiring network conectivity; when you run a unit test which does not have coresponding http fixture it will throw an error with the npm command to run to generate a fixuture so you don't have to come up with all parameters by yourself
 
