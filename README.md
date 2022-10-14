@@ -34,7 +34,7 @@ npm i git-essentials
 ```typescript
 import fs from 'fs/promises'
 import { clone } from 'git-essentials'
-import { makeNodeHttpClient } from 'git-essentials/clients/request/NodeHttpClient'
+import { makeNodeHttpClient } from 'git-essentials/clients/http/NodeHttpClient'
 
 const http = makeNodeHttpClient()
 const dir = 'repos/Welcome'
@@ -47,7 +47,7 @@ await clone({ fs, http, dir, url })
 ```ts
 import { clone } from 'git-essentials'
 import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
-import { makeWebHttpClient } from 'git-essentials/clients/request/WebHttpClient'
+import { makeWebHttpClient } from 'git-essentials/clients/http/WebHttpClient'
 
 // GitHub (like many other providers) does not return
 // proper 'Access-Control-Allow-Origin' header for non-API requests.
