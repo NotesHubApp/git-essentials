@@ -4,7 +4,7 @@ body:
   - type: input
     attributes:
       label: "Package version"
-      description: Version set in `package.json` `dependencies`.
+      description: Version set in `package.json` dependencies.
     validations:
       required: true
 
@@ -29,17 +29,17 @@ body:
 
   - type: input
     attributes:
-      label: "FsClient"
-      description: File System client in use.
-      placeholder: InMemoryFsClient/Something else
+      label: "File System client"
+      description: The type of object you set for `fs` property.
+      placeholder: InMemoryFsClient/something else
     validations:
       required: true
 
   - type: input
     attributes:
-      label: "HttpClient"
-      description: Http client in use.
-      placeholder: NodeHttpClient/WebHttpClient/Something else
+      label: "Http client"
+      description: The type of object you set for `http` property.
+      placeholder: NodeHttpClient/WebHttpClient/something else
     validations:
       required: true
 
@@ -76,7 +76,7 @@ body:
 
   - type: textarea
     attributes:
-      label: Provide the exception or error
+      label: The exception or error
 
   - type: textarea
     attributes:
