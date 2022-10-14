@@ -1,6 +1,25 @@
 # Contributing to Git Essentials
 
+## Submitting an Issue
+
+Before you submit an issue, please search the issue tracker. An issue for your problem might already exist and the discussion might inform you of workarounds readily available.
+
+Before fixing a bug, we need to reproduce and confirm it.
+In order to reproduce bugs, we require that you provide a minimal reproduction.
+Having a minimal reproducible scenario gives us a wealth of important information without going back and forth to you with additional questions.
+
+A minimal reproduction allows us to quickly confirm a bug (or point out a coding problem) as well as confirm that we are fixing the right problem.
+
+We require a minimal reproduction to save maintainers' time and ultimately be able to fix more bugs.
+Often, developers find coding problems themselves while preparing a minimal reproduction.
+We understand that sometimes it might be hard to extract essential bits of code from a larger codebase, but we really need to isolate the problem before we can fix it.
+
+Unfortunately, we are not able to investigate / fix bugs without a minimal reproduction, so if we don't hear back from you, we are going to close an issue that doesn't have enough info to be reproduced.
+
+You can file new issues by selecting from our [new issue templates](https://github.com/NotesHubApp/git-essentials/issues/new/choose) and filling out the issue template.
+
 ## Submitting a Pull Request (PR)
+
 Before you submit your Pull Request (PR) consider the following guidelines:
 
 1. Search [GitHub](https://github.com/NotesHubApp/git-essentials/pulls) for an open or closed PR
@@ -73,6 +92,7 @@ from the main (upstream) repository:
   ```
 
 ## Coding Style Guidelines
+
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
 * All features or bug fixes **must be tested** by one or more unit tests.
@@ -84,6 +104,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 For now, try to follow the style that exists elsewhere in the source, and use your best judgment.
 
 ## Development Workflow
+
 After cloning the project, run `npm install` to fetch its dependencies. Then, you can run several commands:
 
 * `npm run check` - runs TypeScript type checking
@@ -95,19 +116,14 @@ After cloning the project, run `npm install` to fetch its dependencies. Then, yo
 * `npm run gen-fs-fixture` - generates a json file which represents file system fixture for unit tests requiring file system access; you need to pass folderpath as nameless parameter to the command, for example: *npm run gen-fs-fixture folder/path/to/repo*
 * `npm run gen-http-fixture` - generates a pair request/response which represents http fixture for unit tests requiring network conectivity; when you run a unit test which does not have coresponding http fixture it will throw an error with the npm command to run to generate a fixuture so you don't have to come up with all parameters by yourself
 
-
 ## Documentation
 
-* The documentation is auto-generated directly from the source code using [TypeDoc](https://github.com/TypeStrong/typedoc)
-* After a PR is merged to `main` branch the docs will be published to https://noteshubapp.github.io/git-essentials/modules/API.html
-
-## Unit Tests
-???
+* The documentation is auto-generated directly from the source code using [TypeDoc](https://github.com/TypeStrong/typedoc), so it's important to annotate your code changes with JSDoc comments
+* After a PR is merged to `main` branch the docs will be published to https://noteshubapp.github.io/git-essentials
 
 ## Commit Message Guidelines
 
 We have very precise rules over how our git commit messages can be formatted. This leads to **more readable messages** that are easy to follow when looking through the **project history**. Following formalized conventions for commit messages, **semantic-release** automatically determines the next [semantic version](https://semver.org) number, generates a changelog and publishes the release.
-
 
 ### Commit Message Format
 
@@ -172,3 +188,15 @@ The footer should contain any information about **Breaking Changes** and is also
 reference GitHub issues that this commit **Closes**.
 
 **Breaking Changes** should start with the word `BREAKING CHANGE:` with a space or two newlines. The rest of the commit message is then used for this.
+
+## Tests
+
+We use Facebook's [Jest](https://jestjs.io) for testing,
+but also the same
+tests will run in the browser using [Jasmine](https://jasmine.github.io/) via [Karma](https://karma-runner.github.io) since their API is very similar.
+So as result it's very important to run your tests in both Node.js (**Jest**) and browser (**Jasmine**) environments to make sure you did not introduce any breaking changes.
+
+Since **git-essentials** is an [isomorphic library](https://en.wikipedia.org/wiki/Isomorphic_JavaScript) it becomes tricky to write unit tests that could run on both the client and server sides.
+This problem has been solved by using file system and HTTP fixtures in the form of JSON files which can easily be imported into TypeScript instead of doing real network requests or file system access. For more details on how to generate those fixtures please refer to [Development Workflow](#development-workflow).
+
+Please note that we still do have end-to-end tests which will use real network calls and file system access, but their goal is to test the overall behavior and their quantity is not comparable to unit tests.
