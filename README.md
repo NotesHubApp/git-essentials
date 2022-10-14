@@ -1,10 +1,14 @@
 # Git Essentials
 
 ![GitHub](https://img.shields.io/github/license/NotesHubApp/git-essentials?color=blue)
+[![Join the community on GitHub Discussions](https://img.shields.io/badge/Join%20the%20community-on%20GitHub%20Discussions-blue)](https://github.com/NotesHubApp/git-essentials/discussions)
 [![Release](https://github.com/NotesHubApp/git-essentials/actions/workflows/release.yml/badge.svg)](https://github.com/NotesHubApp/git-essentials/actions/workflows/release.yml)
 [![NPM Version](https://img.shields.io/npm/v/git-essentials?color=33cd56&logo=npm)](https://www.npmjs.com/package/git-essentials)
 
-A collection of essential Git commands for your browser and Node.js.
+A collection of essential Git commands for your browser and Node.js written in TypeScript all without any native dependencies.
+
+## Goals
+???
 
 ## Documentation
 
@@ -55,8 +59,13 @@ const url = 'https://github.com/NotesHubApp/Welcome.git'
 
 await clone({ fs, http, dir, url })
 ```
+
+## Contributing
+
+Check out the [`CONTRIBUTING`](./CONTRIBUTING.md) document for more instructions.
+
 ## Credits
-This project is based on [isomorphic-git](https://github.com/isomorphic-git/isomorphic-git) library and would not be possible without the pioneering work by **@wmhilton** and all other members of **isomorphic-git** community.
+This project is based on [isomorphic-git](https://github.com/isomorphic-git/isomorphic-git) library and would not be possible without the pioneering work by **@wmhilton** and all other amazing members of **isomorphic-git** community.
 
 ## License
 This work is released under [The MIT License](./LICENSE.md).
