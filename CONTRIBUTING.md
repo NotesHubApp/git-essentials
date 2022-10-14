@@ -113,7 +113,7 @@ After cloning the project, run `npm install` to fetch its dependencies. Then, yo
 * `npm run test:browser` - runs tests in browser of your choice
 * `npm run test:browsers` - runs tests in a browser environments (headless mode)
 * `npm run gen-doc` - generates the documentation from TypeScript source code and places the output into **docs** folder
-* `npm run gen-fs-fixture` - generates a json file which represents file system fixture for unit tests requiring file system access; you need to pass folderpath as nameless parameter to the command, for example: *npm run gen-fs-fixture folder/path/to/repo*
+* `npm run gen-fs-fixture` - generates a JSON file which represents file system fixture for unit tests requiring file system access; you need to pass folder path as nameless parameter to the command, for example: *npm run gen-fs-fixture folder/path/to/repo*
 * `npm run gen-http-fixture` - generates a pair request/response which represents http fixture for unit tests requiring network conectivity; when you run a unit test which does not have coresponding http fixture it will throw an error with the npm command to run to generate a fixuture so you don't have to come up with all parameters by yourself
 
 ## Documentation
@@ -197,6 +197,6 @@ tests will run in the browser using [Jasmine](https://jasmine.github.io/) via [K
 So as result it's very important to run your tests in both Node.js (**Jest**) and browser (**Jasmine**) environments to make sure you did not introduce any breaking changes.
 
 Since **git-essentials** is an [isomorphic library](https://en.wikipedia.org/wiki/Isomorphic_JavaScript) it becomes tricky to write unit tests that could run on both the client and server sides.
-This problem has been solved by using file system and HTTP fixtures in the form of JSON files which can easily be imported into TypeScript instead of doing real network requests or file system access. For more details on how to generate those fixtures please refer to [Development Workflow](#development-workflow).
+This problem has been solved by using file system and HTTP fixtures in the form of JSON files which can easily be imported into TypeScript (instead of doing real network requests or file system access). For more details on how to generate those fixtures please refer to [Development Workflow](#development-workflow).
 
 Please note that we still do have end-to-end tests which will use real network calls and file system access, but their goal is to test the overall behavior and their quantity is not comparable to unit tests.

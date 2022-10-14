@@ -7,8 +7,14 @@
 
 A collection of essential Git commands for your browser and Node.js written in TypeScript all without any native dependencies.
 
-## Goals
-???
+## Highlights
+* The library aims for 100% interoperability with the canonical git implementation. This means it does all its operations by modifying files in a `.git` directory just like the git you are used to.
+
+* The API has been designed to provide functionality as individual functions, code bundlers can produce smaller bundles by including only the functions your application uses (tree shaking). The bundled version of the package is not included.
+
+* The documentation for the project is auto-generated from the source code so it will always be the most accurate representation of the actual code.
+
+* The project is written in TypeScript which gives more confidence in making any changes in contrast to plain JavaScript. In addition, it makes code reading and debugging much easier. Source maps are also included so you can jump right into implementation from your code.
 
 ## Documentation
 
@@ -38,17 +44,20 @@ await clone({ fs, http, dir, url })
 ```
 
 ### Browser
-```typescript
+```ts
 import { clone } from 'git-essentials'
 import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
 import { makeWebHttpClient } from 'git-essentials/clients/request/WebHttpClient'
 
-// GitHub (like some other providers) does not return proper 'Access-Control-Allow-Origin' header
-// as a result the browser will refuse to serve the request.
-// To overcome this limitation CORS proxy server could be used.
+// GitHub (like many other providers) does not return
+// proper 'Access-Control-Allow-Origin' header for non-API requests.
+// As a result, a browser will refuse to serve those requests.
+// To overcome this limitation you can use CORS proxy server.
 const corsProxyUrlTransformer = (originalUrl: string) => {
   // Please use this CORS proxy server only for testing and not production use.
-  // You can fork CORS proxy server from here https://github.com/alex-titarenko/gitcorsproxy
+  // You can fork this CORS proxy server from here:
+  // https://github.com/alex-titarenko/gitcorsproxy
+  // And host it by your own
   return `https://gitcorsproxy.vercel.app/api/cors?url=${encodeURIComponent(originalUrl)}`
 }
 
@@ -63,6 +72,9 @@ await clone({ fs, http, dir, url })
 ## Contributing
 
 Check out the [`CONTRIBUTING`](./CONTRIBUTING.md) document for more instructions.
+
+## Who is using this project?
+* [NotesHub](https://noteshub.app) - fully cross-platform, vendor-agnostic, markdown based note-taking app
 
 ## Credits
 This project is based on [isomorphic-git](https://github.com/isomorphic-git/isomorphic-git) library and would not be possible without the pioneering work by **@wmhilton** and all other amazing members of **isomorphic-git** community.
