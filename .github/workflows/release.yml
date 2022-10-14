@@ -49,9 +49,10 @@ jobs:
         with:
           path: docs/
 
-      - name: Release
+      - name: Semantic release
         run: npx semantic-release
         env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   docs:
@@ -62,7 +63,7 @@ jobs:
     needs: release
 
     steps:
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v2
 
       - name: Deploy to GitHub Pages
