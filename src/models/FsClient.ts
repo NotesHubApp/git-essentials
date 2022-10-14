@@ -93,7 +93,7 @@ export type StatsLike = Stats & {
  * (which is most things in Git).
  *
  * In Node.js, you can pass the builtin `fs/promises` module.
- * In the browser it's more involved because there's no standard 'fs' module.
+ * In the browser it's more involved because there's no standard `fs` module.
  * But you can use any module that implements enough of the `fs` API.
  *
  * ### Node.js

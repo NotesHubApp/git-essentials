@@ -1,0 +1,83 @@
+name: Bug Report
+description: Something not working as expected
+body:
+  - type: input
+    attributes:
+      label: "Package version"
+      description: Version set in `package.json` `dependencies`.
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Is this a regression?
+      options:
+        - 'Yes'
+        - 'No'
+        - 'I don''t know'
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Usage type
+      options:
+        - 'Node.js'
+        - 'Browser'
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: "FsClient"
+      description: File System client in use.
+      placeholder: InMemoryFsClient/Something else
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: "HttpClient"
+      description: Http client in use.
+      placeholder: NodeHttpClient/WebHttpClient/Something else
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Environment
+      description: Describe the environment you discovered this bug in.
+      placeholder: |
+        OS: <os-name>/<os-version>
+        Node.js: <node-js-version>
+        Browser: <browser-name>/<browser-version>
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Current behavior
+      description: Describe how the issue manifests.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: Describe what the desired behavior would be.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Provide the exception or error
+
+  - type: textarea
+    attributes:
+      label: Anything else?
