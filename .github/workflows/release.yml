@@ -9,9 +9,9 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: write
-  pages: write
-  issues: write
+  contents: write # Needed for semantic-release to push tags, etc
+  pages: write # Needed for publishing the documentation to GitHub Pages
+  issues: write # Needed for semantic-release to create new issues
   id-token: write
 
 jobs:
