@@ -12,7 +12,7 @@ permissions:
   contents: write # Needed for semantic-release to push tags, etc
   pages: write # Needed for publishing the documentation to GitHub Pages
   issues: write # Needed for semantic-release to create new issues
-  id-token: write
+  id-token: write # This is required for requesting the JWT
 
 jobs:
   release:
