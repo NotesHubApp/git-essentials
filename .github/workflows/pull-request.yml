@@ -31,10 +31,10 @@ jobs:
       - name: Test (Browsers)
         run: npm run test:browsers
 
-      - name: Test summary
-        uses: test-summary/action@v2
-        with:
-          paths: "reports/report.xml"
+      # - name: Publish test results
+      #   uses: test-summary/action@v2
+      #   with:
+      #     paths: "reports/report.xml"
 
       - name: 'Upload coverage reports'
         uses: codecov/codecov-action@v3

@@ -13,6 +13,7 @@ const config: Config = {
   },
   reporters: [
     'default',
+    'github-actions',
     ['jest-junit', { outputDirectory: 'reports', outputName: 'report.xml' }],
   ],
   collectCoverageFrom: ['src/**/*.ts'],
