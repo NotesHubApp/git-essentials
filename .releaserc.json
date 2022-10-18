@@ -1,0 +1,43 @@
+{
+  "branches": [
+    "+([0-9])?(.{+([0-9]),x}).x",
+    "main",
+    "next",
+    "next-major",
+    {
+      "name": "beta",
+      "prerelease": true
+    },
+    {
+      "name": "alpha",
+      "prerelease": true
+    }
+  ],
+  "plugins": [
+    [
+      "@google/semantic-release-replace-plugin",
+      {
+        "replacements": [
+          {
+            "files": ["dist/**/env.json"],
+            "from": "__PACKAGE_VERSION__",
+            "to": "${nextRelease.version}",
+            "results": [
+              {
+                "file": "dist/esm/env.json",
+                "hasChanged": true,
+                "numMatches": 1,
+                "numReplacements": 1
+              }
+            ],
+            "countMatches": true
+          }
+        ]
+      }
+    ]
+  ],
+  "success": [
+    "@semantic-release/github"
+  ]
+}
+
