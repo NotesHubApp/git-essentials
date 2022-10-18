@@ -11,8 +11,11 @@ const config: Config = {
     '^git-essentials/(.+)$': '<rootDir>/src/$1',
     '^src/(.+)$': '<rootDir>/src/$1'
   },
+  reporters: [
+    'default',
+    ['jest-junit', { outputDirectory: 'reports', outputName: 'report.xml' }],
+  ],
   collectCoverageFrom: ['src/**/*.ts'],
-  reporters: ['default'],
   coverageReporters: ['lcov', 'cobertura']
 }
 
