@@ -1,7 +1,7 @@
-const pkg = require('../../package.json')
+import env from '../env.json'
 
-const name = pkg.name
-const version = pkg.version
+const name = env.packageName
+const version = env.packageVersion
 let customAgent: string | undefined
 
 /** @internal */

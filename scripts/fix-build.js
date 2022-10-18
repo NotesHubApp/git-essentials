@@ -35,7 +35,3 @@ function deleteEmptyTypeScriptDeclarations(folderPath) {
     fs.rmdirSync(folderPath)
   }
 }
-
-
-// Copy package.json file
-fs.copyFileSync('package.json', 'dist/package.json')
