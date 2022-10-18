@@ -31,10 +31,12 @@ jobs:
       - name: Test (Browsers)
         run: npm run test:browsers
 
-      # - name: Publish test results
-      #   uses: test-summary/action@v2
-      #   with:
-      #     paths: "reports/report.xml"
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        with:
+          name: Tests (Node.js)       # Name of the check run which will be created
+          path: reports/report.xml    # Path to test results
+          reporter: jest-junit        # Format of test results
 
       - name: 'Upload coverage reports'
         uses: codecov/codecov-action@v3
