@@ -21,7 +21,7 @@ describe('e2e', () => {
         })
 
         // assert
-        const fileStat = await fs.lstat(`${dir}/Welcome note.md`)
+        const fileStat = await fs.lstat(`${dir}/Welcome note.md2`)
         expect(fileStat.isFile()).toBe(true)
       })
     })
