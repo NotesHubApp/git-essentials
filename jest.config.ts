@@ -11,6 +11,9 @@ const config: Config = {
     '^git-essentials/(.+)$': '<rootDir>/src/$1',
     '^src/(.+)$': '<rootDir>/src/$1'
   },
-};
+  collectCoverageFrom: ['src/**/*.ts'],
+  reporters: ['default'],
+  coverageReporters: ['lcov', 'cobertura']
+}
 
 export default config
