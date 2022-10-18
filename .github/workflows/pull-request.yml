@@ -31,7 +31,7 @@ jobs:
       - name: Test (Browsers)
         run: npm run test:browsers
 
-      - name: 'Uploads coverage reports'
+      - name: 'Upload coverage reports'
         uses: codecov/codecov-action@v3
 
       - name: Generate documentation
