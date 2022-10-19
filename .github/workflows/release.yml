@@ -36,12 +36,12 @@ jobs:
         run: npm run build
 
       - name: Test (Node.js)
-        run: npm run test -- --coverage
+        run: npm run test
 
       - name: Test (Browsers)
         run: npm run test:browsers
 
-      - name: 'Upload coverage reports'
+      - name: 'Publish coverage reports'
         uses: codecov/codecov-action@v3
 
       - name: Generate documentation

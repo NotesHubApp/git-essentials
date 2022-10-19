@@ -26,19 +26,12 @@ jobs:
         run: npm run build
 
       - name: Test (Node.js)
-        run: npm run test -- --coverage
+        run: npm run test
 
       - name: Test (Browsers)
         run: npm run test:browsers
 
-      - name: Publish test results
-        uses: dorny/test-reporter@v1
-        with:
-          name: Tests (Node.js)       # Name of the check run which will be created
-          path: reports/report.xml    # Path to test results
-          reporter: jest-junit        # Format of test results
-
-      - name: 'Upload coverage reports'
+      - name: 'Publish coverage reports'
         uses: codecov/codecov-action@v3
 
       - name: Generate documentation

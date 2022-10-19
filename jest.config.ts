@@ -13,11 +13,9 @@ const config: Config = {
   },
   reporters: [
     'default',
-    'github-actions',
-    ['jest-junit', { outputDirectory: 'reports', outputName: 'report.xml' }],
+    'github-actions'
   ],
-  collectCoverageFrom: ['src/**/*.ts'],
-  coverageReporters: ['lcov', 'cobertura']
+  collectCoverageFrom: ['src/**/*.ts']
 }
 
 export default config
