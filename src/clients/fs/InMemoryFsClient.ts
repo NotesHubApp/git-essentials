@@ -16,61 +16,7 @@ import {
   WriteOptions,
 } from '../../'
 
-enum FileMode {
-  NEW = 0,
-  TREE = 16877,
-  BLOB = 33188,
-  EXECUTABLE = 33261,
-  LINK = 40960,
-  COMMIT = 57344,
-}
-
-type Stats = {
-  mode: number
-  size: number
-  ctime: Date
-  mtime: Date
-}
-
-class SimpleStats implements StatsLike {
-  private type: 'file' | 'dir' | 'symlink'
-  mode: number
-  size: number
-  ino: number
-  mtimeMs: number
-  ctimeMs?: number
-  ctime?: Date
-  mtime?: Date
-  uid: number
-  gid: number
-  dev: number
-
-  constructor(stats: Stats, type: 'file' | 'dir' | 'symlink') {
-    this.type = type
-    this.mode = stats.mode
-    this.size = stats.size
-    this.ino = 0
-    this.ctimeMs = stats.ctime.valueOf()
-    this.mtimeMs = stats.mtime.valueOf()
-    this.ctime = stats.ctime
-    this.mtime = stats.mtime
-    this.uid = 1
-    this.gid = 1
-    this.dev = 1
-  }
-
-  isFile() {
-    return this.type === 'file'
-  }
-
-  isDirectory() {
-    return this.type === 'dir'
-  }
-
-  isSymbolicLink() {
-    return this.type === 'symlink'
-  }
-}
+import { BasicStats, Stats } from './BasicStats'
 
 
 type FileTreeEntry = {
@@ -121,7 +67,7 @@ export type TreeEntriesDto = TreeEntryDto[]
 
 function makeFile(name: string, content: Uint8Array): FileTreeEntry {
   const now = new Date()
-  const stat: Stats = { mode: FileMode.BLOB, size: content.byteLength, ctime: now, mtime: now }
+  const stat: Stats = { size: content.byteLength, ctime: now, mtime: now }
   return { type: 'file', name, content, stat }
 }
 
@@ -133,13 +79,13 @@ function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
 
 function makeSymlink(name: string, target: string): SymlinkTreeEntry {
   const now = new Date()
-  const stat: Stats = { mode: FileMode.LINK, size: 0, ctime: now, mtime: now }
+  const stat: Stats = { size: 0, ctime: now, mtime: now }
   return { type: 'symlink', name, target, stat }
 }
 
 function makeEmptyFolder(name: string): FolderTreeEntry {
   const now = new Date()
-  const stat: Stats = { mode: FileMode.TREE, size: 0, ctime: now, mtime: now }
+  const stat: Stats = { size: 0, ctime: now, mtime: now }
   return { type: 'dir', name, children: [], stat }
 }
 
@@ -245,7 +191,7 @@ export class InMemoryFsClient implements FsClient {
       return await this.stat(entry.target)
     }
 
-    return new SimpleStats(entry.stat, entry.type)
+    return new BasicStats(entry.stat, entry.type)
   }
 
   public async lstat(path: string): Promise<StatsLike> {
@@ -255,7 +201,7 @@ export class InMemoryFsClient implements FsClient {
       throw new ENOENT(path)
     }
 
-    return new SimpleStats(entry.stat, entry.type)
+    return new BasicStats(entry.stat, entry.type)
   }
 
   public async rename(oldPath: string, newPath: string): Promise<void> {
