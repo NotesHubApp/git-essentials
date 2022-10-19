@@ -65,27 +65,26 @@ export type TreeEntryDto = FolderTreeEntryDto | FileTreeEntryDto | SymlinkTreeEn
 
 export type TreeEntriesDto = TreeEntryDto[]
 
+const now = () => new Date().valueOf()
+
 function makeFile(name: string, content: Uint8Array): FileTreeEntry {
-  const now = new Date()
-  const stat: Stats = { size: content.byteLength, ctime: now, mtime: now }
+  const stat: Stats = { size: content.byteLength, lastModified: now() }
   return { type: 'file', name, content, stat }
 }
 
 function updateFileContent(file: FileTreeEntry, newContent: Uint8Array) {
   file.content = newContent
   file.stat.size = newContent.byteLength
-  file.stat.mtime = new Date()
+  file.stat.lastModified = now()
 }
 
 function makeSymlink(name: string, target: string): SymlinkTreeEntry {
-  const now = new Date()
-  const stat: Stats = { size: 0, ctime: now, mtime: now }
+  const stat: Stats = { size: 0, lastModified: now() }
   return { type: 'symlink', name, target, stat }
 }
 
 function makeEmptyFolder(name: string): FolderTreeEntry {
-  const now = new Date()
-  const stat: Stats = { size: 0, ctime: now, mtime: now }
+  const stat: Stats = { size: 0, lastModified: now() }
   return { type: 'dir', name, children: [], stat }
 }
 

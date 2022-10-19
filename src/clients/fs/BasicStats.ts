@@ -28,8 +28,7 @@ function typeToMode(type: EntryType): number {
  */
 export type Stats = {
   size: number
-  ctime: Date
-  mtime: Date
+  lastModified: number
 }
 
 /**
@@ -42,21 +41,17 @@ export class BasicStats implements StatsLike {
   ino: number
   mtimeMs: number
   ctimeMs?: number
-  ctime?: Date
-  mtime?: Date
   uid: number
   gid: number
   dev: number
 
-  constructor(stats: Stats, type: 'file' | 'dir' | 'symlink') {
+  constructor(stats: Stats, type: EntryType) {
     this.type = type
     this.mode = typeToMode(type)
     this.size = stats.size
     this.ino = 0
-    this.ctimeMs = stats.ctime.valueOf()
-    this.mtimeMs = stats.mtime.valueOf()
-    this.ctime = stats.ctime
-    this.mtime = stats.mtime
+    this.mtimeMs = stats.lastModified
+    this.ctimeMs = stats.lastModified
     this.uid = 1
     this.gid = 1
     this.dev = 1
