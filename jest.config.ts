@@ -11,6 +11,11 @@ const config: Config = {
     '^git-essentials/(.+)$': '<rootDir>/src/$1',
     '^src/(.+)$': '<rootDir>/src/$1'
   },
-};
+  reporters: [
+    'default',
+    'github-actions'
+  ],
+  collectCoverageFrom: ['src/**/*.ts']
+}
 
 export default config

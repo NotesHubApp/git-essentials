@@ -37,7 +37,7 @@
     "check": "tsc --noEmit",
     "build": "tsc -b ./src/tsconfig.json",
     "postbuild": "node ./scripts/fix-build.js",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:browser": "karma start",
     "test:browsers": "karma start --single-run --browsers ChromeHeadless,WebkitHeadless,FirefoxHeadless",
     "semantic-release": "semantic-release",
