@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/NotesHubApp/git-essentials?color=blue)
 [![Join the community on GitHub Discussions](https://img.shields.io/badge/Join%20the%20community-on%20GitHub%20Discussions-blue)](https://github.com/NotesHubApp/git-essentials/discussions)
 [![Release](https://github.com/NotesHubApp/git-essentials/actions/workflows/release.yml/badge.svg)](https://github.com/NotesHubApp/git-essentials/actions/workflows/release.yml)
-[![codecov](https://codecov.io/github/NotesHubApp/git-essentials/branch/main/graph/badge.svg?token=F036Y6TFZS)](https://codecov.io/github/NotesHubApp/git-essentials)
+[![codecov](https://codecov.io/github/NotesHubApp/git-essentials/branch/main/graph/badge.svg?token=F036Y6TFZS)](https://app.codecov.io/github/NotesHubApp/git-essentials)
 [![NPM Version](https://img.shields.io/npm/v/git-essentials?color=33cd56&logo=npm)](https://www.npmjs.com/package/git-essentials)
 
 A collection of essential Git commands for your browser and Node.js written in TypeScript all without any native dependencies.
