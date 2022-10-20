@@ -1,5 +1,5 @@
 import { FsClient, HttpClient } from 'git-essentials'
-import { InMemoryFsClient } from 'src/clients/fs/InMemoryFsClient'
+import { IndexedDbFsClient } from 'src/clients/fs/IndexedDbFsClient'
 import { makeWebHttpClient } from 'src/clients/http/WebHttpClient'
 import { makeNodeHttpClient } from 'src/clients/http/NodeHttpClient'
 
@@ -16,15 +16,16 @@ type IntegrationContext = {
 }
 
 export async function integrationContext(action: (context: IntegrationContext) => Promise<void>) {
-  const { fs, http } = isBrowser() ? {
-    fs: new InMemoryFsClient(),
-    http: makeWebHttpClient({ transformRequestUrl: corsProxyUrlTransformer })
+  const { fs, http, dir } = isBrowser() ? {
+    fs: new IndexedDbFsClient('tests'),
+    http: makeWebHttpClient({ transformRequestUrl: corsProxyUrlTransformer }),
+    dir: `/temp_${generateId(20)}`
   } : {
     fs: (await import('fs')).promises,
-    http: makeNodeHttpClient()
+    http: makeNodeHttpClient(),
+    dir: `temp_${generateId(20)}`
   }
 
-  const dir = `temp_${generateId(20)}`
   await fs.mkdir(dir)
 
   try {

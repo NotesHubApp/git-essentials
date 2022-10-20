@@ -1,5 +1,9 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+  // "navigationLinks": {
+  //   "GitHub": "https://github.com/NotesHubApp/git-essentials",
+  //   "💬": "https://github.com/NotesHubApp/git-essentials/discussions"
+  // },
   "entryPoints": [
     "src/index.ts",
     "src/errors/",
