@@ -95,6 +95,7 @@ function split(path: string): string[] {
 /**
  * Represents {@link API.FsClient} implementation which keeps all data in memory.
  * Could be useful for testing when data persistence is not required.
+ * Meant to be used in Node.js and browser environments.
  */
 export class InMemoryFsClient implements FsClient {
   private readonly root: FolderTreeEntry
@@ -252,8 +253,8 @@ export class InMemoryFsClient implements FsClient {
   }
 
   /**
-   * Return true if a file exists, false if it doesn't exist.
-   * Rethrows errors that aren't related to file existance.
+   * Return true if a entry exists, false if it doesn't exist.
+   * Rethrows errors that aren't related to entry existance.
   */
   public async exists(path: string): Promise<boolean> {
     try {
