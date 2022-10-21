@@ -110,7 +110,7 @@ export type StatsLike = Stats & {
  * ### Browser
  * For testing purposes, the library includes in-memory file system implementations
  * which can be used on both Node.js and browser environments.
- * For persistent production use, you will have to use 3rd party client or your own implementation.
+ * For persistent production use, you will have to use 3rd party clients/build-in clients in this package or your own implementation.
  * ```typescript
  * import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
  * import { listFiles } from 'git-essentials'

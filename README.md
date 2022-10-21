@@ -53,14 +53,14 @@ You can fork this [CORS proxy server](https://github.com/alex-titarenko/gitcorsp
 
 ```ts
 import { clone } from 'git-essentials'
-import { InMemoryFsClient } from 'git-essentials/clients/fs/InMemoryFsClient'
+import { IndexedDbFsClient } from 'git-essentials/clients/fs/IndexedDbFsClient'
 import { makeWebHttpClient } from 'git-essentials/clients/http/WebHttpClient'
 
-const fs = new InMemoryFsClient()
+const fs = new IndexedDbFsClient('my-repos')
 const http = makeWebHttpClient({
   transformRequestUrl: url => `https://gitcorsproxy.vercel.app/api/cors?url=${encodeURIComponent(url)}`
 })
-const dir = 'repos/Welcome'
+const dir = '/Welcome'
 const url = 'https://github.com/NotesHubApp/Welcome.git'
 
 await clone({ fs, http, dir, url })

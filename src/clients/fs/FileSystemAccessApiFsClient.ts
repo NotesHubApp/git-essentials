@@ -32,12 +32,12 @@ type EntryHandle<T> =
   never
 
 /**
- * Represents {@link API.FsClient} implementation which uses [File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API) under the hood.
+ * Represents {@link API.FsClient} implementation which uses [File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API) under the hood for persistent storage.
  * Meant to be used in a browser environment.
  *
  * ### Limitations
  * * Symlinks are not supported
- * * Partial support of {@link API.StatsLike}, limited to `size` and `mtimeMs` and only for files
+ * * Partial support for statistics returned by `stat` or `lstat` methods: *size* and *mtimeMs* are only supported and only for files
  * * Poor browser support:
  *   * *Chromium* - full support
  *   * *WebKit* - partial support, could be supported in the Worker thread after some modifications here
@@ -176,10 +176,18 @@ export class FileSystemAccessApiFsClient implements FsClient {
     }
   }
 
+  /**
+   * Symlinks are not supported in the current implementation.
+   * @throws Error: symlinks are not supported.
+   */
   public async readlink(path: string): Promise<string> {
     throw new Error('Symlinks are not supported.')
   }
 
+  /**
+   * Symlinks are not supported in the current implementation.
+   * @throws Error: symlinks are not supported.
+   */
   public async symlink(target: string, path: string): Promise<void> {
     throw new Error('Symlinks are not supported.')
   }

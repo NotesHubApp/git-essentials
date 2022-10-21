@@ -33,6 +33,15 @@ interface FileSystemSchema extends DBSchema {
   }
 }
 
+/**
+ * Represents {@link API.FsClient} implementation which uses [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) under the hood for persistent storage.
+ * Meant to be used in a browser environment.
+ *
+ * ### Limitations
+ * * Symlinks are not supported
+ * * No support for any statistics returned by `stat` or `lstat` methods
+ * * No support for empty directories creation, essentially it behaves very similar to Git which does not store empty directories
+ */
 export class IndexedDbFsClient implements FsClient {
   #fs: IDBPDatabase<FileSystemSchema> | undefined = undefined
 
@@ -216,14 +225,26 @@ export class IndexedDbFsClient implements FsClient {
     await transaction.done
   }
 
+  /**
+   * Symlinks are not supported in the current implementation.
+   * @throws Error: symlinks are not supported.
+   */
   public async readlink(path: string): Promise<string> {
     throw new Error('Symlinks are not supported.')
   }
 
+  /**
+   * Symlinks are not supported in the current implementation.
+   * @throws Error: symlinks are not supported.
+   */
   public async symlink(target: string, path: string): Promise<void> {
     throw new Error('Symlinks are not supported.')
   }
 
+  /**
+   * Return true if a entry exists, false if it doesn't exist.
+   * Rethrows errors that aren't related to entry existance.
+  */
   public async exists(path: string): Promise<boolean> {
     try {
       await this.stat(path)
