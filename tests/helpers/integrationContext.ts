@@ -23,7 +23,7 @@ export async function integrationContext(action: (context: IntegrationContext) =
   } : {
     fs: (await import('fs')).promises,
     http: makeNodeHttpClient(),
-    dir: `temp_${generateId(20)}`
+    dir: `${(await import('os')).tmpdir()}/temp_${generateId(20)}`
   }
 
   await fs.mkdir(dir)
