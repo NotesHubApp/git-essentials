@@ -22,7 +22,7 @@ function deleteEmptyTypeScriptDeclarations(folderPath) {
     const stat = fs.statSync(itemPath)
 
     if (stat.isFile() && folderItem.endsWith('.d.ts')) {
-      if (fs.readFileSync(itemPath, { encoding: 'utf8' }).startsWith('export {};')) {
+      if (fs.readFileSync(itemPath, { encoding: 'utf8' }).includes('export {};')) {
         fs.unlinkSync(itemPath)
         fs.unlinkSync(itemPath.replace('.d.ts', '.d.ts.map'))
       }
