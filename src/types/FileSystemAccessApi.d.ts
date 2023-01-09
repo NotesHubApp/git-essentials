@@ -14,6 +14,17 @@ declare interface FileSystemCreateWritableOptions {
   keepExistingData?: boolean | undefined
 }
 
+declare interface FileSystemReadWriteOptions {
+  at: number
+}
+
+declare interface FileSystemSyncAccessHandle {
+  read(buffer: ArrayBuffer, options?: FileSystemReadWriteOptions): number
+  write(buffer: ArrayBuffer, options?: FileSystemReadWriteOptions): number
+  flush(): Promise<void>
+  close(): Promise<void>
+}
+
 declare class FileSystemWritableFileStream extends WritableStream {
   write(data: FileSystemWriteChunkType): Promise<void>
   seek(position: number): Promise<void>
@@ -22,4 +33,5 @@ declare class FileSystemWritableFileStream extends WritableStream {
 
 declare interface FileSystemFileHandle extends FileSystemHandle {
   createWritable(options?: FileSystemCreateWritableOptions): Promise<FileSystemWritableFileStream>
+  createSyncAccessHandle(): Promise<FileSystemSyncAccessHandle>
 }

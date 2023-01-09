@@ -55,7 +55,9 @@ type EntryHandle<T> =
  * ```
  */
 export class FileSystemAccessApiFsClient implements FsClient {
-  constructor(private readonly root: FileSystemDirectoryHandle) { }
+  constructor(
+    private readonly root: FileSystemDirectoryHandle,
+    private readonly useSyncAccessHandle: boolean = false) { }
 
   /**
    * Checks if the browser supports File System Access API.
@@ -88,9 +90,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
     const targetDir = await this.getDirectoryByPath(folderPath)
 
     const fileHandle = await targetDir.getFileHandle(leafSegment, { create: true })
-    const writable = await fileHandle.createWritable()
-    await writable.write(data)
-    await writable.close()
+    await writeFile(fileHandle, data, this.useSyncAccessHandle);
   }
 
   public async readdir(path: string): Promise<string[]> {
@@ -169,7 +169,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
       await this.mkdir(newPath)
       const sourceFolder = await this.getDirectoryByPath(oldPath)
       const destinationFolder = await this.getDirectoryByPath(newPath)
-      await copyDirectoryContent(destinationFolder, sourceFolder)
+      await copyDirectoryContent(destinationFolder, sourceFolder, this.useSyncAccessHandle)
       await this.rm(oldPath, { recursive: true })
     } else {
       throw Error('Not Supported')
@@ -272,9 +272,24 @@ function getFolderPathAndLeafSegment(path: string) {
     { folderPath: path.substring(0, fileNameDelimeter), leafSegment: path.substring(fileNameDelimeter + 1, path.length) }
 }
 
+const textEncoder = new TextEncoder();
+async function writeFile(fileHandle: FileSystemFileHandle, data: ArrayBuffer | string, useSyncAccessHandle: boolean) {
+  if (useSyncAccessHandle) {
+    const accessHandle = await fileHandle.createSyncAccessHandle()
+    accessHandle.write(typeof data === 'string' ? textEncoder.encode(data) : data)
+    await accessHandle.flush()
+    await accessHandle.close()
+  } else {
+    const writable = await fileHandle.createWritable()
+    await writable.write(data)
+    await writable.close()
+  }
+}
+
 async function copyDirectoryContent(
   destinationFolder: FileSystemDirectoryHandle,
-  sourceFolder: FileSystemDirectoryHandle) {
+  sourceFolder: FileSystemDirectoryHandle,
+  useSyncAccessHandle: boolean) {
   for await (const item of sourceFolder.values()) {
     if (item.kind === 'file') {
       const sourceFileHandle = await sourceFolder.getFileHandle(item.name, { create: false })
@@ -282,13 +297,11 @@ async function copyDirectoryContent(
       const data = await file.arrayBuffer()
 
       const destinationFileHandle = await destinationFolder.getFileHandle(item.name, { create: true })
-      const writable = await destinationFileHandle.createWritable()
-      await writable.write(data)
-      await writable.close()
+      await writeFile(destinationFileHandle, data, useSyncAccessHandle)
     } else if (item.kind === 'directory') {
       const newSourceSubFolder = await sourceFolder.getDirectoryHandle(item.name, { create: false })
       const newDestinationSubFolder = await destinationFolder.getDirectoryHandle(item.name, { create: true })
-      await copyDirectoryContent(newDestinationSubFolder, newSourceSubFolder)
+      await copyDirectoryContent(newDestinationSubFolder, newSourceSubFolder, useSyncAccessHandle)
     }
   }
 }
