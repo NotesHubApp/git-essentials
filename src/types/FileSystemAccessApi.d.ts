@@ -21,6 +21,7 @@ declare interface FileSystemReadWriteOptions {
 declare interface FileSystemSyncAccessHandle {
   read(buffer: ArrayBuffer, options?: FileSystemReadWriteOptions): number
   write(buffer: ArrayBuffer, options?: FileSystemReadWriteOptions): number
+  truncate(newSize: number): Promise<void>
   flush(): Promise<void>
   close(): Promise<void>
 }
