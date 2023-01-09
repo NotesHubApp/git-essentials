@@ -276,9 +276,7 @@ const textEncoder = new TextEncoder();
 async function writeFile(fileHandle: FileSystemFileHandle, data: ArrayBuffer | string, useSyncAccessHandle: boolean) {
   if (useSyncAccessHandle) {
     const accessHandle = await fileHandle.createSyncAccessHandle()
-    const content = typeof data === 'string' ? textEncoder.encode(data) : data;
-    accessHandle.write(content, { at: 0 })
-    await accessHandle.truncate(content.byteLength);
+    accessHandle.write(typeof data === 'string' ? textEncoder.encode(data) : data, { at: 0 })
     await accessHandle.flush()
     await accessHandle.close()
   } else {
