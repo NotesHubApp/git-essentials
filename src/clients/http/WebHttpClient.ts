@@ -25,6 +25,11 @@ export type WebHttpClientOptions = {
   transformRequestUrl?: TransformRequestUrl
 
   /**
+   * Optional Fetch API implementation, could be useful for testing.
+   */
+  fetch?: (url: string, init?: RequestInit) => Promise<Response>
+
+  /**
    * The number of retries that the client attempt to do on failure.
    */
   retriesCount?: number
@@ -35,6 +40,7 @@ export type WebHttpClientOptions = {
  */
 export function makeWebHttpClient(options: WebHttpClientOptions = {}): HttpClient {
   const transformRequestUrl = options.transformRequestUrl ?? DefaultTransformRequestUrl
+  const fetchImpl = options.fetch ?? globalThis.fetch
   const retriesCount = options.retriesCount ?? 3
 
   /**
@@ -50,7 +56,7 @@ export function makeWebHttpClient(options: WebHttpClientOptions = {}): HttpClien
     async function fetchWithRetry(url: string, options: RequestInit, n = 1): Promise<Response> {
       try {
         const targetUrl = transformRequestUrl(url, Boolean(options.credentials));
-        return await fetch(targetUrl, options)
+        return await fetchImpl(targetUrl, options)
       } catch (err) {
         if (n <= 1) {
           throw err
