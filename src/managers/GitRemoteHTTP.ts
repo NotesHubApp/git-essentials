@@ -163,7 +163,7 @@ export class GitRemoteHTTP {
 
     if (res.statusCode !== 200) {
       const { response } = await stringifyBody(res)
-      throw new HttpError(res.statusCode, res.statusMessage, response)
+      throw new HttpError(res.statusCode, res.statusMessage, res.url, res.method, response, res.headers)
     }
 
     // Git "smart" HTTP servers should respond with the correct Content-Type header.
@@ -223,7 +223,7 @@ export class GitRemoteHTTP {
     })
     if (res.statusCode !== 200) {
       const { response } = await stringifyBody(res)
-      throw new HttpError(res.statusCode, res.statusMessage, response)
+      throw new HttpError(res.statusCode, res.statusMessage, res.url, res.method, response, res.headers)
     }
     return res
   }
