@@ -252,6 +252,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
       if (error instanceof TypeError) {
         return undefined
       }
+
       if (error instanceof DOMException) {
         switch (error.name) {
           case ErrorNames.NotFoundError:
