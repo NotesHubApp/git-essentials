@@ -231,12 +231,18 @@ export class FileSystemAccessApiFsClient implements FsClient {
 
       return targetDir
     } catch (error: any) {
-      const { name } = error
-      switch (name) {
-        case ErrorNames.NotFoundError: throw new ENOENT(path)
-        case ErrorNames.TypeMismatchError: throw new ENOTDIR(path)
-        default: throw error
+      if (error instanceof TypeError) {
+        throw new ENOTDIR(path)
       }
+
+      if (error instanceof DOMException) {
+        switch (error.name) {
+          case ErrorNames.NotFoundError: throw new ENOENT(path)
+          case ErrorNames.TypeMismatchError: throw new ENOTDIR(path)
+        }
+      }
+
+      throw error
     }
   }
 
