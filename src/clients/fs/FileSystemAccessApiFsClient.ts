@@ -249,13 +249,18 @@ export class FileSystemAccessApiFsClient implements FsClient {
         return (await folder.getDirectoryHandle(name, { create: false })) as EntryHandle<T>
       }
     } catch (error: any) {
-      const { name } = error
-      switch (name) {
-        case ErrorNames.NotFoundError:
-        case ErrorNames.TypeMismatchError:
-          return undefined
-        default: throw error
+      if (error instanceof TypeError) {
+        return undefined
       }
+      if (error instanceof DOMException) {
+        switch (error.name) {
+          case ErrorNames.NotFoundError:
+          case ErrorNames.TypeMismatchError:
+            return undefined
+        }
+      }
+
+      throw error
     }
   }
 }
