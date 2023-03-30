@@ -317,3 +317,39 @@ async function copyDirectoryContent(
     }
   }
 }
+
+
+/**
+ * Checks if the browser supports FileSystemSyncAccessHandle.
+ */
+export async function isSyncAccessHandleSupported() {
+  if (!('createSyncAccessHandle' in FileSystemFileHandle.prototype)) {
+    return false
+  }
+
+  // WebKit had a bug with the persisting writes: https://bugs.webkit.org/show_bug.cgi?id=250495
+  const tempFileNameToCheckWrite = 'temp-file-69ec502a-a102-481a-9e1b-4112376ca254'
+  const writeTestSample = 'test'
+  const root = await navigator.storage.getDirectory()
+
+  try {
+    const tempFileHandle = await root.getFileHandle(tempFileNameToCheckWrite, { create: true })
+    const tempFileAccessHandle = await tempFileHandle.createSyncAccessHandle()
+
+    const encoder = new TextEncoder()
+    const writeBuffer = encoder.encode(writeTestSample)
+    tempFileAccessHandle.write(writeBuffer, { at : 0 })
+    await tempFileAccessHandle.flush()
+    await tempFileAccessHandle.close()
+
+    const existingTempFileHandle = await root.getFileHandle(tempFileNameToCheckWrite, { create: false })
+    const existingTempFile = await existingTempFileHandle.getFile()
+    const existingTempFileContent = await existingTempFile.text()
+    return existingTempFileContent === writeTestSample
+  } catch {
+    return false
+  }
+    finally {
+    await root.removeEntry(tempFileNameToCheckWrite)
+  }
+}
