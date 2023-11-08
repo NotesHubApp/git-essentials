@@ -15,5 +15,11 @@ export function extractAuthFromUrl(url: string): { url: string, auth: Auth } {
   // Remove credentials from URL
   url = url.replace(`${userpass}@`, '')
   // Has credentials, return the fetch-safe URL and the parsed credentials
-  return { url, auth: { username, password } }
+  return {
+    url: url,
+    auth: {
+      username: decodeURIComponent(username),
+      password: decodeURIComponent(password)
+    }
+  }
 }
