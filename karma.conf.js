@@ -1,9 +1,11 @@
-const playwright = require('playwright')
+import playwright from 'playwright';
+
 process.env.CHROME_BIN = playwright.chromium.executablePath()
 process.env.WEBKIT_HEADLESS_BIN = playwright.webkit.executablePath()
 process.env.FIREFOX_BIN = playwright.firefox.executablePath()
 
-module.exports = (config: any) => {
+/** @type {(config: import("karma").Config) => void} */
+export default function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', 'karma-typescript'],
