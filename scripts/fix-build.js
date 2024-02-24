@@ -1,6 +1,5 @@
-const path = require('path')
-const fs = require('fs')
-
+import fs from 'fs'
+import path from 'path'
 
 // Delete empty TypeScript declarations
 deleteEmptyTypeScriptDeclarations('dist/types')

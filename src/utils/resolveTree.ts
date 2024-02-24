@@ -1,11 +1,10 @@
-import { FileSystem } from '../models/FileSystem'
 import { Cache } from '../models/Cache'
-import { ObjectTypeError } from '../errors'
+import { FileSystem } from '../models/FileSystem'
 import { GitAnnotatedTag } from '../models/GitAnnotatedTag'
 import { GitCommit } from '../models/GitCommit'
 import { GitTree } from '../models/GitTree'
+import { ObjectTypeError } from '../errors'
 import { _readObject } from '../storage/readObject'
-
 
 /** @internal */
 export async function resolveTree(

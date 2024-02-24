@@ -1,9 +1,9 @@
-import { FileSystem } from '../models/FileSystem'
 import { Cache } from '../models'
+import { FileSystem } from '../models/FileSystem'
+import { GitTree } from '../models/GitTree'
 import { InvalidFilepathError } from '../errors/InvalidFilepathError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { ObjectTypeError } from '../errors/ObjectTypeError'
-import { GitTree } from '../models/GitTree'
 import { _readObject as readObject } from '../storage/readObject'
 import { resolveTree } from '../utils/resolveTree'
 

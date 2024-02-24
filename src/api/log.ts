@@ -1,11 +1,10 @@
-import { _log } from '../commands/log'
+import { Cache } from '../models/Cache'
 import { FileSystem } from '../models/FileSystem'
 import { FsClient } from '../models/FsClient'
-import { Cache } from '../models/Cache'
+import { ReadCommitResult } from '../api/readCommit'
+import { _log } from '../commands/log'
 import { assertParameter } from '../utils/assertParameter'
 import { join } from '../utils/join'
-import { ReadCommitResult } from '../api/readCommit'
-
 
 export type LogParams = {
   /** A file system client. */
@@ -25,6 +24,15 @@ export type LogParams = {
 
   /** Return history newer than the given date. Can be combined with `depth` to get whichever is shorter. */
   since?: Date
+
+  /** Get the commit for the filepath only. */
+  filepath?: string
+
+  /** Do not throw error if filepath does not exist (works only for a single file, default: `false`). */
+  force?: boolean
+
+  /** Continue listing the history of a file beyond renames (works only for a single file, default: `false`). */
+  follow?: boolean
 
   /** A cache object. */
   cache?: Cache
@@ -55,6 +63,9 @@ export async function log({
   ref = 'HEAD',
   depth,
   since, // Date
+  filepath,
+  force = false,
+  follow = false,
   cache = {},
 }: LogParams): Promise<Array<ReadCommitResult>> {
   try {
@@ -69,6 +80,9 @@ export async function log({
       ref,
       depth,
       since,
+      filepath,
+      force,
+      follow
     })
   } catch (err: any) {
     err.caller = 'git.log'
