@@ -40,7 +40,7 @@
     "postbuild": "node ./scripts/fix-build.js",
     "test": "jest --coverage",
     "test:browser": "NODE_OPTIONS=\"$NODE_OPTIONS -r ./karmaEsmFix.cjs\" karma start",
-    "test:browsers": "NODE_OPTIONS=\"$NODE_OPTIONS -r ./karmaEsmFix.cjs\" karma start karma start --single-run --browsers ChromeHeadless,WebkitHeadless,FirefoxHeadless",
+    "test:browsers": "NODE_OPTIONS=\"$NODE_OPTIONS -r ./karmaEsmFix.cjs\" karma start --single-run --browsers ChromeHeadless,WebkitHeadless,FirefoxHeadless",
     "semantic-release": "semantic-release",
     "gen-doc": "npx typedoc",
     "gen-fs-fixture": "node ./scripts/gen-fs-fixture.js",
