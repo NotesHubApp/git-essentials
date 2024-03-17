@@ -479,6 +479,46 @@ describe('merge-e2e', () => {
     expect(newDirFiles.length).toBe(2)
   })
 
+  it('merge subfolders with the same name who have a new parent with the same name', async () => {
+    // ARRANGE
+    const { fs, dir } = await makeFsFixture()
+
+    // initializing new repo
+    await init({ fs, dir, defaultBranch: branch1Name })
+    await commit({ fs, dir, message: 'first commit', author: { name: 'author0' } })
+    await branch({ fs, dir, ref: branch2Name, checkout: false })
+
+    // writing files to the branch1
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.mkdir(path.resolve(dir, newDirName, 'sub-folder'))
+    await fs.writeFile(path.resolve(dir, newDirName, 'sub-folder', 'new-file1.txt'), 'some content 1')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'sub-folder', 'new-file1.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author1' } })
+
+    // writing files to a branch2
+    await checkout({ fs, dir, ref: branch2Name })
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.mkdir(path.resolve(dir, newDirName, 'sub-folder'))
+    await fs.writeFile(path.resolve(dir, newDirName, 'sub-folder', 'new-file2.txt'), 'some content 2')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'sub-folder', 'new-file2.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author2' } })
+
+    // switching back to the branch1
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ACT
+    const m = await merge({ fs, dir, ours: branch1Name, theirs: branch2Name, author: { name: 'author3' } })
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ASSERT
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.mergeCommit).toBeTruthy()
+    const newDirFiles = await fs.readdir(path.resolve(dir, newDirName))
+    expect(newDirFiles.length).toBe(1)
+    const newSubDirFiles = await fs.readdir(path.resolve(dir, newDirName, 'sub-folder'))
+    expect(newSubDirFiles.length).toBe(2)
+  })
+
   it('merge new folder and file with the same name should fail', async () => {
     // ARRANGE
     const { fs, dir } = await makeFsFixture()
