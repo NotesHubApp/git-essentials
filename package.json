@@ -21,6 +21,10 @@
       "types": "./dist/types/api/*.d.ts",
       "default": "./dist/esm/api/*.js"
     },
+    "./errors": {
+      "types": "./dist/types/errors/index.d.ts",
+      "default": "./dist/esm/errors/index.js"
+    },
     "./errors/*": {
       "types": "./dist/types/errors/*.d.ts",
       "default": "./dist/esm/errors/*.js"
