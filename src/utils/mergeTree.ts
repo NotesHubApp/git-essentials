@@ -1,17 +1,16 @@
-import { Buffer } from 'buffer'
-
-import { FileSystem } from '../models/FileSystem'
 import { BlobMergeCallback, BlobMergeCallbackParams, Cache, WalkerEntry } from '../models'
+
+import { Buffer } from 'buffer'
+import { FileSystem } from '../models/FileSystem'
+import { GitTree } from '../models/GitTree'
+import { MergeConflictError } from 'git-essentials/errors'
 import { TREE } from '../commands/TREE'
 import { _walk } from '../commands/walk'
-import { MergeNotSupportedError } from '../errors/MergeNotSupportedError'
-import { GitTree } from '../models/GitTree'
-import { _writeObject as writeObject } from '../storage/writeObject'
-
 import { basename } from './basename'
 import { isBinary } from './isBinary'
 import { join } from './join'
 import { mergeFile } from './mergeFile'
+import { _writeObject as writeObject } from '../storage/writeObject'
 
 type MergeTreeParams = {
   /** A file system helper. */
@@ -140,7 +139,19 @@ export async function mergeTree({
             (base && (await base.type()) !== 'blob') ||
             (theirs && (await theirs.type()) !== 'blob')
           ) {
-            throw new MergeNotSupportedError()
+            if (
+              (ours && (await ours.type()) === 'tree') &&
+              !base &&
+              (theirs && (await theirs.type()) === 'tree')) {
+                return {
+                  mode: await theirs.mode(),
+                  path,
+                  oid: await theirs.oid(),
+                  type: await theirs.type(),
+                }
+            }
+
+            throw new MergeConflictError(filepath)
           }
 
           // Modifications
@@ -307,7 +318,7 @@ async function defaultBlobMergeCallback({
       !theirContent ||
       isBinary(theirContent)
     ) {
-      throw new MergeNotSupportedError('Merge of binary data is not supported.')
+      throw new MergeConflictError(filePath)
     }
 
     // if both sides made changes do a merge
@@ -322,7 +333,7 @@ async function defaultBlobMergeCallback({
 
     if (!cleanMerge) {
       // all other types of conflicts fail
-      throw new MergeNotSupportedError('Merge with conflicts is not supported.')
+      throw new MergeConflictError(filePath)
     }
 
     const mode =
@@ -331,6 +342,6 @@ async function defaultBlobMergeCallback({
         : await our.mode()
     return { mergedText: mergedText, mode: mode }
   } else {
-    throw new MergeNotSupportedError()
+    throw new MergeConflictError(filePath)
   }
 }

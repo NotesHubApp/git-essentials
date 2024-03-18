@@ -1,12 +1,22 @@
-import { merge, resolveRef, log, BlobMergeCallback, checkout } from 'git-essentials'
-import { MissingNameError, MergeNotSupportedError } from 'git-essentials/errors'
+import * as path from './helpers/path'
 
-import { makeFsFixture, FsFixtureData } from './helpers/makeFsFixture'
+import {
+  BlobMergeCallback,
+  add,
+  branch,
+  checkout,
+  commit,
+  init,
+  log,
+  merge,
+  resolveRef
+} from 'git-essentials'
+import { FsFixtureData, makeFsFixture } from './helpers/makeFsFixture'
+import { MergeConflictError, MergeNotSupportedError, MissingNameError } from 'git-essentials/errors'
+
 import { expectToFailWithTypeAsync } from './helpers/assertionHelper'
-
 import mergeFsFixtureData from './fixtures/fs/merge.json'
 import mergeNoFastForwardFsFixtureData from './fixtures/fs/merge-no-ff.json'
-
 
 const author = {
   name: 'Mr. Test',
@@ -257,7 +267,7 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, MergeNotSupportedError)
+    await expectToFailWithTypeAsync(action, MergeConflictError)
   })
 
   it("merge two branches that modified the same file (no conflict)'", async () => {
@@ -302,7 +312,7 @@ describe('merge', () => {
     }
 
     // assert
-    await expectToFailWithTypeAsync(action, MergeNotSupportedError)
+    await expectToFailWithTypeAsync(action, MergeConflictError)
   })
 
   it("merge two branches that modified the same file, custom conflict resolver (prefer our changes)", async () => {
@@ -383,5 +393,164 @@ describe('merge', () => {
     expect(actual.mergeCommit).toBe(true)
     const conflictedFile = await fs.readFile(`${dir}/o.txt`, { encoding: 'utf8' })
     expect(conflictedFile).toBe('text\nfile\nwas\nmodified\n')
+  })
+})
+
+describe('merge-e2e', () => {
+  const branch1Name = 'branch1'
+  const branch2Name = 'branch2'
+  const newDirName = 'new-dir'
+
+  it('merge new folders with the same name', async () => {
+    // ARRANGE
+    const { fs, dir } = await makeFsFixture()
+
+    // initializing new repo
+    await init({ fs, dir, defaultBranch: branch1Name })
+    await commit({ fs, dir, message: 'first commit', author: { name: 'author0' } })
+    await branch({ fs, dir, ref: branch2Name, checkout: false })
+
+    // writing files to the branch1
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.writeFile(path.resolve(dir, newDirName, 'new-file.txt'), 'some content')
+    await fs.writeFile(path.resolve(dir, newDirName, 'new-file1.txt'), 'some content 1')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'new-file.txt') })
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'new-file1.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author1' } })
+
+    // writing files to the branch2
+    await checkout({ fs, dir, ref: branch2Name })
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.writeFile(path.resolve(dir, newDirName, 'new-file.txt'), 'some content')
+    await fs.writeFile(path.resolve(dir, newDirName, 'new-file2.txt'), 'some content 2')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'new-file.txt') })
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'new-file2.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author2' } })
+
+    // switching back to the branch1
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ACT
+    const m = await merge({ fs, dir, ours: branch1Name, theirs: branch2Name, author: { name: 'author3' } })
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ASSERT
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.mergeCommit).toBeTruthy()
+    const newDirFiles = await fs.readdir(path.resolve(dir, newDirName))
+    expect(newDirFiles.length).toBe(3)
+  })
+
+  it('merge subfolders with new parent folder with the same name', async () => {
+    // ARRANGE
+    const { fs, dir } = await makeFsFixture()
+
+    // initializing new repo
+    await init({ fs, dir, defaultBranch: branch1Name })
+    await commit({ fs, dir, message: 'first commit', author: { name: 'author0' } })
+    await branch({ fs, dir, ref: branch2Name, checkout: false })
+
+    // writing files to the branch1
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.mkdir(path.resolve(dir, newDirName, 'sub-folder1'))
+    await fs.writeFile(path.resolve(dir, newDirName, 'sub-folder1', 'new-file.txt'), 'some content 1')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'sub-folder1', 'new-file.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author1' } })
+
+    // writing files to a branch2
+    await checkout({ fs, dir, ref: branch2Name })
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.mkdir(path.resolve(dir, newDirName, 'sub-folder2'))
+    await fs.writeFile(path.resolve(dir, newDirName, 'sub-folder2', 'new-file.txt'), 'some content 2')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'sub-folder2', 'new-file.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author2' } })
+
+    // switching back to the branch1
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ACT
+    const m = await merge({ fs, dir, ours: branch1Name, theirs: branch2Name, author: { name: 'author3' } })
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ASSERT
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.mergeCommit).toBeTruthy()
+    const newDirFiles = await fs.readdir(path.resolve(dir, newDirName))
+    expect(newDirFiles.length).toBe(2)
+  })
+
+  it('merge subfolders with the same name who have a new parent with the same name', async () => {
+    // ARRANGE
+    const { fs, dir } = await makeFsFixture()
+
+    // initializing new repo
+    await init({ fs, dir, defaultBranch: branch1Name })
+    await commit({ fs, dir, message: 'first commit', author: { name: 'author0' } })
+    await branch({ fs, dir, ref: branch2Name, checkout: false })
+
+    // writing files to the branch1
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.mkdir(path.resolve(dir, newDirName, 'sub-folder'))
+    await fs.writeFile(path.resolve(dir, newDirName, 'sub-folder', 'new-file1.txt'), 'some content 1')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'sub-folder', 'new-file1.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author1' } })
+
+    // writing files to a branch2
+    await checkout({ fs, dir, ref: branch2Name })
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.mkdir(path.resolve(dir, newDirName, 'sub-folder'))
+    await fs.writeFile(path.resolve(dir, newDirName, 'sub-folder', 'new-file2.txt'), 'some content 2')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'sub-folder', 'new-file2.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author2' } })
+
+    // switching back to the branch1
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ACT
+    const m = await merge({ fs, dir, ours: branch1Name, theirs: branch2Name, author: { name: 'author3' } })
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ASSERT
+    expect(m.alreadyMerged).toBeFalsy()
+    expect(m.mergeCommit).toBeTruthy()
+    const newDirFiles = await fs.readdir(path.resolve(dir, newDirName))
+    expect(newDirFiles.length).toBe(1)
+    const newSubDirFiles = await fs.readdir(path.resolve(dir, newDirName, 'sub-folder'))
+    expect(newSubDirFiles.length).toBe(2)
+  })
+
+  it('merge new folder and file with the same name should fail', async () => {
+    // ARRANGE
+    const { fs, dir } = await makeFsFixture()
+
+    // initializing new repo
+    await init({ fs, dir, defaultBranch: branch1Name })
+    await commit({ fs, dir, message: 'first commit', author: { name: 'author0' } })
+    await branch({ fs, dir, ref: branch2Name, checkout: false })
+
+    // writing files to the branch1
+    await fs.mkdir(path.resolve(dir, newDirName))
+    await fs.writeFile(path.resolve(dir, newDirName, 'new-file.txt'), 'some content')
+    await fs.writeFile(path.resolve(dir, newDirName, 'new-file1.txt'), 'some content 1')
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'new-file.txt') })
+    await add({ fs, dir, filepath: path.resolve(newDirName, 'new-file1.txt') })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author1' } })
+
+    // writing files to the branch2
+    await checkout({ fs, dir, ref: branch2Name })
+    await fs.writeFile(path.resolve(dir, newDirName), 'some content')
+    await add({ fs, dir, filepath: newDirName })
+    await commit({ fs, dir, message: 'add files', author: { name: 'author2' } })
+
+    // switching back to the branch1
+    await checkout({ fs, dir, ref: branch1Name })
+
+    // ACT
+    const action = async () => {
+      await merge({ fs, dir, ours: branch1Name, theirs: branch2Name, author: { name: 'author3' } })
+    }
+
+    // ASSERT
+    await expectToFailWithTypeAsync(action, MergeConflictError)
   })
 })
