@@ -139,6 +139,7 @@ export async function mergeTree({
             (base && (await base.type()) !== 'blob') ||
             (theirs && (await theirs.type()) !== 'blob')
           ) {
+            // Created tree (folder) with the same path
             if (
               (ours && (await ours.type()) === 'tree') &&
               !base &&
@@ -149,6 +150,11 @@ export async function mergeTree({
                   oid: await theirs.oid(),
                   type: await theirs.type(),
                 }
+            }
+
+            // Deleted tree (folder) with the same path
+            if (!ours && !theirs && (base && (await base.type() === 'tree'))) {
+              return undefined
             }
 
             throw new MergeConflictError(filepath)
@@ -199,7 +205,7 @@ export async function mergeTree({
       return parent
     },
   })
-  return results.oid
+  return results?.oid
 }
 
 async function modified(entry: WalkerEntry, base: WalkerEntry) {
