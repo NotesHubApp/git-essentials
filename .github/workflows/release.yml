@@ -39,6 +39,9 @@ jobs:
       - name: Test (Node.js)
         run: npm run test
 
+      - name: Install Playwright supported browsers
+        run: npx playwright install
+
       - name: Test (Browsers)
         run: npm run test:browsers
 
