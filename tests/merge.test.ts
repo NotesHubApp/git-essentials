@@ -623,6 +623,7 @@ describe('merge-e2e', () => {
     await fs.writeFile(path.resolve(dir, newDirName), 'some content')
     await add({ fs, dir, filepath: newDirName })
     await commit({ fs, dir, message: 'add files', author: { name: 'author2' } })
+    await fs.rm(path.resolve(dir, newDirName))
 
     // switching back to the branch1
     await checkout({ fs, dir, ref: branch1Name })
