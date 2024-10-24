@@ -31,7 +31,7 @@ import { join } from '../utils/join'
 import { parseUploadPackResponse } from '../wire/parseUploadPackResponse'
 import { _readObject as readObject } from '../storage/readObject'
 import { splitLines } from '../utils/splitLines'
-import { stripCredentialsFromUrl } from 'git-essentials/utils/url'
+import { stripCredentialsFromUrl } from '../utils/url'
 import { writeUploadPackRequest } from '../wire/writeUploadPackRequest'
 
 type FetchParams = {
