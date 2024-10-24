@@ -1,28 +1,3 @@
-import { Buffer } from 'buffer'
-
-import { FileSystem } from '../models/FileSystem'
-import { Cache } from '../models/Cache'
-import { _currentBranch } from '../commands/currentBranch'
-import { MissingParameterError } from '../errors/MissingParameterError'
-import { RemoteCapabilityError } from '../errors/RemoteCapabilityError'
-import { GitConfigManager } from '../managers/GitConfigManager'
-import { GitRefManager } from '../managers/GitRefManager'
-import { GitRemoteManager } from '../managers/GitRemoteManager'
-import { GitShallowManager } from '../managers/GitShallowManager'
-import { GitCommit } from '../models/GitCommit'
-import { GitPackIndex } from '../models/GitPackIndex'
-import { hasObject } from '../storage/hasObject'
-import { _readObject as readObject } from '../storage/readObject'
-import { abbreviateRef } from '../utils/abbreviateRef'
-import { collect } from '../utils/collect'
-import { emptyPackfile } from '../utils/emptyPackfile'
-import { filterCapabilities } from '../utils/filterCapabilities'
-import { join } from '../utils/join'
-import { getGitClientAgent } from '../utils/pkg'
-import { splitLines } from '../utils/splitLines'
-import { parseUploadPackResponse } from '../wire/parseUploadPackResponse'
-import { writeUploadPackRequest } from '../wire/writeUploadPackRequest'
-import { forAwait } from '../utils/forAwait'
 import {
   AuthCallback,
   AuthFailureCallback,
@@ -33,6 +8,31 @@ import {
   ProgressCallback
 } from '../models'
 
+import { Buffer } from 'buffer'
+import { Cache } from '../models/Cache'
+import { FileSystem } from '../models/FileSystem'
+import { GitCommit } from '../models/GitCommit'
+import { GitConfigManager } from '../managers/GitConfigManager'
+import { GitPackIndex } from '../models/GitPackIndex'
+import { GitRefManager } from '../managers/GitRefManager'
+import { GitRemoteManager } from '../managers/GitRemoteManager'
+import { GitShallowManager } from '../managers/GitShallowManager'
+import { MissingParameterError } from '../errors/MissingParameterError'
+import { RemoteCapabilityError } from '../errors/RemoteCapabilityError'
+import { _currentBranch } from '../commands/currentBranch'
+import { abbreviateRef } from '../utils/abbreviateRef'
+import { collect } from '../utils/collect'
+import { emptyPackfile } from '../utils/emptyPackfile'
+import { filterCapabilities } from '../utils/filterCapabilities'
+import { forAwait } from '../utils/forAwait'
+import { getGitClientAgent } from '../utils/pkg'
+import { hasObject } from '../storage/hasObject'
+import { join } from '../utils/join'
+import { parseUploadPackResponse } from '../wire/parseUploadPackResponse'
+import { _readObject as readObject } from '../storage/readObject'
+import { splitLines } from '../utils/splitLines'
+import { stripCredentialsFromUrl } from 'git-essentials/utils/url'
+import { writeUploadPackRequest } from '../wire/writeUploadPackRequest'
 
 type FetchParams = {
   fs: FileSystem
@@ -346,7 +346,7 @@ export async function _fetch({
   const noun = fullref.startsWith('refs/tags') ? 'tag' : 'branch'
   const FETCH_HEAD = {
     oid,
-    description: `${noun} '${abbreviateRef(fullref)}' of ${url}`,
+    description: `${noun} '${abbreviateRef(fullref)}' of ${stripCredentialsFromUrl(url)}`,
   }
 
   if (onProgress || onMessage) {

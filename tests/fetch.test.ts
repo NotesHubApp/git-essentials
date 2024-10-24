@@ -40,6 +40,29 @@ describe('fetch', () => {
     expect(await fs.exists(`${dir}/.git/refs/remotes/origin/main`)).toBe(false)
   })
 
+  it('strip credentials in git commit message', async () => {
+    // arrange
+    const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
+    const http = makeHttpFixture(fetchHttpFixtureData as HttpFixtureData)
+    const fetchUrl = 'http://username:password@localhost/fetch-server.git';
+    const fetchUrlWithoutCreds = 'http://localhost/fetch-server.git';
+
+    // act
+    const { fetchHeadDescription } = await fetch({
+      fs,
+      http,
+      url: fetchUrl,
+      dir,
+      singleBranch: true,
+      remote: 'origin',
+      ref: 'test'
+    })
+
+    // assert
+    expect(fetchHeadDescription).not.toContain(fetchUrl)
+    expect(fetchHeadDescription).toContain(fetchUrlWithoutCreds)
+  })
+
   it('shallow fetch', async () => {
     // arrange
     const { fs, dir } = await makeFsFixture(fetchEmptyRepoFsFixtureData as FsFixtureData)
