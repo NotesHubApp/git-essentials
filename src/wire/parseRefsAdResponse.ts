@@ -1,7 +1,8 @@
 import { Buffer } from 'buffer'
 import { EmptyServerResponseError } from '../errors/EmptyServerResponseError'
-import { ParseError } from '../errors/ParseError'
 import { GitPktLine } from '../models/GitPktLine'
+import { ParseError } from '../errors/ParseError'
+import { trimEndChar } from '../utils/trimEndChar'
 
 /** @internal */
 export type RemoteHTTPV1 = {
@@ -89,7 +90,7 @@ export async function parseRefsAdResponse(
 }
 
 function splitAndAssert(line: string, sep: string, expected: string) {
-  const split = line.trim().split(sep)
+  const split = trimEndChar(line.trim(), '\x00').split(sep)
   if (split.length !== 2) {
     throw new ParseError(expected, line)
   }
