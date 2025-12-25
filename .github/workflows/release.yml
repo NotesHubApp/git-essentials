@@ -7,16 +7,19 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: write # Needed for semantic-release to push tags, etc
+  contents: read # For checkout
   pages: write # Needed for publishing the documentation to GitHub Pages
-  issues: write # Needed for semantic-release to create new issues
-  id-token: write # This is required for requesting the JWT
+
 
 jobs:
   release:
     runs-on: macos-latest
+    permissions:
+      contents: write # Needed for semantic-release to push tags, etc
+      issues: write # Needed for semantic-release to create new issues
+      pull-requests: write # To be able to comment on released pull requests
+      id-token: write # To enable use of OIDC for trusted publishing and npm provenance
 
     steps:
       - name: Checkout
@@ -55,6 +58,9 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/
+
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
 
       - name: Semantic release
         run: npx semantic-release
