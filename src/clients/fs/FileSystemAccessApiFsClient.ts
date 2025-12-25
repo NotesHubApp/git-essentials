@@ -35,7 +35,7 @@ type EntryHandle<T> =
  * - `writeFile`: a file write operation
  * - `stat`: a stat (file/directory metadata) operation
  */
-type Operation = 'writeFile' | 'stat'
+export type Operation = 'writeFile' | 'stat'
 
 /**
  * Callback invoked before each retry attempt.
@@ -44,7 +44,7 @@ type Operation = 'writeFile' | 'stat'
  * @param error - the error that triggered the retry
  * @param path - optional filesystem path related to the operation
  */
-type RetryCallback = (operation: Operation, attempt: number, error: Error, path?: string) => void
+export type RetryCallback = (operation: Operation, attempt: number, error: Error, path?: string) => void
 
 /**
  * Callback invoked when a non-retriable error occurs or retries are exhausted.
@@ -52,12 +52,12 @@ type RetryCallback = (operation: Operation, attempt: number, error: Error, path?
  * @param error - the encountered error
  * @param path - optional filesystem path related to the operation
  */
-type ErrorCallback = (operation: Operation, error: unknown, path?: string) => void
+export type ErrorCallback = (operation: Operation, error: unknown, path?: string) => void
 
 /**
  * Configuration options for the `FileSystemAccessApiFsClient`.
  */
-type FileSystemAccessApiClientOptions = {
+export type FileSystemAccessApiClientOptions = {
   /**
    * If true, use the synchronous access handle API (OPFS) for writes when
    * available. This can improve write performance in supporting browsers.
