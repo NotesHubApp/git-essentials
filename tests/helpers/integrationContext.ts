@@ -1,7 +1,8 @@
 import { FsClient, HttpClient } from 'git-essentials'
+
 import { IndexedDbFsClient } from 'src/clients/fs/IndexedDbFsClient'
-import { makeWebHttpClient } from 'src/clients/http/WebHttpClient'
 import { makeNodeHttpClient } from 'src/clients/http/NodeHttpClient'
+import { makeWebHttpClient } from 'src/clients/http/WebHttpClient'
 
 const isBrowser = () => typeof window !== `undefined`
 
@@ -21,7 +22,7 @@ export async function integrationContext(action: (context: IntegrationContext) =
     http: makeWebHttpClient({ transformRequestUrl: corsProxyUrlTransformer }),
     dir: `/temp_${generateId(20)}`
   } : {
-    fs: (await import('fs')).promises,
+    fs: (await import('fs')).promises as FsClient,
     http: makeNodeHttpClient(),
     dir: `${(await import('os')).tmpdir()}/temp_${generateId(20)}`
   }
