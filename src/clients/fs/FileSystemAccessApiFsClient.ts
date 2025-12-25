@@ -3,18 +3,17 @@
  */
 
 import {
-  FsClient,
-  EncodingOptions,
-  RmOptions,
-  StatsLike,
   EEXIST,
   ENOENT,
   ENOTDIR,
-  ENOTEMPTY
+  ENOTEMPTY,
+  EncodingOptions,
+  FsClient,
+  RmOptions,
+  StatsLike
 } from '../../'
 
 import { BasicStats } from './BasicStats'
-
 
 const ErrorNames = {
   TypeError: 'TypeError',
@@ -30,6 +29,75 @@ type EntryHandle<T> =
   T extends 'file' ? FileSystemFileHandle :
   T extends 'directory' ? FileSystemDirectoryHandle :
   never
+
+/**
+ * Operation name passed to retry/error callbacks.
+ * - `writeFile`: a file write operation
+ * - `stat`: a stat (file/directory metadata) operation
+ */
+type Operation = 'writeFile' | 'stat'
+
+/**
+ * Callback invoked before each retry attempt.
+ * @param operation - the operation being retried
+ * @param attempt - current attempt number (1-based)
+ * @param error - the error that triggered the retry
+ * @param path - optional filesystem path related to the operation
+ */
+type RetryCallback = (operation: Operation, attempt: number, error: Error, path?: string) => void
+
+/**
+ * Callback invoked when a non-retriable error occurs or retries are exhausted.
+ * @param operation - the operation that failed
+ * @param error - the encountered error
+ * @param path - optional filesystem path related to the operation
+ */
+type ErrorCallback = (operation: Operation, error: unknown, path?: string) => void
+
+/**
+ * Configuration options for the `FileSystemAccessApiFsClient`.
+ */
+type FileSystemAccessApiClientOptions = {
+  /**
+   * If true, use the synchronous access handle API (OPFS) for writes when
+   * available. This can improve write performance in supporting browsers.
+   */
+  useSyncAccessHandle: boolean
+  /**
+   * Maximum number of retry attempts for transient errors (e.g. browser
+   * UnknownError) before giving up.
+   */
+  maxRetries: number
+  /**
+   * Initial delay in milliseconds used for exponential backoff when retrying
+   * operations. Each retry doubles the delay (plus some jitter).
+   */
+  initRetryDelayMs: number
+  /**
+   * Called before each retry attempt. Receives the operation name, the
+   * attempt number, the error that triggered the retry, and an optional path.
+   */
+  onRetry: RetryCallback
+  /**
+   * Called when a non-retriable error occurs (or when retries are exhausted).
+   * Receives the operation name, the error, and an optional path.
+   */
+  onError: ErrorCallback
+  /**
+   * When true, enable an in-memory cache of directory handles to avoid
+   * repeated handle lookups for the same paths.
+   */
+  enableCache: boolean
+}
+
+const DefaultFileSystemAccessApiClientOptions: FileSystemAccessApiClientOptions = {
+  useSyncAccessHandle: false,
+  maxRetries: 4,
+  initRetryDelayMs: 200,
+  onRetry: () => {},
+  onError: () => {},
+  enableCache: false
+}
 
 /**
  * Represents {@link API.FsClient} implementation which uses [File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API) under the hood for persistent storage.
@@ -55,10 +123,18 @@ type EntryHandle<T> =
  * ```
  */
 export class FileSystemAccessApiFsClient implements FsClient {
+  private readonly textEncoder = new TextEncoder()
+  private directoryHandlesCache = new Map<string, FileSystemDirectoryHandle>()
+  private readonly options: FileSystemAccessApiClientOptions
+
   constructor(
     private readonly root: FileSystemDirectoryHandle,
-    private readonly useSyncAccessHandle: boolean = false) { }
-
+    options: Partial<FileSystemAccessApiClientOptions> = {}) {
+    this.options = {
+      ...DefaultFileSystemAccessApiClientOptions,
+      ...options
+    }
+  }
   /**
    * Checks if the browser supports File System Access API.
    */
@@ -68,17 +144,17 @@ export class FileSystemAccessApiFsClient implements FsClient {
   }
 
   public async readFile(path: string, options: EncodingOptions = {}): Promise<string | Uint8Array> {
-    const { folderPath, leafSegment } = getFolderPathAndLeafSegment(path)
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
     const targetDir = await this.getDirectoryByPath(folderPath)
 
-    if (!(await this.getEntry(targetDir, leafSegment, 'file'))) {
+    const fileHandle = await this.getEntry<'file'>(targetDir, leafSegment, 'file')
+    if (fileHandle === undefined) {
       throw new ENOENT(path)
     }
 
-    const fileHandle = await targetDir.getFileHandle(leafSegment, { create: false })
     const file = await fileHandle.getFile()
 
-    let data = options.encoding === 'utf8' ?
+    const data = options.encoding === 'utf8' ?
       await file.text() :
       new Uint8Array(await file.arrayBuffer())
 
@@ -86,11 +162,10 @@ export class FileSystemAccessApiFsClient implements FsClient {
   }
 
   public async writeFile(path: string, data: string | Uint8Array, options?: EncodingOptions): Promise<void> {
-    const { folderPath, leafSegment } = getFolderPathAndLeafSegment(path)
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
     const targetDir = await this.getDirectoryByPath(folderPath)
 
-    const fileHandle = await targetDir.getFileHandle(leafSegment, { create: true })
-    await writeFile(fileHandle, data, this.useSyncAccessHandle);
+    await this.writeFileIntern(targetDir, leafSegment, data)
   }
 
   public async readdir(path: string): Promise<string[]> {
@@ -105,7 +180,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
   }
 
   public async mkdir(path: string): Promise<void> {
-    const { folderPath, leafSegment } = getFolderPathAndLeafSegment(path)
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
     const targetDir = await this.getDirectoryByPath(folderPath)
 
     if (await this.getEntry(targetDir, leafSegment, 'directory')) {
@@ -116,11 +191,21 @@ export class FileSystemAccessApiFsClient implements FsClient {
   }
 
   public async rm(path: string, options: RmOptions = {}): Promise<void> {
-    const { folderPath, leafSegment } = getFolderPathAndLeafSegment(path)
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
     const targetDir = await this.getDirectoryByPath(folderPath)
 
     try {
       await targetDir.removeEntry(leafSegment, { recursive: options.recursive })
+
+      this.directoryHandlesCache.delete(path)
+      if (options.recursive) {
+        for (const key of this.directoryHandlesCache.keys()) {
+          if (key.startsWith(path)) {
+            this.directoryHandlesCache.delete(key)
+          }
+        }
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const { name } = error
       if (name === ErrorNames.InvalidModificationError) {
@@ -135,24 +220,26 @@ export class FileSystemAccessApiFsClient implements FsClient {
       return new BasicStats({ size: 0, lastModified: 0 }, 'dir')
     }
 
-    const { folderPath, leafSegment } = getFolderPathAndLeafSegment(path)
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
     const targetDir = await this.getDirectoryByPath(folderPath)
 
-    if (await this.getEntry(targetDir, leafSegment, 'directory')) {
-      return new BasicStats({ size: 0, lastModified: 0 }, 'dir')
-    }
+    return await this.retryOperation(async () => {
+      if (await this.getEntry(targetDir, leafSegment, 'directory')) {
+        return new BasicStats({ size: 0, lastModified: 0 }, 'dir')
+      }
 
-    const fileHandle = await this.getEntry<'file'>(targetDir, leafSegment, 'file')
-    if (fileHandle) {
-      const file = await fileHandle.getFile()
-      return new BasicStats({ size: file.size, lastModified: file.lastModified }, 'file')
-    }
+      const fileHandle = await this.getEntry<'file'>(targetDir, leafSegment, 'file')
+      if (fileHandle) {
+        const file = await fileHandle.getFile()
+        return new BasicStats({ size: file.size, lastModified: file.lastModified }, 'file')
+      }
 
-    throw new ENOENT(path)
+      throw new ENOENT(path)
+    }, 'stat', path)
   }
 
   public async lstat(path: string): Promise<StatsLike> {
-    return this.stat(path)
+    return await this.stat(path)
   }
 
   public async rename(oldPath: string, newPath: string): Promise<void> {
@@ -169,7 +256,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
       await this.mkdir(newPath)
       const sourceFolder = await this.getDirectoryByPath(oldPath)
       const destinationFolder = await this.getDirectoryByPath(newPath)
-      await copyDirectoryContent(destinationFolder, sourceFolder, this.useSyncAccessHandle)
+      await this.copyDirectoryContent(destinationFolder, sourceFolder)
       await this.rm(oldPath, { recursive: true })
     } else {
       throw Error('Not Supported')
@@ -197,7 +284,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
    * Rethrows errors that aren't related to entry existance.
   */
   public async exists(path: string): Promise<boolean> {
-    const { folderPath, leafSegment } = getFolderPathAndLeafSegment(path)
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
 
     let targetDir: FileSystemDirectoryHandle
     try {
@@ -209,18 +296,27 @@ export class FileSystemAccessApiFsClient implements FsClient {
     try {
       await targetDir.getDirectoryHandle(leafSegment, { create: false })
       return true
+    // eslint-disable-next-line no-empty
     } catch { }
 
     try {
       await targetDir.getFileHandle(leafSegment, { create: false })
       return true
+    // eslint-disable-next-line no-empty
     } catch { }
 
     return false
   }
 
   private async getDirectoryByPath(path: string) {
-    const segments = split(path)
+    if (this.options.enableCache) {
+      const cachedDirectory = this.directoryHandlesCache.get(path)
+      if (cachedDirectory) {
+        return cachedDirectory
+      }
+    }
+
+    const segments = this.split(path)
 
     let targetDir = this.root
 
@@ -229,8 +325,12 @@ export class FileSystemAccessApiFsClient implements FsClient {
         targetDir = await targetDir.getDirectoryHandle(segment, { create: false })
       }
 
+      if (this.options.enableCache) {
+        this.directoryHandlesCache.set(path, targetDir)
+      }
+
       return targetDir
-    } catch (error: any) {
+    } catch (error) {
       if (error instanceof TypeError) {
         throw new ENOTDIR(path)
       }
@@ -254,7 +354,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
       } else if (kind === 'directory') {
         return (await folder.getDirectoryHandle(name, { create: false })) as EntryHandle<T>
       }
-    } catch (error: any) {
+    } catch (error) {
       if (error instanceof TypeError) {
         return undefined
       }
@@ -270,86 +370,80 @@ export class FileSystemAccessApiFsClient implements FsClient {
       throw error
     }
   }
-}
 
-
-function split(path: string): string[] {
-  return (path ?? '').split('/').filter( x => x)
-}
-
-function getFolderPathAndLeafSegment(path: string) {
-  const fileNameDelimeter = path.lastIndexOf('/')
-  return fileNameDelimeter === -1 ?
-    { folderPath: '', leafSegment: path } :
-    { folderPath: path.substring(0, fileNameDelimeter), leafSegment: path.substring(fileNameDelimeter + 1, path.length) }
-}
-
-const textEncoder = new TextEncoder();
-async function writeFile(fileHandle: FileSystemFileHandle, data: ArrayBuffer | string, useSyncAccessHandle: boolean) {
-  if (useSyncAccessHandle) {
-    const accessHandle = await fileHandle.createSyncAccessHandle()
-    accessHandle.write(typeof data === 'string' ? textEncoder.encode(data) : data, { at: 0 })
-    await accessHandle.flush()
-    await accessHandle.close()
-  } else {
-    const writable = await fileHandle.createWritable()
-    await writable.write(data)
-    await writable.close()
+  private split(path: string): string[] {
+    return (path ?? '').split('/').filter( x => x)
   }
-}
 
-async function copyDirectoryContent(
-  destinationFolder: FileSystemDirectoryHandle,
-  sourceFolder: FileSystemDirectoryHandle,
-  useSyncAccessHandle: boolean) {
-  for await (const item of sourceFolder.values()) {
-    if (item.kind === 'file') {
-      const sourceFileHandle = await sourceFolder.getFileHandle(item.name, { create: false })
-      const file = await sourceFileHandle.getFile()
-      const data = await file.arrayBuffer()
+  private getFolderPathAndLeafSegment(path: string) {
+    const fileNameDelimeter = path.lastIndexOf('/')
+    return fileNameDelimeter === -1 ?
+      { folderPath: '', leafSegment: path } :
+      { folderPath: path.substring(0, fileNameDelimeter), leafSegment: path.substring(fileNameDelimeter + 1, path.length) }
+  }
 
-      const destinationFileHandle = await destinationFolder.getFileHandle(item.name, { create: true })
-      await writeFile(destinationFileHandle, data, useSyncAccessHandle)
-    } else if (item.kind === 'directory') {
-      const newSourceSubFolder = await sourceFolder.getDirectoryHandle(item.name, { create: false })
-      const newDestinationSubFolder = await destinationFolder.getDirectoryHandle(item.name, { create: true })
-      await copyDirectoryContent(newDestinationSubFolder, newSourceSubFolder, useSyncAccessHandle)
+  private async writeFileIntern(directory: FileSystemDirectoryHandle, name: string, data: string | Uint8Array) {
+    await this.retryOperation(async () => {
+      const fileHandle = await directory.getFileHandle(name, { create: true })
+
+      if (this.options.useSyncAccessHandle) {
+        const accessHandle = await fileHandle.createSyncAccessHandle()
+        const dataArray = typeof data === 'string' ? this.textEncoder.encode(data) : data
+        accessHandle.write(dataArray.buffer as ArrayBuffer, { at: 0 })
+        await accessHandle.flush()
+        await accessHandle.close()
+      } else {
+        const writable = await fileHandle.createWritable()
+        await writable.write(typeof data === 'string' ? data : data.buffer as ArrayBuffer)
+        await writable.close()
+      }
+    }, 'writeFile', name)
+  }
+
+  private async copyDirectoryContent(
+    destinationFolder: FileSystemDirectoryHandle,
+    sourceFolder: FileSystemDirectoryHandle) {
+    for await (const item of sourceFolder.values()) {
+      if (item.kind === 'file') {
+        const sourceFileHandle = await sourceFolder.getFileHandle(item.name, { create: false })
+        const file = await sourceFileHandle.getFile()
+        const data = await file.arrayBuffer()
+
+        await this.writeFileIntern(destinationFolder, item.name, new Uint8Array(data))
+      } else if (item.kind === 'directory') {
+        const newSourceSubFolder = await sourceFolder.getDirectoryHandle(item.name, { create: false })
+        const newDestinationSubFolder = await destinationFolder.getDirectoryHandle(item.name, { create: true })
+        await this.copyDirectoryContent(newDestinationSubFolder, newSourceSubFolder)
+      }
     }
   }
-}
 
+  private async retryOperation<T>(operation: () => Promise<T>, operationType: Operation, path?: string): Promise<T> {
+    let attempt = 0
 
-/**
- * Checks if the browser supports FileSystemSyncAccessHandle.
- */
-export async function isSyncAccessHandleSupported() {
-  if (!('createSyncAccessHandle' in FileSystemFileHandle.prototype)) {
-    return false
+    while (true) {
+      try {
+        return await operation()
+      } catch (error) {
+        // Safari may throw the error: "The operation failed for an unknown transient reason (e.g. out of memory)"
+        if (error instanceof DOMException && error.name === 'UnknownError' && attempt < this.options.maxRetries) {
+          attempt++
+          await this.backOff(attempt, this.options.initRetryDelayMs)
+          this.options.onRetry(operationType, attempt, error, path)
+        } else {
+          if (error instanceof DOMException && error.name === 'UnknownError') {
+            this.options.onError(operationType, error, path)
+          }
+          throw error
+        }
+      }
+    }
   }
 
-  // WebKit had a bug with the persisting writes: https://bugs.webkit.org/show_bug.cgi?id=250495
-  const tempFileNameToCheckWrite = 'temp-file-69ec502a-a102-481a-9e1b-4112376ca254'
-  const writeTestSample = 'test'
-  const root = await navigator.storage.getDirectory()
-
-  try {
-    const tempFileHandle = await root.getFileHandle(tempFileNameToCheckWrite, { create: true })
-    const tempFileAccessHandle = await tempFileHandle.createSyncAccessHandle()
-
-    const encoder = new TextEncoder()
-    const writeBuffer = encoder.encode(writeTestSample)
-    tempFileAccessHandle.write(writeBuffer, { at : 0 })
-    await tempFileAccessHandle.flush()
-    await tempFileAccessHandle.close()
-
-    const existingTempFileHandle = await root.getFileHandle(tempFileNameToCheckWrite, { create: false })
-    const existingTempFile = await existingTempFileHandle.getFile()
-    const existingTempFileContent = await existingTempFile.text()
-    return existingTempFileContent === writeTestSample
-  } catch {
-    return false
-  }
-    finally {
-    await root.removeEntry(tempFileNameToCheckWrite)
+  private async backOff(attempt: number, initDelayMs: number) {
+    const baseDelay = initDelayMs * Math.pow(2, attempt - 1)
+    const jitter = Math.random() * baseDelay * 0.2  // Add up to 20% jitter
+    const delay = baseDelay + jitter
+    await new Promise(resolve => setTimeout(resolve, delay))
   }
 }
