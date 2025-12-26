@@ -8,18 +8,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read # For checkout
+  contents: write # Needed for semantic-release to push tags, etc
+  issues: write # Needed for semantic-release to create new issues
+  pull-requests: write # To be able to comment on released pull requests
   pages: write # Needed for publishing the documentation to GitHub Pages
-
+  id-token: write # To enable use of OIDC for trusted publishing and npm provenance
 
 jobs:
   release:
     runs-on: macos-latest
-    permissions:
-      contents: write # Needed for semantic-release to push tags, etc
-      issues: write # Needed for semantic-release to create new issues
-      pull-requests: write # To be able to comment on released pull requests
-      id-token: write # To enable use of OIDC for trusted publishing and npm provenance
 
     steps:
       - name: Checkout
