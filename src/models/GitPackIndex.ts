@@ -67,6 +67,8 @@ export class GitPackIndex {
   private readDepth: number = 0
   private externalReadDepth: number = 0
   private offsetCache: {[key: number]: { type: string, object: Buffer }}
+  private packSliceReader?: (start: number, end: number) => Promise<Buffer>
+  private objectEndOffsets?: Map<number, number>
 
   constructor(stuff: GitPackIndexParams) {
     this.pack = stuff.pack
@@ -77,6 +79,18 @@ export class GitPackIndex {
     this.getExternalRefDelta = stuff.getExternalRefDelta
 
     this.offsetCache = {}
+  }
+
+  /**
+   * Enable file-backed reading so that readSlice reads from disk
+   * instead of requiring the entire packfile in memory.
+   */
+  enableFileBackedReads(
+    sliceReader: (start: number, end: number) => Promise<Buffer>,
+    endOffsets: Map<number, number>
+  ) {
+    this.packSliceReader = sliceReader
+    this.objectEndOffsets = endOffsets
   }
 
   static async fromIdx({ idx, getExternalRefDelta }: { idx: Buffer, getExternalRefDelta?: GetExternalRefDelta }) {
@@ -246,6 +260,127 @@ export class GitPackIndex {
     return p
   }
 
+  /**
+   * Build a pack index from an on-disk packfile using streaming reads.
+   * Unlike `fromPack`, this never loads the entire packfile into memory.
+   * Peak memory is proportional to the largest individual object, not the file size.
+   */
+  static async fromPackFile(
+    { readFileSlice, readFileChunks, packfileSha, totalSize, getExternalRefDelta, onProgress }:
+    {
+      readFileSlice: (start: number, end: number) => Promise<Buffer>,
+      readFileChunks: () => AsyncIterableIterator<Buffer>,
+      packfileSha: string,
+      totalSize: number,
+      getExternalRefDelta?: GetExternalRefDelta,
+      onProgress?: ProgressCallback
+    }) {
+    const listpackTypes: {[key: number]: string} = {
+      1: 'commit',
+      2: 'tree',
+      3: 'blob',
+      4: 'tag',
+      6: 'ofs-delta',
+      7: 'ref-delta',
+    }
+    const offsetToObject: {
+      [key: number]: { type: string, offset: number, oid?: string, end?: number, crc?: number }
+    } = {}
+
+    const hashes: string[] = []
+    const crcs: {[key: string]: number} = {}
+    const offsets = new Map<string, number>()
+    let totalObjectCount: number | null = null
+    let lastPercent: number | null = null
+
+    // Pass 1: stream file in chunks to discover object offsets
+    await listpack(readFileChunks(), async ({ data, type: typeNum, reference, offset, num }) => {
+      if (totalObjectCount === null) totalObjectCount = num
+      const percent = Math.floor(
+        ((totalObjectCount - num) * 100) / totalObjectCount
+      )
+      if (percent !== lastPercent) {
+        if (onProgress) {
+          await onProgress({
+            phase: 'Receiving objects',
+            loaded: totalObjectCount - num,
+            total: totalObjectCount,
+          })
+        }
+      }
+      lastPercent = percent
+      const type = listpackTypes[typeNum]
+
+      if (['commit', 'tree', 'blob', 'tag'].includes(type)) {
+        offsetToObject[offset] = { type, offset }
+      } else if (type === 'ofs-delta') {
+        offsetToObject[offset] = { type, offset }
+      } else if (type === 'ref-delta') {
+        offsetToObject[offset] = { type, offset }
+      }
+    })
+
+    // Compute CRCs by reading each object's slice from file
+    const offsetArray = Object.keys(offsetToObject).map(Number)
+    const objectEndOffsets = new Map<number, number>()
+    for (const [i, start] of offsetArray.entries()) {
+      const end = i + 1 === offsetArray.length ? totalSize - 20 : offsetArray[i + 1]
+      const slice = await readFileSlice(start, end)
+      const crc = crc32.buf(slice) >>> 0
+      offsetToObject[start].end = end
+      offsetToObject[start].crc = crc
+      objectEndOffsets.set(start, end)
+    }
+
+    // Create index with file-backed slice reader for Pass 2
+    const p = new GitPackIndex({
+      pack: null,
+      packfileSha,
+      crcs,
+      hashes,
+      offsets,
+      getExternalRefDelta,
+    })
+    p.enableFileBackedReads(readFileSlice, objectEndOffsets)
+
+    // Pass 2: resolve deltas and compute OIDs using file-backed reads
+    lastPercent = null
+    let count = 0
+    for (let offsetStr in offsetToObject) {
+      const offset = Number(offsetStr)
+      const percent = Math.floor((count * 100) / totalObjectCount!)
+      if (percent !== lastPercent) {
+        if (onProgress) {
+          await onProgress({
+            phase: 'Resolving deltas',
+            loaded: count,
+            total: totalObjectCount!,
+          })
+        }
+      }
+      count++
+      lastPercent = percent
+
+      const o = offsetToObject[offset]
+      if (o.oid) continue
+      try {
+        p.readDepth = 0
+        p.externalReadDepth = 0
+        const { type, object } = await p.readSlice({ start: offset })
+        const oid = await shasum(GitObject.wrap({ type, object }))
+        o.oid = oid
+        hashes.push(oid)
+        offsets.set(oid, offset)
+        crcs[oid] = o.crc!
+      } catch (err) {
+        continue
+      }
+    }
+
+    hashes.sort()
+    return p
+  }
+
   async toBuffer() {
     const buffers: Buffer[] = []
     const write = (str: string, encoding: BufferEncoding) => {
@@ -325,12 +460,20 @@ export class GitPackIndex {
       0b1100000: 'ofs_delta',
       0b1110000: 'ref_delta',
     }
-    if (!this.pack) {
+    let raw: Buffer
+    if (this.packSliceReader && this.objectEndOffsets) {
+      const end = this.objectEndOffsets.get(start)
+      if (end === undefined) {
+        throw new InternalError(`Unknown pack object boundary for offset ${start}`)
+      }
+      raw = await this.packSliceReader(start, end)
+    } else if (this.pack) {
+      raw = (await this.pack).slice(start)
+    } else {
       throw new InternalError(
         'Tried to read from a GitPackIndex with no packfile loaded into memory'
       )
     }
-    const raw = (await this.pack).slice(start)
     const reader = new BufferCursor(raw)
     const byte = reader.readUInt8()
     // Object type is encoded in bits 654
