@@ -2,7 +2,7 @@ import { Buffer } from 'buffer'
 
 import { compareStrings } from '../utils/compareStrings'
 import { dirname } from '../utils/dirname'
-import { EncodingOptions, FsClient, RmOptions, WriteOptions } from './FsClient'
+import { EncodingOptions, FsClient, RmOptions, WritableStreamHandle, WriteOptions } from './FsClient'
 
 /**
  * This is just a collection of helper functions really. At least that's how it started.
@@ -166,5 +166,69 @@ export class FileSystem {
    */
   async writelink(path: string, buffer: Buffer) {
     return this.fs.symlink(buffer.toString('utf8'), path)
+  }
+
+  /**
+   * Creates a writable stream for the given path, creating missing directories if needed.
+   * Returns null if the underlying FsClient does not support streaming writes.
+   */
+  async createWritableStream(path: string): Promise<WritableStreamHandle | null> {
+    if (!this.fs.createWritableStream) {
+      return null
+    }
+
+    try {
+      return await this.fs.createWritableStream(path)
+    } catch (err) {
+      await this.mkdir(dirname(path))
+      return await this.fs.createWritableStream(path)
+    }
+  }
+
+  /**
+   * Rename a file or directory.
+   */
+  async rename(oldPath: string, newPath: string) {
+    await this.fs.rename(oldPath, newPath)
+  }
+
+  /**
+   * Read a slice of a file [start, end). Returns null if not supported by the underlying FS.
+   */
+  async readFileSlice(path: string, start: number, end: number): Promise<Buffer | null> {
+    if (!this.fs.readFileSlice) {
+      return null
+    }
+    const data = await this.fs.readFileSlice(path, start, end)
+    return Buffer.from(data)
+  }
+
+  /**
+   * Returns true if the underlying FS supports reading file slices.
+   */
+  get supportsFileSlice(): boolean {
+    return !!this.fs.readFileSlice
+  }
+
+  async stat(path: string) {
+    return this.fs.stat(path)
+  }
+
+  /**
+   * Returns an async iterable that reads a file in fixed-size chunks.
+   * Only call when `supportsFileSlice` is true.
+   */
+  async *readFileChunks(path: string, chunkSize: number): AsyncIterableIterator<Buffer> {
+    if (!this.fs.readFileSlice) {
+      return
+    }
+    const stat = await this.fs.stat(path)
+    let offset = 0
+    while (offset < stat.size) {
+      const end = Math.min(offset + chunkSize, stat.size)
+      const data = await this.fs.readFileSlice(path, offset, end)
+      yield Buffer.from(data)
+      offset = end
+    }
   }
 }

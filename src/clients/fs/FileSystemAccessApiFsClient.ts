@@ -10,7 +10,8 @@ import {
   EncodingOptions,
   FsClient,
   RmOptions,
-  StatsLike
+  StatsLike,
+  WritableStreamHandle
 } from '../../'
 
 import { BasicStats } from './BasicStats'
@@ -279,6 +280,44 @@ export class FileSystemAccessApiFsClient implements FsClient {
     throw new Error('Symlinks are not supported.')
   }
 
+  public async createWritableStream(path: string): Promise<WritableStreamHandle> {
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
+    const targetDir = await this.getDirectoryByPath(folderPath)
+
+    const fileHandle = await targetDir.getFileHandle(leafSegment, { create: true })
+    const writable = await fileHandle.createWritable()
+
+    return {
+      write: async (data: Uint8Array) => {
+        // FileSystemWritableFileStream.write() may write the entire underlying
+        // ArrayBuffer instead of just the TypedArray view when byteOffset > 0.
+        // This happens with Buffer.slice() which shares the backing memory.
+        // Create a clean copy when the view doesn't cover the full buffer.
+        if (data.byteOffset !== 0 || data.buffer.byteLength !== data.byteLength) {
+          data = new Uint8Array(data)
+        }
+        await writable.write(data)
+      },
+      close: async () => {
+        await writable.close()
+      }
+    }
+  }
+
+  public async readFileSlice(path: string, start: number, end: number): Promise<Uint8Array> {
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
+    const targetDir = await this.getDirectoryByPath(folderPath)
+
+    const fileHandle = await this.getEntry<'file'>(targetDir, leafSegment, 'file')
+    if (!fileHandle) {
+      throw new ENOENT(path)
+    }
+
+    const file = await fileHandle.getFile()
+    const blob = file.slice(start, end)
+    return new Uint8Array(await blob.arrayBuffer())
+  }
+
   /**
    * Return true if a entry exists, false if it doesn't exist.
    * Rethrows errors that aren't related to entry existance.
@@ -388,13 +427,14 @@ export class FileSystemAccessApiFsClient implements FsClient {
 
       if (this.options.useSyncAccessHandle) {
         const accessHandle = await fileHandle.createSyncAccessHandle()
-        const dataArray = typeof data === 'string' ? this.textEncoder.encode(data) : data
+        const dataArray = typeof data === 'string' ? this.textEncoder.encode(data) : new Uint8Array(data)
         accessHandle.write(dataArray.buffer as ArrayBuffer, { at: 0 })
         await accessHandle.flush()
         await accessHandle.close()
       } else {
         const writable = await fileHandle.createWritable()
-        await writable.write(typeof data === 'string' ? data : data.buffer as ArrayBuffer)
+        const writeData = typeof data === 'string' ? data : new Uint8Array(data)
+        await writable.write(writeData)
         await writable.close()
       }
     }, 'writeFile', name)

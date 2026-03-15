@@ -19,7 +19,7 @@ type Data = {
 }
 
 /** @internal */
-export async function listpack(stream: Buffer[], onData: (data: Data) => Promise<void>) {
+export async function listpack(stream: Uint8Array[] | AsyncIterableIterator<Uint8Array>, onData: (data: Data) => Promise<void>) {
   const reader = new StreamReader(stream)
   const PACKBuff = (await reader.read(4))!
   const PACK = PACKBuff.toString('utf8')
