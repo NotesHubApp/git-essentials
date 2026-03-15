@@ -439,17 +439,7 @@ async function processPackfileStreaming({
       onProgress,
     })
     await fs.write(fullpath.replace(/\.pack$/, '.idx'), await idx.toBuffer())
-    // Stream-copy pack to final path to avoid loading entire file (OPFS rename reads whole file).
-    const finalWritable = await fs.createWritableStream(fullpath)
-    if (finalWritable) {
-      for await (const chunk of fs.readFileChunks(tempPackPath, CHUNK_SIZE)) {
-        await finalWritable.write(chunk)
-      }
-      await finalWritable.close()
-      await fs.rm(tempPackPath)
-    } else {
-      await fs.rename(tempPackPath, fullpath)
-    }
+    await fs.rename(tempPackPath, fullpath)
   } else {
     // readFileSlice not available: read entire file back for index creation (1x memory).
     const packfileData = (await fs.read(tempPackPath)) as Buffer

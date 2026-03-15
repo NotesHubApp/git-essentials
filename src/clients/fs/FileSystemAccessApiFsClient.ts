@@ -250,9 +250,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
 
     const oldFilepathStat = await this.stat(oldPath)
     if (oldFilepathStat.isFile()) {
-      const data = await this.readFile(oldPath)
-      await this.writeFile(newPath, data)
-      await this.rm(oldPath)
+      await this.renameFile(oldPath, newPath)
     } else if (oldFilepathStat.isDirectory()) {
       await this.mkdir(newPath)
       const sourceFolder = await this.getDirectoryByPath(oldPath)
@@ -262,6 +260,40 @@ export class FileSystemAccessApiFsClient implements FsClient {
     } else {
       throw Error('Not Supported')
     }
+  }
+
+  private async renameFile(oldPath: string, newPath: string): Promise<void> {
+    const { folderPath: oldFolder, leafSegment: oldName } = this.getFolderPathAndLeafSegment(oldPath)
+    const { folderPath: newFolder, leafSegment: newName } = this.getFolderPathAndLeafSegment(newPath)
+
+    const oldDir = await this.getDirectoryByPath(oldFolder)
+    const fileHandle = await this.getEntry<'file'>(oldDir, oldName, 'file')
+    if (!fileHandle) {
+      throw new ENOENT(oldPath)
+    }
+
+    // Strategy 1: Native move() — zero-copy rename, supported in Chrome and Safari OPFS.
+    // Always pass (directory, newName) form — Safari doesn't support the move(newName) shorthand.
+    if (typeof fileHandle.move === 'function') {
+      const newDir = oldFolder === newFolder ? oldDir : await this.getDirectoryByPath(newFolder)
+      await fileHandle.move(newDir, newName)
+      return
+    }
+
+    // Strategy 2: Streaming copy — read in chunks, write via stream. Never loads entire file.
+    const CHUNK_SIZE = 1024 * 1024
+    const file = await fileHandle.getFile()
+    const writable = await this.createWritableStream(newPath)
+    let offset = 0
+    while (offset < file.size) {
+      const end = Math.min(offset + CHUNK_SIZE, file.size)
+      const blob = file.slice(offset, end)
+      const chunk = new Uint8Array(await blob.arrayBuffer())
+      await writable.write(chunk)
+      offset = end
+    }
+    await writable.close()
+    await this.rm(oldPath)
   }
 
   /**

@@ -35,4 +35,6 @@ declare class FileSystemWritableFileStream extends WritableStream {
 declare interface FileSystemFileHandle extends FileSystemHandle {
   createWritable(options?: FileSystemCreateWritableOptions): Promise<FileSystemWritableFileStream>
   createSyncAccessHandle(): Promise<FileSystemSyncAccessHandle>
+  /** Rename or move a file. Not available in all browsers — feature-detect before calling. */
+  move?(target: string | FileSystemDirectoryHandle, newName?: string): Promise<void>
 }
