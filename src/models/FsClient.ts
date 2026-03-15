@@ -87,6 +87,18 @@ export type StatsLike = Stats & {
 }
 
 /**
+ * A handle for streaming writes to a file.
+ * Returned by {@link FsClient.createWritableStream} when supported.
+ * @group FsClient
+ */
+export type WritableStreamHandle = {
+  /** Write a chunk of data to the stream. */
+  write(data: Uint8Array): Promise<void>
+  /** Close the stream, flushing all buffered data. */
+  close(): Promise<void>
+}
+
+/**
  * An interface that abstracts file system operations.
  *
  * You need to pass a file system client into Git commands that do anything that involves files
@@ -198,6 +210,24 @@ export interface FsClient {
    * @throws {@link API.ENOENT}
    */
   symlink(target: string, path: string): Promise<void>
+
+  /**
+   * Creates a writable stream for the given file path.
+   * This enables streaming writes for large files without buffering the entire content in memory.
+   *
+   * This method is optional. If not implemented, callers should fall back to buffering
+   * and using {@link writeFile}.
+   */
+  createWritableStream?(path: string): Promise<WritableStreamHandle>
+
+  /**
+   * Reads a slice of a file from the given byte range [start, end).
+   * This enables reading portions of large files without loading them entirely into memory.
+   *
+   * This method is optional. If not implemented, callers should fall back to
+   * reading the entire file with {@link readFile}.
+   */
+  readFileSlice?(path: string, start: number, end: number): Promise<Uint8Array>
 }
 
 /**

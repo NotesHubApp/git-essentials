@@ -11,6 +11,7 @@ import {
 import { Buffer } from 'buffer'
 import { Cache } from '../models/Cache'
 import { FileSystem } from '../models/FileSystem'
+import { WritableStreamHandle } from '../models/FsClient'
 import { GitCommit } from '../models/GitCommit'
 import { GitConfigManager } from '../managers/GitConfigManager'
 import { GitPackIndex } from '../models/GitPackIndex'
@@ -23,6 +24,7 @@ import { _currentBranch } from '../commands/currentBranch'
 import { abbreviateRef } from '../utils/abbreviateRef'
 import { collect } from '../utils/collect'
 import { emptyPackfile } from '../utils/emptyPackfile'
+import { writePackfileStream } from '../utils/writePackfileStream'
 import { filterCapabilities } from '../utils/filterCapabilities'
 import { forAwait } from '../utils/forAwait'
 import { getGitClientAgent } from '../utils/pkg'
@@ -366,9 +368,6 @@ export async function _fetch({
     })
   }
 
-  const packfile = Buffer.from(await collect(response.packfile))
-  const packfileSha = packfile.slice(-20).toString('hex')
-
   const res: FetchResult = {
     defaultBranch: HEAD ?? null,
     fetchHead: FETCH_HEAD.oid,
@@ -383,24 +382,110 @@ export async function _fetch({
     res.pruned = pruned
   }
 
-  // This is a quick fix for the empty .git/objects/pack/pack-.pack file error,
-  // which due to the way `git-list-pack` works causes the program to hang when it tries to read it.
-  // TODO: Longer term, we should actually:
-  // a) NOT concatenate the entire packfile into memory (line 78),
-  // b) compute the SHA of the stream except for the last 20 bytes, using the same library used in push.ts, and
-  // c) compare the computed SHA with the last 20 bytes of the stream before saving to disk, and throwing a "packfile got corrupted during download" error if the SHA doesn't match.
-  if (packfileSha !== '' && !emptyPackfile(packfile)) {
-    res.packfile = `objects/pack/pack-${packfileSha}.pack`
-    const fullpath = join(gitdir, res.packfile)
-    await fs.write(fullpath, packfile)
-    const getExternalRefDelta = (oid: string) => readObject({ fs, cache, gitdir, oid })
-    const idx = await GitPackIndex.fromPack({
-      pack: packfile,
+  const tempPackPath = join(gitdir, 'objects/pack/pack-temp.pack')
+  const writableStream = await fs.createWritableStream(tempPackPath)
+
+  if (writableStream) {
+    res.packfile = await processPackfileStreaming({
+      fs, cache, gitdir, writableStream, tempPackPath,
+      packfile: response.packfile, onProgress,
+    })
+  } else {
+    res.packfile = await processPackfileInMemory({
+      fs, cache, gitdir,
+      packfile: response.packfile, onProgress,
+    })
+  }
+
+  return res
+}
+
+/**
+ * Streaming path: write packfile chunks directly to FS without accumulating in memory.
+ * Returns the packfile path (e.g. `objects/pack/pack-<sha>.pack`) or undefined if empty.
+ */
+async function processPackfileStreaming({
+  fs, cache, gitdir, writableStream, tempPackPath, packfile, onProgress,
+}: {
+  fs: FileSystem
+  cache: Cache
+  gitdir: string
+  writableStream: WritableStreamHandle
+  tempPackPath: string
+  packfile: Uint8Array[] | AsyncIterableIterator<Uint8Array>
+  onProgress?: ProgressCallback
+}): Promise<string | undefined> {
+  const { packfileSha, isEmpty, totalSize } = await writePackfileStream(packfile, writableStream)
+  await writableStream.close()
+
+  if (packfileSha === '' || isEmpty) {
+    await fs.rm(tempPackPath)
+    return undefined
+  }
+
+  const packfilePath = `objects/pack/pack-${packfileSha}.pack`
+  const fullpath = join(gitdir, packfilePath)
+  const getExternalRefDelta = (oid: string) => readObject({ fs, cache, gitdir, oid })
+
+  if (fs.supportsFileSlice) {
+    // File-backed pack index: never loads entire packfile into memory.
+    const CHUNK_SIZE = 1024 * 1024
+    const idx = await GitPackIndex.fromPackFile({
+      readFileSlice: (start: number, end: number) => fs.readFileSlice(tempPackPath, start, end) as Promise<Buffer>,
+      readFileChunks: () => fs.readFileChunks(tempPackPath, CHUNK_SIZE),
+      packfileSha,
+      totalSize,
       getExternalRefDelta,
       onProgress,
     })
     await fs.write(fullpath.replace(/\.pack$/, '.idx'), await idx.toBuffer())
+    await fs.rename(tempPackPath, fullpath)
+  } else {
+    // readFileSlice not available: read entire file back for index creation (1x memory).
+    const packfileData = (await fs.read(tempPackPath)) as Buffer
+    const idx = await GitPackIndex.fromPack({
+      pack: packfileData,
+      getExternalRefDelta,
+      onProgress,
+    })
+    await fs.write(fullpath, packfileData)
+    await fs.write(fullpath.replace(/\.pack$/, '.idx'), await idx.toBuffer())
+    await fs.rm(tempPackPath)
   }
 
-  return res
+  return packfilePath
+}
+
+/**
+ * Fallback path: accumulate the entire packfile in memory (existing behavior).
+ * Returns the packfile path or undefined if empty.
+ */
+async function processPackfileInMemory({
+  fs, cache, gitdir, packfile, onProgress,
+}: {
+  fs: FileSystem
+  cache: Cache
+  gitdir: string
+  packfile: Uint8Array[] | AsyncIterableIterator<Uint8Array>
+  onProgress?: ProgressCallback
+}): Promise<string | undefined> {
+  const pack = Buffer.from(await collect(packfile))
+  const packfileSha = pack.slice(-20).toString('hex')
+
+  if (packfileSha === '' || emptyPackfile(pack)) {
+    return undefined
+  }
+
+  const packfilePath = `objects/pack/pack-${packfileSha}.pack`
+  const fullpath = join(gitdir, packfilePath)
+  await fs.write(fullpath, pack)
+  const getExternalRefDelta = (oid: string) => readObject({ fs, cache, gitdir, oid })
+  const idx = await GitPackIndex.fromPack({
+    pack,
+    getExternalRefDelta,
+    onProgress,
+  })
+  await fs.write(fullpath.replace(/\.pack$/, '.idx'), await idx.toBuffer())
+
+  return packfilePath
 }

@@ -10,7 +10,8 @@ import {
   EncodingOptions,
   FsClient,
   RmOptions,
-  StatsLike
+  StatsLike,
+  WritableStreamHandle
 } from '../../'
 
 import { BasicStats } from './BasicStats'
@@ -249,9 +250,7 @@ export class FileSystemAccessApiFsClient implements FsClient {
 
     const oldFilepathStat = await this.stat(oldPath)
     if (oldFilepathStat.isFile()) {
-      const data = await this.readFile(oldPath)
-      await this.writeFile(newPath, data)
-      await this.rm(oldPath)
+      await this.renameFile(oldPath, newPath)
     } else if (oldFilepathStat.isDirectory()) {
       await this.mkdir(newPath)
       const sourceFolder = await this.getDirectoryByPath(oldPath)
@@ -261,6 +260,40 @@ export class FileSystemAccessApiFsClient implements FsClient {
     } else {
       throw Error('Not Supported')
     }
+  }
+
+  private async renameFile(oldPath: string, newPath: string): Promise<void> {
+    const { folderPath: oldFolder, leafSegment: oldName } = this.getFolderPathAndLeafSegment(oldPath)
+    const { folderPath: newFolder, leafSegment: newName } = this.getFolderPathAndLeafSegment(newPath)
+
+    const oldDir = await this.getDirectoryByPath(oldFolder)
+    const fileHandle = await this.getEntry<'file'>(oldDir, oldName, 'file')
+    if (!fileHandle) {
+      throw new ENOENT(oldPath)
+    }
+
+    // Strategy 1: Native move() — zero-copy rename, supported in Chrome and Safari OPFS.
+    // Always pass (directory, newName) form — Safari doesn't support the move(newName) shorthand.
+    if (typeof fileHandle.move === 'function') {
+      const newDir = oldFolder === newFolder ? oldDir : await this.getDirectoryByPath(newFolder)
+      await fileHandle.move(newDir, newName)
+      return
+    }
+
+    // Strategy 2: Streaming copy — read in chunks, write via stream. Never loads entire file.
+    const CHUNK_SIZE = 1024 * 1024
+    const file = await fileHandle.getFile()
+    const writable = await this.createWritableStream(newPath)
+    let offset = 0
+    while (offset < file.size) {
+      const end = Math.min(offset + CHUNK_SIZE, file.size)
+      const blob = file.slice(offset, end)
+      const chunk = new Uint8Array(await blob.arrayBuffer())
+      await writable.write(chunk)
+      offset = end
+    }
+    await writable.close()
+    await this.rm(oldPath)
   }
 
   /**
@@ -277,6 +310,44 @@ export class FileSystemAccessApiFsClient implements FsClient {
    */
   public async symlink(target: string, path: string): Promise<void> {
     throw new Error('Symlinks are not supported.')
+  }
+
+  public async createWritableStream(path: string): Promise<WritableStreamHandle> {
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
+    const targetDir = await this.getDirectoryByPath(folderPath)
+
+    const fileHandle = await targetDir.getFileHandle(leafSegment, { create: true })
+    const writable = await fileHandle.createWritable()
+
+    return {
+      write: async (data: Uint8Array) => {
+        // FileSystemWritableFileStream.write() may write the entire underlying
+        // ArrayBuffer instead of just the TypedArray view when byteOffset > 0.
+        // This happens with Buffer.slice() which shares the backing memory.
+        // Create a clean copy when the view doesn't cover the full buffer.
+        if (data.byteOffset !== 0 || data.buffer.byteLength !== data.byteLength) {
+          data = new Uint8Array(data)
+        }
+        await writable.write(data)
+      },
+      close: async () => {
+        await writable.close()
+      }
+    }
+  }
+
+  public async readFileSlice(path: string, start: number, end: number): Promise<Uint8Array> {
+    const { folderPath, leafSegment } = this.getFolderPathAndLeafSegment(path)
+    const targetDir = await this.getDirectoryByPath(folderPath)
+
+    const fileHandle = await this.getEntry<'file'>(targetDir, leafSegment, 'file')
+    if (!fileHandle) {
+      throw new ENOENT(path)
+    }
+
+    const file = await fileHandle.getFile()
+    const blob = file.slice(start, end)
+    return new Uint8Array(await blob.arrayBuffer())
   }
 
   /**
@@ -388,13 +459,14 @@ export class FileSystemAccessApiFsClient implements FsClient {
 
       if (this.options.useSyncAccessHandle) {
         const accessHandle = await fileHandle.createSyncAccessHandle()
-        const dataArray = typeof data === 'string' ? this.textEncoder.encode(data) : data
+        const dataArray = typeof data === 'string' ? this.textEncoder.encode(data) : new Uint8Array(data)
         accessHandle.write(dataArray.buffer as ArrayBuffer, { at: 0 })
         await accessHandle.flush()
         await accessHandle.close()
       } else {
         const writable = await fileHandle.createWritable()
-        await writable.write(typeof data === 'string' ? data : data.buffer as ArrayBuffer)
+        const writeData = typeof data === 'string' ? data : new Uint8Array(data)
+        await writable.write(writeData)
         await writable.close()
       }
     }, 'writeFile', name)
