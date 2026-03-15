@@ -228,7 +228,7 @@ export async function _checkout({
       )
       // Process files in small batches to balance I/O concurrency with memory usage.
       // Full Promise.all would OOM on large packfiles; purely sequential loses I/O overlap.
-      const BATCH_SIZE = 5
+      const BATCH_SIZE = 10
       for (let i = 0; i < writeOps.length; i += BATCH_SIZE) {
         const batch = writeOps.slice(i, i + BATCH_SIZE)
         await Promise.all(batch.map(async ([method, fullpath, oid, mode, chmod]) => {
